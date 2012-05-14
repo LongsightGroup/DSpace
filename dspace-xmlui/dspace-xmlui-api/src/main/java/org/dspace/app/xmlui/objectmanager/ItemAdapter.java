@@ -253,6 +253,10 @@ public class ItemAdapter extends AbstractAdapter
             {
                 attributes.put("withdrawn", "y");
             }
+            if (!item.canView())
+            {
+                attributes.put("nonAnon", "y");
+            }
             startElement(DIM,"dim",attributes);
                         
                 DCValue[] dcvs = item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY);
