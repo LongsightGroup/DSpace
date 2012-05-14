@@ -42,6 +42,7 @@
 
     <xsl:template name="itemSummaryList-DIM">
         <xsl:variable name="itemWithdrawn" select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/@withdrawn" />
+        <xsl:variable name="itemNonAnon" select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim/@nonAnon" />
 
         <xsl:variable name="href">
             <xsl:choose>
@@ -55,15 +56,28 @@
         </xsl:variable>
 
         <xsl:variable name="emphasis" select="confman:getProperty('xmlui.theme.mirage.item-list.emphasis')"/>
+
         <xsl:choose>
             <xsl:when test="'file' = $emphasis">
-
-
                 <div class="item-wrapper clearfix">
                     <xsl:apply-templates select="./mets:fileSec" mode="artifact-preview"><xsl:with-param name="href" select="$href"/></xsl:apply-templates>
                     <xsl:apply-templates select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
                                          mode="itemSummaryList-DIM-file"><xsl:with-param name="href" select="$href"/></xsl:apply-templates>
                 </div>
+            </xsl:when>
+            <xsl:when test="'hazdoc' = $emphasis">
+            	<xsl:choose>
+            	  <xsl:when test="$itemNonAnon">
+            		<div class="artifact-description">
+            		  <div class="artifact-title">Item Details Withheld</div>
+            		  <div class="artifact-info">Please <a href="/login">login</a> to view full item details.</div>
+            		</div>
+            	  </xsl:when>
+            	  <xsl:otherwise>
+                    <xsl:apply-templates select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
+                                     mode="itemSummaryList-DIM-metadata"><xsl:with-param name="href" select="$href"/></xsl:apply-templates>
+            	  </xsl:otherwise>
+            	</xsl:choose>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="./mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"

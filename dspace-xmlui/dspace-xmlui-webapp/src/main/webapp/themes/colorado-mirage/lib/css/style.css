@@ -1140,3 +1140,34 @@ background-color: rgb(255, 255, 255);
 margin: 2px 2px 0px 2px;
 /* border: 1px solid rgb(240, 240, 210); */
 }
+
+
+
+#aspect_administrative_authorization_EditItemPolicies_div_edit-item-policies {
+  text-align: left;
+  background-color: #efefef;
+  border: 1px solid #ddd;
+  padding: 4px;
+}
+#aspect_administrative_authorization_EditItemPolicies_div_edit-item-policies th {
+  text-align: left;
+}
+#aspect_administrative_authorization_EditItemPolicies_div_edit-item-policies .subheader {
+  border-bottom: 1px dotted #ccc;
+}
+.ds-table-header-cell a {
+  font-size: 0.8em;
+}
+#aspect_administrative_authorization_EditPolicyForm_field_group_id {
+  height: 150px;
+}
+.ds-artifact-list .ds-artifact-item {
+  	padding: 10px;
+  	margin: 10px 0;
+	border: 1px solid #24A9DD;
+	background-color: #D6E6EC; 
+}
+.ds-artifact-list .ds-artifact-item.odd {
+	background-color: #EFE5D9;
+	border: 1px solid #F7A43C;
+}
