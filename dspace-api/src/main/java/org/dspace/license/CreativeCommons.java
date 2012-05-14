@@ -7,11 +7,7 @@
  */
 package org.dspace.license;
 
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -386,34 +382,24 @@ public class CreativeCommons
     {
         try
         {
+            String line = "";
             URL url = new URL(url_string);
             URLConnection connection = url.openConnection();
-            byte[] bytes = new byte[connection.getContentLength()];
 
-            // loop and read the data until it's done
-            int offset = 0;
+            InputStream inputStream = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder sb = new StringBuilder();
 
-            while (true)
+            while ((line = reader.readLine()) != null)
             {
-                int len = connection.getInputStream().read(bytes, offset,
-                        bytes.length - offset);
-
-                if (len == -1)
-                {
-                    break;
-                }
-
-                offset += len;
+                sb.append(line);
             }
 
-            return bytes;
+            return sb.toString().getBytes();
         }
-        catch (MalformedURLException e)
+        catch (Exception exc)
         {
-            return null;
-        }
-        catch (IOException e)
-        {
+            exc.printStackTrace();
             return null;
         }
     }
