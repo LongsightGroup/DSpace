@@ -197,7 +197,7 @@
         <profile>
             <id>dspace-sword-client</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>dspace-sword-client</module>
