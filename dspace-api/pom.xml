@@ -39,7 +39,7 @@
                 <version>2.0.2</version>
                 <configuration>
                     <debug>true</debug>
-                    <showDeprecation>true</showDeprecation>
+                    <showDeprecation>false</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
