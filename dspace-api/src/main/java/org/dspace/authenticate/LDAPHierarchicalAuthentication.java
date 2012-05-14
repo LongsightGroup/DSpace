@@ -160,7 +160,7 @@ public class LDAPHierarchicalAuthentication
                             HttpServletRequest request)
         throws SQLException
     {
-        log.info(LogManager.getHeader(context, "auth", "attempting trivial auth of user="+netid));
+        log.info(LogManager.getHeader(context, "auth", "attempting trivial auth of user="+netid + ";realm=" + realm));
 
         // Skip out when no netid or password is given.
         if (netid == null || password == null)
@@ -177,12 +177,25 @@ public class LDAPHierarchicalAuthentication
         catch (SQLException e)
         {
         }
-        SpeakerToLDAP ldap = new SpeakerToLDAP(log);
+
+		// NITLE: we shouldn't be here without the institution (realm) field
+		if (realm == null || realm.equals("")) {
+			return BAD_CREDENTIALS;
+		}
+
+		// NITLE: send the realm to the constructor
+        SpeakerToLDAP ldap = new SpeakerToLDAP(log, realm);
 
 		// Get the DN of the user
-		String adminUser = ConfigurationManager.getProperty("ldap.search.user");
-		String adminPassword = ConfigurationManager.getProperty("ldap.search.password");
+		String adminUser = ConfigurationManager.getProperty("ldap." + realm + ".search.user");
+		String adminPassword = ConfigurationManager.getProperty("ldap." + realm + ".search.password");
+		System.out.println("calling getDNOfUser with adminUser: " + adminUser + ";adminPAssword: " + adminPassword  + ";netid=" + netid);
 		String dn = ldap.getDNOfUser(adminUser, adminPassword, context, netid);
+
+		// NITLE SPECIAL GROUPS FOR LDAP USERS
+		String instGroup = ConfigurationManager.getProperty("ldap." + realm + ".auto_group");
+		System.out.println("realm: " + realm + ";instGroup: " + instGroup);
+		Group group = null;
 
 		// Check a DN was found
 		if ((dn == null) || (dn.trim().equals("")))
@@ -210,6 +223,16 @@ public class LDAPHierarchicalAuthentication
                 context.setCurrentUser(eperson);
                 log.info(LogManager
                     .getHeader(context, "authenticate", "type=ldap"));
+				if(instGroup != null && !instGroup.equals("")) {
+						try {
+								group = Group.findByName(context, instGroup);
+								group.addMember(eperson);
+								group.update();
+								System.out.println("Added user, " + eperson.getID() + " to group " + group.getID() );
+						} catch(Exception e) {
+								System.out.println("Failed to add user, " + eperson.getEmail() + " to group " + instGroup );
+						}
+				}
                 return SUCCESS;
             }
             else
@@ -240,6 +263,18 @@ public class LDAPHierarchicalAuthentication
 							context.setIgnoreAuthorization(true);
 							eperson.setNetid(netid.toLowerCase());
 							eperson.update();
+
+									if(instGroup != null && !instGroup.equals("")) {
+										try {
+											group = Group.findByName(context, instGroup);
+											group.addMember(eperson);
+											group.update();
+											System.out.println("Added user, " + eperson.getID() + " to group " + group.getID() );
+										} catch(Exception e) {
+											System.out.println("Failed to add user, " + eperson.getEmail() + " to group " + instGroup );
+										}
+									}
+
 							context.commit();
 							context.setIgnoreAuthorization(false);
 							context.setCurrentUser(eperson);
@@ -260,7 +295,7 @@ public class LDAPHierarchicalAuthentication
 									}
 									else
 									{
-										eperson.setEmail(netid + ConfigurationManager.getProperty("ldap.netid_email_domain"));
+										eperson.setEmail(netid + ConfigurationManager.getProperty("ldap." + realm + ".netid_email_domain"));
 									}
 									if ((ldap.ldapGivenName!=null) && (!ldap.ldapGivenName.equals("")))
 									{
@@ -275,14 +310,29 @@ public class LDAPHierarchicalAuthentication
 										eperson.setMetadata("phone", ldap.ldapPhone);
 									}
 									eperson.setNetid(netid.toLowerCase());
+									log.info(LogManager.getHeader(context, "setnetid", "netid=" + netid.toLowerCase()));
 									eperson.setCanLogIn(true);
 									AuthenticationManager.initEPerson(context, request, eperson);
 									eperson.update();
+
+									if(instGroup != null && !instGroup.equals("")) {
+										try {
+											group = Group.findByName(context, instGroup);
+											group.addMember(eperson);
+											group.update();
+											System.out.println("Added user, " + eperson.getID() + " to group " + group.getID() );
+										} catch(Exception e) {
+											System.out.println("Failed to add user, " + eperson.getEmail() + " to group " + instGroup );
+										}
+									}
+
+
 									context.commit();
 									context.setCurrentUser(eperson);
 								}
 								catch (AuthorizeException e)
 								{
+									e.printStackTrace();
 									return NO_SUCH_USER;
 								}
 								finally
@@ -330,6 +380,9 @@ public class LDAPHierarchicalAuthentication
         protected String ldapSurname = null;
         protected String ldapPhone = null;
 
+		// NITLE private string
+		protected String realm;
+
 		/** LDAP settings */
 		String ldap_provider_url = ConfigurationManager.getProperty("ldap.provider_url");
 		String ldap_id_field = ConfigurationManager.getProperty("ldap.id_field");
@@ -345,6 +398,26 @@ public class LDAPHierarchicalAuthentication
 		SpeakerToLDAP(Logger thelog)
         {
             log = thelog;
+        }
+
+		// NITLE method
+		SpeakerToLDAP(Logger thelog, String tld)
+        {
+            log = thelog;
+
+			realm = tld;
+
+			/** LDAP settings */
+			ldap_provider_url = ConfigurationManager.getProperty("ldap." + realm + ".provider_url");
+			ldap_id_field = ConfigurationManager.getProperty("ldap." + realm + ".id_field");
+			ldap_search_context = ConfigurationManager.getProperty("ldap." + realm + ".search_context");
+			ldap_object_context = ConfigurationManager.getProperty("ldap." + realm + ".object_context");
+			ldap_search_scope = ConfigurationManager.getProperty("ldap." + realm + ".search_scope");
+
+			ldap_email_field = ConfigurationManager.getProperty("ldap." + realm + ".email_field");
+			ldap_givenname_field = ConfigurationManager.getProperty("ldap." + realm + ".givenname_field");
+			ldap_surname_field = ConfigurationManager.getProperty("ldap." + realm + ".surname_field");
+			ldap_phone_field = ConfigurationManager.getProperty("ldap." + realm + ".phone_field");
         }
 
 		protected String getDNOfUser(String adminUser, String adminPassword, Context context, String netid)
@@ -373,6 +446,21 @@ public class LDAPHierarchicalAuthentication
 			env.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 			env.put(javax.naming.Context.PROVIDER_URL, ldap_provider_url);
 
+			// NITLE: couple of special cases for dealing with referrals
+			if (realm.equals("stlawu")) {
+				//envBind.put("javax.naming.ldap.derefAliases" , "always");
+   				//envBind.put(javax.naming.Context.REFERRAL, "follow");
+				env.put("javax.naming.ldap.derefAliases" , "never");
+   				env.put(javax.naming.Context.REFERRAL, "ignore");
+   				env.put("javax.naming.ldap.referral.limit", "0");
+			} 
+			else {
+				env.put("javax.naming.ldap.derefAliases" , "never");
+   				env.put(javax.naming.Context.REFERRAL, "ignore");
+   				env.put("javax.naming.ldap.referral.limit", "0");
+			}
+
+
             if ((adminUser != null) && (!adminUser.trim().equals("")) &&
                 (adminPassword != null) && (!adminPassword.trim().equals("")))
             {
@@ -380,6 +468,7 @@ public class LDAPHierarchicalAuthentication
                 env.put(javax.naming.Context.SECURITY_AUTHENTICATION, "simple");
                 env.put(javax.naming.Context.SECURITY_PRINCIPAL, adminUser);
                 env.put(javax.naming.Context.SECURITY_CREDENTIALS, adminPassword);
+				System.out.println("adding adminUser (" + adminUser + ") for LDAP searches");
             }
             else
             {
@@ -576,4 +665,5 @@ public class LDAPHierarchicalAuthentication
     {
         return "org.dspace.eperson.LDAPAuthentication.title";
     }
+
 }

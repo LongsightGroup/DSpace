@@ -7,6 +7,9 @@
  */
 package org.dspace.app.xmlui.aspect.eperson;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 
@@ -27,7 +30,9 @@ import org.dspace.app.xmlui.wing.element.Item;
 import org.dspace.app.xmlui.wing.element.List;
 import org.dspace.app.xmlui.wing.element.PageMeta;
 import org.dspace.app.xmlui.wing.element.Password;
+import org.dspace.app.xmlui.wing.element.Select;
 import org.dspace.app.xmlui.wing.element.Text;
+import org.dspace.core.ConfigurationManager;
 import org.xml.sax.SAXException;
 
 /**
@@ -177,6 +182,34 @@ public class LDAPLogin extends AbstractDSpaceTransformer implements
 		login.setHead(T_head1);
 
 		List list = login.addList("ldap-login", List.TYPE_FORM);
+
+		// NITLE LDAP LOGIN INST PICKER
+		String current = request.getParameter("login_realm");
+
+		Select login_realm = list.addItem().addSelect("login_realm");
+		login_realm.setRequired();
+		login_realm.setLabel("Institution");
+
+		//Map<String, String> nitleInsts = new HashMap<String, String>();
+
+        int i = 1;
+        String instIndex = ConfigurationManager.getProperty("nitle.inst.ldap." + i);
+        while(instIndex != null)
+        {
+            String[] fields = instIndex.split(":");
+            //nitleInsts.put(fields[0], fields[1]);
+
+            login_realm.addOption(fields[0].equals(current), fields[0]).addContent(fields[1]);
+
+            instIndex = ConfigurationManager.getProperty("nitle.inst.ldap." + ++i);
+        }
+
+/*
+        for (String key : nitleInsts.keySet())
+        {
+            login_realm.addOption(key.equals(current), key).addContent(nitleInsts.get(key));
+        }
+*/
 
 		Text email = list.addItem().addText("username");
 		email.setRequired();
