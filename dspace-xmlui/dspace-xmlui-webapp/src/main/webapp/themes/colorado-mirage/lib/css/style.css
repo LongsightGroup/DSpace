@@ -1171,3 +1171,8 @@ margin: 2px 2px 0px 2px;
 	background-color: #EFE5D9;
 	border: 1px solid #F7A43C;
 }
+
+/* Hide the rss feeds */
+#ds-feed-option, #ds-feed-option-head {
+  	display: none;
+}
