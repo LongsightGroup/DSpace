@@ -480,6 +480,7 @@
             </div>
             <div class="file-link" style="height: {$thumbnail.maxheight}px;">
                 <a>
+                    <xsl:attribute name="target">_blank</xsl:attribute>
                     <xsl:attribute name="href">
                         <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                     </xsl:attribute>
