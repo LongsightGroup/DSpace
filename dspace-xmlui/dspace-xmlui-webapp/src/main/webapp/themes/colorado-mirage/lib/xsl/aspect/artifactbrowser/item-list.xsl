@@ -70,7 +70,7 @@
             	  <xsl:when test="$itemNonAnon">
             		<div class="artifact-description">
             		  <div class="artifact-title">Item Details Withheld</div>
-            		  <div class="artifact-info">Please <a href="/login">login</a> to view full item details.</div>
+            		  <div class="artifact-info">You either do not have appropriate permissions or need to <a href="/login">login</a> to view item details.</div>
             		</div>
             	  </xsl:when>
             	  <xsl:otherwise>
