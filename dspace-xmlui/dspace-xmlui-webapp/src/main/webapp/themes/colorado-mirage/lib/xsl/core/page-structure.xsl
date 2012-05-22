@@ -317,76 +317,116 @@
         placeholders for header images -->
     <xsl:template name="buildHeader">
         <div id="ds-header-wrapper">
-            <div id="ds-header" class="clearfix">
-                <a id="ds-header-logo-link">
-                    <xsl:attribute name="href">
-                        <xsl:value-of
-                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                        <xsl:text>/</xsl:text>
-                    </xsl:attribute>
-                    <span id="ds-header-logo">&#160;</span>
-                </a>
-                <h1 class="pagetitle visuallyhidden">
-                    <xsl:choose>
-                        <!-- protectiotion against an empty page title -->
-                        <xsl:when test="not(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title'])">
-                            <xsl:text> </xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:copy-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title']/node()"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+            <div class="search">
+            <table cellspacing="0" cellpadding="0" border="0" bgcolor="#333333" id="colorado-search">
+            <tbody><tr>
+            <td width="100%" colspan="2"><a href="http://www.colorado.edu"><img height="35" border="0" width="290" alt="University of Colorado at Boulder" src="/themes/colorado-mirage/images/ucb.gif" /></a></td>
+            <td><img border="0" align="right" usemap="#CUMap" src="/themes/colorado-mirage/images/ucb_links.gif" /></td>
+            <td nowrap="" valign="middle" align="right">
 
-                </h1>
-                <h2 class="static-pagetitle visuallyhidden">
-                    <i18n:text>xmlui.dri2xhtml.structural.head-subtitle</i18n:text>
-                </h2>
+<div id="searchinput1">
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<form action="http://www.colorado.edu/hazards/search/" id="searchbox_014757263723579024866:9neiadlcrfs" name="searchForm1"></form>
+<td valign="middle" class="smlink">
+<input type="hidden" value="014757263723579024866:9neiadlcrfs" name="cx"/>
+<input type="hidden" value="FORID:11" name="cof"/>
+<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
+<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch1" class="box" name="searchtype1">
+<option selected="selected" value="infoseek-local">This Site</option>
+<option value="observer">Natural Hazards Observer</option>
+<option value="disasterresearch">Disaster Research</option>
+<option value="infoseek">CU Web Site</option>
+<option value="directory">CU People</option>
+</select></td>
+<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
 
+</tr>
+</tbody></table>
+</div>
 
-                <xsl:choose>
-                    <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
-                        <div id="ds-user-box">
-                            <p>
-                                <a>
-                                    <xsl:attribute name="href">
-                                        <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                                        dri:metadata[@element='identifier' and @qualifier='url']"/>
-                                    </xsl:attribute>
-                                    <i18n:text>xmlui.dri2xhtml.structural.profile</i18n:text>
-                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                                    dri:metadata[@element='identifier' and @qualifier='firstName']"/>
-                                    <xsl:text> </xsl:text>
-                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                                    dri:metadata[@element='identifier' and @qualifier='lastName']"/>
-                                </a>
-                                <xsl:text> | </xsl:text>
-                                <a>
-                                    <xsl:attribute name="href">
-                                        <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                                        dri:metadata[@element='identifier' and @qualifier='logoutURL']"/>
-                                    </xsl:attribute>
-                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
-                                </a>
-                            </p>
-                        </div>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <div id="ds-user-box">
-                            <p>
-                                <a>
-                                    <xsl:attribute name="href">
-                                        <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                                        dri:metadata[@element='identifier' and @qualifier='loginURL']"/>
-                                    </xsl:attribute>
-                                    <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
-                                </a>
-                            </p>
-                        </div>
-                    </xsl:otherwise>
-                </xsl:choose>
+<div style="display:none;" id="searchinput2">
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<form action="http://www.colorado.edu/hazards/search/observer.html" id="searchbox_014757263723579024866:kkhjk4ps3au" name="searchForm2"></form>
+<td valign="middle" class="smlink">
+<input type="hidden" value="014757263723579024866:kkhjk4ps3au" name="cx"/>
+<input type="hidden" value="FORID:11" name="cof"/>
+<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
+<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch2" class="box" name="searchtype2">
+<option value="infoseek-local">This Site</option>
+<option value="observer">Natural Hazards Observer</option>
+<option value="disasterresearch">Disaster Research</option>
+<option value="infoseek">CU Web Site</option>
+<option value="directory">CU People</option>
+</select></td>
+<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
 
-            </div>
+</tr>
+</tbody></table>
+</div>
+
+<div style="display:none;" id="searchinput3">
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<form action="http://www.colorado.edu/hazards/search/dr.html" id="searchbox_014757263723579024866:ysvztp1dwrw" name="searchForm3"></form>
+<td valign="middle" class="smlink">
+<input type="hidden" value="014757263723579024866:ysvztp1dwrw" name="cx"/>
+<input type="hidden" value="FORID:11" name="cof"/>
+<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
+<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch3" class="box" name="searchtype3">
+<option value="infoseek-local">This Site</option>
+<option value="observer">Natural Hazards Observer</option>
+<option value="disasterresearch">Disaster Research</option>
+<option value="infoseek">CU Web Site</option>
+<option value="directory">CU People</option>
+</select></td>
+<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
+
+</tr>
+</tbody></table>
+</div>
+
+<div style="display:none;" id="searchinput4">
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<form action="http://www.colorado.edu/UCB/cgi-bin/search.cgi" name="searchForm4" method="post"></form>
+<td valign="middle" class="smlink"> 
+<input type="text" size="10" value="Search" class="box" id="searchstring" name="searchstring" onfocus="adjustSearch()"/></td>
+<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch4" class="box" name="searchtype">
+<option value="infoseek-local">This Site</option>
+<option value="observer">Natural Hazards Observer</option>
+<option value="disasterresearch">Disaster Research</option>
+<option value="infoseek">CU Web Site</option>
+<option value="directory">CU People</option>
+</select></td>
+<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
+<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
+
+</tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+
+<map id="CUMap" name="CUMap">
+<area alt="Home" href="http://www.colorado.edu" coords="71,9,106,31" shape="rect"/>
+<area alt="A to Z" href="http://www.colorado.edu/atoz/" coords="113,9,149,27" shape="rect"/>
+<area alt="Campus Map" href="http://www.colorado.edu/campusmap/" coords="154,10,183,27" shape="rect"/></map>
+</div>
+
+<div class="banner">
+<!-- <a href="/hazards/"><h1>Natural Hazards Center</h1></a> -->
+    <a href="/hazards/"><img height="128" border="0" width="342" alt="Natural Hazards Center logo" src="/themes/colorado-mirage/images/logo.gif"/> </a> 
+</div>
+
         </div>
     </xsl:template>
 
