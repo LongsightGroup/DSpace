@@ -140,7 +140,7 @@ select.multiple {
 }
 
 #ds-footer-wrapper {
-    margin-top: 40px;
+    margin-top: 0;
 }
 
 #ds-footer {
@@ -1210,4 +1210,59 @@ body {
 #ds-content {
     background-color: #fff;
     padding-bottom: 30px;
+}
+#ds-footer {
+    display: none;
+}
+#footer {
+    background-color: #000000;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    clear: both;
+    color: #FFFFFF;
+    font-size: 80%;
+    width: 950px;
+    margin: auto;
+}
+.footercolumn1 {
+    display: block;
+    float: left;
+    width: 190px;
+}
+.footercolumn2 {
+    display: block;
+    float: left;
+    width: 600px;
+}
+.footertext {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.footercolumn3 {
+    display: block;
+    float: left;
+    width: 140px;
+}
+.footerbottom {
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    clear: both;
+    height: 10px;
+    width: 950px;
+}
+.ibs {
+    background-image: url("../../images/IBStext.gif");
+    background-position: 0 5px;
+    background-repeat: no-repeat;
+    display: block;
+    height: 60px;
+    width: 140px;
+}
+#footer .wordmark {
+    background-image: url("../../images/wordmark.gif");
+    background-repeat: no-repeat;
+    float: left;
+    height: 60px;
+    margin-left: 5px;
+    width: 170px;
 }
