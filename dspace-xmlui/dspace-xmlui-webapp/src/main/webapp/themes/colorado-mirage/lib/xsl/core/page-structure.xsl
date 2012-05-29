@@ -424,7 +424,7 @@
 
 <div class="banner">
 <!-- <a href="/hazards/"><h1>Natural Hazards Center</h1></a> -->
-    <a href="/hazards/"><img height="128" border="0" width="342" alt="Natural Hazards Center logo" src="/themes/colorado-mirage/images/logo.gif"/> </a> 
+    <a href="http://www.colorado.edu/hazards/"><img height="128" border="0" width="342" alt="Natural Hazards Center logo" src="/themes/colorado-mirage/images/logo.gif"/> </a> 
 </div>
 
         </div>
@@ -549,6 +549,23 @@
     <!-- Like the header, the footer contains various miscellanious text, links, and image placeholders -->
     <xsl:template name="buildFooter">
         <div id="ds-footer-wrapper">
+
+<div id="footer">
+<div class="footercolumn1"><a class="wordmark" href="http://www.colorado.edu"><span class="invisible">University of Colorado at Boulder</span></a></div>
+<div class="footercolumn2">
+	<div class="footertext"><strong>Natural Hazards Center</strong><br/>
+			  483 UCB<br/>
+      Boulder, CO 80309-0483<br/>
+		      Contact Us: <a href="mailto:hazctr@colorado.edu">hazctr@colorado.edu</a> | (303) 492-6818<br/>
+		      <br/>
+&#169; <a href="http://www.cu.edu/regents/">Regents of the University of Colorado</a></div>
+
+</div>
+<div class="footercolumn3"><a class="ibs" href="http://www.colorado.edu/ibs/"><span class="invisible">Institute of Behavioral Science</span></a></div>
+
+<div class="footerbottom"> </div>	
+ </div>
+
             <div id="ds-footer">
                 <div id="ds-footer-left">
                     <a href="http://www.dspace.org/" target="_blank">DSpace software</a> copyright&#160;&#169;&#160;2002-2011&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
