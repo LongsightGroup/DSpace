@@ -318,101 +318,10 @@
     <xsl:template name="buildHeader">
         <div id="ds-header-wrapper">
             <div class="search">
-            <table cellspacing="0" cellpadding="0" border="0" bgcolor="#333333" id="colorado-search">
-            <tbody><tr>
-            <td width="100%" colspan="2"><a href="http://www.colorado.edu"><img height="35" border="0" width="290" alt="University of Colorado at Boulder" src="/themes/colorado-mirage/images/ucb.gif" /></a></td>
-            <td><img border="0" align="right" usemap="#CUMap" src="/themes/colorado-mirage/images/ucb_links.gif" /></td>
-            <td nowrap="" valign="middle" align="right">
-
-<div id="searchinput1">
-<table cellspacing="0" cellpadding="0" border="0">
-<tbody><tr>
-<form action="http://www.colorado.edu/hazards/search/" id="searchbox_014757263723579024866:9neiadlcrfs" name="searchForm1"></form>
-<td valign="middle" class="smlink">
-<input type="hidden" value="014757263723579024866:9neiadlcrfs" name="cx"/>
-<input type="hidden" value="FORID:11" name="cof"/>
-<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
-<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch1" class="box" name="searchtype1">
-<option selected="selected" value="infoseek-local">This Site</option>
-<option value="observer">Natural Hazards Observer</option>
-<option value="disasterresearch">Disaster Research</option>
-<option value="infoseek">CU Web Site</option>
-<option value="directory">CU People</option>
-</select></td>
-<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
-
-</tr>
-</tbody></table>
-</div>
-
-<div style="display:none;" id="searchinput2">
-<table cellspacing="0" cellpadding="0" border="0">
-<tbody><tr>
-<form action="http://www.colorado.edu/hazards/search/observer.html" id="searchbox_014757263723579024866:kkhjk4ps3au" name="searchForm2"></form>
-<td valign="middle" class="smlink">
-<input type="hidden" value="014757263723579024866:kkhjk4ps3au" name="cx"/>
-<input type="hidden" value="FORID:11" name="cof"/>
-<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
-<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch2" class="box" name="searchtype2">
-<option value="infoseek-local">This Site</option>
-<option value="observer">Natural Hazards Observer</option>
-<option value="disasterresearch">Disaster Research</option>
-<option value="infoseek">CU Web Site</option>
-<option value="directory">CU People</option>
-</select></td>
-<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
-
-</tr>
-</tbody></table>
-</div>
-
-<div style="display:none;" id="searchinput3">
-<table cellspacing="0" cellpadding="0" border="0">
-<tbody><tr>
-<form action="http://www.colorado.edu/hazards/search/dr.html" id="searchbox_014757263723579024866:ysvztp1dwrw" name="searchForm3"></form>
-<td valign="middle" class="smlink">
-<input type="hidden" value="014757263723579024866:ysvztp1dwrw" name="cx"/>
-<input type="hidden" value="FORID:11" name="cof"/>
-<input type="text" size="10" value="Search" class="box" id="q" name="q" onfocus="adjustSearch()"/></td>
-<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch3" class="box" name="searchtype3">
-<option value="infoseek-local">This Site</option>
-<option value="observer">Natural Hazards Observer</option>
-<option value="disasterresearch">Disaster Research</option>
-<option value="infoseek">CU Web Site</option>
-<option value="directory">CU People</option>
-</select></td>
-<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
-
-</tr>
-</tbody></table>
-</div>
-
-<div style="display:none;" id="searchinput4">
-<table cellspacing="0" cellpadding="0" border="0">
-<tbody><tr>
-<form action="http://www.colorado.edu/UCB/cgi-bin/search.cgi" name="searchForm4" method="post"></form>
-<td valign="middle" class="smlink"> 
-<input type="text" size="10" value="Search" class="box" id="searchstring" name="searchstring" onfocus="adjustSearch()"/></td>
-<td width="2" valign="middle"><img height="1" width="2" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td nowrap="" valign="middle"><select onchange="searchTable(this);" id="selectsearch4" class="box" name="searchtype">
-<option value="infoseek-local">This Site</option>
-<option value="observer">Natural Hazards Observer</option>
-<option value="disasterresearch">Disaster Research</option>
-<option value="infoseek">CU Web Site</option>
-<option value="directory">CU People</option>
-</select></td>
-<td width="1" valign="middle"><img height="1" width="1" alt="" src="/themes/colorado-mirage/images/clear.gif"/></td>
-<td valign="middle"><input border="0" type="image" alt="go" src="/themes/colorado-mirage/images/go_nhc.gif" name="sa"/></td>
-
-</tr>
-</tbody></table>
-</div></td>
+<table cellspacing="0" cellpadding="0" border="0" bgcolor="#333333" id="colorado-search">
+  <tbody><tr>
+   <td style="width: 770px"><a href="http://www.colorado.edu"><img height="35" border="0" width="290" alt="University of Colorado at Boulder" src="/themes/colorado-mirage/images/ucb.gif" /></a></td>
+   <td><img usemap="#CUMap" src="/themes/colorado-mirage/images/ucb_links.gif" /></td>
 </tr>
 </tbody></table>
 
