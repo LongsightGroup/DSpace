@@ -264,6 +264,7 @@
                         <div class="spacer">&#160;</div>
 	                </xsl:if>
 	                <xsl:for-each select="dim:field[@element='description' and not(@qualifier)]">
+					    <xsl:text> </xsl:text>
 		                <xsl:copy-of select="./node()"/>
 		                <xsl:if test="count(following-sibling::dim:field[@element='description' and not(@qualifier)]) != 0">
                             <div class="spacer">&#160;</div>
