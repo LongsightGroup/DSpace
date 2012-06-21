@@ -290,16 +290,16 @@ it, please enter the types and the actual numbers or codes below.</hint>
        <stored-value>Image</stored-value>
      </pair>
      <pair>
-       <displayed-value>Image, 3-D</displayed-value>
-       <stored-value>Image, 3-D</stored-value>
-     </pair>
-     <pair>
        <displayed-value>Map</displayed-value>
        <stored-value>Map</stored-value>
      </pair>
      <pair>
        <displayed-value>Musical Score</displayed-value>
        <stored-value>Musical Score</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Newspaper</displayed-value>
+       <stored-value>Newspaper</stored-value>
      </pair>
      <pair>
        <displayed-value>Plan or blueprint</displayed-value>
@@ -312,10 +312,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
      <pair>
        <displayed-value>Presentation</displayed-value>
        <stored-value>Presentation</stored-value>
-     </pair>
-     <pair>
-       <displayed-value>Recording, acoustical</displayed-value>
-       <stored-value>Recording, acoustical</stored-value>
      </pair>
      <pair>
        <displayed-value>Recording, musical</displayed-value>
