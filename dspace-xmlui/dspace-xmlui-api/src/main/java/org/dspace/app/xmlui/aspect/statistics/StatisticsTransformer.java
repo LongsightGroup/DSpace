@@ -353,7 +353,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
 			// String[] rLabels = dataset.getRowLabels().toArray(new String[0]);
 
 			Table table = mainDiv.addTable("list-table", matrix.length, 2,
-					title == null ? "" : "tableWithTitle");
+					title == null ? "detailtable" : "tableWithTitle detailtable");
 			if (title != null)
             {
                 table.setHead(message(title));
