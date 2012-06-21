@@ -46,10 +46,9 @@ select.multiple {
 }
 
 #ds-header-wrapper {
-    background-color: #336389;
-    color: white;
-    min-width: 950px;
-    height: 90px;
+    color: black;
+    min-width: 985px;
+    height: 99px;
 }
 
 #ds-header-logo-link {
@@ -58,19 +57,19 @@ select.multiple {
 }
 
 #ds-header-logo {
-    width: 196px;
-    height: 75px;
-    background: url('../../images/logomark-196x75.png');
+    width: 985px;
+    height: 99px;
+    background: url('../../images/sewanee-banner.jpg');
     background-repeat: no-repeat;
     background-color: transparent;
     position: absolute;
-    top: -16px;
+    top: 0;
     left: 0;
 }
 
 #ds-header-logo-text {
     font-size: 400%;
-    color: white;
+    color: black;
     line-height: 70px;
     font-weight: normal;
     vertical-align: middle;
@@ -78,23 +77,23 @@ select.multiple {
 }
 
 #ds-user-box {
-    right: 0;
+    right: 10px;
     top: 10px;
     position: absolute;
-    color: white;
+    color: black;
 }
 
 #ds-user-box a{
-    color: white;
+    color: black;
 }
 
 #ds-trail-wrapper {
     background-color: #ACC0D9;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     border-top: 1px solid #9cacba;
     border-bottom: 1px solid #9cacba;
-    min-width: 950px;
+    width: 985px;
     opacity: 0.8;
 }
 
@@ -102,7 +101,7 @@ select.multiple {
     list-style: none;
     line-height: 138.5%;
     margin: 0;
-    padding: 3px 0;
+    padding: 3px 0 3px 12px;
 }
 
 #ds-trail li {
@@ -120,7 +119,7 @@ select.multiple {
 #ds-header,
 #ds-footer,
 #ds-content {
-    width: 950px;
+    width: 985px;
     margin: auto;
     position: relative;
 }
@@ -197,7 +196,7 @@ select.multiple {
 
 #ds-body {
     float: left;
-    width: 675px;
+    width: 705px;
     padding-top: 10px;
 }
 
@@ -1145,9 +1144,6 @@ margin: 2px 2px 0px 2px;
 }
 
 
-#ds-main {
-  border-top: 16px solid #B7C9E8;
-}
 body {
   font-family: "Athelas Regular",Baskerville,'Times New Roman',Times,serif;
 }
@@ -1159,5 +1155,6 @@ body {
   height: 300px;
 }
 .thumbnail-wrapper a.image-link, .thumbnail-wrapper a:active, .thumbnail-wrapper a:visited {
-  border-bottom: none;
+  border:1px dotted #ccc;
+  display: block;
 }

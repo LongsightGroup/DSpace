@@ -125,6 +125,21 @@
                     </xsl:if>
                 </div>
 
+                <h1 id="ds-share-option-head" class="ds-option-set-head">Share</h1>
+                <div id="ds-share-option" class="ds-option-set"> &#160; 
+                <!-- ADDTHIS BUTTON BEGIN -->
+               <script type="text/javascript">
+                 var addthis_config = { pubid: "YOUR-PROFILE-ID" }
+               </script>
+
+               <p><a href="http://www.addthis.com/bookmark.php?v=250" 
+                       class="addthis_button" style="border:none"><img 
+                       src="https://s7.addthis.com/static/btn/v2/lg-share-en.gif" 
+                       width="125" height="16" border="0" alt="Share" /></a></p>
+
+               <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js">&#160;</script>
+                </div>
+
                 <!-- Once the search box is built, the other parts of the options are added -->
                 <xsl:apply-templates/>
 
