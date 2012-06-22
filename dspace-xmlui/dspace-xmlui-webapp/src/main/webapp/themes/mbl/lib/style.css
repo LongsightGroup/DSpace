@@ -811,3 +811,6 @@ div.license-info {
 #aspect_discovery_SiteRecentSubmissions_div_site-home {
 	width: 85%;
 }
+#ds-feed-option a {
+ 	padding-left: 23px;
+}
