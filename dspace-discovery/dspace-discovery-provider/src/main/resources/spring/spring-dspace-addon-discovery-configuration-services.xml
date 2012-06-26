@@ -54,6 +54,10 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterPublisher" />
+                <ref bean="searchFilterDescription" />
+                <ref bean="searchFilterType" />
+                <ref bean="searchFilterMimetype" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -132,6 +136,45 @@
         <property name="fullAutoComplete" value="false"/>
     </bean>
 
+    <bean id="searchFilterPublisher" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="publisher"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.publisher</value>
+            </list>
+        </property>
+        <property name="fullAutoComplete" value="true"/>
+    </bean>
+
+    <bean id="searchFilterDescription" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="description"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.description</value>
+            </list>
+        </property>
+        <property name="fullAutoComplete" value="false"/>
+    </bean>
+
+    <bean id="searchFilterType" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="type"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.type</value>
+            </list>
+        </property>
+        <property name="fullAutoComplete" value="true"/>
+    </bean>
+
+    <bean id="searchFilterMimetype" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="mimetype"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.format.mimetype</value>
+            </list>
+        </property>
+        <property name="fullAutoComplete" value="true"/>
+    </bean>
 
 
     <!--Sidebar facet configuration beans-->
