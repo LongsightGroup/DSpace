@@ -412,12 +412,12 @@
             </xsl:if>
         </table>
 
-            <xsl:if test="dim:field[@element='description' and @qualifier='embargo']">
+            <xsl:if test="dim:field[@element='embargo' and @qualifier='liftdate']">
 		<h2>Publisher Embargo</h2>
         	<table class="ds-includeset-table">
 			<tr>
-				<td><br/>The publisher requires that this item be embargoed until <xsl:value-of select="dim:field[@element='description' and @qualifier='embargo']" />.
-				Please check back after <xsl:value-of select="dim:field[@element='description' and @qualifier='embargo']" />.<br/><br/></td>
+				<td><br/>The publisher requires that this item be embargoed until <xsl:value-of select="dim:field[@element='embargo' and @qualifier='liftdate']" />.
+				Please check back after <xsl:value-of select="dim:field[@element='embargo' and @qualifier='liftdate']" />.<br/><br/></td>
 			</tr>
 		</table>
 		<div> </div>
