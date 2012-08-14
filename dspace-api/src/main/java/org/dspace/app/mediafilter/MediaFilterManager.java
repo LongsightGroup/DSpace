@@ -687,6 +687,11 @@ public class MediaFilterManager
     public static boolean processBitstream(Context c, Item item, Bitstream source, FormatFilter formatFilter)
             throws Exception
     {
+        if (!isQuiet) 
+        {
+            System.out.println("About to process " + source.getName());
+        }
+
         //do pre-processing of this bitstream, and if it fails, skip this bitstream!
     	if(!formatFilter.preProcessBitstream(c, item, source))
         {

@@ -230,6 +230,7 @@ public class HandlePlugin implements HandleStorage
             {
                 throw new HandleException(HandleException.HANDLE_DOES_NOT_EXIST);
             }
+            System.out.println("handle debug: " + url + "::" + handle);
 
             HandleValue value = new HandleValue();
 
@@ -267,6 +268,7 @@ public class HandlePlugin implements HandleStorage
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             if (log.isDebugEnabled())
             {
                 log.debug("Exception in getRawHandleValues", e);
