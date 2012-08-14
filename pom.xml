@@ -151,21 +151,6 @@
         </profile>
 
         <!--
-           Builds JSPUI WAR for DSpace
-        -->
-        <profile>
-
-            <id>dspace-jspui</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>dspace-jspui</module>
-            </modules>
-        </profile>
-
-
-        <!--
            Builds SWORD WAR for DSpace
         -->
         <profile>
@@ -244,7 +229,6 @@
             <module>dspace-api</module>
             <module>dspace-stats</module>
             <module>dspace-discovery</module>
-            <module>dspace-jspui</module>
             <module>dspace-xmlui</module>
             <module>dspace-lni</module>
             <module>dspace-oai</module>
@@ -367,17 +351,6 @@
               <type>war</type>
           </dependency>
 
-         <dependency>
-            <groupId>org.dspace</groupId>
-            <artifactId>dspace-jspui-api</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>org.dspace</groupId>
-            <artifactId>dspace-jspui-webapp</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-         </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-oai-api</artifactId>

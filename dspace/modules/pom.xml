@@ -60,15 +60,6 @@
             </modules>
         </profile>
         <profile>
-            <id>dspace-jspui</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>jspui</module>
-            </modules>
-        </profile>
-        <profile>
             <id>dspace-sword</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
