@@ -529,22 +529,22 @@ public class FlowContainerUtils
 		{
 			collection.removeSubmitters();
 		}
+		else if (ROLE_WF_STEP1.equals(roleName))
+		{
+			collection.setWorkflowGroup(1, null);
+		}
+		else if (ROLE_WF_STEP2.equals(roleName))
+		{
+			collection.setWorkflowGroup(2, null);
+		}
+		else if (ROLE_WF_STEP3.equals(roleName))
+		{
+			collection.setWorkflowGroup(3, null);
+
+		}
         else{
             WorkflowUtils.deleteRoleGroup(context, collectionID, roleName);
 		}
-//		else if (ROLE_WF_STEP1.equals(roleName))
-//		{
-//			collection.setWorkflowGroup(1, null);
-//		}
-//		else if (ROLE_WF_STEP2.equals(roleName))
-//		{
-//			collection.setWorkflowGroup(2, null);
-//		}
-//		else if (ROLE_WF_STEP3.equals(roleName))
-//		{
-//			collection.setWorkflowGroup(3, null);
-//
-//		}
 
 		// Second, remove all authorizations for this role by searching for all policies that this
 		// group has on the collection and remove them otherwise the delete will fail because 
