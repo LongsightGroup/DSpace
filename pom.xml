@@ -4,7 +4,7 @@
    <groupId>org.dspace</groupId>
    <artifactId>dspace-parent</artifactId>
    <packaging>pom</packaging>
-   <version>3.2-SNAPSHOT</version>
+   <version>3.3-SNAPSHOT</version>
    <name>DSpace Parent Project</name>
    <url>https://github.com/dspace/DSpace</url>
 
@@ -377,7 +377,7 @@
         </profile>
 
         <!--
-           Builds LNI WAR for DSpace
+           Builds LNI WAR & Client for DSpace
         -->
         <profile>
             <id>dspace-lni</id>
@@ -388,6 +388,7 @@
             </activation>
             <modules>
                 <module>dspace-lni</module>
+                <module>dspace-lni/dspace-lni-client</module>
             </modules>
         </profile>
 
@@ -444,71 +445,71 @@
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-api</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
          </dependency>
          <dependency>
             <groupId>org.dspace.modules</groupId>
             <artifactId>additions</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
          </dependency>
 
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-sword</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-sword</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-swordv2</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-swordv2</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
 
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-jspui</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-jspui</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-oai</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-oai</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-lni</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
@@ -520,26 +521,26 @@
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-lni</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-xmlui</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-xmlui</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
             <type>war</type>
          </dependency>
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-services</artifactId>
-            <version>3.2-SNAPSHOT</version>
+            <version>3.3-SNAPSHOT</version>
          </dependency>
          <!-- DSpace Localization Packages -->
          <dependency>
