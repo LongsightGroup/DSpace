@@ -207,14 +207,14 @@
               </xsl:call-template>
           </xsl:when>
 
-          <!-- date.issued row -->
-          <xsl:when test="$clause = 4 and (dim:field[@element='date' and @qualifier='issued'])">
+          <!-- date.created row -->
+          <xsl:when test="$clause = 4 and (dim:field[@element='date' and @qualifier='created'])">
                     <div class="simple-item-view-other">
 	                <span class="bold"><i18n:text>xmlui.dri2xhtml.METS-1.0.item-date</i18n:text>:</span>
 	                <span>
-		                <xsl:for-each select="dim:field[@element='date' and @qualifier='issued']">
+		                <xsl:for-each select="dim:field[@element='date' and @qualifier='created']">
 		                	<xsl:copy-of select="substring(./node(),1,10)"/>
-		                	 <xsl:if test="count(following-sibling::dim:field[@element='date' and @qualifier='issued']) != 0">
+		                	 <xsl:if test="count(following-sibling::dim:field[@element='date' and @qualifier='created']) != 0">
 	                    	<br/>
 	                    </xsl:if>
 		                </xsl:for-each>

@@ -13,7 +13,11 @@
 
 
 /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
-body, select, input, textarea { color:#444; }
+body, select, input, textarea { 
+  color: #444l
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 14px;
+}
 
 /* www.aestheticallyloyal.com/public/optimize-legibility/ */
 h1,h2,h3,h4,h5,h6 { font-weight: bold; text-rendering: optimizeLegibility; }

@@ -324,7 +324,6 @@
                         <xsl:text>/</xsl:text>
                     </xsl:attribute>
                     <span id="ds-header-logo">&#160;</span>
-                    <span id="ds-header-logo-text">mirage</span>
                 </a>
                 <h1 class="pagetitle visuallyhidden">
                     <xsl:choose>
@@ -339,10 +338,11 @@
                     </xsl:choose>
 
                 </h1>
+                <h1 id="tcu-title">Texas Legation Papers</h1>
+
                 <h2 class="static-pagetitle visuallyhidden">
                     <i18n:text>xmlui.dri2xhtml.structural.head-subtitle</i18n:text>
                 </h2>
-
 
                 <xsl:choose>
                     <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
@@ -413,7 +413,7 @@
 
     <xsl:template match="dri:trail">
         <!--put an arrow between the parts of the trail-->
-        <xsl:if test="position()>1">
+        <xsl:if test="position()>2">
             <li class="ds-trail-arrow">
                 <xsl:text>&#8594;</xsl:text>
             </li>
@@ -513,11 +513,7 @@
                 <div id="ds-footer-left">
                     <a href="http://www.dspace.org/" target="_blank">DSpace software</a> copyright&#160;&#169;&#160;2002-2012&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
                 </div>
-                <div id="ds-footer-right">
-                    <span class="theme-by">Theme by&#160;</span>
-                    <a title="@mire NV" target="_blank" href="http://atmire.com" id="ds-footer-logo-link">
-                    <span id="ds-footer-logo">&#160;</span>
-                    </a>
+                <div id="ds-footer-right"> &#160;
                 </div>
                 <div id="ds-footer-links">
                     <a>
@@ -708,6 +704,44 @@
 
         <script type="text/javascript">
             runAfterJSImports.execute();
+
+// TCU CUSTOM JS
+$(document).ready(function() {
+  var newOptions = {
+    "(Choose Year)":"-1",
+    "1836": "1836",
+    "1837": "1837",
+    "1838": "1838",
+    "1839": "1839",
+    "1840": "1840",
+    "1841": "1841",
+    "1842": "1842",
+    "1843": "1843",
+    "1844": "1844",
+    "1845": "1845"
+  };
+
+  var $el = $("#aspect_artifactbrowser_ConfigurableBrowse_field_year");
+  $el.empty();
+
+  $.each(newOptions, function(key, value) {
+    $el.append($("<option></option>").attr("value", value).text(key));
+  });
+
+  // When the year is clicked, automatically jump to it
+  $el.change(
+    function(){
+         $('#aspect_artifactbrowser_ConfigurableBrowse_field_submit').click();
+  });
+
+  $('#aspect_artifactbrowser_ConfigurableBrowse_field_order, #aspect_artifactbrowser_ConfigurableBrowse_field_rpp').change(
+    function(){
+      console.log('Handler for .change() called.');
+         $('#aspect_artifactbrowser_ConfigurableBrowse_field_update').click();
+  });
+
+});
+
         </script>
 
         <!-- Add a google analytics script if the key is present -->

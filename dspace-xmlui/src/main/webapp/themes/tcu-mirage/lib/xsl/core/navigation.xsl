@@ -131,6 +131,7 @@
                 <xsl:apply-templates/>
 
                 <!-- DS-984 Add RSS Links to Options Box -->
+<!--
                 <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']) != 0">
                     <h1 id="ds-feed-option-head" class="ds-option-set-head">
                         <i18n:text>xmlui.feed.header</i18n:text>
@@ -141,7 +142,7 @@
                         </ul>
                     </div>
                 </xsl:if>
-
+-->
 
             </div>
         </div>

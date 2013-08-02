@@ -12,9 +12,12 @@
  */
 
 /*Font size percentages based on the tables at developer.yahoo.com/yui/fonts/ */
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Trebuchet MS", Verdana, Helvetica;
+  color: #502E7E;
+}
 h1 {
     font-size: 182%;
-    color: #1F3F5E;
     text-align: justify;
 }
 
@@ -46,7 +49,8 @@ select.multiple {
 }
 
 #ds-header-wrapper {
-    background-color: #1F3F5E;
+    background: url('../../images/menu_bar_bottom.jpg') repeat;
+    background: url('../../images/topbar_bg_repeat.jpg') repeat-x;
     color: white;
     min-width: 950px;
 }
@@ -58,10 +62,9 @@ select.multiple {
 
 #ds-header-logo {
     float:left;
-    width: 48px;
-    height: 50px;
-    margin-top: 10px;
-    background: url('../../images/dspace-logo-only.png');
+    width: 111px;
+    height: 80px;
+    background: url('../../images/logo.jpg');
     background-repeat: no-repeat;
     background-color: transparent;
     margin-right: 15px;
@@ -88,12 +91,13 @@ select.multiple {
 }
 
 #ds-trail-wrapper {
-    background-color: #b6c8d9;
+    background-color: #BFBFBF;
     margin: 0;
     padding: 0;
-    border-top: 1px solid #9cacba;
-    border-bottom: 1px solid #9cacba;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
     min-width: 950px;
+    font-family: "Trebuchet MS", Verdana, Helvetica;
 }
 
 #ds-trail {
@@ -105,12 +109,12 @@ select.multiple {
 
 #ds-trail li {
     display: inline;
-    color: #1F3F5E;
+    color: #fff;
     margin-right: 5px;
 }
 
 #ds-trail a {
-    color: #1F3F5E;
+    color: #fff;
 }
 
 #no-js-warning,
@@ -172,8 +176,6 @@ select.multiple {
 
 #ds-footer-logo {
     display: inline-block;
-    background: url('../../images/@mirelogo-small.png');
-    background-repeat: no-repeat;
     width: 79px;
     height: 40px;
 }
@@ -194,13 +196,13 @@ select.multiple {
 
 
 #ds-body {
-    float: left;
+    float: right;
     width: 675px;
     padding-top: 10px;
 }
 
 #ds-options-wrapper {
-    float: right;
+    float: left;
     width: 249px;
     padding-top:10px;
 }
@@ -220,6 +222,7 @@ h1.ds-option-set-head {
 
 #ds-search-option-head{
     margin-top: 0;
+    font-size: 0.99em;
 }
 
 div.ds-option-set {
@@ -1372,4 +1375,50 @@ table.discovery-filters th.new-filter-header
 
 .searchTime{
     color: #999999;
+}
+
+#ds-search-option label,
+#aspect_artifactbrowser_FrontPageSearch_div_front-page-search,
+#aspect_artifactbrowser_CommunityBrowser_div_comunity-browser,
+#ds-body h1.ds-div-head,
+#ds-trail li.first-link,
+#aspect_artifactbrowser_AdvancedSearch_list_search-query
+{
+  display: none;
+}
+div#aspect_viewArtifacts_Navigation_list_browse.ds-option-set ul.ds-options-list li:last-child
+{
+  display: none;
+}
+div#aspect_viewArtifacts_Navigation_list_browse.ds-option-set ul.ds-options-list li:first-child ul li,
+div#aspect_viewArtifacts_Navigation_list_browse.ds-option-set ul.ds-options-list li:first-child
+{
+  display: block;
+}
+ul li a[href="/community-list"] {
+  display: none;
+}
+
+h1#tcu-title {
+  color: #fff;
+  font-family: "trebuchet MS",verdana,helvetica,sans-serif;
+  font-size: 26px;
+  padding: 16px 0 0 0;
+}
+img.tcu-cover-image {
+  float: left;
+  width: 200px;
+  padding: 0 12px 12px 0;
+}
+#aspect_artifactbrowser_ConfigurableBrowse_div_browse-navigation p:last-child {
+  visibility: hidden;
+}
+#aspect_artifactbrowser_ConfigurableBrowse_field_month {
+  display: none;
+}
+#aspect_artifactbrowser_ConfigurableBrowse_field_update {
+  visibility: hidden;
+}
+#aspect_artifactbrowser_SimpleSearch_list_search-query ol li:first-child {
+  display: none;
 }
