@@ -2516,6 +2516,32 @@ public class Item extends DSpaceObject
 
         return false;
     }
+
+    /** Allegheny Customization **/ 
+	public boolean canView() throws java.sql.SQLException
+    {
+       // can this person read the item?
+        if (AuthorizeManager.authorizeActionBoolean(ourContext, this,
+                Constants.READ))
+        {
+            return true;
+        }
+
+        // is this person an COLLECTION_EDITOR for the owning collection?
+        if (getOwningCollection().canEditBoolean())
+        {
+            return true;
+        }
+
+        // is this person an COLLECTION_EDITOR for the owning collection?
+        if (AuthorizeManager.authorizeActionBoolean(ourContext,
+                getOwningCollection(), Constants.COLLECTION_ADMIN))
+        {
+            return true;
+        }
+
+        return false;
+    }
     
     public String getName()
     {
