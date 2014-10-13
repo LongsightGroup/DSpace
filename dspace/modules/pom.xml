@@ -108,5 +108,24 @@
                 <module>oai</module>
             </modules>
         </profile>
+        <profile>
+            <id>dspace-sesame</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>sesame</module>
+            </modules>
+        </profile>
+	        
+	<profile>
+            <id>dspace-sesame-workbench</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>workbench</module>
+            </modules>
+        </profile>
     </profiles>
 </project>

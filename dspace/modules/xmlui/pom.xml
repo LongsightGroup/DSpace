@@ -20,6 +20,20 @@
        <!-- This is the path to the root [dspace-src] directory. -->
        <root.basedir>${basedir}/../../..</root.basedir>
    </properties>
+   
+   <repositories>
+        <repository>
+            <id>ocean-link-release-repository</id>
+            <name>DSpace OceanLink Release Repository</name>
+            <url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+   </repositories>
 
    <build>
        <filters>
@@ -92,12 +106,27 @@
          </dependencies>
       </profile>
    </profiles>
-
+       
    <dependencies>
 
       <dependency>
          <groupId>org.dspace.modules</groupId>
          <artifactId>additions</artifactId>
+      </dependency>
+      
+      <!-- DSpace LOD XMLUI Webapp -->
+      <dependency>
+         <groupId>org.dspace</groupId>
+         <artifactId>dspace-lod-xmlui</artifactId>
+         <type>war</type>
+      </dependency>
+
+      <!-- DSpace LOD XMLUI API -->
+      <dependency>
+         <groupId>org.dspace</groupId>
+         <artifactId>dspace-lod-xmlui</artifactId>
+         <type>jar</type>
+         <classifier>classes</classifier>
       </dependency>
 
       <!-- DSpace XMLUI Languages -->

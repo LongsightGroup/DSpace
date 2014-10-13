@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY rdfns 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfsns 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY dcns 'http://purl.org/dc/elements/1.1/'>
+    <!ENTITY dctermsns 'http://purl.org/dc/terms/'>
+    <!ENTITY dctypens 'http://purl.org/dc/dcmitype/'>
+    <!ENTITY dcamns 'http://purl.org/dc/dcam/'>
+]>
+<rdf:RDF xmlns:dcam="http://purl.org/dc/dcam/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+   
+   <rdf:Description rdf:about="http://libraries.mit.edu/dspace-mit/terms#">
+      <dcterms:title xml:lang="en-US">
+         Customized DSpace @ MIT fields unique to MIT Libraries.
+      </dcterms:title>
+      <rdfs:comment>http://www.dspace.org/objectModel#
+         To comment on this schema, please contact
+         dspace-help@mit.edu
+      </rdfs:comment>
+      <dcterms:publisher xml:lang="en-US">
+         MIT Libraries
+      </dcterms:publisher>
+      <dcterms:modified>2008-05-12</dcterms:modified>
+   </rdf:Description>
+
+   <rdf:Description rdf:about="http://libraries.mit.edu/dspace-mit/terms#department">
+      <rdfs:label xml:lang="en-US">Department</rdfs:label>
+      <rdfs:comment xml:lang="en-US">Department that published an Item (used with thesis).</rdfs:comment>
+      <dcterms:description xml:lang="en-US">Department that published an Item (used with thesis).</dcterms:description>
+      <rdfs:isDefinedBy rdf:resource="http://libraries.mit.edu/dspace-mit/terms#" />
+      <dcterms:issued>2008-05-12</dcterms:issued>
+      <dcterms:modified>2008-05-12</dcterms:modified>
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    </rdf:Description>
+ 
+    <rdf:Description rdf:about="http://libraries.mit.edu/dspace-mit/terms#degree">
+      <rdfs:label xml:lang="en-US">Degree Type</rdfs:label>
+      <rdfs:comment xml:lang="en-US">Degree that thesis was completed within (used with thesis).</rdfs:comment>
+      <dcterms:description xml:lang="en-US">Degree that thesis was completed within (used with thesis).</dcterms:description>
+      <rdfs:isDefinedBy rdf:resource="http://libraries.mit.edu/dspace-mit/terms#" />
+      <dcterms:issued>2008-05-12</dcterms:issued>
+      <dcterms:modified>2008-05-12</dcterms:modified>
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    </rdf:Description>
+    
+    <rdf:Description rdf:about="http://libraries.mit.edu/dspace-mit/terms#oclc">
+      <rdfs:label xml:lang="en-US">OCLC Number</rdfs:label>
+      <rdfs:comment xml:lang="en-US">OCLC Number (used with thesis).</rdfs:comment>
+      <dcterms:description xml:lang="en-US">OCLC Number (used with thesis).</dcterms:description>
+      <rdfs:isDefinedBy rdf:resource="http://libraries.mit.edu/dspace-mit/terms#" />
+      <dcterms:issued>2008-05-12</dcterms:issued>
+      <dcterms:modified>2008-05-12</dcterms:modified>
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    </rdf:Description>
+    
+    <rdf:Description rdf:about="http://libraries.mit.edu/dspace-mit/terms#cip">
+      <rdfs:label xml:lang="en-US">CIP Code</rdfs:label>
+      <rdfs:comment xml:lang="en-US">Classification of Instructional Programs Code (used with OCW contents).</rdfs:comment>
+      <dcterms:description xml:lang="en-US">Classification of Instructional Programs Code (used with OCW contents).</dcterms:description>
+      <rdfs:isDefinedBy rdf:resource="http://libraries.mit.edu/dspace-mit/terms#" />
+      <dcterms:issued>2008-05-12</dcterms:issued>
+      <dcterms:modified>2008-05-12</dcterms:modified>
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    </rdf:Description>
+    
+</rdf:RDF>

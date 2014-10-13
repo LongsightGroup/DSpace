@@ -496,11 +496,25 @@
             </modules>
         </profile>
 
-
-      <!--
-         The 'release' profile is used by the 'maven-release-plugin' (see above)
-         to actually perform a DSpace software release to Maven central.
-       -->
+        <!--
+           Builds LOD WAR & Support API for DSpace
+        -->
+        <profile>
+            <id>dspace-lod</id>
+            <activation>
+                <file>
+                    <exists>dspace-lod/pom.xml</exists>
+                </file>
+            </activation>
+            <modules>
+                <module>dspace-lod</module>
+            </modules>
+        </profile>
+        
+       <!--
+          The 'release' profile is used by the 'maven-release-plugin' (see above)
+          to actually perform a DSpace software release to Maven central.
+        -->
       <profile>
          <id>release</id>
          <activation>
@@ -517,6 +531,7 @@
             <module>dspace-rest</module>
             <module>dspace-sword</module>
             <module>dspace-swordv2</module>
+            <module>dspace-lod</module>
          </modules>
       </profile>
 
@@ -648,6 +663,26 @@
             <artifactId>dspace-services</artifactId>
             <version>4.3-SNAPSHOT</version>
          </dependency>
+         <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-lod-api</artifactId>
+            <version>4.3-SNAPSHOT</version>
+            <type>jar</type>
+         </dependency>
+         <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-lod-xmlui</artifactId>
+            <version>4.3-SNAPSHOT</version>
+            <type>jar</type>
+            <classifier>classes</classifier>
+         </dependency>
+         <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-lod-xmlui</artifactId>
+            <version>4.3-SNAPSHOT</version>
+            <type>war</type>
+         </dependency>
+         
          <!-- DSpace Localization Packages -->
          <dependency>
             <groupId>org.dspace</groupId>

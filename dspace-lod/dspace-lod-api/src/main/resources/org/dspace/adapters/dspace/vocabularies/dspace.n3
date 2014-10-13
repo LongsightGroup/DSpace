@@ -1,0 +1,400 @@
+@prefix dspace:   <http://purl.org/dspace/model#>.
+@prefix terms:    <http://purl.org/dc/terms/> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#>.
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dcterm:   <http://purl.org/dc/terms/>.
+@prefix dctype:   <http://purl.org/dc/dcmitype/>.
+@prefix ore:      <http://www.openarchives.org/ore/terms/>.
+@prefix vann:     <http://purl.org/vocab/vann/> .
+@prefix nfo:      <http://www.semanticdesktop.org/ontologies/nfo/#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+
+#######################
+# Ontology Definition #
+#######################
+
+dspace:
+    terms:description
+        "This is the RDF Schema for the DSpace Data Model (pre-2.0) defined in the http://purl.org/dspace/model# namespace. To comment on this schema, please contact dspace-tech@lists.sourceforge.net";
+    terms:title 
+        "The DSpace Data Model Ontology" ;
+    vann:preferredNamespacePrefix
+        "dspace" ;
+    vann:preferredNamespaceUri
+        "http://purl.org/dspace/model#" ;
+    a    owl:Ontology.
+
+#############################
+# DSpace Data Model Classes #
+#############################
+
+dspace:Bitstream
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Bitstream"@en-US;
+    rdfs:label
+       "DSpace Bitstream"@en-US;
+    rdfs:subClassOf 
+       nfo:FileDataObject .
+       
+dspace:BitstreamFormat
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Bitstream Format";
+    rdfs:label
+       "DSpace Bitstream Format"@en-US.
+       
+dspace:Bundle
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Bundle"@en-US;
+    rdfs:label
+       "DSpace Bundle"@en-US.
+       
+dspace:Collection
+    a    rdfs:Class, dctype:Collection;
+    rdfs:comment
+       "A DSpace Collection"@en-US;
+    rdfs:label
+       "DSpace Collection"@en-US.
+       
+dspace:Community
+    a    rdfs:Class, dctype:Collection;
+    rdfs:comment
+       "A DSpace Community"@en-US;
+    rdfs:label
+       "DSpace Community"@en-US.
+       
+dspace:EPerson
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace EPerson"@en-US;
+    rdfs:label
+       "DSpace EPerson"@en-US;
+    rdfs:subClassOf 
+        foaf:Person.
+      
+dspace:Group
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Group"@en-US;
+    rdfs:label
+       "DSpace Group"@en-US.
+       
+dspace:Item
+    a    rdfs:Class, ore:Aggregation;
+    rdfs:comment
+       "A DSpace Item"@en-US;
+    rdfs:label
+       "DSpace Item"@en-US.
+       
+dspace:Policy
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Policy"@en-US;
+    rdfs:label
+       "DSpace Policy"@en-US.
+       
+dspace:Site
+    a    rdfs:Class;
+    rdfs:comment
+       "A DSpace Site"@en-US;
+    rdfs:label
+       "DSpace Site"@en-US.
+
+################################################################  
+# Structural relationship Properties for the DSpace Data Model #
+################################################################
+
+dspace:hasBitstreamFormat
+    a    rdf:Property;
+    rdfs:comment
+       "Bitstream Format Property"@en-US;
+    rdfs:domain
+       dspace:Bitstream;
+    rdfs:label
+       "Has Format"@en-US;
+    rdfs:range
+       dspace:BitstreamFormat;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+       
+dspace:hasBitstream
+    a    rdf:Property;
+    rdfs:comment
+       "Bitstream Property"@en-US;
+    rdfs:domain
+       dspace:Bundle;
+    rdfs:label
+       "Has Bitstream"@en-US;
+    rdfs:range
+       dspace:Bitstream;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+
+dspace:hasBundle
+    a    rdf:Property;
+    rdfs:comment
+       "Has Bundle"@en-US;
+    rdfs:domain
+       dspace:Item;
+    rdfs:label
+       "Has Bundle"@en-US;
+    rdfs:range
+       dspace:Bundle;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+       
+dspace:hasItem
+    a    rdf:Property;
+    rdfs:comment
+       "Has Item"@en-US;
+    rdfs:domain
+       dspace:Collection;
+    rdfs:label
+       "Has Item"@en-US;
+    rdfs:range
+       dspace:Item;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+       
+dspace:hasCollection
+    a    rdf:Property;
+    rdfs:comment
+        "Collections that may be contained within a Community."@en-US;
+    rdfs:domain
+       dspace:Community;
+    rdfs:label
+       "Has Collection"@en-US;
+    rdfs:range
+       dspace:Collection;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+       
+dspace:hasCommunity
+    a    rdf:Property;
+    rdfs:comment
+       "Has DSpace Community"@en-US;
+    rdfs:domain
+       dspace:Community, dspace:Site;
+    rdfs:label
+       "Has Community"@en-US;
+    rdfs:range
+       dspace:Community;
+    rdfs:subPropertyOf
+       dcterm:hasPart.
+
+dspace:isPartOfSite
+    a    rdf:Property;
+    rdfs:comment
+       "Is Part of DSpace Site"@en-US;
+    rdfs:domain
+       dspace:Community;
+    rdfs:label
+       "Part Of Site"@en-US;
+    rdfs:range
+       dspace:Site;
+    rdfs:subPropertyOf
+       dcterm:isPartOf.
+
+dspace:isPartOfCommunity
+    a    rdf:Property;
+    rdfs:comment
+       "Is part of DSpace Community"@en-US;
+    rdfs:domain
+       dspace:Collection, dspace:Community;
+    rdfs:label
+       "Part of Community"@en-US;
+    rdfs:range
+       dspace:Community;
+    rdfs:subPropertyOf
+       dcterm:isPartOf.
+       
+dspace:isPartOfCollection
+    a    rdf:Property;
+    rdfs:comment
+       "Part of Collection"@en-US;
+    rdfs:domain
+       dspace:Item;
+    rdfs:label
+       "Part of Collection"@en-US;
+    rdfs:range
+       dspace:Collection;
+    rdfs:subPropertyOf
+       dcterm:isPartOf.
+
+dspace:isPartOfItem
+    a    rdf:Property;
+    rdfs:comment
+       "Part of DSpace Item"@en-US;
+    rdfs:domain
+       dspace:Bundle;
+    rdfs:label
+       "Part of DSpace Item"@en-US;
+    rdfs:range
+       dspace:Item;
+    rdfs:subPropertyOf
+       dcterm:isPartOf.
+
+dspace:isPartOfBundle
+    a    rdf:Property;
+    rdfs:comment
+       "Part of DSpace Item"@en-US;
+    rdfs:domain
+       dspace:Bitstream;
+    rdfs:label
+       "Part of DSpace Item"@en-US;
+    rdfs:range
+       dspace:Bundle;
+    rdfs:subPropertyOf
+       dcterm:isPartOf.
+
+# Exploring the inclusion of Group/EPeople structure.
+# But may be premature for what we wish to expose initially.
+#dspace:hasSubGroup
+#      a       rdf:Property ;
+#      rdfs:comment "Has Sub-Group"@en-US ;
+#     rdfs:domain dspace:Group ;
+#      rdfs:label "Has Sub-Group"@en-US ;
+#      rdfs:range dspace:Group .
+
+#dspace:isPartOfGroup
+#      a       rdf:Property ;
+#      rdfs:comment "Part of DSpace Group"@en-US ;
+#      rdfs:domain dspace:EPerson ;
+#      rdfs:label "Part of DSpace Group"@en-US ;
+#      rdfs:range dspace:Group .
+
+#dspace:hasMember
+#      a       rdf:Property ;
+#      rdfs:comment "Has DSpace Group Member"@en-US ;
+#      rdfs:domain dspace:Group ;
+#     rdfs:label "Has Member"@en-US ;
+#      rdfs:range dspace:EPerson .
+
+
+############################################### 
+# Descriptive Community/Collection Properties #
+###############################################
+dspace:longDescription
+      a       rdf:Property ;
+      rdfs:comment "Full Text Description of the Object (often contains HTML)"@en-US ;
+      rdfs:domain dspace:Collection ;
+      rdfs:label "Full Description"@en-US .
+      
+dspace:logo
+    a    rdf:Property;
+    rdfs:comment
+       "A Community or Collection Logo"@en-US;
+    rdfs:domain
+       dspace:Collection, dspace:Community;
+    rdfs:label
+       "Logo"@en-US;
+    rdfs:range
+       dspace:Bitstream.
+
+# Concerned (and thus commented out), this is usually the deposit license
+# dspace:license
+#      a       rdf:Property ;
+#      rdfs:comment "License for this Collection."@en-US ;
+#      rdfs:domain dspace:Collection ;
+#      rdfs:label "License"@en-US .
+      
+dspace:submitter
+    a    rdf:Property ;
+    rdfs:comment 
+        "Submitter of this Item / Collection."@en-US ;
+    rdfs:domain
+        dspace:Collection, dspace:Item ;
+    rdfs:label 
+        "Submitter"@en-US ;
+    rdfs:range 
+        dspace:EPerson .
+
+# Concerned (and thus commented out), this is usually a group, not a person
+# dspace:admin
+#    a    rdf:Property ;
+#    rdfs:comment 
+#        "Administrator of this Collection."@en-US ;
+#    rdfs:domain 
+#        dspace:Collection ;
+#    rdfs:label 
+#        "Administrator"@en-US ;
+#    rdfs:range 
+#        dspace:EPerson .
+        
+####################################
+# Descriptive Bitstream Properties #
+####################################
+
+dspace:messageDigest
+      a       rdf:Property ;
+      rdfs:comment "messageDigest or Signature on a DSpace Bitstream."@en-US ;
+      rdfs:domain dspace:Bitstream ;
+      rdfs:label "Message Digest"@en-US .
+      
+dspace:messageDigestAlgorithm
+      a       rdf:Property ;
+      rdfs:comment "messageDigestAlgorithm used for messageDigest on a DSpace Bitstream."@en-US ;
+      rdfs:domain dspace:Bitstream ;
+      rdfs:label "Message Digest Algorithm"@en-US .
+
+dspace:messageDigestOriginator
+      a       rdf:Property ;
+      rdfs:comment "The originator that generated the messageDigest on a DSpace Bitstream."@en-US ;
+      rdfs:domain dspace:Bitstream ;
+      rdfs:label "Message Digest Algorithm"@en-US .
+    
+dspace:size
+      a       rdf:Property ;
+      rdfs:comment "The size in bytes of a DSpace Bitstream."@en-US ;
+      rdfs:domain dspace:Bitstream ;
+      rdfs:label "Bitstream Size"@en-US .
+
+###########################################
+# Descriptive Bitstream Format Properties #
+###########################################
+dspace:fileExtension
+      a       rdf:Property ;
+      rdfs:comment "Known file extension for the given BitstreamFormat."@en-US ;
+      rdfs:domain dspace:BitstreamFormat ;
+      rdfs:label "File Extension"@en-US .
+
+dspace:mimeType
+      a       rdf:Property ;
+      rdfs:comment "MIME Type of the given BitstreamFormat."@en-US ;
+      rdfs:domain dspace:BitstreamFormat ;
+      rdfs:label "MIME Type"@en-US .
+
+dspace:support
+    a    rdf:Property;
+    rdfs:comment
+       "Bitstream Format Support Level."@en-US;
+    rdfs:domain
+       dspace:BitstreamFormat;
+    rdfs:label
+       "Support Level"@en-US.
+
+##################################
+# Descriptive EPerson Properties #
+##################################
+
+dspace:language
+      a       rdf:Property ;
+      rdfs:comment "The EPerson's Language."@en-US ;
+      rdfs:domain dspace:EPerson ;
+      rdfs:label "Language"@en-US .
+
+########################################################
+# Identifiers? These are actually the resource URI and #
+# not in the ontology directly                         #
+########################################################
+
+#dspace:uuid
+#      a       rdf:Property ;
+#      rdfs:comment "Universally Unique Identifier for this object."@en-US ;
+#      rdfs:domain dspace:DSpaceObject ;
+#      rdfs:label "UUID"@en-US .
+      
+
