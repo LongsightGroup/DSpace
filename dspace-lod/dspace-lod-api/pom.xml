@@ -1,12 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>org.dspace.modules</groupId>
-   <artifactId>additions</artifactId>
-   <name>DSpace Kernel :: Additions and Local Customizations</name>
+   <groupId>org.dspace</groupId>
+   <artifactId>dspace-lod-api</artifactId>
+   <name>DSpace Linked Open Data Addon : API</name>
    <description>
-       This project allows you to easily create your own "additions.jar"
-       including custom Java classes. This JAR will be automatically included
-       in all DSpace web applications.
+       ...
    </description>
    <packaging>jar</packaging>
 
@@ -16,29 +14,15 @@
    -->
    <parent>
       <groupId>org.dspace</groupId>
-      <artifactId>modules</artifactId>
+      <artifactId>dspace-lod</artifactId>
       <version>4.3-SNAPSHOT</version>
       <relativePath>..</relativePath>
    </parent>
 
    <properties>
        <!-- This is the path to the root [dspace-src] directory. -->
-       <root.basedir>${basedir}/../../..</root.basedir>
+       <root.basedir>${basedir}/../..</root.basedir>
    </properties>
-   
-   <repositories>
-        <repository>
-            <id>ocean-link-release-repository</id>
-            <name>DSpace OceanLink Release Repository</name>
-            <url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-   </repositories>
 
    <profiles>
       <profile>
@@ -81,28 +65,19 @@
       </profile>
 
    </profiles>
-   
+
    <!--
    Runtime and Compile Time dependencies for DSpace.
    -->
    <dependencies>
-
-      <dependency>
-         <groupId>org.dspace</groupId>
-         <artifactId>dspace-lod-api</artifactId>
-      </dependency>
       <dependency>
          <groupId>org.dspace</groupId>
          <artifactId>dspace-api</artifactId>
       </dependency>
-      <dependency>
-         <groupId>org.dspace</groupId>
-         <artifactId>dspace-api-lang</artifactId>
-      </dependency>
+
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
-         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>ant-contrib</groupId>
@@ -115,6 +90,56 @@
             </exclusion>
          </exclusions>
       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-repository-manager</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-repository-http</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-repository-sail</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-sail-memory</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-repository-manager</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-sail-nativerdf</artifactId>
+           <version>2.7.9</version>
+       </dependency>
+   
+       <dependency>
+           <artifactId>jtidy</artifactId>
+           <groupId>org.hibernate</groupId>
+           <version>r8-20060801</version>
+       </dependency>
+
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-rio-rdfxml</artifactId>
+           <version>2.7.9</version>
+           <type>jar</type>
+       </dependency>
+
+       <dependency>
+           <groupId>org.openrdf.sesame</groupId>
+           <artifactId>sesame-rio-turtle</artifactId>
+           <version>2.7.9</version>
+           <type>jar</type>
+       </dependency>
 
    </dependencies>
 

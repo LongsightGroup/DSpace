@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.dspace</groupId>
+	<artifactId>dspace-lod</artifactId>
+	<packaging>pom</packaging>
+	<name>DSpace Linked Open Data Parent Module</name>
+	<description>DSpace Linked Open Data Parent Module</description>
+
+	<parent>
+		<groupId>org.dspace</groupId>
+		<artifactId>dspace-parent</artifactId>
+		<version>4.3-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+    <properties>
+        <!-- This is the path to the root [dspace-src] directory. -->
+        <root.basedir>${basedir}/..</root.basedir>
+    </properties>
+
+    <!-- The 'additions' module must *always* be built, as it is included
+         as a dependency in most other modules in [src]/dspace/modules -->
+    <modules>
+        <module>dspace-lod-api</module>
+        <module>dspace-lod-xmlui</module>
+        <module>dspace-lod-sesame</module>
+    </modules>
+
+    <distributionManagement>
+	<repository>
+		<id>release-repository</id>
+		<name>Repository Name</name>
+		<url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
+	</repository>
+	<snapshotRepository>
+		<id>snapshot-repository</id>
+		<name>Repository Name</name>
+		<url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/snapshots</url>
+	</snapshotRepository>
+    </distributionManagement>
+    
+</project>

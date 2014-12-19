@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.dspace.modules</groupId>
+    <artifactId>sesame</artifactId>
+    <name>DSpace Linked Open Data Addon : Sesame RDF Triplestore Local Customizations</name>
+    <packaging>war</packaging>
+
+   <parent>
+      <groupId>org.dspace</groupId>
+      <artifactId>modules</artifactId>
+      <version>3.2</version>
+      <relativePath>..</relativePath>
+   </parent>
+
+   <properties>
+       <!-- This is the path to the root [dspace-src] directory. -->
+       <root.basedir>${basedir}/../../..</root.basedir>
+   </properties>
+   
+   <repositories>
+        <repository>
+            <id>ocean-link-release-repository</id>
+            <name>DSpace OceanLink Release Repository</name>
+            <url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+   </repositories>
+
+
+   <build>
+       <filters>
+           <!-- Filter using the properties file defined by dspace-parent POM -->
+           <filter>${filters.file}</filter>
+       </filters>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+               <archiveClasses>false</archiveClasses>
+               <failOnMissingWebXml>false</failOnMissingWebXml>
+               <webResources>
+                  <resource>
+                     <filtering>true</filtering>
+                     <directory>${basedir}</directory>
+                     <includes>
+                        <include>/src/main/webapp/WEB-INF/web.xml</include>
+                     </includes>
+                  </resource>
+               </webResources>
+            </configuration>
+            <executions>
+               <execution>
+                  <phase>prepare-package</phase>
+               </execution>
+            </executions>
+         </plugin>
+
+      </plugins>
+   </build>
+       
+    <dependencies>
+        
+        <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-lod-sesame</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-lod-sesame</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+      </dependency>
+      
+    </dependencies>
+
+</project>
