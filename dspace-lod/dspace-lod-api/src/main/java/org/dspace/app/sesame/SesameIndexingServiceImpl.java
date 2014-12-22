@@ -58,6 +58,7 @@ public class SesameIndexingServiceImpl implements SesameIndexingService {
         {
             provider.handle(context, new Event(Event.INSTALL, dso.getType(), dso.getID(), "Index DSpaceObject"));
         }
+        log.debug("Sesame Indexed: " + dso.getTypeText() + " " + dso.getHandle());
     }
 
     @Override

@@ -240,6 +240,14 @@
     </command>
 
     <command>
+        <name>sesame-indexer</name>
+        <description>Indexer client for Oceanlink Linked Open Data</description>
+        <step>
+            <class>org.dspace.app.sesame.SesameIndexClient</class>
+        </step>
+    </command>
+
+    <command>
         <name>stat-general</name>
         <description>Compile the general statistics</description>
         <step passuserargs="false">

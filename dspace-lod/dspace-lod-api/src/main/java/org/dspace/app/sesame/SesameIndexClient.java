@@ -9,7 +9,9 @@ package org.dspace.app.sesame;
 
 import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
+import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
+import org.dspace.handle.HandleManager;
 import org.dspace.utils.DSpace;
 
 /**
@@ -47,6 +49,10 @@ public class SesameIndexClient {
                         .withDescription(
                                 "remove an Item, Collection or Community from index based on its handle")
                         .create("r"));
+
+        options.addOption(OptionBuilder.withArgName("handle").hasArg(true)
+                .withDescription("remove an object from index based on its handle").create("i"));
+
 
 
         options
@@ -91,6 +97,11 @@ public class SesameIndexClient {
         if (line.hasOption("r")) {
             log.info("Removing " + line.getOptionValue("r") + " from Index");
             indexer.unIndexContent(context, line.getOptionValue("r"));
+        } else if (line.hasOption("i")) {
+            log.info("Manually Indexing: " + line.getOptionValue("i") );
+            String handle = line.getOptionValue("i");
+            DSpaceObject dso = HandleManager.resolveToObject(context, handle);
+            indexer.indexContent(context, dso, line.hasOption("f"));
         } else if (line.hasOption("c")) {
             log.info("Cleaning Index");
             indexer.cleanIndex(line.hasOption("f"));
