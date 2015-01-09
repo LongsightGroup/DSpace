@@ -1,5 +1,6 @@
 User-agent: *
-Disallow: /discover 
+Disallow: /discover
+Disallow: /*/discover
 Disallow: /search-filter
 
 # Uncomment the following line ONLY if sitemaps.org or HTML sitemaps are used
