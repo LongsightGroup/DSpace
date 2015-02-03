@@ -16,6 +16,7 @@ import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
 import org.dspace.content.*;
+import org.dspace.content.Collection;
 import org.dspace.content.Item;
 import org.dspace.core.Constants;
 import org.dspace.statistics.DataTermsFacet;
@@ -31,6 +32,9 @@ import org.elasticsearch.search.facet.FacetBuilder;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.facet.datehistogram.DateHistogramFacet;
 import org.elasticsearch.search.facet.terms.TermsFacet;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -69,7 +73,13 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
                 FilterBuilders.termFilter("type", "BITSTREAM"),
                 justOriginals
             ));
-    
+
+    protected static FacetBuilder facetDailyDownloads = FacetBuilders.dateHistogramFacet("daily_downloads").field("time").interval("day")
+            .facetFilter(FilterBuilders.andFilter(
+                    FilterBuilders.termFilter("type", "BITSTREAM"),
+                    justOriginals
+            ));    
+
     protected static FacetBuilder facetTopBitstreamsAllTime = FacetBuilders.termsFacet("top_bitstreams_alltime").field("id")
             .facetFilter(FilterBuilders.andFilter(
                     FilterBuilders.termFilter("type", "BITSTREAM"),
@@ -93,7 +103,7 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
     private static final Message T_trail = message("xmlui.ArtifactBrowser.ItemViewer.trail");
 
     public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException {
-        DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
+        dso = getDSO();
 
         pageMeta.addMetadata("title").addContent("Statistics Report for : " + dso.getName());
 
@@ -115,8 +125,8 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
     
     public void addBody(Body body) throws WingException, SQLException {
         try {
-            //Try to find our dspace object
-            dso = HandleUtil.obtainHandle(objectModel);
+            //Try to find our DSpace object
+            dso = getDSO();
             client = ElasticSearchLogger.getInstance().getClient();
 
             division = body.addDivision("elastic-stats");
@@ -197,8 +207,18 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
                 }
                 else if(requestedReport.equalsIgnoreCase("fileDownloads"))
                 {
-                    SearchRequestBuilder requestBuilder = facetedQueryBuilder(facetMonthlyDownloads);
-                    searchResponseToDRI(requestBuilder);
+                    //When the requested range exceeds a months worth, give monthly results
+                    // Otherwise gives results in days...
+                    Boolean granularityResult = lessThanMonthApart(dateStart, dateEnd);
+                    log.info("Do we give days, or months: " + granularityResult.toString() + " for date range:" + dateStart + " to " + dateEnd);
+
+                    if(granularityResult) {
+                        SearchRequestBuilder requestBuilder = facetedQueryBuilder(facetDailyDownloads);
+                        searchResponseToDRI(requestBuilder);
+                    } else {
+                        SearchRequestBuilder requestBuilder = facetedQueryBuilder(facetMonthlyDownloads);
+                        searchResponseToDRI(requestBuilder);
+                    }
                 }
                 else if(requestedReport.equalsIgnoreCase("topDownloads"))
                 {
@@ -216,6 +236,18 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
         } finally {
             //client.close();
         }
+    }
+    
+    private DSpaceObject getDSO() throws SQLException {
+        dso = HandleUtil.obtainHandle(objectModel);
+        if(dso == null) {
+            dso = Site.find(context, 0);
+        }
+        return dso;
+    }
+
+    private boolean isContainer(DSpaceObject dso) {
+        return (dso instanceof org.dspace.content.Collection || dso instanceof Community || dso instanceof Site);
     }
     
     public void showAllReports() throws WingException, SQLException{
@@ -293,13 +325,26 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
     }
     
     public SearchRequestBuilder facetedQueryBuilder(List<FacetBuilder> facetList) {
-        TermQueryBuilder termQuery = QueryBuilders.termQuery(getOwningText(dso), dso.getID());
-        FilterBuilder rangeFilter = FilterBuilders.rangeFilter("time").from(dateStart).to(dateEnd);
-        FilteredQueryBuilder filteredQueryBuilder = QueryBuilders.filteredQuery(termQuery, rangeFilter);
+        FilterBuilder dateRangeFilter = FilterBuilders.rangeFilter("time").from(dateStart).to(dateEnd);
+
+        QueryBuilder containerScopeQuery;
+        if(dso instanceof Collection || dso instanceof Community || dso instanceof Item) {
+            containerScopeQuery = QueryBuilders.termQuery(getOwningText(dso), dso.getID());
+        } else {
+            //Need a no-op query to join.. All, as opposed to specify a owning-something
+            containerScopeQuery = QueryBuilders.matchAllQuery();
+        }
+
+        FilteredQueryBuilder filteredQueryBuilder = QueryBuilders.filteredQuery(containerScopeQuery, dateRangeFilter);
+
+        QueryBuilder scopedDatedDebottedQuery = QueryBuilders.boolQuery()
+                .must(filteredQueryBuilder)
+                .mustNot(QueryBuilders.termQuery("isBot", true))
+                .mustNot(QueryBuilders.termQuery("isBotUA", true));
 
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(ElasticSearchLogger.getInstance().indexName)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .setQuery(filteredQueryBuilder)
+                .setQuery(scopedDatedDebottedQuery)
                 .setSize(0);
 
         for(FacetBuilder facet : facetList) {
@@ -413,6 +458,53 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
             return dcValue[0].value;
         } else {
             return "";
+        }
+    }
+
+    /**
+     * Determine if this date-range is less than a months worth.
+     * - days/true      - if dates are within same month
+     * - days/true      - different months but dates are less than 28 days apart.
+     * - months/false   - different months and 28 or more days apart.
+     * @param dateBegin defaults to Minimum Date if null
+     * @param dateEnd defaults to current date if null
+     * @return
+     */
+    protected boolean lessThanMonthApart(Date dateBegin, Date dateEnd) {
+        boolean monthOrMore = false;
+        boolean days = true;
+
+        if(dateBegin == null) {
+            Calendar cal = Calendar.getInstance();
+            dateEnd = cal.getTime();
+
+            //Roll back to 12 mo.s ago
+            cal.set(Calendar.MONTH, -12);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.HOUR_OF_DAY,0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            dateBegin = cal.getTime();
+        }
+
+        if(dateEnd == null) {
+            dateEnd = new Date();
+        }
+
+        DateTime date1 = new DateTime(dateBegin);
+        DateTime date2 = new DateTime(dateEnd);
+        Interval interval = new Interval(date1, date2);
+        Duration duration = new Duration(interval);
+
+        log.info("JODA has " + date1 + " for " + dateBegin + " and " + date2 + " for " + dateEnd);
+
+        if (dateBegin.getYear() == dateEnd.getYear() && dateBegin.getMonth() == dateEnd.getMonth()) {
+            return days;
+        } else if (duration.getStandardDays() < 28) {
+            return days;
+        } else {
+            return monthOrMore;
         }
     }
 }
