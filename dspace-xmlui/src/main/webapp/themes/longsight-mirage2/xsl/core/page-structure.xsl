@@ -79,7 +79,6 @@
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:call-template name="buildHeader"/>
-                            <xsl:call-template name="buildTrail"/>
                             <!--javascript-disabled warning, will be invisible if javascript is enabled-->
                             <div id="no-js-warning-wrapper" class="hidden">
                                 <div id="no-js-warning">
@@ -96,6 +95,7 @@
                                 <div class="row row-offcanvas row-offcanvas-right">
                                     <div class="horizontal-slider clearfix">
                                         <div class="col-xs-12 col-sm-12 col-md-9 main-content">
+                                        <xsl:call-template name="buildTrail"/>
                                             <xsl:apply-templates select="*[not(self::dri:options)]"/>
                                         </div>
                                         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
@@ -133,7 +133,7 @@
     <xsl:template name="buildHead">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
+            <meta name="google-site-verification" content="iq5eDGQj_4TcEYM3IHnw3OdG0eLohf_IDt-9hc52_mM" />
             <!-- Use the .htaccess and remove these lines to avoid edge case issues.
              More info: h5bp.com/i/378 -->
             <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -191,6 +191,7 @@
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
 
+<link rel="stylesheet" type="text/css" href="//cloud.typography.com/6676232/637366/css/fonts.css" />
             <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
 
@@ -319,8 +320,6 @@
                         <a href="{$context-path}/" class="navbar-brand">
                             <img src="{$theme-path}/images/longsight-white.png" />
                         </a>
-
-
                         <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
                         <ul class="nav nav-pills pull-left ">
 
@@ -398,6 +397,78 @@
                               <xsl:call-template name="languageSelection"/>
                         </ul>
                         <ul class="nav navbar-nav pull-left">
+                         <form id="ds-search-form" class="" method="post">
+                        <xsl:attribute name="action">
+                            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                        </xsl:attribute>
+                        <fieldset>
+                            <div class="input-group">
+                                <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
+                                       i18n:attr="placeholder">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of
+                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
+                                    </xsl:attribute>
+                                </input>
+                                <span class="input-group-btn">
+                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <xsl:attribute name="onclick">
+                                                    <xsl:text>
+                                                        var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
+                                                        if (radio != undefined &amp;&amp; radio.checked)
+                                                        {
+                                                        var form = document.getElementById(&quot;ds-search-form&quot;);
+                                                        form.action=
+                                                    </xsl:text>
+                                            <xsl:text>&quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                            <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                                            <xsl:text>&quot; ; </xsl:text>
+                                                    <xsl:text>
+                                                        }
+                                                    </xsl:text>
+                                        </xsl:attribute>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-all" type="radio" name="scope" value=""
+                                               checked="checked"/>
+                                        <i18n:text>xmlui.dri2xhtml.structural.search</i18n:text>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-container" type="radio" name="scope">
+                                            <xsl:attribute name="value">
+                                                <xsl:value-of
+                                                        select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                            </xsl:attribute>
+                                        </input>
+                                        <xsl:choose>
+                                            <xsl:when
+                                                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='containerType']/text() = 'type:community'">
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-community</i18n:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-collection</i18n:text>
+                                            </xsl:otherwise>
+
+                                        </xsl:choose>
+                                    </label>
+                                </div>
+                            </xsl:if>
+                        </fieldset>
+                    </form>
                             <xsl:choose>
                                 <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
                                     <li class="dropdown">
@@ -466,7 +537,7 @@
                 <div class="row">
                     <!--TODO-->
                     <!--<div class="col-xs-9 col-sm-10 col-md-12">-->
-                    <div class="col-xs-12">
+                    <div class="col-xs-9">
                         <xsl:choose>
                             <xsl:when test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) > 1">
                                 <div class="breadcrumb dropdown visible-xs">
