@@ -298,6 +298,8 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
+            <script src="http://jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+
         </head>
     </xsl:template>
 
@@ -630,39 +632,39 @@
     <xsl:template name="buildFooter">
         <footer>
             <div class="container-fluid">
-                <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2014&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
+                    <div class="row">
+                        <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2014&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
+                    </div>
+                    <div class="row">
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of
+                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                <xsl:text>/contact</xsl:text>
+                            </xsl:attribute>
+                            <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                        </a>
+                        <xsl:text> | </xsl:text>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of
+                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                <xsl:text>/feedback</xsl:text>
+                            </xsl:attribute>
+                            <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                        </a>
+                    </div>
                 </div>
-                <div class="row">
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/contact</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                    </a>
-                    <xsl:text> | </xsl:text>
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/feedback</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                    </a>
-                </div>
-            </div>
-            <!--Invisible link to HTML sitemap (for search engines) -->
-            <a class="hidden">
-                <xsl:attribute name="href">
-                    <xsl:value-of
-                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                    <xsl:text>/htmlmap</xsl:text>
-                </xsl:attribute>
-                <xsl:text>&#160;</xsl:text>
-            </a>
-            <p>&#160;</p>
+                <!--Invisible link to HTML sitemap (for search engines) -->
+                <a class="hidden">
+                    <xsl:attribute name="href">
+                        <xsl:value-of
+                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                        <xsl:text>/htmlmap</xsl:text>
+                    </xsl:attribute>
+                    <xsl:text>&#160;</xsl:text>
+                </a>
+                <p>&#160;</p>
         </footer>
     </xsl:template>
 

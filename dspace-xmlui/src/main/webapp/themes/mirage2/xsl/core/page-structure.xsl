@@ -295,6 +295,8 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
+            <script src="http://jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+
         </head>
     </xsl:template>
 

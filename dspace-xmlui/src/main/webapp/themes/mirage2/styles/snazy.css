@@ -90,8 +90,8 @@ ul.snazy li.file-entry .embedwithfallback {
 }
 
 ul.snazy li.file-entry .flashvideo {
-    width: 570px;
-    height: 411.75px; }
+    width: 100%;
+    min-height: 411.75px; }
 ul.snazy li.file-entry .googleplayer {
     overflow: hidden;
     *zoom: 1; }
@@ -102,12 +102,17 @@ ul.snazy li.file-entry .googleplayer .file-view {
 ul.snazy.js li.file-entry .slide-arrow {
     height: 25px;
     display: block; }
-ul.snazy.js li.file-entry .file-view {
-    display: none; }
+
+/*ul.snazy.js li.file-entry .file-view {
+    display: none; }*/
+
 ul.snazy.no-js li.file-entry .slide-arrow {
     display: none; }
 ul.snazy.no-js li.file-entry .file-view {
     display: block; }
+.html5video {
+    width: 100%;
+}
 
 /* Snazy Overrides */
 img.smalldisplay {

@@ -191,6 +191,8 @@
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
 
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/vendor/BookReader/BookReader.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/snazy.css')}"/>
 <link rel="stylesheet" type="text/css" href="//cloud.typography.com/6676232/637366/css/fonts.css" />
             <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
@@ -799,6 +801,22 @@
         </script>
 
         <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
+	    <!-- TODO: Load bookreader only conditionally, use theme.js or not... -->
+        <script src="//code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/bootstrap.min.js">&#160;</script>
+        <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
+
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/dragscrollable.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.colorbox-min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.ui.ipad.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.bt.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReader.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
+
+        <!-- Snazy -->
+        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
 
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
@@ -856,7 +874,7 @@
                   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']"/><xsl:text>');
+                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', 'auto');
                   ga('send', 'pageview');
            </xsl:text></script>
         </xsl:if>

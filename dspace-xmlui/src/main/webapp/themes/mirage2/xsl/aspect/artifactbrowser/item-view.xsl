@@ -110,32 +110,43 @@
         <div class="item-summary-view-metadata">
             <xsl:call-template name="itemSummaryView-DIM-title"/>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-12">
-                            <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-12">
-                            <xsl:call-template name="itemSummaryView-DIM-file-section"/>
-                        </div>
-                    </div>
-                    <xsl:call-template name="itemSummaryView-DIM-date"/>
-                    <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                    <xsl:if test="$ds_item_view_toggle_url != ''">
-                        <xsl:call-template name="itemSummaryView-show-full"/>
-                    </xsl:if>
-                </div>
-                <div class="col-sm-8">
-                    <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                    <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                    <xsl:call-template name="itemSummaryView-DIM-description"/>
-                    <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                    <xsl:call-template name="itemSummaryView-collections"/>
-
+                <div class="col-sm-12">
                     <!-- Add a snazy presentation section -->
-                    <xsl:if test="confman:getProperty('mirage2','snazy')">
+                    <xsl:if test="confman:getProperty('mirage2','snazy') = true">
                         <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
                     </xsl:if>
+
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-sm-4">
+                            <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                            <xsl:call-template name="itemSummaryView-DIM-description"/>
+                            <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                            <xsl:call-template name="itemSummaryView-collections"/>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-12">
+                                    <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
+                                </div>
+                                <div class="col-xs-6 col-sm-12">
+                                    <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+                                </div>
+                            </div>
+                            <xsl:call-template name="itemSummaryView-DIM-date"/>
+                            <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                            <xsl:if test="$ds_item_view_toggle_url != ''">
+                                <xsl:call-template name="itemSummaryView-show-full"/>
+                            </xsl:if>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="col-sm-8">
+                            <xsl:apply-templates select="." mode="itemDetailView-DIM"/>
+                        </div>
+                    </div>
+
+
 
                 </div>
             </div>
@@ -816,22 +827,29 @@
             </xsl:choose>
         </span>
 
-        <!-- Only show the BookReader when there are accessible images in the bitstreams -->
-        <xsl:if test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))]) > 1">
+        <!-- Show File Section:
+            - Show a bookreader when there are more than one accessible images in the bitstreams
+            - Otherwise show the snazy file list
+        -->
+        <xsl:choose>
+            <xsl:when test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))]) > 2">
             <div id="BookReader"></div>
-        </xsl:if>
-
-        <ul id="file_list" class="snazy ds-file-list no-js">
-            <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file" mode="snazy">
-                <xsl:with-param name="context" select="$context"/>
-            </xsl:apply-templates>
-        </ul>
+            </xsl:when>
+            <xsl:otherwise>
+                <ul id="file_list" class="snazy ds-file-list no-js">
+                    <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file" mode="snazy">
+                        <xsl:with-param name="context" select="$context"/>
+                    </xsl:apply-templates>
+                </ul>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="mets:file" mode="snazy">
-        <xsl:variable name="googleplayer" select="'audio/mpeg audio/basic audio/x-wav'" />
-        <xsl:variable name="html5video" select="'video/webm'" />
-        <xsl:variable name="flashvideo" select="'video/mp4 video/mpeg'" />
+        <xsl:variable name="videoplayer" select="'audio/mpeg audio/basic audio/x-wav video/webm video/mp4 video/mpeg'" />
+        <xsl:variable name="googleplayer" select="'azudio/mpeg azudio/basic azudio/x-wav'" />
+        <xsl:variable name="html5video" select="'vzideo/webm'" />
+        <xsl:variable name="flashvideo" select="'vzideo/mp4 vzideo/mpeg'" />
         <xsl:variable name="googledocsviewer" select="'application/jsjsjsj'" />
         <xsl:variable name="embedwithfallback" select="'application/x-pdf application/pdf'" />
         <xsl:variable name="image" select="'image/jpeg'"/>
@@ -851,6 +869,9 @@
                 </xsl:when>
                 <xsl:when test="contains($embedwithfallback, @MIMETYPE)">
                     <xsl:text>embedwithfallback</xsl:text>
+                </xsl:when>
+                <xsl:when test="contains($videoplayer, @MIMETYPE)">
+                    <xsl:text>videoplayer</xsl:text>
                 </xsl:when>
                 <xsl:when test="contains($image, @MIMETYPE)">
                     <xsl:text>image</xsl:text>
@@ -961,20 +982,17 @@
                                 </a>
                             </video>
                         </xsl:when>
-                        <xsl:when test="$mview='flashvideo'">
-                            <object class="flashvideo" type="application/x-shockwave-flash" data="https://library.osu.edu/assets/inc/player.swf">
-                                <param value="player" name="name" />
-                                <param value="true" name="allowfullscreen" />
-                                <param value="always" name="allowscriptaccess" />
-                                <param name="flashvars">
-                                    <xsl:attribute name="value">
-                                        <xsl:text>file=</xsl:text>
-                                        <xsl:value-of select="$baseurl"/>
-                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                    </xsl:attribute>
-                                </param>
-                                <param value="https://library.osu.edu/assets/inc/player.swf" name="src" />
-                            </object>
+                        <xsl:when test="$mview='videoplayer'">
+                            <div id="myElement">Loading the player...</div>
+                            <script type="text/javascript">
+                                jwplayer("myElement").setup({
+                                file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                image: "",
+                                width: "100%",
+                                aspectratio: "16:9"
+                                });
+                            </script>
+
                         </xsl:when>
                         <xsl:when test="$mview='googledocsviewer'">
                             <iframe class="googledocsviewer">
