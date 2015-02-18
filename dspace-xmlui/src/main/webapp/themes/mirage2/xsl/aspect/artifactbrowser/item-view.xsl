@@ -407,58 +407,57 @@
 
     <xsl:template name="itemSummaryView-DIM-file-section">
         <xsl:if test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
-            <div class="item-page-field-wrapper table">
-                <h5>
-                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-                </h5>
-
+            <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+            </a>
+            <div class="collapse" id="collapseExample">
                 <xsl:variable name="label-1">
-                        <xsl:choose>
-                            <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.1')">
-                                <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.1')"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:text>label</xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.1')">
+                            <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.1')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>label</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
 
                 <xsl:variable name="label-2">
-                        <xsl:choose>
-                            <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.2')">
-                                <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.2')"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:text>title</xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.2')">
+                            <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.2')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>title</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
 
                 <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
                     <div>
-                    <a>
-                    <xsl:attribute name="href">
-                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                    </xsl:attribute>
-                    <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                        <xsl:attribute name="title">
-                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:choose>
-                        <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
-                            <xsl:attribute name="class">
-                                <xsl:text>imagebitstream</xsl:text>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             </xsl:attribute>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:call-template name="getFileIcon">
-                        <xsl:with-param name="mimetype">
-                            <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                            <xsl:text>/</xsl:text>
-                            <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
-                        </xsl:with-param>
-                    </xsl:call-template>
+                            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                                <xsl:attribute name="title">
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:choose>
+                                <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
+                                    <xsl:attribute name="class">
+                                        <xsl:text>imagebitstream</xsl:text>
+                                    </xsl:attribute>
+                                </xsl:when>
+                            </xsl:choose>
+                            <xsl:call-template name="getFileIcon">
+                                <xsl:with-param name="mimetype">
+                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                                    <xsl:text>/</xsl:text>
+                                    <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
+                                </xsl:with-param>
+                            </xsl:call-template>
                             <xsl:choose>
                                 <xsl:when test="contains($label-1, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
@@ -470,42 +469,51 @@
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
                                 </xsl:when>
                                 <xsl:when test="contains($label-2, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:call-template name="getFileTypeDesc">
-                                                <xsl:with-param name="mimetype">
-                                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                                                    <xsl:text>/</xsl:text>
-                                                    <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
-                                                </xsl:with-param>
-                                            </xsl:call-template>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                    <xsl:text> (</xsl:text>
-                                    <xsl:choose>
-                                        <xsl:when test="@SIZE &lt; 1024">
-                                            <xsl:value-of select="@SIZE"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                            <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                    <xsl:text>)</xsl:text>
-                                </a>
-                            </div>
-
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:call-template name="getFileTypeDesc">
+                                        <xsl:with-param name="mimetype">
+                                            <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                                            <xsl:text>/</xsl:text>
+                                            <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:text> (</xsl:text>
+                            <xsl:choose>
+                                <xsl:when test="@SIZE &lt; 1024">
+                                    <xsl:value-of select="@SIZE"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                                </xsl:when>
+                                <xsl:when test="@SIZE &lt; 1024 * 1024">
+                                    <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                                </xsl:when>
+                                <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
+                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:text>)</xsl:text>
+                        </a>
+                    </div>
                 </xsl:for-each>
+            </div>
+
+
+            <div class="collapse-group">
+                <p><a class="btn" data-toggle="collapse" data-target="#viewdetails">
+
+                </a></p>
+                <p class="collapse" id="viewdetails" >
+
+                </p>
             </div>
         </xsl:if>
     </xsl:template>
