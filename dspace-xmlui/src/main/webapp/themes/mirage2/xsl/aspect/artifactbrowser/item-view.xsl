@@ -112,7 +112,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Add a snazy presentation section -->
-                    <xsl:if test="confman:getProperty('mirage2','snazy') = true">
+                    <xsl:if test="confman:getProperty('mirage2','snazy') = 'true'">
                         <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
                     </xsl:if>
 
