@@ -50,6 +50,30 @@ header .navbar-default .navbar-toggle:hover {background-color: #fb5617; color: #
 .btn-primary {color: #fff; background-color: #fb5617; border-color: #fb5617;}
 div#ds-options.word-break div#ds-search-option.ds-option-set {display: none;}
 form#ds-search-form {position: relative; float: left; margin-top: 20px; max-width: 205px;}
+form#ds-search-form fieldset {
+    width: 300px;
+}
+form#ds-search-form .input-group {
+    width: 200px;
+}
+.search-scope-all {
+    float: left;
+    width: 138px;
+    clear: both;
+    top: -10px;
+    position: relative;
+}
+.search-scope-container {
+    float: left;
+    width: 162px;
+    top: 4px;
+    position: relative;
+}
+form#ds-search-form li {
+    position: absolute;
+    top: 0px;
+    right: 75px;
+}
 
 /* bootstrap-classic-mirage-colors */
 a {color: #00acda;}

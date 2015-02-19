@@ -298,6 +298,8 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
+            <script src="//jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+
         </head>
     </xsl:template>
 
@@ -441,14 +443,14 @@
                             </div>
 
                             <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
-                                <div class="radio">
+                                <div class="radio search-scope-all">
                                     <label>
                                         <input id="ds-search-form-scope-all" type="radio" name="scope" value=""
                                                checked="checked"/>
                                         <i18n:text>xmlui.dri2xhtml.structural.search</i18n:text>
                                     </label>
                                 </div>
-                                <div class="radio">
+                                <div class="radio search-scope-container">
                                     <label>
                                         <input id="ds-search-form-scope-container" type="radio" name="scope">
                                             <xsl:attribute name="value">
