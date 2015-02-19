@@ -854,7 +854,8 @@
     </xsl:template>
 
     <xsl:template match="mets:file" mode="snazy">
-        <xsl:variable name="videoplayer" select="'audio/mpeg audio/basic audio/x-wav video/webm video/mp4 video/mpeg'" />
+        <xsl:variable name="videoplayer" select="'video/webm video/mp4 video/mpeg'" />
+        <xsl:variable name="audioplayer" select="'audio/mpeg audio/x-mpeg audio/basic audio/x-wav'"/>
         <xsl:variable name="googleplayer" select="'azudio/mpeg azudio/basic azudio/x-wav'" />
         <xsl:variable name="html5video" select="'vzideo/webm'" />
         <xsl:variable name="flashvideo" select="'vzideo/mp4 vzideo/mpeg'" />
@@ -880,6 +881,9 @@
                 </xsl:when>
                 <xsl:when test="contains($videoplayer, @MIMETYPE)">
                     <xsl:text>videoplayer</xsl:text>
+                </xsl:when>
+                <xsl:when test="contains($audioplayer, @MIMETYPE)">
+                    <xsl:text>audioplayer</xsl:text>
                 </xsl:when>
                 <xsl:when test="contains($image, @MIMETYPE)">
                     <xsl:text>image</xsl:text>
@@ -1000,7 +1004,16 @@
                                 aspectratio: "16:9"
                                 });
                             </script>
-
+                        </xsl:when>
+                        <xsl:when test="$mview='audioplayer'">
+                            <div id="myElement">Loading the player...</div>
+                            <script type="text/javascript">
+                                jwplayer("myElement").setup({
+                                file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                width: "100%",
+                                height: "30px"
+                                });
+                            </script>
                         </xsl:when>
                         <xsl:when test="$mview='googledocsviewer'">
                             <iframe class="googledocsviewer">
