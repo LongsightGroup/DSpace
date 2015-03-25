@@ -35,13 +35,14 @@ header .navbar-brand img {
 
 
 .trail-wrapper {
-    background: url(../images/menu_bg.gif) repeat;
+    background: url(../images/menu_bg.gif);
+    background-size: cover;
     margin: 0;
     padding: 0 0 0 20px;
     border-top: 1px solid #9cacba;
     border-bottom: 1px solid #9cacba;
     min-width: 990px;
-    height: 27px;
+    min-height: 27px;
 }
 
 .trail-wrapper li {
