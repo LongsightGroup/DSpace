@@ -868,7 +868,11 @@
                   ga('send', 'pageview');
            </xsl:text></script>
         </xsl:if>
-        <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+        ​<script type="text/javascript">
+            var addthis_config = addthis_config||{};
+            addthis_config.data_track_addressbar = false;
+            addthis_config.data_track_clickback = false;
+        </script>
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-538ca3c07d0ff968"></script>
     </xsl:template>
 
