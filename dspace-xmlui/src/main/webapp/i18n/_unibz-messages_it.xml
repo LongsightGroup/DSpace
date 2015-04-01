@@ -24,10 +24,10 @@
         -->
 
     <!-- General keys -->
-    <message key="xmlui.general.dspace_home">DSpace Home</message>
+    <message key="xmlui.general.dspace_home">Bozen-Bolzano Institutional Archive (BIA) Home</message>
     <message key="xmlui.general.search">Ricerca</message>
     <message key="xmlui.general.go">Vai</message>
-    <message key="xmlui.general.go_home">Vai a DSpace home</message>
+    <message key="xmlui.general.go_home">Vai a Bozen-Bolzano Institutional Archive (BIA) home</message>
     <message key="xmlui.general.save">Salva</message>
     <message key="xmlui.general.cancel">Annulla</message>
     <message key="xmlui.general.return">Torna Indietro</message>
@@ -35,6 +35,10 @@
     <message key="xmlui.general.delete">Cancella</message>
     <message key="xmlui.general.next">Prossimo</message>
     <message key="xmlui.general.untitled">Senza Titolo</message>
+
+    <!-- homepage news-xmlui -->
+    <message key="homepage.title">BIA (Bozen-Bolzano Institutional Archive)</message>
+    <message key="homepage.message">BIA raccoglie i risultati della ricerca condotta dai docenti e dai ricercatori della Libera Università di Bolzano, tra i quali articoli, working papers, rapporti tecnici, contributi a convegni e tesi di dottorato.</message>
 
     <!--
         Page not found keys
@@ -50,7 +54,7 @@
     <!--
         This section is for feed syndications (RSS, atom, etc)
     -->
-    <message key="xmlui.feed.general_description"> DSpace digital repository cattura, immagazzina, indicizza, preserva, e distribuisce i materiali di ricerca digitali.</message>
+    <message key="xmlui.feed.general_description"> Bozen-Bolzano Institutional Archive (BIA) digital repository cattura, immagazzina, indicizza, preserva, e distribuisce i materiali di ricerca digitali.</message>
     <message key="xmlui.feed.logo_title">The Channel Image</message>
     <message key="xmlui.feed.untitled">Senza titolo</message>
 
@@ -81,7 +85,7 @@
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Archivi o collezioni corrispondenti alla vostra ricerca</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head3">Item corrispondenti alla vostra richiesta</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">La ricerca non ha prodotto risultati.</message>
-    <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">Tutto DSpace</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">Tutto Bozen-Bolzano Institutional Archive (BIA)</message>
 
     <message key="xmlui.ArtifactBrowser.AbstractSearch.sort_by.title">Titolo</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.sort_by.dateissued">Data di pubblicazione</message>
@@ -172,7 +176,7 @@
 
     <!-- org.dspace.app.xmlui.artifactbrowser.CollectionViewer.java -->
     <message key="xmlui.ArtifactBrowser.CollectionViewer.search_scope">Ambito della Ricerca</message>
-    <message key="xmlui.ArtifactBrowser.CollectionViewer.all_of_dspace">Tutto DSpace</message>
+    <message key="xmlui.ArtifactBrowser.CollectionViewer.all_of_dspace">Tutto Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.ArtifactBrowser.CollectionViewer.full_text_search">Ricerca in questa collezione:</message>
     <message key="xmlui.ArtifactBrowser.CollectionViewer.head_browse">Sfoglia per</message>
     <message key="xmlui.ArtifactBrowser.CollectionViewer.browse_titles">Titoli</message>
@@ -184,12 +188,12 @@
     <!-- org.dspace.app.xmlui.artifactbrowser.CommunityBrowser.java -->
     <message key="xmlui.ArtifactBrowser.CommunityBrowser.title">Lista degli Archivi</message>
     <message key="xmlui.ArtifactBrowser.CommunityBrowser.trail">Lista degli Archivi</message>
-    <message key="xmlui.ArtifactBrowser.CommunityBrowser.head">Archivi in DSpace</message>
+    <message key="xmlui.ArtifactBrowser.CommunityBrowser.head">Archivi in Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.ArtifactBrowser.CommunityBrowser.select">Selezionare una sotto-comunità per visualizzare le sue collezioni.</message>
 
     <!-- org.dspace.app.xmlui.artifactbrowser.CommunityViewer.java -->
     <message key="xmlui.ArtifactBrowser.CommunityViewer.search_scope">Ambito della ricerca</message>
-    <message key="xmlui.ArtifactBrowser.CommunityViewer.all_of_dspace">Tutto DSpace</message>
+    <message key="xmlui.ArtifactBrowser.CommunityViewer.all_of_dspace">Tutto Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.ArtifactBrowser.CommunityViewer.full_text_search">Ricerca in questa comunità e le sue collezioni:</message>
     <message key="xmlui.ArtifactBrowser.CommunityViewer.head_browse">Sfoglia per</message>
     <message key="xmlui.ArtifactBrowser.CommunityViewer.browse_titles">Titoli</message>
@@ -214,7 +218,7 @@
     <message key="xmlui.ArtifactBrowser.FeedbackForm.title">Esprimi la tua opinione</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.trail">Esprimi la tua opinione</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.head">Esprimi la tua opinione</message>
-    <message key="xmlui.ArtifactBrowser.FeedbackForm.para1">Grazie per aver espresso la tua opinione riguardo a DSpace. I tuoi suggerimenti sono molto apprezzati!</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.para1">Grazie per aver espresso la tua opinione riguardo a Bozen-Bolzano Institutional Archive (BIA). I tuoi suggerimenti sono molto apprezzati!</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email">La tua email</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">Questo indirizzo sara' utilizzato per inoltrare la tua opinione.</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Commenti</message>
@@ -227,8 +231,8 @@
     <message key="xmlui.ArtifactBrowser.FeedbackSent.para1">I tuoi suggerimenti sono stati ricevuti.</message>
 
     <!-- org.dspace.app.xmlui.artifactbrowser.FrontPageSearch.java -->
-    <message key="xmlui.ArtifactBrowser.FrontPageSearch.head">Ricerca in DSpace</message>
-    <message key="xmlui.ArtifactBrowser.FrontPageSearch.para1">Inserisci un testo nel box sottostante per effettuare ricerche in DSpace.</message>
+    <message key="xmlui.ArtifactBrowser.FrontPageSearch.head">Ricerca in Bozen-Bolzano Institutional Archive (BIA)</message>
+    <message key="xmlui.ArtifactBrowser.FrontPageSearch.para1">Inserisci un testo nel box sottostante per effettuare ricerche in Bozen-Bolzano Institutional Archive (BIA).</message>
 
     <!-- org.dspace.app.xmlui.artifactbrowser.ItemViewer.java -->
     <message key="xmlui.ArtifactBrowser.ItemViewer.trail">Mostra Item</message>
@@ -238,7 +242,7 @@
 
     <!-- org.dspace.app.xmlui.artifactbrowser.Navigation.java -->
     <message key="xmlui.ArtifactBrowser.Navigation.head_browse">Ricerca</message>
-    <message key="xmlui.ArtifactBrowser.Navigation.head_all_of_dspace">Tutto DSpace</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_all_of_dspace">Tutto Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.ArtifactBrowser.Navigation.communities_and_collections">Archivi &amp; Collezioni</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_title">Titoli</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_author">Autori</message>
@@ -366,26 +370,26 @@
     <message key="xmlui.EPerson.Navigation.my_account">My Account</message>
     <message key="xmlui.EPerson.Navigation.profile">Profilo</message>
     <message key="xmlui.EPerson.Navigation.logout">Logout</message>
-    <message key="xmlui.EPerson.Navigation.login">Login</message>
+    <message key="xmlui.EPerson.Navigation.login">Admin Login</message>
     <message key="xmlui.EPerson.Navigation.register">Registrazione</message>
 
     <!-- org.dspace.app.xmlui.eperson.PasswordLogin.java -->
     <message key="xmlui.EPerson.PasswordLogin.title">Registrati</message>
     <message key="xmlui.EPerson.PasswordLogin.trail">Registrati</message>
-    <message key="xmlui.EPerson.PasswordLogin.head1">Registrati su DSpace</message>
+    <message key="xmlui.EPerson.PasswordLogin.head1">Registrati su Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.EPerson.PasswordLogin.email_address">Indirizzo E-Mail</message>
     <message key="xmlui.EPerson.PasswordLogin.error_bad_login">L'indirizzo email e/o la password fornita sono errati.</message>
     <message key="xmlui.EPerson.PasswordLogin.password">Password</message>
     <message key="xmlui.EPerson.PasswordLogin.forgot_link"> Hai dimenticato la password?</message>
     <message key="xmlui.EPerson.PasswordLogin.submit">Registrati</message>
     <message key="xmlui.EPerson.PasswordLogin.head2">Registra nuovo utente</message>
-    <message key="xmlui.EPerson.PasswordLogin.para1">Registra un account per sottoscriverti ad una collezione, ricevere email sugli aggiornamenti, ed inserire nuovi elementi in DSpace.</message>
+    <message key="xmlui.EPerson.PasswordLogin.para1">Registra un account per sottoscriverti ad una collezione, ricevere email sugli aggiornamenti, ed inserire nuovi elementi in Bozen-Bolzano Institutional Archive (BIA).</message>
     <message key="xmlui.EPerson.PasswordLogin.register_link">Clicca qui per registrarti.</message>
 
     <!-- org.dspace.app.xmlui.eperson.LDAPLogin.java -->
     <message key="xmlui.EPerson.LDAPLogin.title">Registrati</message>
     <message key="xmlui.EPerson.LDAPLogin.trail">Registrati</message>
-    <message key="xmlui.EPerson.LDAPLogin.head1">Registrati in DSpace</message>
+    <message key="xmlui.EPerson.LDAPLogin.head1">Registrati in Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.EPerson.LDAPLogin.username">Nome Utente</message>
     <message key="xmlui.EPerson.LDAPLogin.error_bad_login">Il nome utente e/o la password non sono validi.</message>
     <message key="xmlui.EPerson.LDAPLogin.password">Password</message>
@@ -424,7 +428,7 @@
     <!-- org.dspace.app.xmlui.eperson.RegistrationFinished.java -->
     <message key="xmlui.EPerson.RegistrationFinished.title">Registrazione terminata</message>
     <message key="xmlui.EPerson.RegistrationFinished.head">Registrazione terminata</message>
-    <message key="xmlui.EPerson.RegistrationFinished.para1">Sei abilitato ad utilizzare DSpace. E' possibile iscriversi alle collezioni per ricevere via email gli aggiornamenti sulle nuove immissioni.</message>
+    <message key="xmlui.EPerson.RegistrationFinished.para1">Sei abilitato ad utilizzare Bozen-Bolzano Institutional Archive (BIA). E' possibile iscriversi alle collezioni per ricevere via email gli aggiornamenti sulle nuove immissioni.</message>
 
     <!-- org.dspace.app.xmlui.eperson.ResetPassword.java -->
     <message key="xmlui.EPerson.ResetPassword.title">Password cancellata</message>
@@ -440,7 +444,7 @@
     <!-- org.dspace.app.xmlui.eperson.StartForgotPassword.java -->
     <message key="xmlui.EPerson.StartForgotPassword.title">Password dimenticata</message>
     <message key="xmlui.EPerson.StartForgotPassword.head">Password dimenticata</message>
-    <message key="xmlui.EPerson.StartForgotPassword.para1">Inserisci l'indirizzo email utilizzato per la registrazione a DSpace. Verra' inviata una mail a questo indirizzo di posta con le indicazioni utili.</message>
+    <message key="xmlui.EPerson.StartForgotPassword.para1">Inserisci l'indirizzo email utilizzato per la registrazione a Bozen-Bolzano Institutional Archive (BIA). Verra' inviata una mail a questo indirizzo di posta con le indicazioni utili.</message>
     <message key="xmlui.EPerson.StartForgotPassword.email_address">Indirizzo email</message>
     <message key="xmlui.EPerson.StartForgotPassword.email_address_help">Inserisci l'indirizzo di posta elettronica utilizzato per la registrazione.</message>
     <message key="xmlui.EPerson.StartForgotPassword.error_not_found">Indirizzo email non trovato.</message>
@@ -453,7 +457,7 @@
     <message key="xmlui.EPerson.StartRegistration.reset_password_for">Cancella password</message>
     <message key="xmlui.EPerson.StartRegistration.submit_reset">Cancella password</message>
     <message key="xmlui.EPerson.StartRegistration.head2">Nuova registrazione</message>
-    <message key="xmlui.EPerson.StartRegistration.para2">Crea un account per ricevere gli aggiornamenti sulle collezioni via email e immettere nuovi item in Dspace.</message>
+    <message key="xmlui.EPerson.StartRegistration.para2">Crea un account per ricevere gli aggiornamenti sulle collezioni via email e immettere nuovi item in Bozen-Bolzano Institutional Archive (BIA).</message>
     <message key="xmlui.EPerson.StartRegistration.email_address">Indirizzo Email</message>
     <message key="xmlui.EPerson.StartRegistration.email_address_help">Questo indirizzo email verra' verificato e potra'essere utilizzato nella fase di login.</message>
     <message key="xmlui.EPerson.StartRegistration.error_bad_email">Impossile mandare una email a questo indirizzo di posta elettronica.</message>
@@ -482,8 +486,8 @@
 
 
     <!-- general submission aspect messages -->
-    <message key="xmlui.Submission.general.mydspace_home">MyDSpace Home</message>
-    <message key="xmlui.Submission.general.go_mydspace">Vai a MyDSpace Home</message>
+    <message key="xmlui.Submission.general.mydspace_home">MyBozen-Bolzano Institutional Archive (BIA) Home</message>
+    <message key="xmlui.Submission.general.go_mydspace">Vai a MyBozen-Bolzano Institutional Archive (BIA) Home</message>
     <message key="xmlui.Submission.general.submission.title">Immissione Item</message>
     <message key="xmlui.Submission.general.submission.trail">Immissione Item</message>
     <message key="xmlui.Submission.general.submission.head">Immissione Item</message>
@@ -1065,7 +1069,7 @@
     <!-- org.dspace.app.xmlui.administrative.registries.MetadatRegistryMain.java -->
     <message key="xmlui.administrative.registries.MetadataRegistryMain.title">Registro Metadati</message>
     <message key="xmlui.administrative.registries.MetadataRegistryMain.head1">Registro Metadati</message>
-    <message key="xmlui.administrative.registries.MetadataRegistryMain.para1">Il registro metadati mantiene una lista di tutti i campi metadati disponibili nella comunità. Questi campi devono essere divisi fra molti schemi.  Tuttavia, DSpace richiede lo schema qualificato Dublin Core. E' possibile estendere lo schema Dublin Core scon campi addizionali o aggiungere nuovi schemi al registro.</message>
+    <message key="xmlui.administrative.registries.MetadataRegistryMain.para1">Il registro metadati mantiene una lista di tutti i campi metadati disponibili nella comunità. Questi campi devono essere divisi fra molti schemi.  Tuttavia, Bozen-Bolzano Institutional Archive (BIA) richiede lo schema qualificato Dublin Core. E' possibile estendere lo schema Dublin Core scon campi addizionali o aggiungere nuovi schemi al registro.</message>
     <message key="xmlui.administrative.registries.MetadataRegistryMain.column1"></message>
     <message key="xmlui.administrative.registries.MetadataRegistryMain.column2">ID</message>
     <message key="xmlui.administrative.registries.MetadataRegistryMain.column3">Nome Schema</message>
@@ -1584,13 +1588,13 @@
     <message key="xmlui.dri2xhtml.structural.contact-link">Contattaci</message>
     <message key="xmlui.dri2xhtml.structural.feedback-link">Manda Feedback</message>
 
-    <message key="xmlui.dri2xhtml.structural.head-subtitle">DSpace -  Digital Repository Unimib</message>
+    <message key="xmlui.dri2xhtml.structural.head-subtitle">Bozen-Bolzano Institutional Archive (BIA) -  Digital Repository Unimib</message>
 
     <message key="xmlui.dri2xhtml.structural.profile">Profilo: </message>
     <message key="xmlui.dri2xhtml.structural.logout">Logout</message>
-    <message key="xmlui.dri2xhtml.structural.login">Login</message>
+    <message key="xmlui.dri2xhtml.structural.login">Admin Login</message>
 
-    <message key="xmlui.dri2xhtml.structural.search">Cerca in DSpace</message>
+    <message key="xmlui.dri2xhtml.structural.search">Cerca in Bozen-Bolzano Institutional Archive (BIA)</message>
     <message key="xmlui.dri2xhtml.structural.search-advanced">Ricerca Avanzata</message>
     <message key="xmlui.dri2xhtml.structural.search-in-community">Questa comunità</message>
     <message key="xmlui.dri2xhtml.structural.search-in-collection">Questa Collezione</message>
@@ -1608,7 +1612,7 @@
     <message key="xmlui.dri2xhtml.METS-1.0.no-title">Nessun titolo</message>
     <message key="xmlui.dri2xhtml.METS-1.0.no-author">Autore sconosciuto</message>
     <message key="xmlui.dri2xhtml.METS-1.0.non-conformant">
-        DSpace object conformant to the METS 1.0 profile and as such cannot be
+        Bozen-Bolzano Institutional Archive (BIA) object conformant to the METS 1.0 profile and as such cannot be
         rendered effectively. You can override either the template that handles the general
         case in dri2xhtml to perform the needed function, or create your template to match
         whatever profile you use.
@@ -1657,7 +1661,7 @@
     <!-- Internationalization elements specific to the Qualified Dublin Core metadata handler.
         DS-METS-1.0-QDC.xsl -->
     <message key="xmlui.dri2xhtml.METS-1.0.qdc-not-applicable">
-        Qualified Dublin Core (QDC) non e' applicabile alle comunità e alle collezioni in questo momento. Usando QDC, e' possibile usare QDC per gli items in DSpacee gli altri
+        Qualified Dublin Core (QDC) non e' applicabile alle comunità e alle collezioni in questo momento. Usando QDC, e' possibile usare QDC per gli items in Bozen-Bolzano Institutional Archive (BIA) gli altri
         DIM o MODS per processare comunità e collezioni.
     </message>
 

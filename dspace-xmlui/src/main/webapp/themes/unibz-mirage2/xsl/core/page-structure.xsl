@@ -298,6 +298,14 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
+            <link rel="sitemap">
+                <xsl:attribute name="href">
+                    <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:text>/sitemap</xsl:text>
+                </xsl:attribute>
+            </link>
+
         </head>
     </xsl:template>
 
@@ -320,7 +328,7 @@
                         </button>
 
                         <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/logo.png" />
+                            <img class="img-responsive" src="{$theme-path}/images/bozen_logo.png" />
                         </a>
 
 
@@ -631,26 +639,25 @@
         <footer>
             <div class="container-fluid">
                 <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2014&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
-                </div>
-                <div class="row">
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/contact</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                    </a>
-                    <xsl:text> | </xsl:text>
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/feedback</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                    </a>
+                    <div class="pull-left">
+                        <a id="ctl00_TranslationHyperLink1" href="http://www.unibz.it/en/public/press/impressumunibz.html">Credits</a>
+                        <xsl:text> | </xsl:text>
+                        <a id="ctl00_TranslationHyperLink2" href="http://www.unibz.it/en/organisation/organisation/privacy/default.html">Privacy</a>
+                        <xsl:text> | </xsl:text>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of
+                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                <xsl:text>/contact</xsl:text>
+                            </xsl:attribute>
+                            <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                        </a>
+                        <xsl:text> | </xsl:text>
+                        <a href="http://www.unibz.it/en/library/tools/bia-about.html">About</a>
+                    </div>
+                    <div class="pull-right">
+                        <span class="TxtFooter"><a href="http://www.unibz.it/">© UniBz</a></span>
+                    </div>
                 </div>
             </div>
             <!--Invisible link to HTML sitemap (for search engines) -->
@@ -662,7 +669,6 @@
                 </xsl:attribute>
                 <xsl:text>&#160;</xsl:text>
             </a>
-            <p>&#160;</p>
         </footer>
     </xsl:template>
 
