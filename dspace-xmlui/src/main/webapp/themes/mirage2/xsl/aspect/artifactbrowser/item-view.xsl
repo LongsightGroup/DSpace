@@ -108,23 +108,47 @@
 
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
         <div class="item-summary-view-metadata">
-            <xsl:call-template name="itemSummaryView-DIM-title"/>
-            <div class="row">
-                <div class="col-sm-12">
-                    <!-- Add a snazy presentation section -->
-                    <xsl:if test="confman:getProperty('mirage2','snazy') = 'true'">
+        <xsl:call-template name="itemSummaryView-DIM-title"/>
+            <xsl:choose>
+                <xsl:when test="confman:getProperty('mirage2','snazy') = 'true'">
+                    <div class="col-sm-12">
+                        <!-- Add a snazy presentation section -->
                         <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
-                    </xsl:if>
 
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-sm-4">
+                                <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                                <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                                <xsl:call-template name="itemSummaryView-DIM-description"/>
+                                <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                                <xsl:call-template name="itemSummaryView-collections"/>
+
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-12">
+                                        <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-12">
+                                        <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+                                    </div>
+                                </div>
+                                <xsl:call-template name="itemSummaryView-DIM-date"/>
+                                <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                                <xsl:if test="$ds_item_view_toggle_url != ''">
+                                    <xsl:call-template name="itemSummaryView-show-full"/>
+                                </xsl:if>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-sm-8">
+                                <xsl:apply-templates select="." mode="itemDetailView-DIM"/>
+                            </div>
+                        </div>
+                    </div>
+                </xsl:when>
+                <xsl:otherwise>
                     <div class="row">
-                        <!-- Left Column -->
                         <div class="col-sm-4">
-                            <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                            <xsl:call-template name="itemSummaryView-DIM-description"/>
-                            <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                            <xsl:call-template name="itemSummaryView-collections"/>
-
                             <div class="row">
                                 <div class="col-xs-6 col-sm-12">
                                     <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
@@ -139,17 +163,16 @@
                                 <xsl:call-template name="itemSummaryView-show-full"/>
                             </xsl:if>
                         </div>
-
-                        <!-- Right Column -->
                         <div class="col-sm-8">
-                            <xsl:apply-templates select="." mode="itemDetailView-DIM"/>
+                            <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                            <xsl:call-template name="itemSummaryView-DIM-description"/>
+                            <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                            <xsl:call-template name="itemSummaryView-collections"/>
                         </div>
                     </div>
-
-
-
-                </div>
-            </div>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
     </xsl:template>
 
