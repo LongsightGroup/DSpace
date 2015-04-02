@@ -108,38 +108,73 @@
 
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
         <div class="item-summary-view-metadata">
-            <xsl:call-template name="itemSummaryView-DIM-title"/>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-12">
-                            <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-12">
-                            <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+        <xsl:call-template name="itemSummaryView-DIM-title"/>
+            <xsl:choose>
+                <xsl:when test="confman:getProperty('mirage2','snazy') = 'true'">
+                    <div class="col-sm-12">
+                        <!-- Add a snazy presentation section -->
+                        <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
+
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-sm-4">
+                                <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                                <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                                <xsl:call-template name="itemSummaryView-DIM-description"/>
+                                <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                                <xsl:call-template name="itemSummaryView-relationIsPartOf"/>
+                                <xsl:call-template name="itemSummaryView-collections"/>
+
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-12">
+                                        <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-12">
+                                        <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+                                    </div>
+                                </div>
+                                <xsl:call-template name="itemSummaryView-DIM-date"/>
+                                <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                                <xsl:if test="$ds_item_view_toggle_url != ''">
+                                    <xsl:call-template name="itemSummaryView-show-full"/>
+                                </xsl:if>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-sm-8">
+                                <xsl:apply-templates select="." mode="itemDetailView-DIM"/>
+                            </div>
                         </div>
                     </div>
-                    <xsl:call-template name="itemSummaryView-DIM-date"/>
-                    <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                    <xsl:if test="$ds_item_view_toggle_url != ''">
-                        <xsl:call-template name="itemSummaryView-show-full"/>
-                    </xsl:if>
-                </div>
-                <div class="col-sm-8">
-                    <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                    <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                    <xsl:call-template name="itemSummaryView-DIM-description"/>
-                    <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                    <xsl:call-template name="itemSummaryView-collections"/>
-                    <xsl:call-template name="itemSummaryView-relationIsPartOf"/>
-
-                    <!-- Add a snazy presentation section -->
-                    <xsl:if test="confman:getProperty('mirage2','snazy')">
-                        <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
-                    </xsl:if>
-
-                </div>
-            </div>
+                </xsl:when>
+                <xsl:otherwise>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-12">
+                                    <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
+                                </div>
+                                <div class="col-xs-6 col-sm-12">
+                                    <xsl:call-template name="itemSummaryView-DIM-file-section"/>
+                                </div>
+                            </div>
+                            <xsl:call-template name="itemSummaryView-DIM-date"/>
+                            <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                            <xsl:if test="$ds_item_view_toggle_url != ''">
+                                <xsl:call-template name="itemSummaryView-show-full"/>
+                            </xsl:if>
+                        </div>
+                        <div class="col-sm-8">
+                            <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                            <xsl:call-template name="itemSummaryView-DIM-description"/>
+                            <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                            <xsl:call-template name="itemSummaryView-relationIsPartOf"/>
+                            <xsl:call-template name="itemSummaryView-collections"/>
+                        </div>
+                    </div>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
     </xsl:template>
 
@@ -423,58 +458,57 @@
 
     <xsl:template name="itemSummaryView-DIM-file-section">
         <xsl:if test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
-            <div class="item-page-field-wrapper table">
-                <h5>
-                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-                </h5>
-
+            <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+            </a>
+            <div class="collapse" id="collapseExample">
                 <xsl:variable name="label-1">
-                        <xsl:choose>
-                            <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.1')">
-                                <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.1')"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:text>label</xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.1')">
+                            <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.1')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>label</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
 
                 <xsl:variable name="label-2">
-                        <xsl:choose>
-                            <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.2')">
-                                <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.2')"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:text>title</xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.2')">
+                            <xsl:value-of select="confman:getProperty('mirage2','item-view.bitstream.href.label.2')"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>title</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
 
                 <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
                     <div>
-                    <a>
-                    <xsl:attribute name="href">
-                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                    </xsl:attribute>
-                    <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                        <xsl:attribute name="title">
-                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:choose>
-                        <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
-                            <xsl:attribute name="class">
-                                <xsl:text>imagebitstream</xsl:text>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             </xsl:attribute>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:call-template name="getFileIcon">
-                        <xsl:with-param name="mimetype">
-                            <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                            <xsl:text>/</xsl:text>
-                            <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
-                        </xsl:with-param>
-                    </xsl:call-template>
+                            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                                <xsl:attribute name="title">
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:choose>
+                                <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
+                                    <xsl:attribute name="class">
+                                        <xsl:text>imagebitstream</xsl:text>
+                                    </xsl:attribute>
+                                </xsl:when>
+                            </xsl:choose>
+                            <xsl:call-template name="getFileIcon">
+                                <xsl:with-param name="mimetype">
+                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                                    <xsl:text>/</xsl:text>
+                                    <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
+                                </xsl:with-param>
+                            </xsl:call-template>
                             <xsl:choose>
                                 <xsl:when test="contains($label-1, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
@@ -486,48 +520,59 @@
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
                                 </xsl:when>
                                 <xsl:when test="contains($label-2, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:call-template name="getFileTypeDesc">
-                                                <xsl:with-param name="mimetype">
-                                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                                                    <xsl:text>/</xsl:text>
-                                                    <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
-                                                </xsl:with-param>
-                                            </xsl:call-template>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                    <xsl:text> (</xsl:text>
-                                    <xsl:choose>
-                                        <xsl:when test="@SIZE &lt; 1024">
-                                            <xsl:value-of select="@SIZE"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                            <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                    <xsl:text>)</xsl:text>
-                                </a>
-                            </div>
-
+                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:call-template name="getFileTypeDesc">
+                                        <xsl:with-param name="mimetype">
+                                            <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                                            <xsl:text>/</xsl:text>
+                                            <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:text> (</xsl:text>
+                            <xsl:choose>
+                                <xsl:when test="@SIZE &lt; 1024">
+                                    <xsl:value-of select="@SIZE"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                                </xsl:when>
+                                <xsl:when test="@SIZE &lt; 1024 * 1024">
+                                    <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                                </xsl:when>
+                                <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
+                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:text>)</xsl:text>
+                        </a>
+                    </div>
                 </xsl:for-each>
+            </div>
+
+
+            <div class="collapse-group">
+                <p><a class="btn" data-toggle="collapse" data-target="#viewdetails">
+
+                </a></p>
+                <p class="collapse" id="viewdetails" >
+
+                </p>
             </div>
         </xsl:if>
     </xsl:template>
 
     <xsl:template match="dim:dim" mode="itemDetailView-DIM">
-        <xsl:call-template name="itemSummaryView-DIM-title"/>
+        <xsl:if test="confman:getProperty('mirage2','snazy') != 'true'">
+            <xsl:call-template name="itemSummaryView-DIM-title"/>
+        </xsl:if>
         <div class="ds-table-responsive">
             <table class="ds-includeSet-table detailtable table table-striped table-hover">
                 <xsl:apply-templates mode="itemDetailView-DIM"/>
@@ -843,22 +888,30 @@
             </xsl:choose>
         </span>
 
-        <!-- Only show the BookReader when there are accessible images in the bitstreams -->
-        <xsl:if test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))]) > 1">
+        <!-- Show File Section:
+            - Show a bookreader when there are more than one accessible images in the bitstreams
+            - Otherwise show the snazy file list
+        -->
+        <xsl:choose>
+            <xsl:when test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))]) > 2">
             <div id="BookReader"></div>
-        </xsl:if>
-
-        <ul id="file_list" class="snazy ds-file-list no-js">
-            <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file" mode="snazy">
-                <xsl:with-param name="context" select="$context"/>
-            </xsl:apply-templates>
-        </ul>
+            </xsl:when>
+            <xsl:otherwise>
+                <ul id="file_list" class="snazy ds-file-list no-js">
+                    <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file" mode="snazy">
+                        <xsl:with-param name="context" select="$context"/>
+                    </xsl:apply-templates>
+                </ul>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="mets:file" mode="snazy">
-        <xsl:variable name="googleplayer" select="'audio/mpeg audio/basic audio/x-wav'" />
-        <xsl:variable name="html5video" select="'video/webm'" />
-        <xsl:variable name="flashvideo" select="'video/mp4 video/mpeg'" />
+        <xsl:variable name="videoplayer" select="'video/webm video/mp4 video/mpeg'" />
+        <xsl:variable name="audioplayer" select="'audio/mpeg audio/x-mpeg audio/basic audio/x-wav'"/>
+        <xsl:variable name="googleplayer" select="'azudio/mpeg azudio/basic azudio/x-wav'" />
+        <xsl:variable name="html5video" select="'vzideo/webm'" />
+        <xsl:variable name="flashvideo" select="'vzideo/mp4 vzideo/mpeg'" />
         <xsl:variable name="googledocsviewer" select="'application/jsjsjsj'" />
         <xsl:variable name="embedwithfallback" select="'application/x-pdf application/pdf'" />
         <xsl:variable name="image" select="'image/jpeg'"/>
@@ -878,6 +931,12 @@
                 </xsl:when>
                 <xsl:when test="contains($embedwithfallback, @MIMETYPE)">
                     <xsl:text>embedwithfallback</xsl:text>
+                </xsl:when>
+                <xsl:when test="contains($videoplayer, @MIMETYPE)">
+                    <xsl:text>videoplayer</xsl:text>
+                </xsl:when>
+                <xsl:when test="contains($audioplayer, @MIMETYPE)">
+                    <xsl:text>audioplayer</xsl:text>
                 </xsl:when>
                 <xsl:when test="contains($image, @MIMETYPE)">
                     <xsl:text>image</xsl:text>
@@ -988,20 +1047,26 @@
                                 </a>
                             </video>
                         </xsl:when>
-                        <xsl:when test="$mview='flashvideo'">
-                            <object class="flashvideo" type="application/x-shockwave-flash" data="https://library.osu.edu/assets/inc/player.swf">
-                                <param value="player" name="name" />
-                                <param value="true" name="allowfullscreen" />
-                                <param value="always" name="allowscriptaccess" />
-                                <param name="flashvars">
-                                    <xsl:attribute name="value">
-                                        <xsl:text>file=</xsl:text>
-                                        <xsl:value-of select="$baseurl"/>
-                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                    </xsl:attribute>
-                                </param>
-                                <param value="https://library.osu.edu/assets/inc/player.swf" name="src" />
-                            </object>
+                        <xsl:when test="$mview='videoplayer'">
+                            <div id="myElement">Loading the player...</div>
+                            <script type="text/javascript">
+                                jwplayer("myElement").setup({
+                                file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                image: "",
+                                width: "100%",
+                                aspectratio: "16:9"
+                                });
+                            </script>
+                        </xsl:when>
+                        <xsl:when test="$mview='audioplayer'">
+                            <div id="myElement">Loading the player...</div>
+                            <script type="text/javascript">
+                                jwplayer("myElement").setup({
+                                file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                width: "100%",
+                                height: "30px"
+                                });
+                            </script>
                         </xsl:when>
                         <xsl:when test="$mview='googledocsviewer'">
                             <iframe class="googledocsviewer">

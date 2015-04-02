@@ -542,7 +542,9 @@
     </xsl:template>
 
     <xsl:template match="dim:dim" mode="itemDetailView-DIM">
-        <xsl:call-template name="itemSummaryView-DIM-title"/>
+        <xsl:if test="confman:getProperty('mirage2','snazy') != 'true'">
+            <xsl:call-template name="itemSummaryView-DIM-title"/>
+        </xsl:if>
         <div class="ds-table-responsive">
             <table class="ds-includeSet-table detailtable table table-striped table-hover">
                 <xsl:apply-templates mode="itemDetailView-DIM"/>
