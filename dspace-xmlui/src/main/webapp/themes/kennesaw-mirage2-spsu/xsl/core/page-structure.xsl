@@ -191,6 +191,9 @@
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
             <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
 
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/vendor/BookReader/BookReader.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/snazy.css')}"/>
+
             <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
 
@@ -294,6 +297,15 @@
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[substring(@element, 1, 9) = 'citation_']">
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
+
+            <script src="//jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+	    <link rel="sitemap">
+                <xsl:attribute name="href">
+                    <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:text>/sitemap</xsl:text>
+                </xsl:attribute>
+            </link>
 
         </head>
     </xsl:template>
@@ -479,27 +491,126 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Title</a></li>
-                                <li><a href="#">Communities</a></li>
-                                <li><a href="#">Subject</a></li>
-                                <li><a href="#">Format</a></li>
-                                <li><a href="#">Author/Creator</a></li>
-                                <li><a href="#">Date Range</a></li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=title</xsl:text>
+                                    </xsl:attribute>
+                                    <xsl:text>Title</xsl:text></a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/community-list</xsl:text>
+                                    </xsl:attribute>Communities</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=subject</xsl:text>
+                                    </xsl:attribute>Subject</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=format</xsl:text>
+                                    </xsl:attribute>Format</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=author</xsl:text>
+                                    </xsl:attribute>Author/Creator</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=dateissued</xsl:text>
+                                    </xsl:attribute>Date Range</a>
+                                </li>
                             </ul>
                         </li>
 
                         <li><a href="http://archives.kennesaw.edu" target="_blank">KSU Archives</a></li>
-                        <li><a href="#">Contact</a></li>
-
+                        <li><a href="mailto:archives@kennesaw.edu">Contact</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search"/>
-                            </div>
-                            <button type="submit" class="btn btn-default">Submit</button>
+
+                        <!-- SearchBox-start-->
+                        <form id="ds-search-form-top" class="navbar-form navbar-left" role="search" method="post">
+                            <xsl:attribute name="action">
+                                <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                <xsl:value-of
+                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                            </xsl:attribute>
+                            <fieldset>
+                                <div class="input-group">
+                                    <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
+                                           i18n:attr="placeholder">
+                                        <xsl:attribute name="name">
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
+                                        </xsl:attribute>
+                                    </input>
+                                    <span class="input-group-btn">
+                                        <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                            <xsl:attribute name="onclick">
+                                                <xsl:text>
+                                                    var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
+                                                    if (radio != undefined &amp;&amp; radio.checked)
+                                                    {
+                                                    var form = document.getElementById(&quot;ds-search-form&quot;);
+                                                    form.action=
+                                                </xsl:text>
+                                                <xsl:text>&quot;</xsl:text>
+                                                <xsl:value-of
+                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                                <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
+                                                <xsl:value-of
+                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                                                <xsl:text>&quot; ; </xsl:text>
+                                                <xsl:text>
+                                                    }
+                                                </xsl:text>
+                                            </xsl:attribute>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+                                    <div class="radio">
+                                        <label>
+                                            <input id="ds-search-form-scope-all" type="radio" name="scope" value=""
+                                                   checked="checked"/>
+                                            <i18n:text>xmlui.dri2xhtml.structural.search</i18n:text>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input id="ds-search-form-scope-container" type="radio" name="scope">
+                                                <xsl:attribute name="value">
+                                                    <xsl:value-of
+                                                            select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                                </xsl:attribute>
+                                            </input>
+                                            <xsl:choose>
+                                                <xsl:when
+                                                        test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='containerType']/text() = 'type:community'">
+                                                    <i18n:text>xmlui.dri2xhtml.structural.search-in-community</i18n:text>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <i18n:text>xmlui.dri2xhtml.structural.search-in-collection</i18n:text>
+                                                </xsl:otherwise>
+
+                                            </xsl:choose>
+                                        </label>
+                                    </div>
+                                </xsl:if>
+                            </fieldset>
                         </form>
+                        <!-- SearchBox-stop -->
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -808,6 +919,21 @@
 
         <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
 
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
+
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/dragscrollable.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.colorbox-min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.ui.ipad.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.bt.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReader.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
+
+        <!-- Snazy -->
+        <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
+
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
             <script type="text/javascript">
@@ -864,11 +990,15 @@
                   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']"/><xsl:text>');
+                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', 'auto');
                   ga('send', 'pageview');
            </xsl:text></script>
         </xsl:if>
-        <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+        <script type="text/javascript">
+            var addthis_config = addthis_config||{};
+            addthis_config.data_track_addressbar = false;
+            addthis_config.data_track_clickback = false;
+        </script>
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-538ca3c07d0ff968"></script>
     </xsl:template>
 

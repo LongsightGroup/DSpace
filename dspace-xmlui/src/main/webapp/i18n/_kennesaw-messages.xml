@@ -206,6 +206,12 @@
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.firstLineOfChorus">Browsing {0} by First Line of Chorus</message>
 
 
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.format">Browsing {0} by Format {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.format">Browsing {0} by Format</message>
+
+
+
 	<!-- org.dspace.app.xmlui.artifactbrowser.CollectionViewer.java -->
 	<message key="xmlui.ArtifactBrowser.CollectionViewer.search_scope">Search Scope</message>
 	<message key="xmlui.ArtifactBrowser.CollectionViewer.all_of_dspace">All of SOAR</message>
@@ -284,6 +290,7 @@
     <message key="xmlui.ArtifactBrowser.Navigation.browse_publisher">Publisher</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfText">First Line of Text</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfChorus">First Line of Chorus</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_format">Format</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
 

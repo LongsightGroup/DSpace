@@ -491,18 +491,48 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Title</a></li>
-                                <li><a href="#">Communities</a></li>
-                                <li><a href="#">Subject</a></li>
-                                <li><a href="#">Format</a></li>
-                                <li><a href="#">Author/Creator</a></li>
-                                <li><a href="#">Date Range</a></li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=title</xsl:text>
+                                    </xsl:attribute>
+                                    <xsl:text>Title</xsl:text></a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/community-list</xsl:text>
+                                    </xsl:attribute>Communities</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=subject</xsl:text>
+                                    </xsl:attribute>Subject</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=format</xsl:text>
+                                    </xsl:attribute>Format</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=author</xsl:text>
+                                    </xsl:attribute>Author/Creator</a>
+                                </li>
+                                <li><a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                        <xsl:text>/browse?type=dateissued</xsl:text>
+                                    </xsl:attribute>Date Range</a>
+                                </li>
                             </ul>
                         </li>
 
                         <li><a href="http://archives.kennesaw.edu" target="_blank">KSU Archives</a></li>
-                        <li><a href="#">Contact</a></li>
-
+                        <li><a href="mailto:archives@kennesaw.edu">Contact</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">

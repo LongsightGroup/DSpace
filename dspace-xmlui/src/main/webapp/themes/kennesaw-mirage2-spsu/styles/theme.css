@@ -132,7 +132,7 @@ a {
     background-color: #939ba1
 }
 a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
-    color: #939ba1;
+    color: #007a95;
 }
 a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     border-color: #939ba1
@@ -195,7 +195,7 @@ footer a {
 
 
 header .navbar {
-    background: url(http://www.spsu.edu/img/green.jpg);
+    background-color: #008852;
 }
 header .navbar .container {
     height: 80px;
@@ -237,7 +237,7 @@ div.trail-wrapper {
 
 footer {
     color:white;
-    background: url(http://www.spsu.edu/img/green.jpg);
+    background-color: #008852;
 }
 
 .footer-logo {
@@ -272,7 +272,7 @@ footer {
 }
 
 div.main-content a, div.trail-wrapper a {
-    color: #939ba1;
+    color: #007a95;
 }
 
 #sidebar .ds-option a {
