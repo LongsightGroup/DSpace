@@ -329,7 +329,7 @@
                         </button>
 
                         <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/logo.png" class="img-responsive" />
+                            <img src="{$theme-path}/images/soarbanner.jpg" class="img-responsive" />
                         </a>
 
 

@@ -195,10 +195,10 @@ footer a {
 
 
 header .navbar {
-    background-color: #231f20;
+    background-color: #000;
 }
 header .navbar .container {
-    background: #242021;
+    background: #000;
     height: 80px;
     min-height: 80px;
 }
