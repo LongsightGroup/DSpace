@@ -458,10 +458,36 @@
 
     <xsl:template name="itemSummaryView-DIM-file-section">
         <xsl:if test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
-            <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-            </a>
+            <xsl:choose>
+                <xsl:when
+                        test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file) > 1">
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                    </a>
+                </xsl:otherwise>
+            </xsl:choose>
+
             <div class="collapse" id="collapseExample">
+                <!-- show files when only 1, collapsed when files > 1 -->
+                <xsl:choose>
+                    <xsl:when
+                            test="count(//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file) > 1">
+                        <xsl:attribute name="class">
+                            <xsl:text>collapse</xsl:text>
+                        </xsl:attribute>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:attribute name="class">
+                            <xsl:text>collapse in</xsl:text>
+                        </xsl:attribute>
+                    </xsl:otherwise>
+                </xsl:choose>
+
                 <xsl:variable name="label-1">
                     <xsl:choose>
                         <xsl:when test="confman:getProperty('mirage2','item-view.bitstream.href.label.1')">
