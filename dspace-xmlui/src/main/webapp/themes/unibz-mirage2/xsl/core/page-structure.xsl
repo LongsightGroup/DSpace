@@ -390,14 +390,14 @@
                                     </li>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <li>
+                                    <!--<li>
                                         <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
                             dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
                                             <button class="navbar-toggle navbar-link">
                                             <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
                                             </button>
                                         </form>
-                                    </li>
+                                    </li>-->
                                 </xsl:otherwise>
                             </xsl:choose>
                         </ul>
@@ -442,6 +442,7 @@
                                     </li>
                                 </xsl:when>
                                 <xsl:otherwise>
+                                    <!--
                                     <li>
                                         <a href="{/dri:document/dri:meta/dri:userMeta/
                             dri:metadata[@element='identifier' and @qualifier='loginURL']}">
@@ -450,6 +451,7 @@
                                             </span>
                                         </a>
                                     </li>
+                                    -->
                                 </xsl:otherwise>
                             </xsl:choose>
                         </ul>
