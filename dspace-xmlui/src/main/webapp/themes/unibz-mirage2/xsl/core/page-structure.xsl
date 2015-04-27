@@ -642,8 +642,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="pull-left">
-                        <a id="ctl00_TranslationHyperLink1" href="http://www.unibz.it/en/public/press/impressumunibz.html">Credits</a>
-                        <xsl:text> | </xsl:text>
                         <a id="ctl00_TranslationHyperLink2" href="http://www.unibz.it/en/organisation/organisation/privacy/default.html">Privacy</a>
                         <xsl:text> | </xsl:text>
                         <a>
