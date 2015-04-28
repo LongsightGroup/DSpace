@@ -328,7 +328,7 @@
                     <a href="{$context-path}/">
                         <picture class="img-responsive">
                             <source media="(min-width: 800px)" srcset="{$theme-path}/images/bozen_logo.png"/>
-                            <source media="(min-width: 400px)" srcset="{$theme-path}/images/bozen_logo_small.png"/>
+                            <source media="(min-width: 0px)" srcset="{$theme-path}/images/bozen_logo_small.png"/>
                             <img class="img-responsive center-block" src="{$theme-path}/images/bozen_logo.png"/>
                         </picture>
                     </a>
