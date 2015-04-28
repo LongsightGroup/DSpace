@@ -316,6 +316,32 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:template name="itemSummaryView-relationURI">
+        <xsl:if test="dim:field[@element='relation' and @qualifier='uri']">
+            <div class="simple-item-view-relationuri item-page-field-wrapper table">
+                <h5><i18n:text>xmlui.metadata.dc.relation.uri</i18n:text></h5>
+                <div>
+                    <xsl:for-each select="dim:field[@element='relation' and @qualifier='uri']">
+                        <xsl:choose>
+                            <xsl:when test="node()">
+                                <xsl:value-of select="node()" disable-output-escaping="yes"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>&#160;</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:if test="count(following-sibling::dim:field[@element='relation' and @qualifier='uri']) != 0">
+                            <div class="spacer">&#160;</div>
+                        </xsl:if>
+                    </xsl:for-each>
+                    <xsl:if test="count(dim:field[@element='relation' and @qualifier='uri']) &gt; 1">
+                        <div class="spacer">&#160;</div>
+                    </xsl:if>
+                </div>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
     <xsl:template name="itemSummaryView-DIM-file-section">
         <xsl:if test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
             <div class="item-page-field-wrapper table">
