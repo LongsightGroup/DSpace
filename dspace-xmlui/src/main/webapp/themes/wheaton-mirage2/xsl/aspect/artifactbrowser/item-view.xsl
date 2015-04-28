@@ -325,7 +325,12 @@
                     <xsl:for-each select="dim:field[@element='relation' and @qualifier='uri']">
                         <xsl:choose>
                             <xsl:when test="node()">
-                                <xsl:value-of select="node()" disable-output-escaping="yes"/>
+                                <a>
+                                    <xsl:attribute name="href">
+                                        <xsl:copy-of select="./node()"/>
+                                    </xsl:attribute>
+                                    <xsl:copy-of select="./node()"/>
+                                </a>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:text>&#160;</xsl:text>

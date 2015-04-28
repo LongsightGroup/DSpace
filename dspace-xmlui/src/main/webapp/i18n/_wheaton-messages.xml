@@ -2250,6 +2250,7 @@
     <message key="xmlui.metadata.dc.language.iso">Language</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
     <message key="xmlui.metadata.dc.relation.ispartof">Digital Collection</message>
+    <message key="xmlui.metadata.dc.relation.uri">Related URL</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
