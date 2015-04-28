@@ -116,6 +116,7 @@
                 <div class="col-sm-8">
                     <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                     <xsl:call-template name="itemSummaryView-DIM-URI"/>
+		            <xsl:call-template name="itemSummaryView-relationURI"/>
                     <xsl:call-template name="itemSummaryView-collections"/>
                 </div>
             </div>
@@ -469,7 +470,7 @@
                     </xsl:if>
                 </td>
             <td class="word-break">
-              <xsl:copy-of select="./node()"/>
+                <xsl:value-of select="node()" disable-output-escaping="yes"/>
               <!--<xsl:if test="./@authority and ./@confidence">-->
                 <!--<xsl:call-template name="authorityConfidenceIcon">-->
                   <!--<xsl:with-param name="confidence" select="./@confidence"/>-->
