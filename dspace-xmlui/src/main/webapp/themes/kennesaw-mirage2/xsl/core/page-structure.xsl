@@ -164,6 +164,8 @@
                 </xsl:attribute>
             </meta>
 
+            <meta name="google-site-verification" content="KOCw2csz4LH0AeEWTGQe7NFoBabApR5-sX0yJKvi0T0" />
+
             <!-- Add stylsheets -->
 
             <!--TODO figure out a way to include these in the concat & minify-->
