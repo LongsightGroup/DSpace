@@ -263,6 +263,19 @@ public class ItemsResource extends Resource
         return metadata.toArray(new MetadataEntry[0]);
     }
 
+    @GET
+    @Path("/{item_id}/hello")
+    @Produces({ MediaType.TEXT_PLAIN })
+    public String getItemHello(@PathParam("item_id") Integer itemId, @QueryParam("userIP") String user_ip,
+                                           @QueryParam("userAgent") String user_agent, @QueryParam("xforwardedfor") String xforwardedfor,
+                                           @Context HttpHeaders headers, @Context HttpServletRequest request) throws WebApplicationException
+    {
+        log.info("Reading item(id=" + itemId + ") hello.");
+        log.trace("Item(id=" + itemId + ") metadata were successfully read.");
+
+        return "Hello Item: " + itemId;
+    }
+
     /**
      * Return array of bitstreams in item. It can be pagged.
      * 
