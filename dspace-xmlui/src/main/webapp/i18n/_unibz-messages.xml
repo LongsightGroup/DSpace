@@ -39,7 +39,7 @@
         <message key="xmlui.general.queue">Queue</message>
 
     <!-- homepage news-xmlui -->
-    <message key="homepage.title">BIA (Bozen-Bolzano Institutional Archive)</message>
+    <message key="homepage.title">BIA - Bozen-Bolzano Institutional Archive (Beta)</message>
     <message key="homepage.message">BIA gathers the outcomes of the research conducted by the professors and researchers at the Free University of Bolzano, including articles, working papers, technical reports, conference proceedings as well as doctoral theses.</message>
 
 	<!--
@@ -2245,6 +2245,7 @@
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Item Format</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
+    <message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
     <message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
     <message key="xmlui.metadata.dc.journal.title">Journal Title</message>
