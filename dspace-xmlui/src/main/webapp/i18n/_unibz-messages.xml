@@ -299,6 +299,8 @@
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.search_scope">Search Scope</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.full_text_search">Full Text Search</message>
 
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.availability">Full Text Availability</message>
+
 	<!-- org.dspace.app.xmlui.artifactbrowser.RestrictedItem.java -->
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.title">This resource is restricted</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.trail">Restricted</message>
