@@ -37,7 +37,7 @@
     <message key="xmlui.general.untitled">Senza Titolo</message>
 
     <!-- homepage news-xmlui -->
-    <message key="homepage.title">BIA (Bozen-Bolzano Institutional Archive)</message>
+    <message key="homepage.title">BIA - Bozen-Bolzano Institutional Archive (Beta)</message>
     <message key="homepage.message">BIA raccoglie i risultati della ricerca condotta dai docenti e dai ricercatori della Libera Università di Bolzano, tra i quali articoli, working papers, rapporti tecnici, contributi a convegni e tesi di dottorato.</message>
 
     <!--
@@ -1654,10 +1654,11 @@
     <message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
     <message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
+    <message key="xmlui.metadata.dc.identifier.citation">Citation</message>
     <message key="xmlui.metadata.dc.journal.title">Journal Title</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
-    <message key="xmlui.metadata.dc.language.isi">ISI</message>
-    <message key="xmlui.metadata.dc.language.iso">Language</message>
+    <message key="xmlui.metadata.dc.language.isi">Language</message>
+    <message key="xmlui.metadata.dc.language.iso">Language (ISO)</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
     <message key="xmlui.metadata.dc.relation.ispartof">Digital Collection</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
