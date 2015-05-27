@@ -2242,6 +2242,7 @@
     <message key="xmlui.metadata.dc.author-of-text">Author of Text</message>
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
+    <message key="xmlui.metadata.dc.contributor.author">Author</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2264,6 +2265,7 @@
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
     <message key="xmlui.metadata.dc.title">Title</message>
+    <message key="xmlui.metadata.dc.title.alternative">Alternative Title</message>
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
 
