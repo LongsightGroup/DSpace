@@ -95,11 +95,11 @@
                             <div id="main-container" class="container">
                                 <div class="row row-offcanvas row-offcanvas-right">
                                     <div class="horizontal-slider clearfix">
-                                        <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                                            <xsl:apply-templates select="*[not(self::dri:options)]"/>
-                                        </div>
                                         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
                                             <xsl:apply-templates select="dri:options"/>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-9 main-content">
+                                            <xsl:apply-templates select="*[not(self::dri:options)]"/>
                                         </div>
                                     </div>
                                 </div>
@@ -643,7 +643,11 @@
         <footer>
             <div class="container-fluid">
                 <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2014&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
+                    All Items in WHOAS are protected by original copyright, with all rights reserved, unless otherwise indicated.  WHOAS also supports the use of the Creative Commons licenses for original content.
+                </div>
+                <div class="row">
+                    A service of the <a href="http://www.mblwhoilibrary.org/">MBLWHOI Library</a> |
+                    <a href="http://www.mblwhoilibrary.org/services/whoas-repository-services">About WHOAS</a>
                 </div>
                 <div class="row">
                     <a>
