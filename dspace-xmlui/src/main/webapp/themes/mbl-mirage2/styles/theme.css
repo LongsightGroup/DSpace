@@ -38,6 +38,13 @@ header .navbar-default {
     background-color: #607890;
 }
 
+header .navbar-default .navbar-toggle, header .navbar-default .navbar-nav {
+    color: #9FABB8;
+}
+header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-nav > li > a {
+    color: #9FABB8;
+}
+
 @media (max-width: 767px) {
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
         background-color: #607890;
@@ -160,4 +167,9 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
     border-bottom-color: #607890
+}
+
+div.altmetric-embed {
+    padding: 8px;
+    background-color: #ffffff;
 }
