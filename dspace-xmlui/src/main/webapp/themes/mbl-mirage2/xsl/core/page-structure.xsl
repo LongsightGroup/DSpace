@@ -298,14 +298,33 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
+            <script src="//jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+	    <link rel="sitemap">
+                <xsl:attribute name="href">
+                    <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:text>/sitemap</xsl:text>
+                </xsl:attribute>
+            </link>
+
+            <!-- Add a google analytics script if the key is present -->
+            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
+                <script><xsl:text>
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                    ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', 'auto');
+                    ga('send', 'pageview');
+                </xsl:text></script>
+            </xsl:if>
 
             <!-- Moved jquery to head so that jquery is in context to early js, needed for altmetric loader -->
             <script>
                 <xsl:text>if(!window.DSpace){window.DSpace={};}window.DSpace.context_path='</xsl:text><xsl:value-of select="$context-path"/><xsl:text>';window.DSpace.theme_path='</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
             </script>
             <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
-            <!-- TODO: Load bookreader only conditionally, use theme.js or not... -->
-            <script src="//code.jquery.com/jquery-1.8.3.min.js"></script>
 
             <!-- Custom WHOI -->
             <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js">&#160;</script>
@@ -806,19 +825,6 @@
         <!-- add setup JS code if this is a choices lookup page -->
         <xsl:if test="dri:body/dri:div[@n='lookup']">
             <xsl:call-template name="choiceLookupPopUpSetup"/>
-        </xsl:if>
-
-        <!-- Add a google analytics script if the key is present -->
-        <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
-            <script><xsl:text>
-                  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', 'auto');
-                  ga('send', 'pageview');
-           </xsl:text></script>
         </xsl:if>
     </xsl:template>
 
