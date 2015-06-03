@@ -2243,6 +2243,7 @@
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
+    <message key="xmlui.metadata.dc.coverage.spatial">Location</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
