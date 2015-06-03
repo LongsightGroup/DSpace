@@ -742,10 +742,7 @@
 
         <!--TODO concat & minify!-->
 
-
-
-
-        <script src="{$theme-path}../mirage2/scripts/bootstrap.min.js">&#160;</script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
         <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
 
         <script src="{$theme-path}../mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
@@ -757,8 +754,8 @@
         <script src="{$theme-path}../mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
 
         <!-- Snazy -->
-        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
         <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
 
 
 
