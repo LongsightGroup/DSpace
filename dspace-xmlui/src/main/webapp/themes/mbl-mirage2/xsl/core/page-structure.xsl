@@ -866,4 +866,14 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- Items inside option lists are excluded from the "orphan roundup" mechanism -->
+    <xsl:template match="dri:options//dri:item" mode="nested" priority="3">
+        <xsl:if test="node()[@target = '/admin/metadataimport']">
+            <li><a href="/cross-ref/cross_ref.html">Get Crossref XML</a></li>
+        </xsl:if>
+        <li>
+            <xsl:apply-templates />
+        </li>
+    </xsl:template>
+
 </xsl:stylesheet>
