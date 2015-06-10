@@ -185,7 +185,7 @@
     </xsl:template>
 
     <xsl:template match="dri:options//dri:item[dri:xref]">
-        <xsl:if test="dri:xref/@target = '/admin/metadataimport']">
+        <xsl:if test="dri:xref/@target = '/admin/metadataimport'">
             <a href="/cross-ref/cross_ref.html" class="list-group-item ds-option">Get Crossref XML</a>
         </xsl:if>
 
