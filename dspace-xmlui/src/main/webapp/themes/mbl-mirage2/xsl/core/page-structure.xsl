@@ -320,14 +320,7 @@
                 </xsl:text></script>
             </xsl:if>
 
-            <!-- Moved jquery to head so that jquery is in context to early js, needed for altmetric loader -->
-            <script>
-                <xsl:text>if(!window.DSpace){window.DSpace={};}window.DSpace.context_path='</xsl:text><xsl:value-of select="$context-path"/><xsl:text>';window.DSpace.theme_path='</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
-            </script>
-            <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
 
-            <!-- Custom WHOI -->
-            <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js">&#160;</script>
 
         </head>
     </xsl:template>
@@ -760,6 +753,14 @@
     <xsl:template name="addJavascript">
 
         <!--TODO concat & minify!-->
+        <!-- Moved jquery to head so that jquery is in context to early js, needed for altmetric loader -->
+        <script>
+            <xsl:text>if(!window.DSpace){window.DSpace={};}window.DSpace.context_path='</xsl:text><xsl:value-of select="$context-path"/><xsl:text>';window.DSpace.theme_path='</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
+        </script>
+        <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
+
+        <!-- Custom WHOI -->
+        <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js">&#160;</script>
 
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
         <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
