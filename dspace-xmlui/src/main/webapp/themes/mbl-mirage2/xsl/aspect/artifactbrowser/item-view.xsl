@@ -148,8 +148,8 @@
 
 
             docReady(function() {
-                var stat = document.getElementById("#aspect_statistics_Navigation_list_statistics");
-                stat.innerHTML += <xsl:copy-of select="$samtest" />;
+                var stat = document.getElementById("aspect_statistics_Navigation_list_statistics");
+                stat.innerHTML += '<xsl:copy-of select="$samtest" />';
                 _altmetric_embed_init();
             });
 
