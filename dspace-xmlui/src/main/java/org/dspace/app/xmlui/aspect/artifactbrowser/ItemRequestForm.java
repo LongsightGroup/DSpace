@@ -198,6 +198,10 @@ public class ItemRequestForm extends AbstractDSpaceTransformer implements Cachea
 
 		List form = itemRequest.addList("form", List.TYPE_FORM);
 
+        //todo read name as data-sitekey, and populate this from config
+        Division recaptcha = itemRequest.addDivision("6LeH6wQTAAAAAIvqOUgFpREbUd5EMTVUgCstTA33", "g-recaptcha");
+
+
 		Text requesterName = form.addItem().addText("requesterName");
 		requesterName.setLabel(T_requesterName);
 		requesterName.setValue(parameters.getParameter("requesterName", ""));
@@ -232,6 +236,9 @@ public class ItemRequestForm extends AbstractDSpaceTransformer implements Cachea
 			if(StringUtils.isEmpty(parameters.getParameter("message", ""))){
 				message.addError(T_message_error);
 			}
+            if(StringUtils.isEmpty(parameters.getParameter("g-recaptcha-response", ""))) {
+                recaptcha.addPara("Recaptcha is required.");
+            }
 		}
 		itemRequest.addHidden("page").setValue(parameters.getParameter("page", "unknown"));
 	}

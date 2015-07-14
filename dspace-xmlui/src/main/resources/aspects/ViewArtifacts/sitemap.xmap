@@ -139,6 +139,7 @@ and searching the repository.
 								<map:parameter name="allFiles" value="{allFiles}" />
 								<map:parameter name="message" value="{message}" />
 								<map:parameter name="bitstreamId" value="{bitstreamId}" />
+                                <map:parameter name="g-recaptcha-response" value="{g-recaptcha-response}"/>
 							</map:transform>
 							<map:serialize type="xml" />
 						</map:act>
