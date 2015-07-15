@@ -470,6 +470,10 @@
                             </xsl:choose>
                         </ul>
 
+                        <span>
+                            <a href="http://www.mblwhoilibrary.org/services/whoas-repository-services">About WHOAS</a>
+                        </span>
+
                         <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
