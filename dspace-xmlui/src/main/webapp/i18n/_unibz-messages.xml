@@ -2253,10 +2253,11 @@
     <message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
     <message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
+    <message key="xmlui.metadata.dc.identifier.citation">Citation</message>
     <message key="xmlui.metadata.dc.journal.title">Journal Title</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
-    <message key="xmlui.metadata.dc.language.isi">ISI</message>
-    <message key="xmlui.metadata.dc.language.iso">Language</message>
+    <message key="xmlui.metadata.dc.language.isi">Language</message>
+    <message key="xmlui.metadata.dc.language.iso">Language (ISO)</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
     <message key="xmlui.metadata.dc.relation.ispartof">Digital Collection</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
