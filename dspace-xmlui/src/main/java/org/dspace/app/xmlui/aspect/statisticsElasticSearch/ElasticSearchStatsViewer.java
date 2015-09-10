@@ -360,27 +360,25 @@ public class ElasticSearchStatsViewer extends AbstractDSpaceTransformer {
             if(termName.equalsIgnoreCase("bitstream")) {
                 Bitstream bitstream = Bitstream.find(context, Integer.parseInt(facetEntry.getTerm().string()));
                 Item item = (Item) bitstream.getParentObject();
-                log.info("BitstreamID: " + bitstream.getID());
 
                 if(item != null) {
                     row.addCell().addXref(contextPath + "/handle/" + item.getHandle(), item.getName());
                     row.addCellContent(getFirstMetadataValue(item, "dc.creator"));
                     row.addCellContent(getFirstMetadataValue(item, "dc.publisher"));
                     row.addCellContent(getFirstMetadataValue(item, "dc.date.issued"));
+                    row.addCell("count", Cell.ROLE_DATA, "count").addContent(facetEntry.getCount());
                 } else {
-                    row.addCellContent("Deleted Object");
-                    row.addCell();
-                    row.addCell();
-                    row.addCell();
-                    log.info("Parent object (item) has been deleted");
+                    row.dispose();
+                    log.info("bitstream / Parent Item has been deleted. bitstreamID:" + bitstream.getID());
                 }
 
             } else if(termName.equalsIgnoreCase("country")) {
                 row.addCell("country", Cell.ROLE_DATA,"country").addContent(new Locale("en", facetEntry.getTerm().string()).getDisplayCountry());
+                row.addCell("count", Cell.ROLE_DATA, "count").addContent(facetEntry.getCount());
             } else {
                 row.addCell().addContent(facetEntry.getTerm().string());
+                row.addCell("count", Cell.ROLE_DATA, "count").addContent(facetEntry.getCount());
             }
-            row.addCell("count", Cell.ROLE_DATA, "count").addContent(facetEntry.getCount());
         }
     }
 
