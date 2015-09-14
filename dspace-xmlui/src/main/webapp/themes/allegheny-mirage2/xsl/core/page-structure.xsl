@@ -343,7 +343,7 @@
                         </button>
 
                         <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/ac-logo-white.png" />
+                            <img src="{$theme-path}/images/ac-logo-white.png" class="img-responsive" />
                         </a>
 
 
