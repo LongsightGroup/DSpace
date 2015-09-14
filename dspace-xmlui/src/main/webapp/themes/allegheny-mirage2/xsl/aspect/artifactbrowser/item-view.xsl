@@ -1239,6 +1239,22 @@
                 </a>
             </div>
 
+            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                <div class="file-item file-link file-name">
+                    <span class="label">Description:</span>
+                    <xsl:choose>
+                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
+                            <!-- print out the truncated value followed by "..." -->
+                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- otherwise print out the whole, un-truncated string -->
+                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </div>
+            </xsl:if>
+
             <div class="slide-arrow show">
                 <div class="showhide" data-toggle="modal">
                     <!-- Button trigger modal -->
