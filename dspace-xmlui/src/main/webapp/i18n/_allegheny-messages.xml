@@ -2295,11 +2295,11 @@
     <message key="xmlui.metadata.dc.date.copyright">Copyright</message>
     <message key="xmlui.metadata.dc.date.created">Date Created</message>
     <message key="xmlui.metadata.dc.date.deathdate">Date Created</message>
-    <message key="xmlui.metadata.dc.date.issued">Date</message>
+    <message key="xmlui.metadata.dc.date.issued">Date of Issue</message>
     <message key="xmlui.metadata.dc.date.submitted">Date of Submission</message>
     <message key="xmlui.metadata.dc.date.updated">Update</message>
     <message key="xmlui.metadata.dc.description">Description</message>
-    <message key="xmlui.metadata.dc.description.abstract">Abstract</message>
+    <message key="xmlui.metadata.dc.description.abstract">Description</message>
     <message key="xmlui.metadata.dc.description.embargo">Embargo</message>
     <message key="xmlui.metadata.dc.description.major">Major</message>
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
@@ -2344,7 +2344,7 @@
     <message key="xmlui.metadata.dc.relation.replaces">Preceeds</message>
     <message key="xmlui.metadata.dc.relation.requires">Requires</message>
     <message key="xmlui.metadata.dc.relation.uri">Related URL</message>
-    <message key="xmlui.metadata.dc.rights">Terms of Use</message>
+    <message key="xmlui.metadata.dc.rights">Rights</message>
     <message key="xmlui.metadata.dc.rights.holder">Rights</message>
     <message key="xmlui.metadata.dc.rights.license">Rights</message>
     <message key="xmlui.metadata.dc.rights.uri">Rights</message>
