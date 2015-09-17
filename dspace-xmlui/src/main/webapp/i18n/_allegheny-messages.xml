@@ -2301,6 +2301,7 @@
     <message key="xmlui.metadata.dc.description">Description</message>
     <message key="xmlui.metadata.dc.description.abstract">Abstract</message>
     <message key="xmlui.metadata.dc.description.embargo">Embargo</message>
+    <message key="xmlui.metadata.dc.description.major">Major</message>
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
     <message key="xmlui.metadata.dc.description.sponsorship">Sponsorship</message>
     <message key="xmlui.metadata.dc.description.statementofresponsibility">Statement of Responsibility</message>

@@ -174,6 +174,12 @@
 
                         <xsl:call-template name="itemSummaryView-field">
                             <xsl:with-param name="schema">dc</xsl:with-param>
+                            <xsl:with-param name="element">description</xsl:with-param>
+                            <xsl:with-param name="qualifier">major</xsl:with-param>
+                        </xsl:call-template>
+
+                        <xsl:call-template name="itemSummaryView-field">
+                            <xsl:with-param name="schema">dc</xsl:with-param>
                             <xsl:with-param name="element">contributor</xsl:with-param>
                             <xsl:with-param name="qualifier">department</xsl:with-param>
                         </xsl:call-template>
