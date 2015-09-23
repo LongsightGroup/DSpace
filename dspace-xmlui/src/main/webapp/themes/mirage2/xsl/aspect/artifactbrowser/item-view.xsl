@@ -1177,9 +1177,15 @@
                             </video>
                         </xsl:when>
                         <xsl:when test="$mview='videoplayer'">
-                            <div id="myElement">Loading the player...</div>
+                            <div>
+                                <xsl:attribute name="id">
+                                    <xsl:text>videoplayer_</xsl:text>
+                                    <xsl:value-of select="@ID"/>
+                                </xsl:attribute>
+                                Loading the player...
+                            </div>
                             <script type="text/javascript">
-                                jwplayer("myElement").setup({
+                                jwplayer("<xsl:text>videoplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
                                 file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
                                 image: "",
                                 width: "100%",
@@ -1188,9 +1194,15 @@
                             </script>
                         </xsl:when>
                         <xsl:when test="$mview='audioplayer'">
-                            <div id="myElement">Loading the player...</div>
+                            <div>
+                                <xsl:attribute name="id">
+                                    <xsl:text>audioplayer_</xsl:text>
+                                    <xsl:value-of select="@ID"/>
+                                </xsl:attribute>
+                                Loading the player...
+                            </div>
                             <script type="text/javascript">
-                                jwplayer("myElement").setup({
+                                jwplayer("<xsl:text>audioplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
                                 file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
                                 width: "100%",
                                 height: "30px"
