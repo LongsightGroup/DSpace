@@ -541,7 +541,7 @@
                             <xsl:copy-of select="./node()"/>
                         </xsl:attribute>
                         <xsl:copy-of select="./node()"/>
-                    </a>
+                    </a><br/>
                 </xsl:for-each>
                 <xsl:for-each select="dim:field[@element='relation'][@qualifier='haspart']">
                     <a>
@@ -549,7 +549,7 @@
                             <xsl:copy-of select="./node()"/>
                         </xsl:attribute>
                         <xsl:copy-of select="./node()"/>
-                    </a>
+                    </a><br/>
                 </xsl:for-each>
                 <xsl:for-each select="dim:field[@element='relation'][@qualifier='requires']">
                     <a>
@@ -557,7 +557,7 @@
                             <xsl:copy-of select="./node()"/>
                         </xsl:attribute>
                         <xsl:copy-of select="./node()"/>
-                    </a>
+                    </a><br/>
                 </xsl:for-each>
             </div>
         </xsl:if>
