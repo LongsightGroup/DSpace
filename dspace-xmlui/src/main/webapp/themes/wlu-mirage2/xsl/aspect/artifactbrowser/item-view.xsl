@@ -345,7 +345,7 @@
                         </xsl:choose>
                 </xsl:variable>
 
-                <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[@MIMETYPE != 'image/tiff']">
+                <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[(@MIMETYPE != 'image/tiff') and (@MIMETYPE != 'audio/x-wav')]">
                     <!-- WLU Hide Tiff files -->
                     <div>
                     <a>
