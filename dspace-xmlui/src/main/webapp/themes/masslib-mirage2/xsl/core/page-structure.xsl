@@ -408,7 +408,7 @@
                         </button>
 
                         <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/New-logo-DSpace.jpg" />
+                            <img src="{$theme-path}/images/mass-state-library-logo.png" />
                         </a>
 
 
