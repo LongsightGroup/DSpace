@@ -11,6 +11,9 @@
 header .navbar-brand img {
     height: 120px;
     margin-top: -6px;
+    border-color: #B5B4B2;
+    border-width: 3px;
+    border-style: outset;
 }
 
 .navbar {
