@@ -51,7 +51,7 @@ header .navbar-default {
     border: 1px solid #8b9eb2;
 }
 .btn-success[disabled], .btn-success.disabled {
-    background-color: #FFFFFF;
+    background-color: #FFB310;
     border: 1px solid #8b9eb2;
 }
 .btn-success:hover {
