@@ -2243,7 +2243,10 @@
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
+    <message key="xmlui.metadata.dc.contributor.editor">Editor</message>
+    <message key="xmlui.metadata.dc.contributor.other">Contributor, other</message>
     <message key="xmlui.metadata.dc.coverage.spatial">Location</message>
+    <message key="xmlui.metadata.dc.coverage.temporal">Time</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2259,6 +2262,7 @@
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Item Format</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
+    <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Citation</message>
     <message key="xmlui.metadata.dc.identifier.doi">DOI</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
@@ -2270,6 +2274,7 @@
     <message key="xmlui.metadata.dc.relation.requires">Related Material/Data</message>
     <message key="xmlui.metadata.dc.relation.uri">As published</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
+    <message key="xmlui.metadata.dc.rights.uri">Rights</message>
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
     <message key="xmlui.metadata.dc.title">Title</message>
