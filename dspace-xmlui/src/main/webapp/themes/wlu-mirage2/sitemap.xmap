@@ -43,7 +43,7 @@
         <map:component-configurations>
             <global-variables>
                 <theme-path>wlu-mirage2</theme-path>
-                <theme-name>Washington Lee Mirage 2</theme-name>
+                <theme-name>Washington Lee University - Mirage 2</theme-name>
             </global-variables>
         </map:component-configurations>
 
@@ -136,7 +136,7 @@
                 <!-- Fix some overly convoluted DRI constructs in
                 DSpace code without having to change java code and
                 interfere with other themes -->
-                <map:transform src="xsl/preprocess.xsl"/>
+                <map:transform src="../mirage2/xsl/preprocess.xsl"/>
 
                 <map:transform type="IncludePageMeta">
                     <map:parameter name="theme.path" value="{global:theme-path}/"/>
