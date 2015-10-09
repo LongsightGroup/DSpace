@@ -180,16 +180,21 @@
             </xsl:for-each>
 
             <!--### CLASSIC MIRAGE COLOR SCHEME START ###-->
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/bootstrap-classic-mirage-colors-min.css')}"/>
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/classic-mirage-style.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/bootstrap-classic-mirage-colors-min.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/classic-mirage-style.css')}"/>
             <!--### CLASSIC MIRAGE COLOR SCHEME END ###-->
 
             <!--### BOOTSTRAP COLOR SCHEME START ###-->
             <!--<link rel="stylesheet" href="{concat($theme-path, 'styles/bootstrap-min.css')}"/>-->
             <!--### BOOTSTRAP COLOR SCHEME END ###-->
 
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/dspace-bootstrap-tweaks.css')}"/>
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/jquery-ui-1.10.3.custom.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
+
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/vendor/BookReader/BookReader.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/snazy.css')}"/>
+
+            <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
 
             <!-- WLU Custom -->
@@ -262,12 +267,12 @@
             </script>
 
             <xsl:text disable-output-escaping="yes">&lt;!--[if lt IE 9]&gt;
-                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, 'vendor/html5shiv/dist/html5shiv.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
-                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, 'vendor/respond/respond.min.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
+                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../mirage2/vendor/html5shiv/dist/html5shiv.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
+                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../mirage2/vendor/respond/respond.min.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
                 &lt;![endif]--&gt;</xsl:text>
 
             <!-- Modernizr enables HTML5 elements & feature detects -->
-            <script src="{concat($theme-path, 'vendor/modernizr/modernizr.js')}">&#160;</script>
+            <script src="{concat($theme-path, '../mirage2/vendor/modernizr/modernizr.js')}">&#160;</script>
 
             <!-- Add the title in -->
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title'][last()]" />
@@ -295,6 +300,28 @@
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[substring(@element, 1, 9) = 'citation_']">
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
+
+            <script src="//jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+	    <link rel="sitemap">
+                <xsl:attribute name="href">
+                    <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:text>/sitemap</xsl:text>
+                </xsl:attribute>
+            </link>
+
+            <!-- Add a google analytics script if the key is present -->
+            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
+                <script><xsl:text>
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                    ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', 'auto');
+                    ga('send', 'pageview');
+                </xsl:text></script>
+            </xsl:if>
 
         </head>
     </xsl:template>
@@ -607,7 +634,7 @@
                         >
                     <img class="img-responsive">
                         <xsl:attribute name="src">
-                            <xsl:value-of select="concat($theme-path,'/images/cc-ship.gif')"/>
+                            <xsl:value-of select="concat($theme-path,'../mirage2/images/cc-ship.gif')"/>
                         </xsl:attribute>
                         <xsl:attribute name="alt">
                             <xsl:value-of select="$ccLicenseName"/>
@@ -628,39 +655,39 @@
     <xsl:template name="buildFooter">
         <footer>
             <div class="container">
-                    <div class="row">
-                        <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2014&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
-                    </div>
-                    <div class="row">
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:value-of
-                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                                <xsl:text>/contact</xsl:text>
-                            </xsl:attribute>
-                            <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:value-of
-                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                                <xsl:text>/feedback</xsl:text>
-                            </xsl:attribute>
-                            <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                        </a>
-                    </div>
+                <div class="row">
+                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2015&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
                 </div>
-                <!--Invisible link to HTML sitemap (for search engines) -->
-                <a class="hidden">
-                    <xsl:attribute name="href">
-                        <xsl:value-of
-                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                        <xsl:text>/htmlmap</xsl:text>
-                    </xsl:attribute>
-                    <xsl:text>&#160;</xsl:text>
-                </a>
-                <p>&#160;</p>
+                <div class="row">
+                    <a>
+                        <xsl:attribute name="href">
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                            <xsl:text>/contact</xsl:text>
+                        </xsl:attribute>
+                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                    </a>
+                    <xsl:text> | </xsl:text>
+                    <a>
+                        <xsl:attribute name="href">
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                            <xsl:text>/feedback</xsl:text>
+                        </xsl:attribute>
+                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                    </a>
+                </div>
+            </div>
+            <!--Invisible link to HTML sitemap (for search engines) -->
+            <a class="hidden">
+                <xsl:attribute name="href">
+                    <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:text>/htmlmap</xsl:text>
+                </xsl:attribute>
+                <xsl:text>&#160;</xsl:text>
+            </a>
+            <p>&#160;</p>
         </footer>
     </xsl:template>
 
@@ -728,7 +755,22 @@
             <xsl:text>if(!window.DSpace){window.DSpace={};}window.DSpace.context_path='</xsl:text><xsl:value-of select="$context-path"/><xsl:text>';window.DSpace.theme_path='</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
         </script>
 
-        <script src="{$theme-path}/scripts/theme.js">&#160;</script>
+        <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
+
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
+
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/dragscrollable.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.colorbox-min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.ui.ipad.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.bt.min.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReader.js"></script>
+        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
+
+        <!-- Snazy -->
+        <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
+        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
 
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
@@ -758,7 +800,7 @@
                     <script>
                         <xsl:attribute name="src">
                             <xsl:value-of select="$theme-path"/>
-                            <xsl:text>js/choice-support.js</xsl:text>
+                            <xsl:text>../mirage2/js/choice-support.js</xsl:text>
                         </xsl:attribute>&#160;</script>
                 </xsl:when>
                 <xsl:when test="not(starts-with(text(), 'static/js/scriptaculous'))">
@@ -776,19 +818,6 @@
         <!-- add setup JS code if this is a choices lookup page -->
         <xsl:if test="dri:body/dri:div[@n='lookup']">
             <xsl:call-template name="choiceLookupPopUpSetup"/>
-        </xsl:if>
-
-        <!-- Add a google analytics script if the key is present -->
-        <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']">
-            <script><xsl:text>
-                  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                  ga('create', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='google'][@qualifier='analytics']"/><xsl:text>', '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='request'][@qualifier='serverName']"/><xsl:text>');
-                  ga('send', 'pageview');
-           </xsl:text></script>
         </xsl:if>
     </xsl:template>
 
