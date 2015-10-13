@@ -78,6 +78,7 @@ public class S3BitStore implements BitStore
 		}
 		catch(Exception e)
 		{
+            log.error(e);
 			throw new IOException("Exception loading properties. Config: " + config + ", exception: " + e.getMessage());
 		}
 
@@ -109,7 +110,8 @@ public class S3BitStore implements BitStore
         }
         catch (Exception e)
         {
-            throw new IOException("Amazon S3 bucket Exception: " + e.getMessage());
+            log.error(e);
+            throw new IOException(e);
         }
 
         // region
@@ -160,7 +162,8 @@ public class S3BitStore implements BitStore
 		}
         catch (Exception e)
 		{
-        	throw new IOException("S3 get Exception: " + e.getMessage());
+            log.error(e);
+        	throw new IOException(e);
 		}
 	}
 	
@@ -200,6 +203,9 @@ public class S3BitStore implements BitStore
             scratchFile.delete();
             return attrs;
 
+        } catch(Exception e) {
+            log.error(e);
+            throw new IOException(e);
         } finally {
             if(scratchFile.exists()) {
                 scratchFile.delete();
@@ -223,24 +229,29 @@ public class S3BitStore implements BitStore
      */
 	public Map about(String id, Map attrs) throws IOException
 	{
-        ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, id);
+        try {
+            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, id);
 
-        if (objectMetadata != null)
-        {
-            if (attrs.containsKey(Bitstream.SIZE_BYTES))
+            if (objectMetadata != null)
             {
-                attrs.put(Bitstream.SIZE_BYTES, objectMetadata.getContentLength());
+                if (attrs.containsKey(Bitstream.SIZE_BYTES))
+                {
+                    attrs.put(Bitstream.SIZE_BYTES, objectMetadata.getContentLength());
+                }
+                if (attrs.containsKey(Bitstream.CHECKSUM))
+                {
+                    attrs.put(Bitstream.CHECKSUM, objectMetadata.getContentMD5());
+                    attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA);
+                }
+                if (attrs.containsKey("modified"))
+                {
+                    attrs.put("modified", String.valueOf(objectMetadata.getLastModified().getTime()));
+                }
+                return attrs;
             }
-            if (attrs.containsKey(Bitstream.CHECKSUM))
-            {
-                attrs.put(Bitstream.CHECKSUM, objectMetadata.getContentMD5());
-                attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA);
-            }
-            if (attrs.containsKey("modified"))
-            {
-                attrs.put("modified", String.valueOf(objectMetadata.getLastModified().getTime()));
-            }
-            return attrs;
+        } catch (Exception e) {
+            log.error(e);
+            throw new IOException(e);
         }
         return null;
 	}
@@ -255,7 +266,12 @@ public class S3BitStore implements BitStore
      */
 	public void remove(String id) throws IOException
 	{
-        s3Service.deleteObject(bucketName, id);
+        try {
+            s3Service.deleteObject(bucketName, id);
+        } catch (Exception e) {
+            log.error(e);
+            throw new IOException(e);
+        }
 	}
 	
 	/**
