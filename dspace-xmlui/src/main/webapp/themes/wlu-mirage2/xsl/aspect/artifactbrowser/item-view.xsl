@@ -108,7 +108,9 @@
 
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
         <div class="item-summary-view-metadata">
-        <xsl:call-template name="itemSummaryView-DIM-title"/>
+            <xsl:call-template name="itemSummaryView-DIM-title"/>
+            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+            <xsl:call-template name="itemSummaryView-DIM-description"/>
             <xsl:choose>
                 <xsl:when test="confman:getProperty('mirage2','snazy') = 'true'">
                     <div class="col-sm-12">
@@ -118,9 +120,9 @@
                         <div class="row">
                             <!-- Left Column -->
                             <div class="col-sm-4">
+                                <xsl:call-template name="itemSummaryView-DIM-date"/>
+                                <xsl:call-template name="itemSummaryView-DIM-authors"/>
                                 <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                                <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                                <xsl:call-template name="itemSummaryView-DIM-description"/>
                                 <xsl:call-template name="itemSummaryView-DIM-URI"/>
                                 <xsl:call-template name="itemSummaryView-DIM-tombstone"/>
                                 <xsl:call-template name="itemSummaryView-collections"/>
@@ -133,8 +135,6 @@
                                         <xsl:call-template name="itemSummaryView-DIM-file-section"/>
                                     </div>
                                 </div>
-                                <xsl:call-template name="itemSummaryView-DIM-date"/>
-                                <xsl:call-template name="itemSummaryView-DIM-authors"/>
                                 <xsl:if test="$ds_item_view_toggle_url != ''">
                                     <xsl:call-template name="itemSummaryView-show-full"/>
                                 </xsl:if>
@@ -166,8 +166,6 @@
                         </div>
                         <div class="col-sm-8">
                             <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                            <xsl:call-template name="itemSummaryView-DIM-description"/>
                             <xsl:call-template name="itemSummaryView-DIM-URI"/>
                             <xsl:call-template name="itemSummaryView-DIM-tombstone"/>
                             <xsl:call-template name="itemSummaryView-collections"/>
