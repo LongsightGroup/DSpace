@@ -389,14 +389,14 @@ public class BitstreamStorageManager
             Integer processedCounter = 0;
 
             for(Bitstream bitstream : allBitstreamsInSource) {
+                log.info("Copying bitstream:" + bitstream.getID() + " from assetstore[" + assetstoreSource + "] to assetstore[" + assetstoreDestination+"] Name:" + bitstream.getName() + ", SizeBytes:" + bitstream.getSize() );
                 InputStream inputStream = bitstream.retrieve();
-                log.debug("Copying bitstream:" + bitstream.getID() + " from assetstore[" + assetstoreSource + "] to assetstore[" + assetstoreDestination+"]");
                 stores[assetstoreDestination].put(inputStream, bitstream.getInternalId());
                 bitstream.setStoreNumber(assetstoreDestination);
                 bitstream.update();
 
                 if(deleteOld) {
-                    log.debug("Removing bitstream:" + bitstream.getID() + " from assetstore[" + assetstoreSource + "]");
+                    log.info("Removing bitstream:" + bitstream.getID() + " from assetstore[" + assetstoreSource + "]");
                     stores[assetstoreSource].remove(bitstream.getInternalId());
                 }
 
