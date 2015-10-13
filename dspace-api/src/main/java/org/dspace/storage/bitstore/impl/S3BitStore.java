@@ -211,7 +211,6 @@ public class S3BitStore implements BitStore
                 scratchFile.delete();
             }
         }
-
 	}
 	
     /**
