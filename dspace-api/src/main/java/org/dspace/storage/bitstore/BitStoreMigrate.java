@@ -31,11 +31,11 @@ public class BitStoreMigrate {
             // create an options object and populate it
             Options options = new Options();
 
-            options.addOption("a", "source", true, "Source assetstore (to lose content)");
-            options.addOption("b", "destination", true, "Destination assetstore (to gain content)");
-            options.addOption("k", "keep", false, "Keep assets in source assetstore (don't delete it).");
+            options.addOption("a", "source", true, "Source assetstore store_number (to lose content). This is a number such as 0 or 1");
+            options.addOption("b", "destination", true, "Destination assetstore store_number (to gain content). This is a number such as 0 or 1.");
+            options.addOption("d", "delete", false, "Delete file from losing assetstore. (Default: Keep bitstream in old assetstore)");
             options.addOption("p", "print", false, "Print out current assetstore information");
-            options.addOption("s", "size", true, "Batch commit size");
+            options.addOption("s", "size", true, "Batch commit size. (Default: 1, commit after each file transfer)");
             options.addOption("h", "help", false, "Help");
 
             try
@@ -63,11 +63,11 @@ public class BitStoreMigrate {
                 System.exit(0);
             }
 
-            boolean deleteOld = true;
-            if (line.hasOption('k'))
+            boolean deleteOld = false;
+            if (line.hasOption('d'))
             {
-                log.debug("option k used setting flag to keep old assetstore files alone");
-                deleteOld = false;
+                log.debug("DELETE flag set to remove bitstream from old assetstore");
+                deleteOld = true;
             }
             log.debug("deleteOldAssets = " + deleteOld);
 
@@ -76,12 +76,16 @@ public class BitStoreMigrate {
                 Integer sourceAssetstore = Integer.valueOf(line.getOptionValue('a'));
                 Integer destinationAssetstore = Integer.valueOf(line.getOptionValue('b'));
 
-                Integer batchCommitSize = 100;
+                //Safe default, commit every time. @TODO Performance Profile
+                Integer batchCommitSize = 1;
                 if(line.hasOption('s')) {
                     batchCommitSize = Integer.parseInt(line.getOptionValue('s'));
                 }
 
                 BitstreamStorageManager.migrate(context, sourceAssetstore, destinationAssetstore, deleteOld, batchCommitSize);
+            } else {
+                printHelp(options);
+                System.exit(0);
             }
 
             context.complete();
@@ -98,6 +102,6 @@ public class BitStoreMigrate {
     private static void printHelp(Options options)
     {
         HelpFormatter myhelp = new HelpFormatter();
-        myhelp.printHelp("Migrate\n", options);
+        myhelp.printHelp("BitstoreMigrate\n", options);
     }
 }
