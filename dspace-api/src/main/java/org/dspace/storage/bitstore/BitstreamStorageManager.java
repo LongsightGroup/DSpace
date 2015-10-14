@@ -407,6 +407,9 @@ public class BitstreamStorageManager
                     context.commit();
                 }
             }
+
+            log.info("Assetstore Migration from assetstore[" + assetstoreSource + "] to assetstore[" + assetstoreDestination + "] completed. " + processedCounter + " objects were transferred.");
+
         } catch (SQLException e) {
             log.error(e);
         } catch (IOException e) {
