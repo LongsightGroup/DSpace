@@ -48,6 +48,9 @@ public class S3BitStore implements BitStore
     
     /** container for all the assets */
 	private String bucketName = null;
+
+    /** (Optional) subfolder within bucket where objects are stored */
+    private String subfolder = null;
 	
 	/** S3 service */
 	private AmazonS3 s3Service = null;
@@ -127,6 +130,9 @@ public class S3BitStore implements BitStore
             }
         }
 
+        //subfolder within bucket
+        subfolder = props.getProperty("subfolder");
+
         log.debug("AWS S3 Assetstore ready to go!");
 	}
 	
@@ -153,11 +159,9 @@ public class S3BitStore implements BitStore
      */
 	public InputStream get(String id) throws IOException
 	{
-        S3Object object = null;
-
 		try
 		{
-            object = s3Service.getObject(new GetObjectRequest(bucketName, id));
+            S3Object object = s3Service.getObject(new GetObjectRequest(bucketName, getFullKey(id)));
 			return (object != null) ? object.getObjectContent() : null;
 		}
         catch (Exception e)
@@ -190,7 +194,7 @@ public class S3BitStore implements BitStore
             FileUtils.copyInputStreamToFile(in, scratchFile);
             Long contentLength = Long.valueOf(scratchFile.length());
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, id, scratchFile);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, getFullKey(id), scratchFile);
             PutObjectResult putObjectResult = s3Service.putObject(putObjectRequest);
 
             Map attrs = new HashMap();
@@ -229,7 +233,7 @@ public class S3BitStore implements BitStore
 	public Map about(String id, Map attrs) throws IOException
 	{
         try {
-            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, id);
+            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, getFullKey(id));
 
             if (objectMetadata != null)
             {
@@ -266,12 +270,25 @@ public class S3BitStore implements BitStore
 	public void remove(String id) throws IOException
 	{
         try {
-            s3Service.deleteObject(bucketName, id);
+            s3Service.deleteObject(bucketName, getFullKey(id));
         } catch (Exception e) {
             log.error(e);
             throw new IOException(e);
         }
 	}
+
+    /**
+     * Utility Method: Prefix the key with a subfolder, if this instance assets are stored within subfolder
+     * @param id
+     * @return
+     */
+    public String getFullKey(String id) {
+        if(StringUtils.isNotEmpty(subfolder)) {
+            return subfolder + "/" + id;
+        } else {
+            return id;
+        }
+    }
 	
 	/**
 	 * Contains a command-line testing tool. Expects arguments:
