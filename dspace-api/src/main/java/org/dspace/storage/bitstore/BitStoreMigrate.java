@@ -1,3 +1,10 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * http://www.dspace.org/license/
+ */
 package org.dspace.storage.bitstore;
 
 import org.apache.commons.cli.*;
@@ -5,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 
 /**
- * Created by peterdietz on 9/8/15.
+ * Command Line Utility to migrate bitstreams from one assetstore to another
  */
 public class BitStoreMigrate {
 
