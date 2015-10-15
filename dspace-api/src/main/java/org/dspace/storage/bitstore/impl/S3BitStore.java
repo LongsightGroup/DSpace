@@ -159,14 +159,15 @@ public class S3BitStore implements BitStore
      */
 	public InputStream get(String id) throws IOException
 	{
+        String key = getFullKey(id);
 		try
 		{
-            S3Object object = s3Service.getObject(new GetObjectRequest(bucketName, getFullKey(id)));
+            S3Object object = s3Service.getObject(new GetObjectRequest(bucketName, key));
 			return (object != null) ? object.getObjectContent() : null;
 		}
         catch (Exception e)
 		{
-            log.error(e);
+            log.error("get("+key+")", e);
         	throw new IOException(e);
 		}
 	}
@@ -188,13 +189,14 @@ public class S3BitStore implements BitStore
      */
 	public Map put(InputStream in, String id) throws IOException
 	{
+        String key = getFullKey(id);
         //Copy istream to temp file, and send the file, with some metadata
         File scratchFile = File.createTempFile(id, "s3bs");
         try {
             FileUtils.copyInputStreamToFile(in, scratchFile);
             Long contentLength = Long.valueOf(scratchFile.length());
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, getFullKey(id), scratchFile);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, scratchFile);
             PutObjectResult putObjectResult = s3Service.putObject(putObjectRequest);
 
             Map attrs = new HashMap();
@@ -208,7 +210,7 @@ public class S3BitStore implements BitStore
             return attrs;
 
         } catch(Exception e) {
-            log.error(e);
+            log.error("put(is, "+key+")", e);
             throw new IOException(e);
         } finally {
             if(scratchFile.exists()) {
@@ -232,8 +234,9 @@ public class S3BitStore implements BitStore
      */
 	public Map about(String id, Map attrs) throws IOException
 	{
+        String key = getFullKey(id);
         try {
-            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, getFullKey(id));
+            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
 
             if (objectMetadata != null)
             {
@@ -253,7 +256,7 @@ public class S3BitStore implements BitStore
                 return attrs;
             }
         } catch (Exception e) {
-            log.error(e);
+            log.error("about("+key+", attrs)", e);
             throw new IOException(e);
         }
         return null;
@@ -269,10 +272,11 @@ public class S3BitStore implements BitStore
      */
 	public void remove(String id) throws IOException
 	{
+        String key = getFullKey(id);
         try {
-            s3Service.deleteObject(bucketName, getFullKey(id));
+            s3Service.deleteObject(bucketName, key);
         } catch (Exception e) {
-            log.error(e);
+            log.error("remove("+key+")", e);
             throw new IOException(e);
         }
 	}
