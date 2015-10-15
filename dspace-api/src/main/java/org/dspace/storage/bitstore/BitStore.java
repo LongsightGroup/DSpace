@@ -79,6 +79,7 @@ public interface BitStore
      *            If a problem occurs while obtaining metadata
      * @return attrs
      *            A Map with key/value pairs of desired metadata
+     *            If file not found, then return null
      */
 	public Map about(String id, Map attrs) throws IOException;
 	
