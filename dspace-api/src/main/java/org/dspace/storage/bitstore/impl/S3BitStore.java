@@ -22,6 +22,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import org.dspace.content.Bitstream;
@@ -231,6 +232,7 @@ public class S3BitStore implements BitStore
      *            If a problem occurs while obtaining metadata
      * @return attrs
      *            A Map with key/value pairs of desired metadata
+     *            If file not found, then return null
      */
 	public Map about(String id, Map attrs) throws IOException
 	{
@@ -238,22 +240,22 @@ public class S3BitStore implements BitStore
         try {
             ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
 
-            if (objectMetadata != null)
-            {
-                if (attrs.containsKey(Bitstream.SIZE_BYTES))
-                {
+            if (objectMetadata != null) {
+                if (attrs.containsKey(Bitstream.SIZE_BYTES)) {
                     attrs.put(Bitstream.SIZE_BYTES, objectMetadata.getContentLength());
                 }
-                if (attrs.containsKey(Bitstream.CHECKSUM))
-                {
+                if (attrs.containsKey(Bitstream.CHECKSUM)) {
                     attrs.put(Bitstream.CHECKSUM, objectMetadata.getContentMD5());
                     attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA);
                 }
-                if (attrs.containsKey("modified"))
-                {
+                if (attrs.containsKey("modified")) {
                     attrs.put("modified", String.valueOf(objectMetadata.getLastModified().getTime()));
                 }
                 return attrs;
+            }
+        } catch (AmazonS3Exception e) {
+            if(e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+                return null;
             }
         } catch (Exception e) {
             log.error("about("+key+", attrs)", e);
