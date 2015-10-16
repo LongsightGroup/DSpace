@@ -2243,7 +2243,7 @@
     <message key="xmlui.metadata.dc.date.created">Date Created</message>
     <message key="xmlui.metadata.dc.date.issued">Date of Issue</message>
     <message key="xmlui.metadata.dc.description">Description</message>
-    <message key="xmlui.metadata.dc.description.abstract">Description</message>
+    <message key="xmlui.metadata.dc.description.abstract">Abstract</message>
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
     <message key="xmlui.metadata.dc.description.statementofresponsibility">Statement of Responsibility</message>
     <message key="xmlui.metadata.dc.description.tableofcontents">Table of Contents</message>
