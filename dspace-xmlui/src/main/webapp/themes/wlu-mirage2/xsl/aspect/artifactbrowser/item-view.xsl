@@ -1024,7 +1024,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <ul id="file_list" class="snazy ds-file-list no-js">
-                    <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file" mode="snazy">
+                    <xsl:apply-templates select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file[(@MIMETYPE != 'image/tiff') and (@MIMETYPE != 'audio/x-wav')]" mode="snazy">
                         <xsl:with-param name="context" select="$context"/>
                     </xsl:apply-templates>
                 </ul>
