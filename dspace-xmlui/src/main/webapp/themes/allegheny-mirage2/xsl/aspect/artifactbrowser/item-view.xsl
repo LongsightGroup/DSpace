@@ -152,6 +152,12 @@
                     </div>
                     <div class="col-sm-8">
 
+                        <xsl:call-template name="itemSummaryView-field">
+                            <xsl:with-param name="schema">dc</xsl:with-param>
+                            <xsl:with-param name="element">description</xsl:with-param>
+                            <xsl:with-param name="qualifier">embargo</xsl:with-param>
+                        </xsl:call-template>
+
                         <xsl:call-template name="itemSummaryView-DIM-URI"/>
                         <xsl:call-template name="itemSummaryView-DIM-subject"/>
                         <xsl:call-template name="itemSummaryView-DIM-abstract"/>
