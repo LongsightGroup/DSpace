@@ -179,8 +179,8 @@
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors Name</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subject</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.type.column_heading">Type</message>
-	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstreader.column_heading">Senior Project: First Reader</message>
-	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.secondreaders.column_heading">Senior Project: Other Reader</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstreader.column_heading">First Reader</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.secondreaders.column_heading">Other Reader</message>
 
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing {0} by Author {1}</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing {0} by Author</message>
@@ -308,8 +308,8 @@
 	<message key="xmlui.ArtifactBrowser.Navigation.browse_dateaccessioned">By Submit Date</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
-	<message key="xmlui.ArtifactBrowser.Navigation.browse_firstreader">Senior Project: First Reader</message>
-	<message key="xmlui.ArtifactBrowser.Navigation.browse_secondreaders">Senior Project: Other Reader</message>
+	<message key="xmlui.ArtifactBrowser.Navigation.browse_firstreader">First Reader</message>
+	<message key="xmlui.ArtifactBrowser.Navigation.browse_secondreaders">Other Reader</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.browse_datecreated">Date Created</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.browse_type">Type</message>
 
