@@ -582,6 +582,20 @@
            </modules>
        </profile>
 
+        <!--
+           Builds Sesame WAR for DSpace
+        -->
+        <profile>
+            <id>dspace-sesame</id>
+            <activation>
+                <file>
+                    <exists>dspace-sesame/pom.xml</exists>
+                </file>
+            </activation>
+            <modules>
+                <module>dspace-sesame</module>
+            </modules>
+        </profile>
 
         <!--
            Builds SWORD WAR for DSpace

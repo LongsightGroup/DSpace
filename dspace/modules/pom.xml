@@ -93,6 +93,28 @@
             </modules>
         </profile>
         <profile>
+            <id>dspace-sesame</id>
+            <activation>
+                <file>
+                    <exists>sesame/pom.xml</exists>
+                </file>
+            </activation>
+            <modules>
+                <module>sesame</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sesame-workbench</id>
+            <activation>
+                <file>
+                    <exists>sesame-workbench/pom.xml</exists>
+                </file>
+            </activation>
+            <modules>
+                <module>sesame-workbench</module>
+            </modules>
+        </profile>
+        <profile>
             <id>dspace-sword</id>
             <activation>
                 <file>
