@@ -516,6 +516,9 @@
                             <xsl:attribute name="href">
                                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             </xsl:attribute>
+                            <xsl:attribute name="title">
+                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                            </xsl:attribute>
                             <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
                                 <xsl:attribute name="title">
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
@@ -537,16 +540,52 @@
                             </xsl:call-template>
                             <xsl:choose>
                                 <xsl:when test="contains($label-1, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                    <xsl:choose>
+                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
+                                            <!-- print out the truncated value followed by "..." -->
+                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <!-- otherwise print out the whole, un-truncated string -->
+                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
                                 </xsl:when>
                                 <xsl:when test="contains($label-1, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                    <xsl:choose>
+                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
+                                            <!-- print out the truncated value followed by "..." -->
+                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <!-- otherwise print out the whole, un-truncated string -->
+                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
                                 </xsl:when>
                                 <xsl:when test="contains($label-2, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                    <xsl:choose>
+                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
+                                            <!-- print out the truncated value followed by "..." -->
+                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <!-- otherwise print out the whole, un-truncated string -->
+                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
                                 </xsl:when>
                                 <xsl:when test="contains($label-2, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                    <xsl:choose>
+                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
+                                            <!-- print out the truncated value followed by "..." -->
+                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <!-- otherwise print out the whole, un-truncated string -->
+                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:call-template name="getFileTypeDesc">
@@ -559,24 +598,9 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                             <xsl:text> (</xsl:text>
-                            <xsl:choose>
-                                <xsl:when test="@SIZE &lt; 1024">
-                                    <xsl:value-of select="@SIZE"/>
-                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                                </xsl:when>
-                                <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                    <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                                </xsl:when>
-                                <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:call-template name="FileSizeFormatted">
+                                <xsl:with-param name="FileSize" select="@SIZE"/>
+                            </xsl:call-template>
                             <xsl:text>)</xsl:text>
                         </a>
                     </div>
@@ -778,24 +802,9 @@
                         <xsl:text>:</xsl:text>
                     </dt>
                     <dd class="word-break">
-                        <xsl:choose>
-                            <xsl:when test="@SIZE &lt; 1024">
-                                <xsl:value-of select="@SIZE"/>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                            </xsl:when>
-                            <xsl:when test="@SIZE &lt; 1024 * 1024">
-                                <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                            </xsl:when>
-                            <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                                <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                                <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                        <xsl:call-template name="FileSizeFormatted">
+                            <xsl:with-param name="FileSize" select="@SIZE"/>
+                        </xsl:call-template>
                     </dd>
                 <!-- Lookup File Type description in local messages.xml based on MIME Type.
          In the original DSpace, this would get resolved to an application via
@@ -1008,27 +1017,23 @@
                     </xsl:attribute>
                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
                 </a>
-                <span class="file-size">
+            </div>
+
+            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                <div class="file-item file-link file-name">
+                    <span class="label">Description:</span>
                     <xsl:choose>
-                        <xsl:when test="@SIZE &lt; 1024">
-                            <xsl:value-of select="@SIZE"/>
-                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
-                        </xsl:when>
-                        <xsl:when test="@SIZE &lt; 1024 * 1024">
-                            <xsl:value-of select="substring(string(@SIZE div 1024),1,5)"/>
-                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
-                        </xsl:when>
-                        <xsl:when test="@SIZE &lt; 1024 * 1024 * 1024">
-                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024)),1,5)"/>
-                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 60 ">
+                            <!-- print out the truncated value followed by "..." -->
+                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 60)"/>...
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="substring(string(@SIZE div (1024 * 1024 * 1024)),1,5)"/>
-                            <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                            <!-- otherwise print out the whole, un-truncated string -->
+                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                </span>
-            </div>
+                </div>
+            </xsl:if>
 
             <div class="slide-arrow show">
                 <div class="showhide" data-toggle="modal">
@@ -1047,12 +1052,23 @@
                 <xsl:value-of select="@ID"/>
             </xsl:attribute>
 
-            <div class="file-item file-mimetype last">
+            <div class="file-item file-mimetype">
                 <span class="label">MIME type:</span>
                 <span class="value">
                     <xsl:value-of select="@MIMETYPE" />
                 </span>
             </div>
+
+            <div class="file-item last">
+                <span class="label">File Size:</span>
+                <span class="value">
+                    <xsl:call-template name="FileSizeFormatted">
+                        <xsl:with-param name="FileSize" select="@SIZE"/>
+                    </xsl:call-template>
+                </span>
+            </div>
+
+
             <!-- Display file based on MIME type -->
             <div class="file-view">
                 <div class="file-view-container">
@@ -1082,9 +1098,15 @@
                             </video>
                         </xsl:when>
                         <xsl:when test="$mview='videoplayer'">
-                            <div id="myElement">Loading the player...</div>
+                            <div>
+                                <xsl:attribute name="id">
+                                    <xsl:text>videoplayer_</xsl:text>
+                                    <xsl:value-of select="@ID"/>
+                                </xsl:attribute>
+                                Loading the player...
+                            </div>
                             <script type="text/javascript">
-                                jwplayer("myElement").setup({
+                                jwplayer("<xsl:text>videoplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
                                 file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
                                 image: "",
                                 width: "100%",
@@ -1093,9 +1115,15 @@
                             </script>
                         </xsl:when>
                         <xsl:when test="$mview='audioplayer'">
-                            <div id="myElement">Loading the player...</div>
+                            <div>
+                                <xsl:attribute name="id">
+                                    <xsl:text>audioplayer_</xsl:text>
+                                    <xsl:value-of select="@ID"/>
+                                </xsl:attribute>
+                                Loading the player...
+                            </div>
                             <script type="text/javascript">
-                                jwplayer("myElement").setup({
+                                jwplayer("<xsl:text>audioplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
                                 file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
                                 width: "100%",
                                 height: "30px"
@@ -1192,6 +1220,41 @@
     <!-- Generate the license information from the file section -->
     <xsl:template match="mets:fileGrp[@USE='LICENSE']" mode="simple">
         <li><a href="{mets:file/mets:FLocat[@xlink:title='license.txt']/@xlink:href}"><i18n:text>xmlui.dri2xhtml.structural.link_original_license</i18n:text></a></li>
+    </xsl:template>
+
+    <xsl:template name="FileSizeFormatted">
+        <xsl:param name="FileSize"/>
+        <xsl:if test="string-length($FileSize) &gt; 0">
+            <xsl:if test="number($FileSize) &gt; 0">
+                <xsl:choose>
+                    <xsl:when test="round($FileSize div 1024) &lt; 1">
+                        <xsl:value-of select="$FileSize" />
+                        <xsl:text> </xsl:text>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                    </xsl:when>
+                    <xsl:when test="round($FileSize div (1024*1024)) &lt; 1">
+                        <xsl:value-of select="format-number(($FileSize div 1024), '0.0')" />
+                        <xsl:text> </xsl:text>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                    </xsl:when>
+                    <xsl:when test="round($FileSize div (1024*1024*1024)) &lt; 1">
+                        <xsl:value-of select="format-number(($FileSize div (1024*1024)), '0.0')" />
+                        <xsl:text> </xsl:text>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                    </xsl:when>
+                    <xsl:when test="round($FileSize div (1024*1024*1024*1024)) &lt; 1">
+                        <xsl:value-of select="format-number(($FileSize div (1024*1024*1024)), '0.0')" />
+                        <xsl:text> </xsl:text>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="format-number(($FileSize div 1048576), '0.00')" />
+                        <xsl:text> </xsl:text>
+                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:if>
+        </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>
