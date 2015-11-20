@@ -16,7 +16,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import org.dspace.content.DSpaceObject;
+import org.dspace.content.*;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.services.model.Event;
@@ -70,17 +70,17 @@ public class GoogleRecorderEventListener extends AbstractUsageEventListener {
 
                     if (ue.getAction() == UsageEvent.Action.VIEW) {
                         if (ue.getObject().getType() == Constants.BITSTREAM) {
-                            logEvent(ue, "bitstream", "download");
+                            logEvent(ue, "bitstream", UsageEvent.Action.VIEW.toString());
 
                         //  Note: I've left this commented out code here to show how we could record page views as events,
                         //  but since they are already taken care of by the Google Analytics Javascript there is not much point.
 
-                        //}  else if (ue.getObject().getType() == Constants.ITEM) {
-                        //    logEvent(ue, "item", "view");
-                        //}  else if (ue.getObject().getType() == Constants.COLLECTION) {
-                        //    logEvent(ue, "collection", "view");
-                        //}  else if (ue.getObject().getType() == Constants.COMMUNITY) {
-                        //    logEvent(ue, "community", "view");
+                        }  else if (ue.getObject().getType() == Constants.ITEM) {
+                            logEvent(ue, "item", "view");
+                        }  else if (ue.getObject().getType() == Constants.COLLECTION) {
+                            logEvent(ue, "collection", "view");
+                        }  else if (ue.getObject().getType() == Constants.COMMUNITY) {
+                            logEvent(ue, "community", "view");
                         }
                     }
                 }
@@ -111,7 +111,9 @@ public class GoogleRecorderEventListener extends AbstractUsageEventListener {
         nvps.add(new BasicNameValuePair("uip", getIPAddress(ue.getRequest())));
         nvps.add(new BasicNameValuePair("ua", ue.getRequest().getHeader("USER-AGENT")));
         nvps.add(new BasicNameValuePair("dr", ue.getRequest().getHeader("referer")));
-        nvps.add(new BasicNameValuePair("dp", ue.getRequest().getRequestURI()));
+
+        String documentPath = getDocumentPath(ue.getObject());
+        nvps.add(new BasicNameValuePair("dp", documentPath));
         nvps.add(new BasicNameValuePair("dt", getObjectName(ue)));
         nvps.add(new BasicNameValuePair("ec", category));
         nvps.add(new BasicNameValuePair("ea", action));
@@ -130,6 +132,55 @@ public class GoogleRecorderEventListener extends AbstractUsageEventListener {
         }
 
         log.debug("Posted to Google Analytics - " + ue.getRequest().getRequestURI());
+    }
+
+    /**
+     BITSTREAM = 0;
+    BUNDLE = 1;
+    ITEM = 2;
+    COLLECTION = 3;
+    COMMUNITY = 4;
+    SITE = 5;
+     * @param dso
+     * @return
+     */
+    private String getDocumentPath(DSpaceObject dso) throws SQLException {
+        // /comm:123/comm:234/coll:345/item:456/bundle:ORIGINAL/bitstream:567
+        if (dso instanceof Bitstream) {
+            Bitstream bitstream = (Bitstream) dso;
+            String parentPath = "";
+            Bundle[] bundles = bitstream.getBundles();
+            if (bundles != null) {
+                for (Bundle bundle : bundles) {
+                    parentPath += getDocumentPath(bundle);
+                }
+            } else {
+                parentPath += bitstream.getParentObject();
+            }
+            return parentPath + "/bitstream:" + bitstream.getID();
+        } else if (dso instanceof Bundle) {
+            Bundle bundle = (Bundle) dso;
+            return getDocumentPath(bundle.getParentObject()) + "/bundle:" + bundle.getName();
+        } else if (dso instanceof Item) {
+            Item item = (Item) dso;
+            String parentPath = "";
+            for (Collection owningCollection : item.getCollections()) {
+                parentPath += getDocumentPath(owningCollection);
+            }
+            return parentPath + "/item:" + item.getID();
+        } else if (dso instanceof Collection) {
+            Collection collection = (Collection) dso;
+            String parentPath = "";
+            for (Community parentComm : collection.getCommunities()) {
+                parentPath += getDocumentPath(parentComm);
+            }
+            return parentPath + "/collection:" + collection.getID();
+        } else if (dso instanceof Community) {
+            Community community = (Community) dso;
+            return getDocumentPath(community.getParentCommunity()) + "/community:" + community.getID();
+        } else {
+            return "";
+        }
     }
 
     private String getParentType(UsageEvent ue) {
