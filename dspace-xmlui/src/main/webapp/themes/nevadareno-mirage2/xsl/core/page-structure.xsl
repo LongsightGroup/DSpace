@@ -341,8 +341,9 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/logo.png" />
+                        <a href="//www.unr.edu/" class="navbar-brand">
+                            <img src="{$theme-path}/images/unr-block-N.jpg" alt="Block N" />
+                            University of Nevada, Reno
                         </a>
 
 
@@ -475,8 +476,13 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
+
+                </div>
+                <div class="scholarWorks">
+                    <p class="text-center h1"><a href="{$context-path}">Scholar Works</a></p>
                 </div>
             </div>
+
 
         </header>
 
