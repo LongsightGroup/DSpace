@@ -479,7 +479,7 @@
 
                 </div>
                 <div class="scholarWorks">
-                    <p class="text-center h1"><a href="{$context-path}">Scholar Works</a></p>
+                    <p class="text-center h1"><a><xsl:attribute name="href"><xsl:value-of select="$context-path"/></xsl:attribute> Scholar Works</a></p>
                 </div>
             </div>
 
