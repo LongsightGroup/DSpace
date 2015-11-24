@@ -80,6 +80,16 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
     content: ">";
 }
 
+/* Header login */
+header .navbar-default .navbar-toggle > li > a:hover, header .navbar-default .navbar-toggle > li > a:focus, header .navbar-default .navbar-nav > li > a:hover, header .navbar-default .navbar-nav > li > a:focus {
+    background-color: #003366;
+    color: #E3E3E3;
+}
+
+header .navbar-default .navbar-toggle > .open > a, header .navbar-default .navbar-toggle > .open > a:hover, header .navbar-default .navbar-toggle > .open > a:focus, header .navbar-default .navbar-nav > .open > a, header .navbar-default .navbar-nav > .open > a:hover, header .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #003366;
+    color: #E3E3E3;
+}
 
 
 @media (max-width: 767px) {
