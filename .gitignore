@@ -29,3 +29,6 @@ META-INF/
 
 ##Mac noise
 .DS_Store
+
+##Ignore rebuild scripts
+respace*.sh
