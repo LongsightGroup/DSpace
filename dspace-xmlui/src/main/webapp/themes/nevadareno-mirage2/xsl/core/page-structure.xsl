@@ -656,41 +656,48 @@
 
     <!-- Like the header, the footer contains various miscellaneous text, links, and image placeholders -->
     <xsl:template name="buildFooter">
-        <footer>
-            <div class="container-fluid">
+        <footer class="main-footer">
+
+            <div class="container">
                 <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2015&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
+                    <div class="col-sm-12">
+                        <div class="footer-logo-line">
+                            <div class="footer-logo">
+                                <a href="//www.unr.edu/" class="logo-swap" id="footer-logo">University of Reno, Nevada</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/contact</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                    </a>
-                    <xsl:text> | </xsl:text>
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/feedback</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                    </a>
+                    <ul class="footer-info col-sm-12">
+                        <li>University of Nevada, Reno</li>
+                        <span>|</span>
+                        <li>1664 N. Virginia Street, Reno 89557</li>
+                        <span>|</span>
+                        <li>(775) 784-1110</li>
+                    </ul>
                 </div>
+                <nav class="row">
+                    <ul class="footer-nav col-sm-12">
+                        <li><a title="Website Help Form" href="http://www.formstack.com/forms/?1226969-V0nnGE7i8j&amp;URL=http://scholarworks.unr.edu">Website Help</a> <span>|</span> </li>
+                        <li><a title="General Information: Contact Us" href="http://www.unr.edu/general-information/contact-us">Contact Us</a> <span>|</span> </li>
+                        <li><a title="General Information: Copyright" href="http://www.unr.edu/general-information/copyright">Copyright</a> <span>|</span> </li>
+                        <li><a title="General Information: Privacy" href="http://www.unr.edu/general-information/privacy">Privacy</a> <span>|</span> </li>
+                        <li><a title="General Information: Accessibility" href="http://www.unr.edu/general-information/accessibility">Accessibility</a> <span>|</span> </li>
+                        <li><a title="General Information: Emergency Information" href="http://www.unr.edu/general-information/emergency">Emergency Information</a> <span>|</span> </li>
+                        <li><a title="Search for Employment and Careers" href="https://www.unrsearch.com/">Employment &amp; Careers</a> <span>|</span> </li>
+                        <li><a title="Business Center North: Business with Us" href="http://www.bcn-nshe.org/purchasing/business">Doing Business with Us</a> </li>
+                    </ul>
+                </nav>
             </div>
             <!--Invisible link to HTML sitemap (for search engines) -->
             <a class="hidden">
                 <xsl:attribute name="href">
-                    <xsl:value-of
-                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                    <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
                     <xsl:text>/htmlmap</xsl:text>
                 </xsl:attribute>
                 <xsl:text>&#160;</xsl:text>
             </a>
-            <p>&#160;</p>
         </footer>
     </xsl:template>
 
