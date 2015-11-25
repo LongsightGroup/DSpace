@@ -53,6 +53,14 @@
         <xsl:value-of select="$pagemeta/dri:metadata[@element='request'][@qualifier='URI']"/>
     </xsl:variable>
 
+    <xsl:variable name="current-uri-with-querystring">
+        <xsl:value-of select="$current-uri"/>
+        <xsl:if test="$pagemeta/dri:metadata[@element='request'][@qualifier='queryString'] != ''">
+            <xsl:text>?</xsl:text>
+            <xsl:value-of select="$pagemeta/dri:metadata[@element='request'][@qualifier='queryString']"/>
+        </xsl:if>
+    </xsl:variable>
+
     <xsl:variable name="SFXLink">
         <xsl:if test="$pagemeta/dri:metadata[@element='sfx'][@qualifier='server']">
             <a>

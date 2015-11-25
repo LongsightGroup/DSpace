@@ -679,7 +679,15 @@
                 </div>
                 <nav class="row">
                     <ul class="footer-nav col-sm-12">
-                        <li><a title="Website Help Form" href="http://www.formstack.com/forms/?1226969-V0nnGE7i8j&amp;URL=http://scholarworks.unr.edu">Website Help</a> <span>|</span> </li>
+                        <li><a title="Website Help Form">
+                            <xsl:attribute name="href">
+                                <xsl:text>http://www.formstack.com/forms/?1226969-V0nnGE7i8j&amp;URL=</xsl:text>
+                                <xsl:call-template name="url-encode">
+                                    <xsl:with-param name="str">
+                                        <xsl:value-of select="$current-uri-with-querystring"/>
+                                    </xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:attribute>Website Help</a> <span>|</span> </li>
                         <li><a title="General Information: Contact Us" href="http://www.unr.edu/general-information/contact-us">Contact Us</a> <span>|</span> </li>
                         <li><a title="General Information: Copyright" href="http://www.unr.edu/general-information/copyright">Copyright</a> <span>|</span> </li>
                         <li><a title="General Information: Privacy" href="http://www.unr.edu/general-information/privacy">Privacy</a> <span>|</span> </li>
