@@ -6,15 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dspace.modules</groupId>
     <artifactId>sesame</artifactId>
+    <version>5.5-SNAPSHOT</version>
     <name>DSpace Sesame RDF Triplestore Local Customizations</name>
     <packaging>war</packaging>
-
-   <parent>
-      <groupId>org.dspace</groupId>
-      <artifactId>modules</artifactId>
-      <version>5.5-SNAPSHOT</version>
-      <relativePath>..</relativePath>
-   </parent>
 
    <properties>
        <!-- This is the path to the root [dspace-src] directory. -->
