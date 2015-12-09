@@ -702,7 +702,7 @@
             window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"OK","learnMore":"More info","link":"http://www.unibz.it/en/library/about/regulations/cookie-information.html","theme":"light-bottom"};
         </script>
 
-        <script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
         <!-- End Cookie Consent plugin -->
     </xsl:template>
 
