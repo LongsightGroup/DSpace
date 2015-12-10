@@ -2298,6 +2298,7 @@
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
+    <message key="xmlui.metadata.dc.coverage.spatial">County</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2311,6 +2312,7 @@
     <message key="xmlui.metadata.dc.first-line-of-chorus">First Line of Chorus</message>
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Item Format</message>
+    <message key="xmlui.metadata.dc.format.medium">Media Type</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
     <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Identifier (Citation)</message>
