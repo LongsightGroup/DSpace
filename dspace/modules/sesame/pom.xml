@@ -6,46 +6,52 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dspace.modules</groupId>
     <artifactId>sesame</artifactId>
-    <version>5.5-SNAPSHOT</version>
     <name>DSpace Sesame RDF Triplestore Local Customizations</name>
     <packaging>war</packaging>
 
-   <properties>
-       <!-- This is the path to the root [dspace-src] directory. -->
-       <root.basedir>${basedir}/../../..</root.basedir>
-   </properties>
+    <parent>
+        <groupId>org.dspace</groupId>
+        <artifactId>modules</artifactId>
+        <version>5.5-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
 
-   <build>
-       <filters>
-           <!-- Filter using the properties file defined by dspace-parent POM -->
-           <filter>${filters.file}</filter>
-       </filters>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-               <archiveClasses>false</archiveClasses>
-               <failOnMissingWebXml>false</failOnMissingWebXml>
-               <webResources>
-                  <resource>
-                     <filtering>true</filtering>
-                     <directory>${basedir}</directory>
-                     <includes>
-                        <include>/src/main/webapp/WEB-INF/web.xml</include>
-                     </includes>
-                  </resource>
-               </webResources>
-            </configuration>
-            <executions>
-               <execution>
-                  <phase>prepare-package</phase>
-               </execution>
-            </executions>
-         </plugin>
+    <properties>
+        <!-- This is the path to the root [dspace-src] directory. -->
+        <root.basedir>${basedir}/../../..</root.basedir>
+    </properties>
 
-      </plugins>
-   </build>
+    <build>
+        <filters>
+            <!-- Filter using the properties file defined by dspace-parent POM -->
+            <filter>${filters.file}</filter>
+        </filters>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archiveClasses>false</archiveClasses>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>/src/main/webapp/WEB-INF/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
     <dependencies>
 
@@ -68,7 +74,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
-      </dependency>
+        </dependency>
 
     </dependencies>
 
