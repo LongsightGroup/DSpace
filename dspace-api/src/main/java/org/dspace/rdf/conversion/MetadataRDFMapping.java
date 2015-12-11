@@ -15,6 +15,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.shared.BadURIException;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 import java.net.URI;
@@ -25,6 +26,9 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.jena.iri.IRI;
+import org.apache.jena.iri.IRIFactory;
+import org.apache.jena.iri.Violation;
 import org.apache.log4j.Logger;
 
 /**
@@ -359,15 +363,26 @@ public class MetadataRDFMapping {
         
         if (object.hasProperty(RDF.type, DMRM.ResourceGenerator))
         {
-            String generatedIRI = parseResourceGenerator(object, value, dsoIRI);
-            if (generatedIRI == null)
-            {
-                log.debug("Generated predicate IRI is null.");
-                return null;
+            try {
+                String generatedIRI = parseResourceGenerator(object, value, dsoIRI);
+
+                if (generatedIRI == null) {
+                    log.debug("Generated predicate IRI is null.");
+                    return null;
+                }
+
+                log.debug("Property ResourceGenerator generated '" + generatedIRI + "'.");
+                return m.createProperty(generatedIRI);
             }
-            
-            log.debug("Property ResourceGenerator generated '" + generatedIRI + "'.");
-            return m.createProperty(generatedIRI);
+            catch (BadURIException e)
+            {
+                log.debug("Property ResourceGenerator bad IRI: '" + value + "'.", e);
+
+                // Fall Back to Literal if it is that bad, but warn loudly
+                Literal literalValue = parseLiteralGenerator(m, object, value, lang);
+                if (literalValue == null) return null;
+                return literalValue;
+            }
         }
         
         if (object.isAnon())
@@ -407,17 +422,29 @@ public class MetadataRDFMapping {
         if (input == null) {
             return null;
         }
-        try {
-            URI.create(input);
-            return input;
-        } catch (IllegalArgumentException e) {
-            return input
-                    .replaceAll("\\[", "%5B")
-                    .replaceAll("\\]", "%5D")
-                    .replaceAll(" ", "%20")
-                    .replaceAll("\\(", "%28")
-                    .replaceAll("\\)", "%29");
+
+        String clean_input = input
+                .replaceAll("\\[", "%5B")
+                .replaceAll("\\]", "%5D")
+                .replaceAll(" ", "%20")
+                .replaceAll("\\(", "%28")
+                .replaceAll("\\)", "%29");
+
+        IRI result = IRIFactory.jenaImplementation().create(clean_input);
+
+        if(result.hasViolation(false))
+        {
+            Iterator<Violation> iter = result.violations(false);
+            String message = "";
+            while(iter.hasNext())
+            {
+                message += iter.next().getLongMessage() + "\\n ";
+            }
+
+            throw new BadURIException(message);
         }
+
+        return result.toString();
     }
     
     protected Literal parseLiteralGenerator(Model m, Resource literalGenerator, 

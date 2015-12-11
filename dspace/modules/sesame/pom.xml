@@ -6,20 +6,45 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dspace.modules</groupId>
     <artifactId>sesame</artifactId>
+    <version>5.5-SNAPSHOT</version>
     <name>DSpace Sesame RDF Triplestore Local Customizations</name>
     <packaging>war</packaging>
-
-    <parent>
-        <groupId>org.dspace</groupId>
-        <artifactId>modules</artifactId>
-        <version>5.5-SNAPSHOT</version>
-        <relativePath>..</relativePath>
-    </parent>
 
     <properties>
         <!-- This is the path to the root [dspace-src] directory. -->
         <root.basedir>${basedir}/../../..</root.basedir>
     </properties>
+
+    <profiles>
+        <!-- By default the main dspace.cfg file will be filtered during the build
+     using the "build.properties" file. This profile takes effect, unless
+     "-Denv" is passed in (see 'environment' profile below for more info). -->
+        <profile>
+            <id>default</id>
+            <activation>
+                <property>
+                    <name>!env</name>
+                </property>
+            </activation>
+            <properties>
+                <!-- 'root.basedir' is the relative path to the [dspace-src] root folder -->
+                <filters.file>${root.basedir}/build.properties</filters.file>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>environment</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                </property>
+            </activation>
+            <properties>
+                <!-- 'root.basedir' is the relative path to the [dspace-src] root folder -->
+                <filters.file>${root.basedir}/${env}.properties</filters.file>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <filters>
@@ -74,6 +99,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
+            <version>2.5</version>
         </dependency>
 
     </dependencies>

@@ -950,7 +950,7 @@
             <artifactId>lucene-queryparser</artifactId>
             <version>${lucene.version}</version>
          </dependency>
-        <dependency>
+         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>apache-jena-libs</artifactId>
             <type>pom</type>
