@@ -75,6 +75,7 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
     background-color: #ffffff;
     color: #555555;
     border-bottom: none;
+    padding-top: 15px;
 }
 .trail-wrapper .breadcrumb > li + li:before {
     color: #555555;
@@ -463,6 +464,7 @@ footer {
     z-index: 101;
     position: absolute;
     top: 126px;
+    height: 35px;
 }
 
 .centerImage {
