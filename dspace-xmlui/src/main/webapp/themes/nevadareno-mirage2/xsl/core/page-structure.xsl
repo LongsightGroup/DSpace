@@ -478,8 +478,24 @@
                     </div>
 
                 </div>
-                <div class="scholarWorks">
-                    <p class="text-center h1"><a href="{$context-path}/">Scholar Works</a></p>
+            </div>
+            <div class="header-bg-wrapper">
+                <div class="header-bg-gradient"></div>
+                <div class="header-bg" style="background-image: url({$theme-path}/images/header-background.jpg)"></div>
+
+            </div>
+            <div class="header-seperator">
+                <div class="col-md-12 col-sm-12 hidden-xs">
+                    <a href="{$context-path}/">
+                        <img class="centerImage" src="{$theme-path}/images/Research-Innovation-Lg.png" alt="Research and Innovation"/></a>
+                </div>
+                <div class="visible-xs col-xs-12">
+                    <a href="{$context-path}/">
+                        <img class="centerImage" src="{$theme-path}/images/Research-Innovation-XS.png" alt="Research and Innovation" /></a>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 seperator-icon">
+                    <img alt="Block N Logo" class="centerImage" src="{$theme-path}/images/N.jpg"/>
                 </div>
             </div>
 
@@ -663,12 +679,21 @@
                     <div class="col-sm-12">
                         <div class="footer-logo-line">
                             <div class="footer-logo">
-                                <a href="//www.unr.edu/" class="logo-swap" id="footer-logo">University of Reno, Nevada</a>
+                                <a href="//www.unr.edu/" id="footer-logo">
+                                    <img src="{$theme-path}/images/N-footer.png" alt="Block N" />
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                    <p class="text-center">
+                        <a class="text-primary" href="http://www.unr.edu/vpri">Office of the Vice President for Research and Innovation</a>
+                    </p>
+                </div>
+
+                <div class="row">
+
                     <ul class="footer-info col-sm-12">
                         <li>University of Nevada, Reno</li>
                         <span>|</span>
