@@ -22,6 +22,11 @@
     src: url(../fonts/MyriadPro-Cond.eot)
 }*/
 
+body {
+    font-family: "Myriad Pro", "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+
 /* Override dspace-bootstrap-tweaks */
 header .navbar-brand img {
     height: 36px;
