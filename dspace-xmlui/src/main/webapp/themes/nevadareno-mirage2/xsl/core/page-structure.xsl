@@ -330,6 +330,18 @@
 
 
         <header>
+            <xsl:attribute name="class">
+                <xsl:choose>
+                    <xsl:when test="$request-uri = ''">
+                        <!-- home -->
+                        <xsl:text>header</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <!-- other page -->
+                        <xsl:text>header small-header no-hero</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
             <div class="navbar navbar-default navbar-static-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
@@ -487,11 +499,11 @@
             <div class="header-seperator">
                 <div class="col-md-12 col-sm-12 hidden-xs">
                     <a href="{$context-path}/">
-                        <img class="centerImage" src="{$theme-path}/images/Research-Innovation-Lg.png" alt="Research and Innovation"/></a>
+                        <img class="centerImage" src="{$theme-path}/images/scholarworks-lg.png" alt="Research and Innovation"/></a>
                 </div>
                 <div class="visible-xs col-xs-12">
                     <a href="{$context-path}/">
-                        <img class="centerImage" src="{$theme-path}/images/Research-Innovation-XS.png" alt="Research and Innovation" /></a>
+                        <img class="centerImage" src="{$theme-path}/images/scholarworks-sm.png" alt="Research and Innovation" /></a>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12 seperator-icon">

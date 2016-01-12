@@ -17,23 +17,38 @@
     font-weight: bold;
 }
 
-/**@font-face {
-    font-family: 'Myriad Pro';
-    src: url(../fonts/MyriadPro-Cond.eot)
-}*/
+@font-face {
+    font-family: 'Myriad Pro Condensed';
+    src: url(../fonts/b4852b31-892b-45db-a043-d946709730ed.eot)
+}
 
 body {
     font-family: "Myriad Pro", "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: "Myriad Pro Condensed", "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 500;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antiAliased;
+    color: #003366;
 }
 
 
 /* Override dspace-bootstrap-tweaks */
 header .navbar-brand img {
     height: 36px;
+    padding-right: 6px;
     margin-top: -6px;
 }
 
 header .navbar-default .navbar-brand {
+    color: #003366;
+}
+
+header .navbar-default .navbar-brand:hover, header .navbar-default .navbar-brand:focus {
+    text-decoration: underline;
     color: #003366;
 }
 
@@ -160,7 +175,7 @@ header .navbar-default .navbar-toggle > .open > a, header .navbar-default .navba
 
 /* bootstrap-classic-mirage-colors */
 a {
-    color: #003366;
+    color: #428bca;
 }
 .text-primary {
     color: #003366
@@ -472,5 +487,38 @@ footer {
     height: auto;
     margin: 20px auto;
     max-width: 100%;
+}
+
+.small-header.header .header-bg {
+    background-size: cover;
+    background-position: center center;
+    height: 195px;
+    postion: relative;
+}
+
+.small-header.header .header-bg-gradient {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.small-header.header .big-video-gradient-overlay, .small-header.header .header-bg-gradient {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    z-index: -20;
+    overflow: hidden;
+    background-image: -webkit-linear-gradient(top, rgba(255, 144, 0, 0.15) 0%, transparent 40%, rgba(0, 51, 102, 0.5) 100%);
+    height: 195px;
+}
+
+.small-header.header .header-seperator {
+    margin-top:0px;
+}
+
+
+#ds-options .ds-option-set-head {
+    color: #003366;
+    font-size: 21px;
 }
 
