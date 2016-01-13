@@ -38,13 +38,14 @@ h1, h2, h3, h4, h5 {
 
 /* Override dspace-bootstrap-tweaks */
 header .navbar-brand img {
-    height: 36px;
+    height: 30px;
     padding-right: 6px;
     margin-top: -6px;
 }
 
 header .navbar-default .navbar-brand {
     color: #003366;
+    margin-top: 2px;
 }
 
 header .navbar-default .navbar-brand:hover, header .navbar-default .navbar-brand:focus {
@@ -130,7 +131,7 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
 
 /* Submission form progress buttons */
 .btn-success {
-    background-color: #ffffff;
+    background-color: #003366;
     border: 1px solid #8b9eb2;
 }
 .btn-success[disabled], .btn-success.disabled {
@@ -522,3 +523,12 @@ footer {
     font-size: 21px;
 }
 
+.ds-previous-values {
+    padding-left: 20px;
+}
+
+.community-browser-row a[name='community-browser-link'] {
+    line-height: 30px;
+    font-size: 22px;
+    text-decoration: underline;
+}
