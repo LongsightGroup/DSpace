@@ -19,6 +19,7 @@
 	exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
 
     <xsl:import href="../../mirage2/xsl/theme.xsl"/>
+    <xsl:import href="core/navigation.xsl"/>
     <xsl:import href="core/page-structure.xsl"/>
     <xsl:output indent="yes"/>
 
