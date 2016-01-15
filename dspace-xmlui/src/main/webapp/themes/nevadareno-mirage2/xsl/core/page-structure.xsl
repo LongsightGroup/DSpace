@@ -914,18 +914,4 @@
         </xsl:if>
     </xsl:template>
 
-
-    <!-- Overlay structural?? -->
-    <xsl:template match="dri:options">
-        <div class="word-break" id="ds-options">
-            <h2 class="ds-option-set-head  h6">Information</h2>
-            <div class="list-group">
-                <a href="#policy" class="list-group-item ds-option">Policy</a>
-                <a href="#help" class="list-group-item ds-option">Help</a>
-            </div>
-
-            <xsl:apply-templates />
-        </div>
-    </xsl:template>
-
 </xsl:stylesheet>
