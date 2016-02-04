@@ -433,7 +433,7 @@
                     <xsl:if test="contains(./node(), 'https://www.youtube.com/watch?v=')">
                         <iframe id="ytplayer" type="text/html" width="550" height="335" frameborder="0">
                             <xsl:attribute name="src">
-                                <xsl:text>http://www.youtube.com/embed/</xsl:text>
+                                <xsl:text>https://www.youtube.com/embed/</xsl:text>
                                 <xsl:value-of select="substring-after(./node(), 'watch?v=')"/>
                             </xsl:attribute>
                         </iframe>
