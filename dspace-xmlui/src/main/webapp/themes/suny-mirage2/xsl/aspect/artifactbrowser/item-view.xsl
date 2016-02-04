@@ -169,6 +169,7 @@
                             </xsl:if>
                         </div>
                         <div class="col-sm-8">
+                            <xsl:call-template name="itemSummaryView-DIM-URI-youtube"/>
                             <xsl:call-template name="itemSummaryView-DIM-subject"/>
                             <xsl:call-template name="itemSummaryView-DIM-abstract"/>
                             <xsl:call-template name="itemSummaryView-DIM-description"/>
@@ -420,6 +421,24 @@
                         </xsl:if>
                     </xsl:for-each>
                 </span>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-URI-youtube">
+        <xsl:if test="dim:field[@element='identifier' and @qualifier='uri' and descendant::text()]">
+            <div class="simple-item-view-uri item-page-field-wrapper table">
+                <xsl:for-each select="dim:field[@element='identifier' and @qualifier='uri']">
+                    <!-- https://www.youtube.com/watch?v=jg-krWl-yVI -->
+                    <xsl:if test="contains(./node(), 'https://www.youtube.com/watch?v=')">
+                        <iframe id="ytplayer" type="text/html" width="550" height="335" frameborder="0">
+                            <xsl:attribute name="src">
+                                <xsl:text>http://www.youtube.com/embed/</xsl:text>
+                                <xsl:value-of select="substring-after(./node(), 'watch?v=')"/>
+                            </xsl:attribute>
+                        </iframe>
+                    </xsl:if>
+                </xsl:for-each>
             </div>
         </xsl:if>
     </xsl:template>
