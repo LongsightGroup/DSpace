@@ -426,3 +426,11 @@
   ];
   .
 
+:type
+  dm:metadataName "dc.type" ;
+  dm:creates [
+    dm:subject dm:DSpaceObjectIRI ;
+    dm:predicate dc:type ;
+    dm:object dm:DSpaceValue ;
+  ];
+  .
