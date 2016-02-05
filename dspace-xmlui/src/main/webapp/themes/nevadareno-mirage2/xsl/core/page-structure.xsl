@@ -352,11 +352,12 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-
+                        <h1 class="secondary-nav">
                         <a href="//www.unr.edu/" class="navbar-brand">
                             <img src="{$theme-path}/images/unr-block-N.jpg" alt="Block N" />
                             University of Nevada, Reno
                         </a>
+                        </h1>
 
 
                         <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
