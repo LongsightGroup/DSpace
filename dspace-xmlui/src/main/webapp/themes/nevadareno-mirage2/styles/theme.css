@@ -52,6 +52,7 @@
 body {
     font-family: "Myriad Pro 1167301", "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 16px;
+    line-height: 22.81px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -60,6 +61,16 @@ h1, h2, h3, h4, h5 {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antiAliased;
     color: #003366;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 40px;
+    margin-bottom: 5.6px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 14px;
 }
 
 
@@ -139,6 +150,8 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
 
 .breadcrumb, .breadcrumb a {
     color: #555555;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 .breadcrumb li.active {
@@ -555,9 +568,10 @@ footer {
 }
 
 .community-browser-row a[name='community-browser-link'] {
-    line-height: 30px;
-    font-size: 22px;
-    text-decoration: underline;
+    font-family: "Myriad Pro Cond 1167289", "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 28px;
+    font-weight:500;
+    line-height:40px;
 }
 
 h1.secondary-nav {
@@ -569,4 +583,10 @@ h1.secondary-nav {
     float: left;
     text-transform: inherit;
     font-family: "Myriad Pro 1167301", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h4.artifact-title {
+    font-family: 'Myriad Pro 1167301', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 22.81px;
 }
