@@ -118,7 +118,7 @@
             <h2 class="ds-option-set-head h6">Information</h2>
             <div class="list-group">
                 <a href="http://www.unr.edu/sponsored-projects/project-lifecycle/proposal-preparation-and-submission/data-management" class="list-group-item ds-option">Policy</a>
-                <!--<a href="#help" class="list-group-item ds-option">Help</a>-->
+                <a href="#help" class="list-group-item ds-option">Help</a>
             </div>
 
 
