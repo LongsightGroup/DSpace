@@ -2283,6 +2283,7 @@
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
+    <message key="xmlui.metadata.dc.contributor.advisor">Thesis Advisor</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2313,6 +2314,11 @@
     <message key="xmlui.metadata.dc.title.alternative">Alternative Title</message>
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
+    <message key="xmlui.metadata.dc.contributor.committeeMember">Committee Member</message>
+    <message key="xmlui.metadata.thesis.degree.department">Department</message>
+    <message key="xmlui.metadata.thesis.degree.level">Degree Level</message>
+    <message key="xmlui.metadata.thesis.degree.name">Degree Name</message>
+    <message key="xmlui.metadata.thesis.degree.grantor">Degree Grantor</message>
 
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
