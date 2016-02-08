@@ -190,6 +190,7 @@
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.publisher.column_heading">Publisher</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstLineOfText.column_heading">First Line of Text</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstLineOfChorus.column_heading">First Line of Chorus</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.type.column_heading">Type</message>
 
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing {0} by Author {1}</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing {0} by Author</message>
@@ -319,6 +320,7 @@
     <message key="xmlui.ArtifactBrowser.Navigation.browse_publisher">Publisher</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfText">First Line of Text</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfChorus">First Line of Chorus</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_type">Type</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
 
