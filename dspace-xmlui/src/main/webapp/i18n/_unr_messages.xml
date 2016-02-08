@@ -142,11 +142,22 @@
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_publisher">Publisher</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_relation">Relation</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subject">Subject</message>
+   <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_type">Type</message>
 
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_ANY">Full Text</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.and">AND</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.or">OR</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.not">NOT</message>
+
+    <message key="xmlui.Discovery.AbstractSearch.type_degreeDepartment">Department</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreeLevel">Degree Level</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_degreeName">Degree Name</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_thesisAdvisor">Advisor</message>
+
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreeDepartment">Department</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreeLevel">Degree Level</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.degreeName">Degree Name</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.thesisAdvisor">Advisor</message>
 
 
 	<!-- org.dspace.app.xmlui.artifactbrowser.ConfigureableBrowse.java -->
@@ -317,6 +328,7 @@
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.search_scope">Search Scope</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.full_text_search">Full Text Search</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.type">Type</message>
 
 	<!-- org.dspace.app.xmlui.artifactbrowser.RestrictedItem.java -->
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.title">This resource is restricted</message>
