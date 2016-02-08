@@ -512,14 +512,14 @@ footer {
 }
 
 .header-seperator img {
-    margin-top: 0px;
+    margin-top: 8px;
 }
 
 .seperator-icon {
     padding-left: 0px;
     z-index: 101;
     position: absolute;
-    top: 126px;
+    top: 117px;
     height: 35px;
 }
 
