@@ -33,6 +33,7 @@ import org.dspace.app.xmlui.wing.element.Table;
 import org.dspace.app.xmlui.wing.element.TextArea;
 import org.dspace.app.xmlui.wing.element.Value;
 import org.dspace.authority.model.Scheme;
+import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.*;
 import org.dspace.content.authority.*;
 
@@ -51,6 +52,8 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_submit_update = message("xmlui.general.update");
     private static final Message T_submit_return = message("xmlui.general.return");
     private static final Message T_item_trail = message("xmlui.administrative.item.general.item_trail");
+    private static final Message T_scheme_trail = message("xmlui.administrative.scheme.general.scheme_trail");
+    private static final Message T_scheme_head = message("xmlui.administrative.scheme.general.scheme_head");
     private static final Message T_template_head = message("xmlui.administrative.item.general.template_head");
     private static final Message T_option_head = message("xmlui.administrative.item.general.option_head");
     private static final Message T_option_status = message("xmlui.administrative.item.general.option_status");
@@ -58,9 +61,10 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_option_metadata = message("xmlui.administrative.item.general.option_metadata");
     private static final Message T_option_view = message("xmlui.administrative.item.general.option_view");
     private static final Message T_option_curate = message("xmlui.administrative.item.general.option_curate");
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
 
-    private static final Message T_title = message("xmlui.administrative.item.EditItemMetadataForm.title");
-    private static final Message T_trail = message("xmlui.administrative.item.EditItemMetadataForm.trail");
+    private static final Message T_title = message("xmlui.administrative.EditSchemeMetadataValueForm.title");
+    private static final Message T_trail = message("xmlui.administrative.scheme.EditSchemeMetadataForm.trail");
     private static final Message T_head1 = message("xmlui.administrative.item.EditItemMetadataForm.head1");
     private static final Message T_name_label = message("xmlui.administrative.item.EditItemMetadataForm.name_label");
     private static final Message T_value_label = message("xmlui.administrative.item.EditItemMetadataForm.value_label");
@@ -68,6 +72,8 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_submit_add = message("xmlui.administrative.item.EditItemMetadataForm.submit_add");
     private static final Message T_para1 = message("xmlui.administrative.item.EditItemMetadataForm.para1");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
     private static final Message T_head2 = message("xmlui.administrative.item.EditItemMetadataForm.head2");
     private static final Message T_column1 = message("xmlui.administrative.item.EditItemMetadataForm.column1");
@@ -87,7 +93,8 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
 
 
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme", T_item_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -115,7 +122,7 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
         // DIVISION: main
         Division main = body.addInteractiveDivision("edit-item-status", contextPath+"/admin/scheme", Division.METHOD_POST,"primary administrative item");
 
-        main.setHead("Edit Metadata For Scheme");
+        main.setHead(T_scheme_head);
 
 
         int collectionID = schemeID;
@@ -270,6 +277,29 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
 
 
         main.addHidden("administrative-continue").setValue(knot.getId());
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+        int schemeID = parameters.getParameterAsInteger("schemeID",-1);
+        Scheme scheme = Scheme.find(context, schemeID);
+
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&edit","Edit Scheme Attribute");
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&editMetadata","Edit Scheme Metadata Value");
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&search","Search & Add Concepts");
+        }
     }
 
 

@@ -63,14 +63,20 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
     private static final Message T_actions_create_link =
             message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create_link");
 
-    private static final Message T_actions_browse =
-            message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse");
-
-    private static final Message T_actions_browse_link =
-            message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse_link");
-
     private static final Message T_actions_search =
             message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_search");
+
+    private static final Message T_actions_edit_attribute =
+            message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_edit_attribute");
+
+    private static final Message T_actions_edit_metadata =
+            message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_edit_metadata");
+
+    private static final Message T_actions_view_concepts =
+            message("xmlui.aspect.authority.scheme.ManageSchemeMain.actions_view_concepts");
+
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
     private static final Message T_search_help =
             message("xmlui.aspect.authority.scheme.ManageSchemeMain.search_help");
@@ -80,6 +86,9 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
 
     private static final Message T_go =
             message("xmlui.general.go");
+
+    private static final Message T_clear =
+            message("xmlui.general.clear");
 
     private static final Message T_search_head =
             message("xmlui.aspect.authority.scheme.ManageSchemeMain.search_head");
@@ -120,7 +129,8 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(null,T_scheme_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrail().addContent(T_scheme_trail);
     }
 
 
@@ -154,11 +164,7 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
         actions.setHead(T_actions_head);
 
         List actionsList = actions.addList("actions");
-        actionsList.addLabel(T_actions_create);
         actionsList.addItemXref(baseURL+"&submit_add", T_actions_create_link);
-        actionsList.addLabel(T_actions_browse);
-        actionsList.addItemXref(baseURL+"&query&submit_search",
-                T_actions_browse_link);
 
         actionsList.addLabel(T_actions_search);
         org.dspace.app.xmlui.wing.element.Item actionItem = actionsList.addItem();
@@ -170,6 +176,7 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
         }
         queryField.setHelp(T_search_help);
         actionItem.addButton("submit_search").setValue(T_go);
+        actionItem.addXref(contextPath + "/admin/scheme?query&submit_search",T_clear);
 
         // DIVISION: scheme-search
         Division search = main.addDivision("scheme-search");
@@ -202,20 +209,19 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
         {
             header.addCell().addContent(T_search_column1);
         }
-        header.addCell().addContent("ID");
-        header.addCell().addContent("Create Date");
-        header.addCell().addContent("Identifier");
+        //header.addCell().addContent(T_id);
+        header.addCell().addContent(T_search_column2);
+        header.addCell().addContent(T_search_column3);
 
         if(isSystemAdmin)
         {
-            header.addCell().addContent("actions");
+            header.addCell().addContent(T_search_column4);
         }
 
         CheckBox selectMScheme;
         for (Scheme scheme : schemes)
         {
             String schemeID = String.valueOf(scheme.getID());
-            String url = baseURL+"&submit_edit&schemeId="+schemeID;
             //java.util.List<String> deleteConstraints = scheme.getDeleteConstraints();
 
             Row row;
@@ -241,17 +247,21 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
 //                selectEPerson.setDisabled();
 //            }
 
-            row.addCellContent(schemeID);
+            //row.addCellContent(schemeID);
             if(isSystemAdmin){
-                row.addCell().addXref("/scheme/"+scheme.getID(), scheme.getCreated().toString());
-                row.addCell().addXref("/scheme/"+scheme.getID(), scheme.getIdentifier());
+                row.addCell().addContent(scheme.getCreated().toString());
+                Cell identifierCell = row.addCell();
+                identifierCell.addXref("/scheme/"+scheme.getID(), scheme.getName());
+                identifierCell.addContent("(" + scheme.getIdentifier().substring(0,8) + ")");
                 Cell actionCell = row.addCell() ;
-                actionCell.addXref(url, "Edit");
+                actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&edit", T_actions_edit_attribute);
+                actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&editMetadata", T_actions_edit_metadata);
+                actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&search", T_actions_view_concepts);
             }
             else
             {
                 row.addCell().addContent(scheme.getCreated().toString());
-                row.addCell().addContent(scheme.getIdentifier());
+                row.addCell().addContent(scheme.getName() + "(" + scheme.getIdentifier().substring(0, 8) + ")");
             }
         }
 
@@ -278,22 +288,6 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
         List account = options.addList("account");
         List context = options.addList("context");
         List admin = options.addList("administrative");
-
-
-        //Check if a system administrator
-        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
-
-
-        // System Administrator options!
-        if (isSystemAdmin)
-        {
-
-            List authority = admin.addList("authority");
-            //authority.addItemXref(contextPath+"/admin/metadata-concept-relation-registry",T_administrative_relation_metadata);
-//            authority.addItemXref(contextPath+"/admin/schema//concept",T_administrative_metadata_concept);
-//            authority.addItemXref(contextPath+"/admin/term",T_administrative_metadata_term);
-            //authority.addItemXref(contextPath+"/admin/metadata-concept-term",T_administrative_metadata_concept_2_term_relation);
-        }
     }
 
 }

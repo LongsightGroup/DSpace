@@ -55,6 +55,20 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
     private static final Message T_administrative_authority 	= message("xmlui.administrative.Navigation.administrative_authority_control");
     public static final Message T_untitled =
             message("xmlui.general.untitled");
+    private static final Message T_attribute_head =
+            message("xmlui.administrative.scheme.SchemeViewer.attribute");
+    private static final Message T_identifier =
+            message("xmlui.administrative.scheme.SchemeViewer.identifier");
+    private static final Message T_creation_date =
+            message("xmlui.administrative.scheme.SchemeViewer.creation_date");
+    private static final Message T_metadata_values =
+            message("xmlui.administrative.scheme.SchemeViewer.metadata_values");
+    private static final Message T_field_name =
+            message("xmlui.administrative.scheme.SchemeViewer.field_name");
+    private static final Message T_value =
+            message("xmlui.administrative.scheme.SchemeViewer.value");
+    public static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
     private static final Message T_head_browse =
             message("xmlui.ArtifactBrowser.SchemeViewer.head_browse");
@@ -190,28 +204,10 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/scheme/"+schemeId,scheme.getIdentifier());
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrail().addContent(scheme.getName());
         HandleUtil.buildHandleTrail(scheme, pageMeta,contextPath);
-
-        // Add RSS links if available
-        String formats = ConfigurationManager.getProperty("webui.feed.formats");
-        if ( formats != null )
-        {
-            for (String format : formats.split(","))
-            {
-                // Remove the protocol number, i.e. just list 'rss' or' atom'
-                String[] parts = format.split("_");
-                if (parts.length < 1)
-                {
-                    continue;
-                }
-
-                String feedFormat = parts[0].trim()+"+xml";
-
-                String feedURL = contextPath+"/feed/"+format.trim()+"/"+scheme.getHandle();
-                pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
-            }
-        }
+        pageMeta.addMetadata("title").addContent(scheme.getName());
     }
 
     /**
@@ -234,7 +230,7 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
 
         // Build the scheme viewer division.
         Division home = body.addDivision("scheme-home", "primary thesaurus scheme");
-        String name = scheme.getAttribute("identifier");
+        String name = scheme.getAttribute("name");
         if (name == null || name.length() == 0)
         {
             home.setHead(T_untitled);
@@ -247,17 +243,14 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
         Division viewer = home.addDivision("scheme-view","secondary");
         Division attributeSection = viewer.addDivision("attribute-section","thesaurus-section");
         Table attribute = attributeSection.addTable("attribute",3,2,"thesaurus-table");
-        attribute.setHead("Attribute");
+        attribute.setHead(T_attribute_head);
         Row aRow = attribute.addRow();
 
-        aRow.addCell().addContent("Identifier");
+        aRow.addCell().addContent(T_identifier);
         aRow.addCell().addContent(scheme.getIdentifier());
         aRow = attribute.addRow();
-        aRow.addCell().addContent("Create Date");
+        aRow.addCell().addContent(T_creation_date);
         aRow.addCell().addContent(scheme.getCreated().toString());
-        aRow = attribute.addRow();
-        aRow.addCell().addContent("Status");
-        aRow.addCell().addContent(scheme.getStatus());
 
         if(AuthorizeManager.isAdmin(context))
         {
@@ -265,20 +258,17 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
             Iterator i = values.iterator();
             if(values!=null&&values.size()>0) {
                 Division metadataSection = viewer.addDivision("metadata-section","thesaurus-section");
-                metadataSection.setHead("Metadata Values");
-                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 3,"detailtable thesaurus-table");
+                metadataSection.setHead(T_metadata_values);
+                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
 
                 Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("ID");
-                header.addCell().addContent("Field Name");
-                header.addCell().addContent("Value");
+                header.addCell().addContent(T_field_name);
+                header.addCell().addContent(T_value);
                 while (i.hasNext())
                 {
                     Metadatum value = (Metadatum)i.next();
                     Row mRow = metadataTable.addRow();
 
-                    // TODO - May need to be Field ID not Field name
-                    mRow.addCell().addContent(value.getField());
                     if(value.qualifier!=null&&value.qualifier.length()>0)
                     {
                         mRow.addCell().addContent(value.schema+"."+value.element+"."+value.qualifier);

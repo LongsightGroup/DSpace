@@ -55,6 +55,14 @@ public class AddSchemeForm extends AbstractDSpaceTransformer
     private static final Message T_head2 =
             message("xmlui.administrative.scheme.AddSchemeForm.head2");
 
+    private static final Message T_name =
+            message("xmlui.administrative.scheme.AddSchemeForm.name");
+
+    private static final Message T_language =
+            message("xmlui.administrative.scheme.AddSchemeForm.language");
+
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
     private static final Message T_top_scheme =
             message("xmlui.administrative.scheme.AddSchemeForm.top_scheme");
@@ -85,8 +93,8 @@ public class AddSchemeForm extends AbstractDSpaceTransformer
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_scheme_trail);
-        pageMeta.addTrail().addContent(T_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrailLink(null,T_trail);
     }
 
 
@@ -106,8 +114,7 @@ public class AddSchemeForm extends AbstractDSpaceTransformer
         }
 
         String language = request.getParameter("language");
-        String status = request.getParameter("status");
-
+        String name = request.getParameter("name");
 
         // DIVISION: scheme-add
         Division add = body.addInteractiveDivision("scheme-add",contextPath+"/admin/scheme",Division.METHOD_POST,"primary thesaurus scheme");
@@ -116,12 +123,11 @@ public class AddSchemeForm extends AbstractDSpaceTransformer
 
 
         List attribute = add.addList("identity",List.TYPE_FORM);
-        attribute.setHead(T_head2);
 
-        attribute.addLabel("Status");
-        attribute.addItem().addText("status").setValue(status);
-        attribute.addLabel("Language");
-        Select languageSelect = attribute.addItem().addSelect("lang");
+        attribute.addLabel(T_name);
+        attribute.addItem().addText("name").setValue(name);
+        attribute.addLabel(T_language);
+        Select languageSelect = attribute.addItem().addSelect("language");
         for(String lang: Locale.getISOLanguages()){
             languageSelect.addOption(lang,lang);
         }

@@ -1073,21 +1073,6 @@ public class Concept extends AuthorityObject
             modified = true;
         }
     }
-    /**
-     * Method that updates the last modified date of the item
-     */
-    public void updateLastModified()
-    {
-        try {
-            Date lastModified = new java.sql.Timestamp(new Date().getTime());
-            row.setColumn("modified", lastModified);
-            DatabaseManager.updateQuery(ourContext, "UPDATE concept SET modified = ? WHERE id= ? ", lastModified, getID());
-            //Also fire a modified event since the item HAS been modified
-            //ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), null));
-        } catch (SQLException e) {
-            log.error(LogManager.getHeader(ourContext, "Error while updating modified timestamp", "Concept: " + getID()));
-        }
-    }
 
 
 

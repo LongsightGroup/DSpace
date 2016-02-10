@@ -37,7 +37,7 @@ public class EditableAuthorityIndexClient {
     public static void main(String[] args) throws Exception {
 
         Context context = new Context();
-        context.setIgnoreAuthorization(true);
+        context.turnOffAuthorisationSystem();
 
         String usage = "org.dspace.discovery.IndexClient [-cbhf[r <item handle>]] or nothing to update/clean an existing index.";
         Options options = new Options();

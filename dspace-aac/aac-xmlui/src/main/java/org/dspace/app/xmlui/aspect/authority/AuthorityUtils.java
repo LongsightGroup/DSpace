@@ -88,7 +88,7 @@ public class AuthorityUtils {
         return concept2Term;
     }
 
-    public static Scheme createNewScheme(Map objectModel,String status,String language) throws
+    public static Scheme createNewScheme(Map objectModel,String name,String language) throws
             SQLException, AuthorizeException
     {
         final HttpServletRequest request = (HttpServletRequest) objectModel.get(HttpEnvironment.HTTP_REQUEST_OBJECT);
@@ -102,7 +102,7 @@ public class AuthorityUtils {
         scheme.setCreated(date);
         scheme.setLang(language);
         //concept.setTopConcept(topConcept);
-        scheme.setStatus(status);
+        scheme.setName(name);
         scheme.update();
         context.commit();
         // Give site auth a chance to set/override appropriate fields

@@ -43,6 +43,9 @@ public class FlowSchemeUtils {
     private static final Message T_add_Scheme_success_notice =
             new Message("default","xmlui.administrative.FlowSchemeUtils.add_Scheme_success_notice");
 
+    private static final Message T_add_Scheme_failed_notice_empty_name =
+            new Message("default","xmlui.administrative.FlowSchemeUtils.add_Scheme_failed_notice_empty_name");
+
     private static final Message T_edit_Scheme_success_notice =
             new Message("default","xmlui.administrative.FlowSchemeUtils.edit_Scheme_success_notice");
 
@@ -75,12 +78,25 @@ public class FlowSchemeUtils {
         result.setContinue(false); // default to no continue
 
         String language = request.getParameter("language");
-        String status = request.getParameter("status");
+        String name = request.getParameter("name");
+        if (name == null || name.isEmpty()) {
+            result.setOutcome(false);
+            result.setMessage(T_add_Scheme_failed_notice_empty_name);
+            return result;
+        }
 
         if (result.getErrors() == null)
         {
-            Scheme newScheme = AuthorityUtils.createNewScheme(objectModel, status, language);
-            context.commit();
+            Scheme newScheme;
+            try {
+                newScheme = AuthorityUtils.createNewScheme(objectModel, name, language);
+            } catch (SQLException e) {
+                result.setOutcome(false);
+                result.setCharacters(e.getMessage());
+                return result;
+            } finally {
+                context.commit();
+            }
             // success
             result.setContinue(true);
             result.setOutcome(true);
@@ -106,7 +122,7 @@ public class FlowSchemeUtils {
 
         // Get all our request parameters
 
-        String status = request.getParameter("status");
+        String name = request.getParameter("name");
         String identifier = request.getParameter("identifier");
         String language = request.getParameter("lang");
         //boolean certificate = (request.getParameter("certificate") != null) ? true : false;
@@ -116,9 +132,9 @@ public class FlowSchemeUtils {
         {
             // Grab the person in question
             Scheme schemeModified = Scheme.find(context, schemeID);
-            String originalStatus = schemeModified.getStatus();
-            if (originalStatus == null || !originalStatus.equals(status)) {
-                schemeModified.setStatus(status);
+            String originalName = schemeModified.getName();
+            if (originalName == null || !originalName.equals(name)) {
+                schemeModified.setName(name);
             }
             String originalLang = schemeModified.getLang();
             if (originalLang == null || !originalLang.equals(language)) {

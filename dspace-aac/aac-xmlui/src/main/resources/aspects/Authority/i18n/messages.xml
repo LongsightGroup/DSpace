@@ -428,20 +428,23 @@
 
     <!-- org.dspace.app.xmlui.administrative.scheme.ManageSchemeMain -->
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.title">Manage Scheme</message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.main_head">Scheme management</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.main_head">Scheme Management</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_head">Actions</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create">Create a new Scheme</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create_link">Click here to add a new Scheme.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse">Browse Scheme</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse_link">Click here to browse all Scheme.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_search">Search for Scheme</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_edit_attribute">Edit Attributes</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_edit_metadata">Edit Metadata</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_view_concepts">View Concepts</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_help">Scheme are searched by any partial match on Identifier or name</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_para1">Below is the list of Scheme that matched your search query. Select the Scheme you want to delete and click the delete button to continue or click on an Scheme's Identifier or name to edit them.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_head">Search results</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column1"></message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column2">ID</message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column3">Creation Date</message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column4">Identifier</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column2">Creation Date</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column3">Name</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column4">Actions</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.submit_delete">Delete Scheme</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.no_results">Your search found no results..</message>
 
@@ -449,7 +452,7 @@
     <!-- org.dspace.app.xmlui.aspect.authority.scheme.AddSchemeForm -->
     <message key="xmlui.aspect.authority.scheme.AddSchemeForm.title">Add Scheme</message>
     <message key="xmlui.aspect.authority.scheme.AddSchemeForm.trail">Add Scheme</message>
-    <message key="xmlui.aspect.authority.scheme.AddSchemeForm.head1">Create a new Scheme</message>
+    <message key="xmlui.aspect.authority.scheme.AddSchemeForm.head1">Add Scheme</message>
     <message key="xmlui.aspect.authority.scheme.AddSchemeForm.email_taken">That Identifier address is in use by another Scheme. Identifier must be unique.</message>
     <message key="xmlui.aspect.authority.scheme.AddSchemeForm.head2">New Scheme's Attribute:</message>
     <message key="xmlui.aspect.authority.scheme.AddSchemeForm.error_email_unique">Identifier must be unique</message>
@@ -462,8 +465,8 @@
 
     <!-- org.dspace.app.xmlui.administrative.scheme.EditSchemeForm -->
     <message key="xmlui.administrative.scheme.EditSchemeForm.title">Edit Scheme</message>
-    <message key="xmlui.administrative.scheme.EditSchemeForm.trail">Edit Scheme</message>
-    <message key="xmlui.administrative.scheme.EditSchemeForm.head1">Edit an Scheme</message>
+    <message key="xmlui.administrative.scheme.EditSchemeForm.trail">Edit Attributes</message>
+    <message key="xmlui.administrative.scheme.EditSchemeForm.head1">Edit Scheme</message>
     <message key="xmlui.administrative.scheme.EditSchemeForm.email_taken">That Identifier is in use by another Scheme. Identifier must be unique.</message>
     <message key="xmlui.administrative.scheme.EditSchemeForm.head2">{0}'s information:</message>
     <message key="xmlui.administrative.scheme.EditSchemeForm.error_email_unique">Identifier must be unique</message>
@@ -499,8 +502,9 @@
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_para">The following Scheme will be deleted: </message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.submit_confirm">Confirm Deletion</message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_id">ID</message>
-    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_name">Create Date</message>
-    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_email">Identifier</message>
+    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_name">Name</message>
+    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_identifier">Identifier</message>
+    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_date">Creation Date</message>
 
 
     <message key="xmlui.administrative.Navigation.administrative_metadata_concept">Manage Concept</message>
@@ -521,7 +525,19 @@
     <message key="xmlui.administrative.scheme.AddSchemeForm.req_certs">Require Certificate</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.can_log_in">Can Log In</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.submit_create">Create Scheme</message>
+    <message key="xmlui.administrative.scheme.AddSchemeForm.name">Name</message>
+    <message key="xmlui.administrative.scheme.AddSchemeForm.language">Language</message>
 
+    <message key="xmlui.administrative.scheme.trail.authorities">Authorities</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.attribute">Attributes</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.identifier">Identifier</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.creation_date">Creation Date</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.metadata_values">Metadata Values</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.field_name">Field Name</message>
+    <message key="xmlui.administrative.scheme.SchemeViewer.value">Value</message>
+
+    <message key="xmlui.administrative.scheme.general.scheme_trail">Scheme</message>
+    <message key="xmlui.administrative.scheme.EditSchemeMetadataForm.trail">Edit Metadata</message>
 
     <!-- org.dspace.app.xmlui.administrative.concept.AddConceptForm -->
     <message key="xmlui.administrative.concept.AddConceptForm.title">Add Concept</message>
@@ -540,14 +556,17 @@
     <message key="xmlui.administrative.scheme.AddSchemeForm.scheme">Manage Scheme</message>
     <message key="xmlui.aspect.authority.scheme.general.scheme_trail">Manage Scheme</message>
     <message key="xmlui.administrative.FlowSchemeUtils.add_Scheme_success_notice">Scheme Successfully added</message>
+    <message key="xmlui.administrative.FlowSchemeUtils.add_Scheme_failed_notice_empty_name">You must enter a name.</message>
 
 
     <message key="xmlui.Scheme.EditProfile.source">Source</message>
     <message key="xmlui.Scheme.EditProfile.identifier">Identifier</message>
     <message key="xmlui.Scheme.EditProfile.language">Language</message>
     <message key="xmlui.administrative.scheme.general.scheme_trail">Scheme</message>
+    <message key="xmlui.administrative.scheme.general.scheme_head">Scheme Metadata</message>
 
-
+    <message key="xmlui.general.clear">(Clear Search)</message>
+    <message key="xmlui.Scheme.EditProfile.name">Name</message>
     <message key="xmlui.Scheme.EditProfile.status">Status</message>
     <message key="xmlui.administrative.concept.EditConceptForm.trail">Edit Concept</message>
     <message key="xmlui.administrative.concept.EditConceptForm.head1">Edit Concept</message>

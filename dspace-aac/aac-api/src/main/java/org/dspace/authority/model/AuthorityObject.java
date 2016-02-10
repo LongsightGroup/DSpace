@@ -1,6 +1,7 @@
 package org.dspace.authority.model;
 
 import org.apache.log4j.Logger;
+import org.dspace.authority.AuthorityTypes;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.*;
 import org.dspace.core.Constants;
@@ -34,6 +35,22 @@ public abstract class AuthorityObject extends DSpaceObject {
     public static final int ID = 0; // sort by ID
 
     public static final int NAME = 1; // sort by NAME (default)
+
+    private enum AuthorityType {
+        Scheme, Concept, Term;
+
+        public static AuthorityType getType(int type) {
+            switch (type) {
+                case Constants.SCHEME:
+                    return Scheme;
+                case Constants.CONCEPT:
+                    return Concept;
+                case Constants.TERM:
+                    return Term;
+            }
+            return null;
+        }
+    }
 
     /** log4j logger */
     private static Logger log = Logger.getLogger(AuthorityObject.class);
@@ -81,21 +98,11 @@ public abstract class AuthorityObject extends DSpaceObject {
                 Date lastModified = new Timestamp(new Date().getTime());
                 row.setColumn("modified", lastModified);
                 DatabaseManager.update(ourContext, row);
-            /*switch (getType()) {
-                case Constants.SCHEME:
-                    DatabaseManager.updateQuery(ourContext, "UPDATE scheme SET modified = ? WHERE id= ? ", lastModified, getID());
-                    break;
-                case Constants.CONCEPT:
-                    DatabaseManager.updateQuery(ourContext, "UPDATE concept SET modified = ? WHERE id= ? ", lastModified, getID());
-                    break;
-                case Constants.TERM:
-                    DatabaseManager.updateQuery(ourContext, "UPDATE term SET modified = ? WHERE id= ? ", lastModified, getID());
-                    break;
-            }*/
                 //Also fire a modified event since the object HAS been modified
                 ourContext.addEvent(new Event(Event.MODIFY, this.getType(), getID(), null));
             } catch (SQLException e) {
-                log.error(LogManager.getHeader(ourContext, "Error while updating modified timestamp", getType() + ": " + getID()));
+                log.error(LogManager.getHeader(ourContext, "Error while updating ", AuthorityType.getType(getType()) + " " + getID() + " " + getName()));
+                throw e;
             }
             modified = false;
         }

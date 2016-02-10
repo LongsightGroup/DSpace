@@ -101,9 +101,9 @@ public class SolrAuthority implements ChoiceAuthority {
         String localSortField = "";
         if (StringUtils.isNotBlank(locale)) {
             localSortField = sortField + "_" + locale;
-            queryArgs.setSortField(localSortField, SolrQuery.ORDER.asc);
+            queryArgs.setSort(localSortField, SolrQuery.ORDER.asc);
         } else {
-            queryArgs.setSortField(sortField, SolrQuery.ORDER.asc);
+            queryArgs.setSort(sortField, SolrQuery.ORDER.asc);
         }
         }
 

@@ -13,14 +13,10 @@ import java.util.ArrayList;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
-import org.dspace.app.xmlui.wing.element.Body;
-import org.dspace.app.xmlui.wing.element.Division;
-import org.dspace.app.xmlui.wing.element.PageMeta;
-import org.dspace.app.xmlui.wing.element.Para;
-import org.dspace.app.xmlui.wing.element.Row;
-import org.dspace.app.xmlui.wing.element.Table;
+import org.dspace.app.xmlui.wing.element.*;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.Scheme;
+import org.dspace.authorize.AuthorizeManager;
 
 /**
  * Present the user with a list of not-yet-but-soon-to-be-deleted-scheme.
@@ -48,8 +44,8 @@ public class DeleteSchemeConfirm extends AbstractDSpaceTransformer
     private static final Message T_confirm_para =
             message("xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_para");
 
-    private static final Message T_head_id =
-            message("xmlui.administrative.scheme.DeleteEPeopleConfirm.head_id");
+    private static final Message T_head_date =
+            message("xmlui.administrative.scheme.DeleteEPeopleConfirm.head_date");
 
     private static final Message T_head_name =
             message("xmlui.administrative.scheme.DeleteEPeopleConfirm.head_name");
@@ -63,12 +59,17 @@ public class DeleteSchemeConfirm extends AbstractDSpaceTransformer
     private static final Message T_submit_cancel =
             message("xmlui.general.cancel");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
+
+
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_scheme_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -90,16 +91,14 @@ public class DeleteSchemeConfirm extends AbstractDSpaceTransformer
 
         Table table = deleted.addTable("scheme-confirm-delete",schemes.size() + 1, 1);
         Row header = table.addRow(Row.ROLE_HEADER);
-        header.addCell().addContent(T_head_id);
+        header.addCell().addContent(T_head_date);
         header.addCell().addContent(T_head_name);
-        header.addCell().addContent(T_head_email);
 
         for (Scheme scheme : schemes)
         {
             Row row = table.addRow();
-            row.addCell().addContent(scheme.getID());
-            row.addCell().addContent(scheme.getIdentifier());
-            row.addCell().addContent(scheme.getStatus());
+            row.addCell().addContent(scheme.getCreated().toString());
+            row.addCell().addContent(scheme.getName());
         }
         Para buttons = deleted.addPara();
         buttons.addButton("submit_confirm").setValue("Confirm");

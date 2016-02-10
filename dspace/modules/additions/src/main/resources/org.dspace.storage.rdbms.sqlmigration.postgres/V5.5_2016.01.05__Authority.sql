@@ -72,7 +72,7 @@ CREATE TABLE Scheme
   identifier          VARCHAR(256),
   created DATE,
   modified DATE,
-  status VARCHAR(256),
+  name VARCHAR(256) UNIQUE,
   lang VARCHAR(24),
   topconcept BOOL
 );

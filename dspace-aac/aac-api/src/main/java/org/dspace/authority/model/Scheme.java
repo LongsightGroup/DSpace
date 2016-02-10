@@ -67,14 +67,13 @@ public class Scheme extends AuthorityObject
         }
     }
 
-    public String getStatus()
+    public String getName()
     {
-        return row.getStringColumn("status");
-
+        return row.getStringColumn("name");
     }
-    public void setStatus(String status)
+    public void setName(String name)
     {
-        row.setColumn("status", status);
+        row.setColumn("name", name);
         modified = true;
     }
 
@@ -568,12 +567,6 @@ public class Scheme extends AuthorityObject
     {
         return null;
     }
-
-    @Override
-    public String getName() {
-        return this.getMetadata("dc","title",null,"*") + "(" + this.getIdentifier() + ")";
-    }
-
 
     public Date getLastModified()
     {

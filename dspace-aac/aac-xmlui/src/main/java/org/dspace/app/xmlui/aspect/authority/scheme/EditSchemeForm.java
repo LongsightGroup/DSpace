@@ -67,8 +67,8 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
     private static final Message T_error_literalForm =
             message("xmlui.administrative.scheme.EditSchemeForm.error_literalForm");
 
-    private static final Message T_error_status =
-            message("xmlui.administrative.scheme.EditSchemeForm.error_status");
+    private static final Message T_error_name =
+            message("xmlui.administrative.scheme.EditSchemeForm.error_name");
 
     private static final Message T_error_source =
             message("xmlui.administrative.scheme.EditSchemeForm.error_source");
@@ -81,9 +81,13 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
 
     /** Language string used: */
 
-    private static final Message T_status =
-            message("xmlui.Scheme.EditProfile.status");
+    private static final Message T_name =
+            message("xmlui.Scheme.EditProfile.name");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
+
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
 
     private static final Message T_identifier =
             message("xmlui.Scheme.EditProfile.identifier");
@@ -109,12 +113,13 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         int schemeID = parameters.getParameterAsInteger("scheme",-1);
         try{
             Scheme scheme = Scheme.find(context, schemeID);
             if(scheme!=null)
             {
-                pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getIdentifier());
+                pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
             }
         }catch (Exception e)
         {
@@ -151,13 +156,13 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
             throw new UIException("Unable to find scheme for id:" + schemeID);
         }
 
-        String status = scheme.getStatus();
+        String name = scheme.getName();
         String identifier = scheme.getIdentifier();
         String language = scheme.getLang();
 
-        if (request.getParameter("status") != null)
+        if (request.getParameter("name") != null)
         {
-            status = request.getParameter("status");
+            name = request.getParameter("name");
         }
 
         if (request.getParameter("lang") != null)
@@ -178,18 +183,17 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
 
 
         List identity = edit.addList("form",List.TYPE_FORM);
-        identity.setHead(T_head2.parameterize(scheme.getIdentifier()));
         identity.addItem().addHidden("schemeId").setValue(scheme.getID());
         if (admin)
         {
-            Text statusText = identity.addItem().addText("status");
-            statusText.setLabel(T_status);
-            statusText.setValue(status);
+            Text nameText = identity.addItem().addText("name");
+            nameText.setLabel(T_name);
+            nameText.setValue(name);
         }
         else
         {
-            identity.addLabel(T_status);
-            identity.addItem(status);
+            identity.addLabel(T_name);
+            identity.addItem(name);
         }
 
         identity.addLabel(T_identifier);
@@ -213,7 +217,7 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
 
         // Get list of member groups
         Concept[] concepts = scheme.getConcepts();
-        Table table = edit.addTable("scheme-search-table", concepts.length + 1, 1);
+        //Table table = edit.addTable("scheme-search-table", concepts.length + 1, 1);
         //table.setHead("Concept in current scheme");
         //Row header = table.addRow(Row.ROLE_HEADER);
         //Check if a system administrator
@@ -270,7 +274,28 @@ public class EditSchemeForm extends AbstractDSpaceTransformer
         edit.addHidden("administrative-continue").setValue(knot.getId());
     }
 
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+        int schemeID = parameters.getParameterAsInteger("scheme",-1);
+        Scheme scheme = Scheme.find(context, schemeID);
 
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&edit","Edit Scheme Attribute");
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&editMetadata","Edit Scheme Metadata Value");
+            authority.addItemXref(contextPath+"/admin/scheme?schemeID="+scheme.getID()+"&search","Search & Add Concepts");
+        }
+    }
 
 
 
