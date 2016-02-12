@@ -20,6 +20,7 @@ import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
 import org.dspace.app.xmlui.wing.element.Item;
 import org.dspace.app.xmlui.wing.element.List;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authority.model.Concept;
@@ -103,6 +104,19 @@ public class EditConceptForm extends AbstractDSpaceTransformer
     private static final Message T_lang =
             message("xmlui.Concept.EditProfile.language");
 
+    private static final Message T_accepted =
+            message("xmlui.administrative.concept.AddConceptForm.accepted");
+
+    private static final Message T_candidate =
+            message("xmlui.administrative.concept.AddConceptForm.candidate");
+
+    private static final Message T_withdrawn =
+            message("xmlui.administrative.concept.AddConceptForm.withdrawn");
+
+    private static final Message T_authorities = message("xmlui.administrative.scheme.trail.authorities");
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
+
+
     // How many results to show on a page.
     private static final int RESULTS_PER_PAGE = 5;
 
@@ -111,20 +125,20 @@ public class EditConceptForm extends AbstractDSpaceTransformer
 
 
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
+        Concept concept = Concept.find(context, parameters.getParameterAsInteger("concept",-1));
+        Scheme owner = concept.getScheme();
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        int conceptID = parameters.getParameterAsInteger("concept",-1);
-        try{
-            Concept concept = Concept.find(context, conceptID);
-            if(concept!=null)
-            {
-                pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
-            }
-        }catch (Exception e)
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        if(owner!=null)
         {
-            return;
+            pageMeta.addTrailLink(contextPath + "/scheme/"+owner.getID(),owner.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
         }
         pageMeta.addTrail().addContent(T_trail);
     }
@@ -194,15 +208,14 @@ public class EditConceptForm extends AbstractDSpaceTransformer
 
 
         List identity = edit.addList("form",List.TYPE_FORM);
-        identity.setHead(T_head2.parameterize(concept.getID()));
         identity.addItem().addHidden("conceptId").setValue(concept.getID());
         if (admin)
         {
-            identity.addLabel("Status");
+            identity.addLabel(T_status);
             Select statusSelect=identity.addItem().addSelect("status");
-            statusSelect.addOption(Concept.Status.ACCEPTED.name(),"Accepted");
-            statusSelect.addOption(Concept.Status.CANDIDATE.name(),"Candidate");
-            statusSelect.addOption(Concept.Status.WITHDRAWN.name(),"Withdraw");
+            statusSelect.addOption(Concept.Status.ACCEPTED.name(),T_accepted);
+            statusSelect.addOption(Concept.Status.CANDIDATE.name(),T_candidate);
+            statusSelect.addOption(Concept.Status.WITHDRAWN.name(),T_withdrawn);
             if(status!=null)
             {
                 if(status.equals(Concept.Status.CANDIDATE.name()))
@@ -244,9 +257,12 @@ public class EditConceptForm extends AbstractDSpaceTransformer
 
         if (admin)
         {
-            Text langText = identity.addItem().addText("lang");
+            Select langText = identity.addItem().addSelect("lang");
             langText.setLabel(T_lang);
-            langText.setValue(language);
+            for(String lang: Locale.getISOLanguages()){
+                langText.addOption(lang,lang);
+            }
+            langText.setOptionSelected(language);
         }
         else
         {
@@ -523,6 +539,33 @@ public class EditConceptForm extends AbstractDSpaceTransformer
             }
         }
         return false;
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+
+
+        int conceptId = this.parameters.getParameterAsInteger("concept",-1);
+        Concept concept = Concept.find(context, conceptId);
+
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&edit","Edit Concept Attribute");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&editMetadata","Edit Concept Metadata Value");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&addConcept","Add Related Concept");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&search","Search & Add Terms");
+        }
     }
 
 }

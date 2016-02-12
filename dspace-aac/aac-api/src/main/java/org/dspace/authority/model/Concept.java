@@ -1227,7 +1227,13 @@ public class Concept extends AuthorityObject
         TableRowIterator tri = DatabaseManager.queryTable(ourContext,
                 "Concept2Concept",
                 "SELECT * FROM Concept2Concept WHERE " +
-                        "incoming_id= ? AND outgoing_id= ? ", getID(), outgoing.getID());
+                        "incoming_id= ? AND outgoing_id= ? AND role_id=?", getID(), outgoing.getID(), roleId);
+
+        // Checks for inverse relations
+        //TableRowIterator tri2 = DatabaseManager.queryTable(ourContext,
+        //        "Concept2Concept",
+        //        "SELECT * FROM Concept2Concept WHERE " +
+        //                "incoming_id= ? AND outgoing_id= ? AND role_id=?", outgoing.getID(), getID(), roleId);
 
         try
         {
@@ -1250,6 +1256,10 @@ public class Concept extends AuthorityObject
             {
                 tri.close();
             }
+            //if (tri2 != null)
+            //{
+            //    tri2.close();
+            //}
         }
     }
     public String getPreferredLabel() throws SQLException

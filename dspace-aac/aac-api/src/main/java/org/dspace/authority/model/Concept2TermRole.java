@@ -273,7 +273,7 @@ public class Concept2TermRole
 
         // Get all the metadatarelationregistry rows
         TableRowIterator tri = DatabaseManager.queryTable(context, "Concept2TermRole",
-                "SELECT mfr.* FROM Concept2TermRole mfr, Concept2TermRole msr ORDER BY mfr.role, mfr.label");
+                "SELECT mfr.* FROM Concept2TermRole mfr, Concept2TermRole mfr ORDER BY mfr.role, mfr.label");
 
         try
         {

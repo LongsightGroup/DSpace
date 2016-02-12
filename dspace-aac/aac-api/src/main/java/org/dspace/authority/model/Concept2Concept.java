@@ -889,7 +889,7 @@ public class Concept2Concept
             return null;
         }
 
-        Object[] paramArr = new Object[] {outgoing_id,outgoing_id};
+        Object[] paramArr = new Object[] {outgoing_id,role_id};
         // All email addresses are stored as lowercase, so ensure that the email address is lowercased for the lookup
         TableRowIterator rows = DatabaseManager.query(context,
                 "SELECT * FROM Concept2Concept WHERE outgoing_id = ? AND role_id = ? ", paramArr);

@@ -13,14 +13,11 @@ import java.util.ArrayList;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
-import org.dspace.app.xmlui.wing.element.Body;
-import org.dspace.app.xmlui.wing.element.Division;
-import org.dspace.app.xmlui.wing.element.PageMeta;
-import org.dspace.app.xmlui.wing.element.Para;
-import org.dspace.app.xmlui.wing.element.Row;
-import org.dspace.app.xmlui.wing.element.Table;
+import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.Concept;
+import org.dspace.authorize.AuthorizeManager;
 
 /**
  * Present the user with a list of not-yet-but-soon-to-be-deleted-epeople.
@@ -37,16 +34,25 @@ public class DeleteConceptConfirm extends AbstractDSpaceTransformer
             message("xmlui.administrative.eperson.general.epeople_trail");
 
     private static final Message T_title =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.title");
+            message("xmlui.administrative.concept.DeleteConceptConfirm.title");
 
     private static final Message T_trail =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.trail");
+            message("xmlui.administrative.concept.DeleteConceptConfirm.trail");
 
     private static final Message T_confirm_head =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.confirm_head");
+            message("xmlui.administrative.concept.DeleteConceptConfirm.head");
 
     private static final Message T_confirm_para =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.confirm_para");
+            message("xmlui.administrative.concept.DeleteConceptConfirm.para");
+
+    private static final Message T_preferred_term =
+            message("xmlui.administrative.concept.DeleteConceptConfirm.preferred_term");
+
+    private static final Message T_identifier =
+            message("xmlui.administrative.concept.DeleteConceptConfirm.identifier");
+
+    private static final Message T_status =
+            message("xmlui.administrative.concept.DeleteConceptConfirm.status");
 
     private static final Message T_head_id =
             message("xmlui.administrative.eperson.DeleteEPeopleConfirm.head_id");
@@ -63,12 +69,18 @@ public class DeleteConceptConfirm extends AbstractDSpaceTransformer
     private static final Message T_submit_cancel =
             message("xmlui.general.cancel");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
+        Scheme scheme = Scheme.find(context, parameters.getParameterAsInteger("schemeId", -1));
+
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/concept",T_eperson_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -91,17 +103,15 @@ public class DeleteConceptConfirm extends AbstractDSpaceTransformer
 
         Table table = deleted.addTable("concept-confirm-delete",concepts.size() + 1, 1);
         Row header = table.addRow(Row.ROLE_HEADER);
-        header.addCell().addContent(T_head_id);
-        header.addCell().addContent(T_head_name);
-        header.addCell().addContent(T_head_email);
-        header.addCell().addContent("Source");
+        header.addCell().addContent(T_preferred_term);
+        header.addCell().addContent(T_identifier);
+        header.addCell().addContent(T_status);
         for (Concept c : concepts)
         {
             Row row = table.addRow();
-            row.addCell().addContent(c.getID());
+            row.addCell().addContent(c.getLabel());
             row.addCell().addContent(c.getIdentifier());
             row.addCell().addContent(c.getStatus());
-            row.addCell().addContent(c.getSource());
         }
         Para buttons = deleted.addPara();
         buttons.addButton("submit_confirm").setValue(T_submit_confirm);

@@ -37,6 +37,7 @@ public class Concept2ConceptRole
 {
     private int relationID = 0;
     private String role;
+    private String incomingLabel;
     private String label;
     private String scopeNote;
 
@@ -86,6 +87,7 @@ public class Concept2ConceptRole
         {
             this.relationID = row.getIntColumn("id");
             this.role = row.getStringColumn("role");
+            this.incomingLabel = row.getStringColumn("incoming_label");
             this.label = row.getStringColumn("label");
             this.scopeNote = row.getStringColumn("scope_note");
             this.row = row;
@@ -132,9 +134,28 @@ public class Concept2ConceptRole
      *
      * @return scope note
      */
+    public String getIncomingLabel()
+    {
+        return incomingLabel;
+    }
+
+    /**
+     * Get the scope note.
+     *
+     * @return scope note
+     */
     public String getLabel()
     {
         return label;
+    }
+
+    /**
+     * Set the scope note.
+     *
+     */
+    public void setIncomingLabel(String incomingLabel)
+    {
+        this.incomingLabel = incomingLabel;
     }
 
     /**
@@ -196,6 +217,7 @@ public class Concept2ConceptRole
         row = DatabaseManager.row("Concept2ConceptRole");
         row.setColumn("role", role);
         row.setColumn("label", label);
+        row.setColumn("incoming_label", label);
         row.setColumn("scope_note", scopeNote);
         DatabaseManager.insert(context, row);
         decache();
@@ -380,6 +402,7 @@ public class Concept2ConceptRole
 
         row.setColumn("role", role);
         row.setColumn("label", label);
+        row.setColumn("incoming_label", incomingLabel);
         row.setColumn("scope_note", scopeNote);
         DatabaseManager.update(context, row);
         decache();

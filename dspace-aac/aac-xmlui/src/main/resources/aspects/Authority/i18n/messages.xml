@@ -124,21 +124,25 @@
 
 
     <!-- org.dspace.app.xmlui.aspect.authority.concept.ManageConceptMain -->
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.title">Manage Concept</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.main_head">Concept management</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.title">Manage Concepts</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.main_head">Concept Management</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_head">Actions</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_create">Create a new Concept</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_create_link">Click here to add a new Concept.</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_create">Add Concept</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_create_link">Add a new Concept.</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_browse">Browse Concept</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_browse_link">Click here to browse all Concept.</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_search">Search for Concept</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_edit_attribute">Edit Attributes</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_edit_metadata">Edit Metadata</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_add_concepts">Add Related Concept</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.actions_view_terms">View Terms</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_help">Concept are searched by any partial match on Identifier or name</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_para1">Below is the list of Concept that matched your search query. Select the Concept you want to delete and click the delete button to continue or click on an Concept's Identifier or name to edit them.</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_head">Search results</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column1"></message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column2">ID</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column3">Creation Date</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column4">Identifier</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column2">Creation Date</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column3">Preferred Term</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column4">Actions</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.submit_delete">Delete Concept</message>
     <message key="xmlui.aspect.authority.concept.ManageConceptMain.no_results">Your search found no results..</message>
 
@@ -146,7 +150,7 @@
     <!-- org.dspace.app.xmlui.aspect.authority.concept.AddEPersonForm -->
     <message key="xmlui.aspect.authority.concept.AddConceptForm.title">Add Concept</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.trail">Add Concept</message>
-    <message key="xmlui.aspect.authority.concept.AddConceptForm.head1">Create a new Concept</message>
+    <message key="xmlui.aspect.authority.concept.AddConceptForm.head1">Add Concept</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.email_taken">That Identifier address is in use by another Concept. Identifier must be unique.</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.head2">New Concept's information:</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.error_email_unique">Identifier must be unique</message>
@@ -156,6 +160,10 @@
     <message key="xmlui.aspect.authority.concept.AddConceptForm.req_certs">Require Certificate</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.can_log_in">Can Log In</message>
     <message key="xmlui.aspect.authority.concept.AddConceptForm.submit_create">Create Concept</message>
+    <message key="xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column1">Creation Date</message>
+    <message key="xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column2">Preferred Term</message>
+    <message key="xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column3">Selected</message>
+
 
     <!-- org.dspace.app.xmlui.aspect.authority.concept.EditConceptForm -->
     <message key="xmlui.aspect.authority.concept.EditConceptForm.title">Edit Concept</message>
@@ -189,7 +197,7 @@
 
     <!-- org.dspace.app.xmlui.aspect.authority.term.ManageTermMain -->
     <message key="xmlui.aspect.authority.term.ManageTermMain.title">Manage Terms</message>
-    <message key="xmlui.aspect.authority.term.ManageTermMain.main_head">Term management</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.main_head">Term Management</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_head">Actions</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_create">Create a new Term</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_create_link">Click here to add a new Term.</message>
@@ -287,7 +295,7 @@
     <!-- org.dspace.app.xmlui.administrative.concept.AddConceptForm -->
     <message key="xmlui.administrative.concept.AddConceptForm.title">Add Concept</message>
     <message key="xmlui.administrative.concept.AddConceptForm.trail">Add Concept</message>
-    <message key="xmlui.administrative.concept.AddConceptForm.head1">Create a new Concept</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.head1">Add Concept</message>
     <message key="xmlui.administrative.concept.AddConceptForm.email_taken">That Identifier address is in use by another Concept. Identifier must be unique.</message>
     <message key="xmlui.administrative.concept.AddConceptForm.head2">New Concept's information:</message>
     <message key="xmlui.administrative.concept.AddConceptForm.error_email_unique">Identifier address must be unique</message>
@@ -297,13 +305,22 @@
     <message key="xmlui.administrative.concept.AddConceptForm.req_certs">Require Certificate</message>
     <message key="xmlui.administrative.concept.AddConceptForm.can_log_in">Can Log In</message>
     <message key="xmlui.administrative.concept.AddConceptForm.submit_create">Create Concept</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.preferred_term">Preferred Term</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.preferred_error">Concept must have a preferred label</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.accepted">Accepted</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.candidate">Candidate</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.withdrawn">Withdrawn</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.status">Status</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.language">Language</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.error">Please select a scheme to add the concept into</message>
+
 
 
 
     <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.search_column5"></message>
     <!-- org.dspace.app.xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain -->
     <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.title">Manage Concept To Term</message>
-    <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.main_head">Concept management</message>
+    <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.main_head">Concept Management</message>
     <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.actions_head">Actions</message>
     <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.actions_create">Create a new Concept To Term</message>
     <message key="xmlui.aspect.authority.metadatarelation.ManageConcept2TermMain.actions_create_link">Click here to add a new Concept To Term.</message>
@@ -392,7 +409,7 @@
     <message key="xmlui.administrative.metadatarelation.AddConcept2TermForm.can_log_in">Can Log In</message>
     <message key="xmlui.administrative.metadatarelation.AddConcept2TermForm.submit_create">Create Concept To Term</message>
 
-    <message key="xmlui.administrative.concept.AddConceptForm.top_concept">Top Concept</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.top_concept">Top Level</message>
     <message key="xmlui.administrative.FlowConceptUtils.add_Concept_success_notice">Successfully Added</message>
     <message key="xmlui.administrative.term.EditTermForm.head1">Edit Term</message>
     <message key="xmlui.administrative.term.EditTermForm.trail">Edit Term</message>
@@ -423,7 +440,7 @@
 
     <message key="xmlui.aspect.authority.concept.ManageMetadataRegistryMain.actions_head">Metadata Registries</message>
     <message key="xmlui.aspect.authority.concept.ManageMetadataRegistryMain.main_head">Metadata Registries</message>
-    <message key="xmlui.aspect.authority.concept.general.concept_trail">Metadata Registries</message>
+    <message key="xmlui.aspect.authority.concept.general.concept_trail">Manage Concepts</message>
 
 
     <!-- org.dspace.app.xmlui.administrative.scheme.ManageSchemeMain -->
@@ -431,7 +448,7 @@
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.main_head">Scheme Management</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_head">Actions</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create">Create a new Scheme</message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create_link">Click here to add a new Scheme.</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_create_link">Add a new Scheme.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse">Browse Scheme</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_browse_link">Click here to browse all Scheme.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.actions_search">Search for Scheme</message>
@@ -498,8 +515,8 @@
     <!-- org.dspace.app.xmlui.administrative.scheme.DeleteEPeopleConfirm -->
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.title">Confirm Scheme Deletion</message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.trail">Confirm Delete</message>
-    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_head">Confirm Deletion</message>
-    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_para">The following Scheme will be deleted: </message>
+    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_head">Confirm Deletion of Scheme(s)</message>
+    <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.confirm_para">The following Scheme(s) will be deleted:</message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.submit_confirm">Confirm Deletion</message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_id">ID</message>
     <message key="xmlui.administrative.scheme.DeleteEPeopleConfirm.head_name">Name</message>
@@ -515,7 +532,7 @@
     <!-- org.dspace.app.xmlui.administrative.scheme.AddSchemeForm -->
     <message key="xmlui.administrative.scheme.AddSchemeForm.title">Add Scheme</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.trail">Add Scheme</message>
-    <message key="xmlui.administrative.scheme.AddSchemeForm.head1">Create a new Scheme</message>
+    <message key="xmlui.administrative.scheme.AddSchemeForm.head1">Add Scheme</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.email_taken">That Identifier address is in use by another Scheme. Identifier must be unique.</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.head2">New Scheme's information:</message>
     <message key="xmlui.administrative.scheme.AddSchemeForm.error_email_unique">Identifier must be unique</message>
@@ -542,7 +559,7 @@
     <!-- org.dspace.app.xmlui.administrative.concept.AddConceptForm -->
     <message key="xmlui.administrative.concept.AddConceptForm.title">Add Concept</message>
     <message key="xmlui.administrative.concept.AddConceptForm.trail">Add Concept</message>
-    <message key="xmlui.administrative.concept.AddConceptForm.head1">Create a new Concept</message>
+    <message key="xmlui.administrative.concept.AddConceptForm.head1">Add Concept</message>
     <message key="xmlui.administrative.concept.AddConceptForm.email_taken">That Identifier address is in use by another Concept. Identifier must be unique.</message>
     <message key="xmlui.administrative.concept.AddConceptForm.head2">New Concept's information:</message>
     <message key="xmlui.administrative.concept.AddConceptForm.error_email_unique">Identifier must be unique</message>
@@ -568,12 +585,55 @@
     <message key="xmlui.general.clear">(Clear Search)</message>
     <message key="xmlui.Scheme.EditProfile.name">Name</message>
     <message key="xmlui.Scheme.EditProfile.status">Status</message>
-    <message key="xmlui.administrative.concept.EditConceptForm.trail">Edit Concept</message>
+    <message key="xmlui.administrative.concept.EditConceptForm.title">Edit Concept</message>
+    <message key="xmlui.administrative.concept.EditConceptForm.trail">Edit Attributes</message>
     <message key="xmlui.administrative.concept.EditConceptForm.head1">Edit Concept</message>
     <message key="xmlui.administrative.concept.EditConceptForm.head2">Concept Attribute</message>
+    <message key="xmlui.administrative.EditConceptMetadataValueForm.concept_metadata">Concept Metadata</message>
+    <message key="xmlui.administrative.EditConceptMetadataValueForm.trail">Edit Metadata</message>
+    <message key="xmlui.administrative.EditConceptMetadataValueForm.title">Edit Concept Metadata</message>
+    <message key="xmlui.administrative.EditSchemeMetadataValueForm.title">Edit Scheme Metadata</message>
     <message key="xmlui.Concept.EditProfile.status">Status</message>
     <message key="xmlui.Concept.EditProfile.topConcept">Top Concept</message>
     <message key="xmlui.Concept.EditProfile.identifier">Identifier</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.scheme">Scheme</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.attribute">Attributes</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.identifier">Identifier</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.creation_date">Creation Date</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.status">Status</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.source">Source</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.preferred_terms">Preferred Term</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.alternative_terms">Alternative Terms</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.metadata_values">Metadata Values</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.field_name">Field Name</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.value">Value</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.preferred_label">Preferred Label</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.broader_narrower">Broader/Narrower</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.broader">Broader</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.narrower">Narrower</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.related_concept">Related Concept</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.relation">Relation</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.is_has_member">Is Member/Has Member</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.is_member">Is Member</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.has_member">Has Member</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.equals">Equals</message>
+    <message key="xmlui.ArtifactBrowser.ConceptViewer.related">Related</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.trail">Confirm Delete</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.head">Confirm Deletion of Concept(s)</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.para">The following Concept(s) will be deleted:</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.preferred_term">Preferred Term</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.identifier">Identifier</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.status">Status</message>
+    <message key="xmlui.administrative.concept.DeleteConceptConfirm.status">Confirm Concept Deletion</message>
+    <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.title">Add Related Concept</message>
+    <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.head1">Add Related Concept</message>
+    <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.search">Search for a Concept</message>
+    <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.role">Select a Role</message>
+    <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.trail">Add Related Concept</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column1">Creation Date</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column2">Preferred Term</message>
+    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column1">Selected</message>
+
 
     <message key="xmlui.Concept.EditProfile.language">Language</message>
     <message key="xmlui.administrative.concept.EditConceptForm.move_term_help">Move Help Text</message>
@@ -584,6 +644,7 @@
     <message key="xmlui.administrative.FlowTermUtils.delete_Term_success_notice">Term Successfully deleted</message>
 
     <message key="xmlui.administrative.FlowConceptUtils.delete_Concept_success_notice">Concept Successfully deleted</message>
+    <message key="xmlui.administrative.FlowConceptUtils.add_Concept_failed">You must supply a Preferred Term</message>
 
     <message key="xmlui.administrative.FlowSchemeUtils.delete_Scheme_success_notice">Scheme Successfully deleted</message>
 </catalogue>

@@ -668,6 +668,7 @@ function doAddConcept(schemeId)
             assertAdministrator();
 
             result = FlowConceptUtils.processAddConcept(getDSContext(),schemeId,cocoon.request,getObjectModel());
+            // TODO Redirect back to request page with continue and schemeID
             var conceptId = result.getParameter("ConceptID");
             errorMessage = result.getErrorString();
 

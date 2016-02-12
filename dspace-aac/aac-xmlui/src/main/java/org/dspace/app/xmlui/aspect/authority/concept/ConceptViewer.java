@@ -69,6 +69,22 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
     private static final Message T_head_sub_concepts =
             message("xmlui.ArtifactBrowser.ConceptViewer.head_sub_concepts");
 
+    private static final Message T_authorities = message("xmlui.administrative.scheme.trail.authorities");
+    private static final Message T_scheme = message("xmlui.ArtifactBrowser.ConceptViewer.scheme");
+    private static final Message T_attribute = message("xmlui.ArtifactBrowser.ConceptViewer.attribute");
+    private static final Message T_identifier = message("xmlui.ArtifactBrowser.ConceptViewer.identifier");
+    private static final Message T_creation_date = message("xmlui.ArtifactBrowser.ConceptViewer.creation_date");
+    private static final Message T_status = message("xmlui.ArtifactBrowser.ConceptViewer.status");
+    private static final Message T_source = message("xmlui.ArtifactBrowser.ConceptViewer.source");
+    private static final Message T_preferred_terms = message("xmlui.ArtifactBrowser.ConceptViewer.preferred_terms");
+    private static final Message T_alternative_terms = message("xmlui.ArtifactBrowser.ConceptViewer.alternative_terms");
+    private static final Message T_preferred_label = message("xmlui.ArtifactBrowser.ConceptViewer.preferred_label");
+    private static final Message T_metadata_values = message("xmlui.ArtifactBrowser.ConceptViewer.metadata_values");
+    private static final Message T_field_name = message("xmlui.ArtifactBrowser.ConceptViewer.field_name");
+    private static final Message T_value = message("xmlui.ArtifactBrowser.ConceptViewer.value");
+    private static final Message T_related_concept = message("xmlui.ArtifactBrowser.ConceptViewer.related_concept");
+    private static final Message T_relation = message("xmlui.ArtifactBrowser.ConceptViewer.relation");
+
 
     /** Cached validity object */
     private SourceValidity validity;
@@ -188,28 +204,17 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(),concept.getLabel());
-        HandleUtil.buildHandleTrail(concept, pageMeta, contextPath);
-
-        // Add RSS links if available
-        String formats = ConfigurationManager.getProperty("webui.feed.formats");
-        if ( formats != null )
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        Scheme owner = concept.getScheme();
+        if(owner!=null)
         {
-            for (String format : formats.split(","))
-            {
-                // Remove the protocol number, i.e. just list 'rss' or' atom'
-                String[] parts = format.split("_");
-                if (parts.length < 1)
-                {
-                    continue;
-                }
-
-                String feedFormat = parts[0].trim()+"+xml";
-
-                String feedURL = contextPath+"/feed/"+format.trim()+"/"+concept.getHandle();
-                pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
-            }
+            pageMeta.addTrailLink(contextPath + "/scheme/"+owner.getID(),owner.getName());
         }
+        if(concept!=null)
+        {
+            pageMeta.addTrail().addContent(concept.getLabel());
+        }
+        HandleUtil.buildHandleTrail(concept, pageMeta, contextPath);
     }
 
     /**
@@ -238,10 +243,10 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
 
         Scheme parentScheme = concept.getScheme();
         List parentList = home.addList("scheme");
-        parentList.setHead("Scheme");
+        parentList.setHead(T_scheme);
         if(parentScheme!=null)
         {
-            parentList.addItem().addXref("/scheme/"+parentScheme.getID(),parentScheme.getIdentifier());
+            parentList.addItem().addXref("/scheme/"+parentScheme.getID(),parentScheme.getName() + "(" + parentScheme.getIdentifier().substring(0,8) + ")");
         }
 
         String name = concept.getLabel();
@@ -259,18 +264,18 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             Division viewer = home.addDivision("concept-view","secondary");
             Division attributeSection = viewer.addDivision("attribute-section","thesaurus-section");
             Table attribute = attributeSection.addTable("attribute",3,2,"thesaurus-table");
-            attribute.setHead("Attribute");
+            attribute.setHead(T_attribute);
             Row aRow = attribute.addRow();
-            aRow.addCell().addContent("Identifier");
+            aRow.addCell().addContent(T_identifier);
             aRow.addCell().addContent(concept.getIdentifier());
             aRow = attribute.addRow();
-            aRow.addCell().addContent("Create Date");
+            aRow.addCell().addContent(T_creation_date);
             aRow.addCell().addContent(concept.getCreated().toString());
             aRow = attribute.addRow();
-            aRow.addCell().addContent("Status");
+            aRow.addCell().addContent(T_status);
             aRow.addCell().addContent(concept.getStatus());
             aRow = attribute.addRow();
-            aRow.addCell().addContent("Source");
+            aRow.addCell().addContent(T_source);
             if(concept.getSource()!=null) {
                 aRow.addCell().addContent(concept.getSource());
             }
@@ -278,51 +283,45 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             {
                 aRow.addCell().addContent("NULL");
             }
-            Division preSection = viewer.addDivision("pre-term-section","thesaurus-section");
-            preSection.setHead("Preferred Terms");
+
             Term[] preferredTerms = concept.getPreferredTerms();
             if(preferredTerms!=null && preferredTerms.length >0)
             {
-
-
+                Division preSection = viewer.addDivision("pre-term-section","thesaurus-section");
+                preSection.setHead(T_preferred_terms);
                 Table table = preSection.addTable("pre-term", preferredTerms.length + 1, 3,"thesaurus-table");
 
                 Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("ID");
-                header.addCell().addContent("Identifier");
-                header.addCell().addContent("Preferred Label");
+                header.addCell().addContent(T_preferred_label);
+                header.addCell().addContent(T_identifier);
 
                 for(Term term : preferredTerms)
                 {
                     Row item = table.addRow();
-                    item.addCell().addContent(term.getID());
-                    item.addCell().addContent(term.getIdentifier());
                     item.addCell().addXref("/term/"+term.getID(),term.getLiteralForm());
+                    item.addCell().addContent(term.getIdentifier());
                 }
             }
-            Division altSection = viewer.addDivision("alt-term-section","thesaurus-section");
-            altSection.setHead("Alternative Terms");
+
             Term[] altTerms = concept.getAltTerms();
             if(altTerms!=null && altTerms.length >0)
             {
-
+                Division altSection = viewer.addDivision("alt-term-section","thesaurus-section");
+                altSection.setHead(T_alternative_terms);
                 Table table = altSection.addTable("alt-term", altTerms.length + 1, 3,"thesaurus-table");
 
                 Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("ID");
-                header.addCell().addContent("Identifier");
-                header.addCell().addContent("Preferred Label");
+                header.addCell().addContent(T_preferred_label);
+                header.addCell().addContent(T_identifier);
 
                 for(Term term : altTerms)
                 {
                     Row item = table.addRow();
-                    item.addCell().addContent(concept.getID());
-                    item.addCell().addContent(concept.getIdentifier());
                     item.addCell().addXref("/term/"+term.getID(),term.getLiteralForm());
+                    item.addCell().addContent(concept.getIdentifier());
                 }
             }
-            Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
-            metadataSection.setHead("Metadata Values");
+
             if(AuthorizeManager.isAdmin(context)){
                 //only admin can see metadata
                 java.util.List<Metadatum> values = concept.getMetadata();
@@ -330,21 +329,19 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
 
                 if(values!=null&&values.size()>0)
                 {
-
+                    Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
+                    metadataSection.setHead(T_metadata_values);
                     Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
 
                     Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                    header.addCell().addContent("ID");
-                    header.addCell().addContent("Field Name");
-                    header.addCell().addContent("Value");
+                    header.addCell().addContent(T_field_name);
+                    header.addCell().addContent(T_value);
                     while (i<values.size()&&values.get(i)!=null)
                     {
 
                         Metadatum value = (Metadatum)values.get(i);
                         Row mRow = metadataTable.addRow();
 
-                        // TODO - May need to be Field ID not Field name
-                        mRow.addCell().addContent(value.getField());
                         if(value.qualifier!=null&&value.qualifier.length()>0)
                         {
                             mRow.addCell().addContent(value.schema + "." + value.element + "." + value.qualifier);
@@ -360,57 +357,48 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                 }
             }
 
+            for (Concept2ConceptRole role : Concept2ConceptRole.findAll(context)) {
+                Concept2Concept[] parent = Concept2Concept.findByParentAndRole(context, concept.getID(), role.getRelationID());
+                if (parent == null) {
+                    parent = new Concept2Concept[0];
+                }
+                Concept2Concept[] child = Concept2Concept.findByChildAndRole(context, concept.getID(), role.getRelationID());
+                if (child == null) {
+                    child = new Concept2Concept[0];
+                }
 
-            Concept2Concept[] parentRelations= Concept2Concept.findByChild(context,concept.getID());
-            Division aSection = viewer.addDivision("associate-section","thesaurus-section");
-            aSection.setHead("Parent Concepts");
-            if(parentRelations!=null&&parentRelations.length>0) {
+                if (parent.length > 0 || child.length > 0) {
+                    int length = parent.length + child.length;
+                    Division aSection = viewer.addDivision("associate-section","thesaurus-section");
+                    String incomingLabel = role.getIncomingLabel();
+                    String outgoingLabel = role.getLabel();
+                    if (incomingLabel.equals(outgoingLabel)) {
+                        aSection.setHead(outgoingLabel);
+                    } else {
+                        aSection.setHead(incomingLabel + "/" + outgoingLabel);
+                    }
+                    Table table = aSection.addTable("associate", length + 1, 3,"detailtable thesaurus-table");
 
+                    Row header = table.addRow(Row.ROLE_HEADER);
+                    header.addCell().addContent(T_relation);
+                    header.addCell().addContent(T_related_concept);
 
-
-                Table table = aSection.addTable("associate", parentRelations.length + 1, 3,"thesaurus-table");
-
-                Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("Parent Concept");
-                header.addCell().addContent("Role");
-                header.addCell().addContent("Current Concept");
-
-
-                for(Concept2Concept parentRelation : parentRelations)
-                {
-                    Concept incomingConcept = Concept.find(context,parentRelation.getIncomingId());
-                    Row acRow = table.addRow();
-                    acRow.addCell().addXref("/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
-                    acRow.addCell().addContent(Concept2ConceptRole.find(context, parentRelation.getRoleId()).getLabel());
-                    acRow.addCell().addContent(concept.getLabel());
+                    for(Concept2Concept parentRelation : parent)
+                    {
+                        Concept incomingConcept = Concept.find(context,parentRelation.getOutgoingId());
+                        Row acRow = table.addRow();
+                        acRow.addCell().addContent(outgoingLabel);
+                        acRow.addCell().addXref("/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
+                    }
+                    for(Concept2Concept childRelation : child)
+                    {
+                        Concept incomingConcept = Concept.find(context,childRelation.getIncomingId());
+                        Row acRow = table.addRow();
+                        acRow.addCell().addContent(incomingLabel);
+                        acRow.addCell().addXref("/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
+                    }
                 }
             }
-            Division bSection = viewer.addDivision("hi-section", "thesaurus-section");
-            bSection.setHead("Child Concepts");
-            Concept2Concept[] childConcepts = Concept2Concept.findByParent(context,concept.getID());
-            if(childConcepts!=null&&childConcepts.length>0) {
-
-
-                Table table = bSection.addTable("hi", childConcepts.length + 1, 3,"thesaurus-table");
-
-                Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("current concept");
-                header.addCell().addContent("Role");
-                header.addCell().addContent("Child Concept");
-
-
-                for(Concept2Concept childRelation : childConcepts)
-                {
-                    Row acRow = table.addRow();
-                    Concept outgoingConept = Concept.find(context,childRelation.getOutgoingId());
-
-                    acRow.addCell().addContent(concept.getLabel());
-                    acRow.addCell().addContent(Concept2ConceptRole.find(context,childRelation.getRoleId()).getLabel());
-                    acRow.addCell().addXref("/concept/" + outgoingConept.getID(), outgoingConept.getIdentifier());
-                }
-            }
-
-
         } // main reference
     }
 

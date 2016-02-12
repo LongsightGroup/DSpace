@@ -164,6 +164,7 @@ CREATE TABLE Concept2ConceptRole
 (
   id             INTEGER PRIMARY KEY DEFAULT NEXTVAL('concept2conceptrole_seq'),
   role           VARCHAR(64),
+  incoming_label VARCHAR(64),
   label          VARCHAR(64),
   scope_note     TEXT,
   CONSTRAINT Concept2ConceptRoleName UNIQUE(label)
@@ -215,9 +216,10 @@ CREATE TABLE Scheme2Concept
 INSERT INTO Concept2TermRole VALUES (nextval('concept2termrole_seq'),'prefLabel','prefLabel');
 INSERT INTO Concept2TermRole VALUES (nextval('concept2termrole_seq'),'alt','altfLabel');
 
-INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'hierarchical','Broader/Narrower');
-INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'associative','Associate');
-INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'associative','Equal');
+INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'hierarchical','Broader','Narrower');
+INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'hierarchical','IsMember','HasMember');
+INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'associative','Equal','Equal');
+INSERT INTO Concept2ConceptRole VALUES (nextval('concept2conceptrole_seq'),'associative','Related','Related');
 
 
 ALTER TABLE eperson ADD COLUMN orcid VARCHAR(256);

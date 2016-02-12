@@ -83,6 +83,9 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
     private static final Message T_go =
             message("xmlui.general.go");
 
+    private static final Message T_clear =
+            message("xmlui.general.clear");
+
     private static final Message T_search_head =
             message("xmlui.aspect.authority.concept.ManageConceptMain.search_head");
 
@@ -105,6 +108,22 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
             message("xmlui.aspect.authority.concept.ManageConceptMain.no_results");
 
     private static final Message T_administrative_authority 	= message("xmlui.administrative.Navigation.administrative_authority_control");
+
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
+
+    private static final Message T_actions_edit_attribute =
+            message("xmlui.aspect.authority.concept.ManageConceptMain.actions_edit_attribute");
+
+    private static final Message T_actions_edit_metadata =
+            message("xmlui.aspect.authority.concept.ManageConceptMain.actions_edit_metadata");
+
+    private static final Message T_actions_add_concepts =
+            message("xmlui.aspect.authority.concept.ManageConceptMain.actions_add_concepts");
+
+    private static final Message T_actions_view_terms =
+            message("xmlui.aspect.authority.concept.ManageConceptMain.actions_view_terms");
+
     /**
      * The total number of entries to show on a page
      */
@@ -115,6 +134,7 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         String schemeId = parameters.getParameter("scheme",null);
         Scheme scheme = null;
         if(schemeId!=null)
@@ -132,9 +152,9 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         }
         if(scheme!=null)
         {
-            pageMeta.addTrailLink("scheme/"+scheme.getID(),"scheme/"+scheme.getID());
+            pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(),scheme.getName());
         }
-        pageMeta.addTrailLink(null,T_concept_trail);
+        pageMeta.addTrail().addContent(T_concept_trail);
     }
 
 
@@ -191,8 +211,8 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         String conceptURL = baseURL;
         if(scheme!=null)
         {
-            mainURL = "/admin/scheme?administrative-continue="+knot.getId()+"&schemeID=1"+scheme.getID();
-            conceptURL = "/admin/scheme?administrative-continue="+knot.getId()+"&schemeID=1"+scheme.getID();
+            mainURL = "/admin/scheme?administrative-continue="+knot.getId()+"&schemeID="+scheme.getID();
+            conceptURL = "/admin/scheme?administrative-continue="+knot.getId()+"&schemeID="+scheme.getID();
         }
 
         main = body.addInteractiveDivision("concept-main", contextPath
@@ -202,9 +222,7 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
 
         if(scheme!=null)
         {
-
-            main.setHead("Concept for Metadata Scheme : "+scheme.getID());
-
+            main.setHead("Concept Management for " + scheme.getName());
         }
         else
         {
@@ -215,13 +233,7 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         actions.setHead(T_actions_head);
 
         List actionsList = actions.addList("actions");
-        actionsList.addLabel("Create New Metadata Scheme");
         actionsList.addItemXref(conceptURL+"&submit_add", T_actions_create_link);
-
-
-        actionsList.addLabel("Browse All Metadata Scheme");
-        actionsList.addItemXref(conceptURL+"&query&submit_search",
-                T_actions_browse_link);
 
         actionsList.addLabel(T_actions_search);
         org.dspace.app.xmlui.wing.element.Item actionItem = actionsList.addItem();
@@ -233,6 +245,7 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         }
         queryField.setHelp(T_search_help);
         actionItem.addButton("submit_search").setValue(T_go);
+        actionItem.addXref(conceptURL + "&query&submit_search", T_clear);
 
         // DIVISION: concept-search
         Division search = main.addDivision("concept-search");
@@ -264,7 +277,6 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         header.addCell().addContent(T_search_column2);
         header.addCell().addContent(T_search_column3);
         header.addCell().addContent(T_search_column4);
-        header.addCell().addContent("Actions");
         CheckBox selectConcept;
         for (Concept concept : concepts)
         {
@@ -299,10 +311,13 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
 //                selectConcept.setDisabled();
 //            }
 
-            row.addCellContent(conceptID);
-            row.addCell().addXref("/concept/"+concept.getID(), concept.getCreated().toString());
+            row.addCell().addContent(concept.getCreated().toString());
             row.addCell().addXref("/concept/"+concept.getID(), concept.getLabel());
-            row.addCell().addXref(conceptURL+"&submit_edit_concept&conceptID="+concept.getID(),"edit");
+            Cell actionCell = row.addCell() ;
+            actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&edit", T_actions_edit_attribute);
+            actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&editMetadata", T_actions_edit_metadata);
+            actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&addConcept", T_actions_add_concepts);
+            actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&search", T_actions_view_terms);
         }
 
         if (concepts.length <= 0)
@@ -322,44 +337,12 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
 
     public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
     {
-        String schemeId = parameters.getParameter("scheme",null);
-        Scheme scheme = null;
-        if(schemeId!=null)
-        {
-            try{
-                if(context==null) {
-                    context = ContextUtil.obtainContext(objectModel);
-                }
-                scheme = Scheme.find(context, Integer.parseInt(schemeId));
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
-        if(scheme==null)
-        {
-            return;
-        }
-
+         /* Create skeleton menu structure to ensure consistent order between aspects,
+        * even if they are never used
+        */
         options.addList("browse");
         List account = options.addList("account");
         List context = options.addList("context");
         List admin = options.addList("administrative");
-
-
-        //Check if a system administrator
-        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
-
-
-        // System Administrator options!
-        if (isSystemAdmin)
-        {
-
-            List authority = admin.addList("authority");
-            authority.setHead(T_administrative_authority);
-            authority.addItemXref(contextPath+"/scheme/"+scheme.getID(),"Back to scheme");
-        }
     }
 }

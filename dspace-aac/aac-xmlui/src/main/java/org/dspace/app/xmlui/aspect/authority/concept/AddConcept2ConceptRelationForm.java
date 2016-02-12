@@ -6,11 +6,11 @@ import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.*;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Concept2ConceptRole;
-import org.dspace.authority.model.Concept;
-import org.dspace.authority.model.Concept2ConceptRole;
+import org.dspace.authorize.AuthorizeManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,26 +30,32 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
             message("xmlui.administrative.concept.general.epeople_trail");
 
     private static final Message T_title =
-            message("xmlui.administrative.concept.AddConceptForm.title");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.title");
 
     private static final Message T_trail =
-            message("xmlui.administrative.concept.AddConceptForm.trail");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.trail");
 
     private static final Message T_head1 =
-            message("xmlui.administrative.concept.AddConceptForm.head1");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.head1");
+
+    private static final Message T_search =
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.search");
+
+    private static final Message T_role =
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.role");
 
     private static final Message T_email_taken =
-            message("xmlui.administrative.concept.AddConceptForm.email_taken");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.email_taken");
 
     private static final Message T_head2 =
-            message("xmlui.administrative.concept.AddConceptForm.head2");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.head2");
 
 
     private static final Message T_top_concept =
-            message("xmlui.administrative.concept.AddConceptForm.top_concept");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.top_concept");
 
     private static final Message T_submit_create =
-            message("xmlui.administrative.concept.AddConceptForm.submit_create");
+            message("xmlui.administrative.concept.AddConcept2ConceptRelationForm.submit_create");
 
     private static final Message T_submit_cancel =
             message("xmlui.general.cancel");
@@ -73,13 +79,13 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
             message("xmlui.aspect.authority.concept.ManageConceptMain.search_head");
 
     private static final Message T_search_column1 =
-            message("xmlui.aspect.authority.concept.ManageConceptMain.search_column1");
+            message("xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column1");
 
     private static final Message T_search_column2 =
-            message("xmlui.aspect.authority.concept.ManageConceptMain.search_column2");
+            message("xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column2");
 
     private static final Message T_search_column3 =
-            message("xmlui.aspect.authority.concept.ManageConceptMain.search_column3");
+            message("xmlui.aspect.authority.concept.AddConcept2ConceptRelationForm.search_column3");
 
     private static final Message T_search_column4 =
             message("xmlui.aspect.authority.concept.ManageConceptMain.search_column4");
@@ -90,11 +96,27 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
     private static final Message T_no_results =
             message("xmlui.aspect.authority.concept.ManageConceptMain.no_results");
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
+
+    private static final Message T_context_head =
+            message("xmlui.administrative.Navigation.context_head");
+
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
+        Concept concept = Concept.find(context, parameters.getParameterAsInteger("conceptID", -1));
+        Scheme owner = concept.getScheme();
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/concept",T_concept_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        if(owner!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/scheme/"+owner.getID(),owner.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
+        }
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -135,7 +157,7 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
         // DIVISION: concept-add
         Division add = body.addInteractiveDivision("concept-add",formUrl,Division.METHOD_POST,"primary administrative concept");
 
-        add.setHead("Add Child Concept");
+        add.setHead(T_head1);
 
         if(errors!=null&&errors.size()>0)
         {
@@ -147,7 +169,7 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
         }
 
         List secondConcept =  add.addList("second-concept");
-        secondConcept.addLabel("Search a Concept");
+        secondConcept.addLabel(T_search);
         //secondConcept.addItem().addText("second-concept");
         Text queryField = secondConcept.addItem().addText("query");
         if (query != null)
@@ -156,7 +178,7 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
         }
         secondConcept.addItem().addButton("submit_search").setValue("Search");
         List role =  add.addList("role-id");
-        role.addLabel("Select a Role");
+        role.addLabel(T_role);
         Item roleItem = role.addItem();
         Concept2ConceptRole[] concept2Concepts = Concept2ConceptRole.findAll(context);
         Select select = roleItem.addSelect("roleId");
@@ -192,13 +214,15 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
 
         Table table = search.addTable("concept-search-table", concepts.length + 1, 1);
         Row header = table.addRow(Row.ROLE_HEADER);
+        header.addCell().addContent(T_search_column1);
         header.addCell().addContent(T_search_column2);
         header.addCell().addContent(T_search_column3);
-        header.addCell().addContent(T_search_column4);
-        header.addCell().addContent("Selected");
         CheckBox selectConcept;
         for (Concept concept : concepts)
         {
+            if (concept.getID() == parameters.getParameterAsInteger("conceptID", -1)) {
+                continue;
+            }
             String conceptID = String.valueOf(concept.getID());
             String url = "/concept/"+conceptID;
 
@@ -216,9 +240,7 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
                 row = table.addRow();
             }
 
-            row.addCellContent(conceptID);
-            row.addCell().addXref("/concept/"+concept.getID(), concept.getCreated().toString());
-            row.addCell().addXref("/concept/"+concept.getID(), concept.getIdentifier());
+            row.addCell().addContent(concept.getCreated().toString());
             row.addCell().addXref("/concept/"+concept.getID(), concept.getLabel());
             selectConcept = row.addCell().addCheckBox("select_concepts");
             selectConcept.setLabel(conceptID);
@@ -241,6 +263,30 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
 
 
         add.addHidden("administrative-continue").setValue(knot.getId());
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+        int conceptId = this.parameters.getParameterAsInteger("conceptID",-1);
+        Concept concept = Concept.find(context, conceptId);
+
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&edit","Edit Concept Attribute");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&editMetadata","Edit Concept Metadata Value");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&addConcept","Add Related Concept");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&search","Search & Add Terms");
+        }
     }
 
 }

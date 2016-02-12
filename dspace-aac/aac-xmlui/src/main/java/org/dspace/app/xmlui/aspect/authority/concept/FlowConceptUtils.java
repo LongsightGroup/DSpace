@@ -61,6 +61,9 @@ public class FlowConceptUtils {
 
     private static final Message t_delete_Term_failed_notice =
             new Message("default","xmlui.administrative.FlowTermUtils.delete_Term_failed_notice");
+
+    private static final Message T_add_Concept_failed_notice_empty_term =
+            new Message("default","xmlui.administrative.FlowConceptUtils.add_Concept_failed");
     /**
      * Add a new Concept. This method will check that the email address,
      * first name, and last name are non empty. Also a check is performed
@@ -84,7 +87,9 @@ public class FlowConceptUtils {
         String value = request.getParameter("value");
         if(value==null||value.length()==0)
         {
-            result.addError("value");
+            result.setOutcome(false);
+            result.setMessage(T_add_Concept_failed_notice_empty_term);
+            return result;
         }
         // No errors, so we try to create the Concept from the data provided
         if (result.getErrors() == null)

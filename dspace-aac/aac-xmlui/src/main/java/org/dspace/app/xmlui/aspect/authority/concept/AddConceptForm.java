@@ -11,13 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.apache.cocoon.el.objectmodel.ObjectModel;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
+import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.AuthorityObject;
 import org.dspace.authority.model.Concept;
@@ -57,6 +60,29 @@ public class AddConceptForm extends AbstractDSpaceTransformer
     private static final Message T_head2 =
             message("xmlui.administrative.concept.AddConceptForm.head2");
 
+    private static final Message T_preferred_term =
+            message("xmlui.administrative.concept.AddConceptForm.preferred_term");
+
+    private static final Message T_preferred_error =
+            message("xmlui.administrative.concept.AddConceptForm.preferred_error");
+
+    private static final Message T_accepted =
+            message("xmlui.administrative.concept.AddConceptForm.accepted");
+
+    private static final Message T_candidate =
+            message("xmlui.administrative.concept.AddConceptForm.candidate");
+
+    private static final Message T_withdrawn =
+            message("xmlui.administrative.concept.AddConceptForm.withdrawn");
+
+    private static final Message T_status =
+            message("xmlui.administrative.concept.AddConceptForm.status");
+
+    private static final Message T_language =
+            message("xmlui.administrative.concept.AddConceptForm.language");
+
+    private static final Message T_error =
+            message("xmlui.administrative.concept.AddConceptForm.error");
 
     private static final Message T_top_concept =
             message("xmlui.administrative.concept.AddConceptForm.top_concept");
@@ -82,12 +108,33 @@ public class AddConceptForm extends AbstractDSpaceTransformer
     private static final Message T_telephone =
             message("xmlui.Concept.EditProfile.telephone");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
     public void addPageMeta(PageMeta pageMeta) throws WingException
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/concept",T_concept_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        String schemeId = ObjectModelHelper.getRequest(objectModel).getParameter("schemeID");
+        Scheme scheme = null;
+        if(schemeId!=null)
+        {
+            try{
+                if(context==null) {
+                    context = ContextUtil.obtainContext(objectModel);
+                }
+                scheme = Scheme.find(context, Integer.parseInt(schemeId));
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+        if(scheme!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(),scheme.getName());
+        }
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -97,15 +144,6 @@ public class AddConceptForm extends AbstractDSpaceTransformer
         // Get all our parameters
         Request request = ObjectModelHelper.getRequest(objectModel);
 
-        String errorString = parameters.getParameter("errors",null);
-        ArrayList<String> errors = new ArrayList<String>();
-        if (errorString != null)
-        {
-            for (String error : errorString.split(","))
-            {
-                errors.add(error);
-            }
-        }
         Boolean topConcept = (request.getParameter("topConcept") == null)  ? false : true;
         String language = request.getParameter("language");
         String status = request.getParameter("status");
@@ -123,30 +161,27 @@ public class AddConceptForm extends AbstractDSpaceTransformer
         List identity = add.addList("identity",List.TYPE_FORM);
         if(schemeId!=null&&schemeId.length()>0)
         {
-            identity.setHead(T_head2);
             identity.addItem().addHidden("scheme").setValue(schemeId);
 
-            identity.addLabel("Concept Value");
+            identity.addLabel(T_preferred_term);
             Text valueText = identity.addItem().addText("value");
-            if(errors.contains("value")) {
-                valueText.addError("Concept must have a preferred label");
-            }
             if(value!=null&&value.length()==0)
             {
                 valueText.setValue(value);
             }
 
-            identity.addLabel("Top Concept");
+            identity.addLabel(T_top_concept);
             CheckBox topConceptBox = identity.addItem().addCheckBox("topConcept");
             topConceptBox.setLabel(T_top_concept);
             topConceptBox.addOption(topConcept, "yes");
+            topConceptBox.setOptionSelected("yes");
 
 
-            identity.addLabel("Status");
+            identity.addLabel(T_status);
             Select statusSelect=identity.addItem().addSelect("status");
-            statusSelect.addOption(Concept.Status.ACCEPTED.name(),"Accepted");
-            statusSelect.addOption(Concept.Status.CANDIDATE.name(),"Candidate");
-            statusSelect.addOption(Concept.Status.WITHDRAWN.name(),"Withdraw");
+            statusSelect.addOption(Concept.Status.ACCEPTED.name(),T_accepted);
+            statusSelect.addOption(Concept.Status.CANDIDATE.name(),T_candidate);
+            statusSelect.addOption(Concept.Status.WITHDRAWN.name(),T_withdrawn);
             if(status!=null)
             {
                 if(status.equals(Concept.Status.CANDIDATE.name()))
@@ -163,36 +198,14 @@ public class AddConceptForm extends AbstractDSpaceTransformer
                 }
             }
 
-            identity.addLabel("Literal Form");
-            identity.addLabel("Language");
-            Select languageSelect = identity.addItem().addSelect("lang");
+            identity.addLabel(T_language);
+            Select languageSelect = identity.addItem().addSelect("language");
             for(String lang: Locale.getISOLanguages()){
                 languageSelect.addOption(lang,lang);
             }
             languageSelect.setOptionSelected("en");
-
-            List terms = identity.addList("terms");
-            terms.addLabel("Preferred Terms");
-            terms.addItem("preferred");
-            terms.addLabel("Alternative Terms");
-            terms.addItem("alt");
-
-            List attributes = identity.addList("attributes");
-            attributes.addLabel("Attributes");
-            attributes.addItem("attribute");
-
-            List parents =  identity.addList("parents");
-            parents.addLabel("Parents");
-            parents.addItem("parent");
-
-            List children =  identity.addList("children");
-            children.addLabel("Children");
-            children.addItem("child");
-        }
-
-        else
-        {
-            identity.addItem().addContent("Please select a scheme to add the concept into");
+        } else {
+            identity.addItem().addContent(T_error);
         }
         Item buttons = identity.addItem();
         buttons.addButton("submit_save").setValue(T_submit_create);

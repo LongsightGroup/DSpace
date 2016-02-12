@@ -15,6 +15,7 @@ import java.util.Comparator;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
+import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.Body;
@@ -34,6 +35,7 @@ import org.dspace.app.xmlui.wing.element.TextArea;
 import org.dspace.app.xmlui.wing.element.Value;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Scheme;
+import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.*;
 import org.dspace.content.authority.*;
 
@@ -60,14 +62,17 @@ public class EditConceptMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_option_view = message("xmlui.administrative.item.general.option_view");
     private static final Message T_option_curate = message("xmlui.administrative.item.general.option_curate");
 
-    private static final Message T_title = message("xmlui.administrative.item.EditItemMetadataForm.title");
-    private static final Message T_trail = message("xmlui.administrative.item.EditItemMetadataForm.trail");
+    private static final Message T_title = message("xmlui.administrative.EditConceptMetadataForm.title");
+    private static final Message T_trail = message("xmlui.administrative.EditConceptMetadataValueForm.trail");
     private static final Message T_head1 = message("xmlui.administrative.item.EditItemMetadataForm.head1");
     private static final Message T_name_label = message("xmlui.administrative.item.EditItemMetadataForm.name_label");
     private static final Message T_value_label = message("xmlui.administrative.item.EditItemMetadataForm.value_label");
     private static final Message T_lang_label = message("xmlui.administrative.item.EditItemMetadataForm.lang_label");
     private static final Message T_submit_add = message("xmlui.administrative.item.EditItemMetadataForm.submit_add");
     private static final Message T_para1 = message("xmlui.administrative.item.EditItemMetadataForm.para1");
+    private static final Message T_concept_metadata = message("xmlui.administrative.EditConceptMetadataValueForm.concept_metadata");
+    private static final Message T_authorities = message("xmlui.administrative.scheme.trail.authorities");
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
 
 
     private static final Message T_head2 = message("xmlui.administrative.item.EditItemMetadataForm.head2");
@@ -87,7 +92,15 @@ public class EditConceptMetadataValueForm extends AbstractDSpaceTransformer {
         pageMeta.addMetadata("title").addContent(T_title);
 
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/concept", T_item_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        if(owner!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/scheme/"+owner.getID(),owner.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
+        }
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -114,7 +127,7 @@ public class EditConceptMetadataValueForm extends AbstractDSpaceTransformer {
         // DIVISION: main
         Division main = body.addInteractiveDivision("edit-item-status", contextPath+"/admin/concept", Division.METHOD_POST,"primary administrative item");
 
-        main.setHead("Edit Metadata For Concept");
+        main.setHead(T_concept_metadata);
 
 
         List options = main.addList("options",List.TYPE_SIMPLE,"horizontal");
@@ -262,6 +275,38 @@ public class EditConceptMetadataValueForm extends AbstractDSpaceTransformer {
             final String s1 = o1.schema + o1.element + (o1.qualifier==null?"":("." + o1.qualifier));
             final  String s2 = o2.schema + o2.element + (o2.qualifier==null?"":("." + o2.qualifier));
             return s1.compareTo(s2);
+        }
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+
+
+        String conceptId = this.parameters.getParameter("conceptID","-1");
+        if(conceptId==null)
+        {
+            return;
+        }
+        Integer conceptID = Integer.parseInt(conceptId);
+        Concept concept = Concept.find(context, conceptID);
+
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&edit","Edit Concept Attribute");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&editMetadata","Edit Concept Metadata Value");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&addConcept","Add Related Concept");
+            authority.addItemXref(contextPath+"/admin/concept?conceptID="+concept.getID()+"&search","Search & Add Terms");
         }
     }
 
