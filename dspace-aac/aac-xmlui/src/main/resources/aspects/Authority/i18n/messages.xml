@@ -200,7 +200,7 @@
     <message key="xmlui.aspect.authority.term.ManageTermMain.main_head">Term Management</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_head">Actions</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_create">Create a new Term</message>
-    <message key="xmlui.aspect.authority.term.ManageTermMain.actions_create_link">Click here to add a new Term.</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.actions_create_link">Add a new Term.</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_browse">Browse Term</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_browse_link">Click here to browse all Term.</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.actions_search">Search for Term</message>
@@ -208,11 +208,14 @@
     <message key="xmlui.aspect.authority.term.ManageTermMain.search_para1">Below is the list of Term that matched your search query. Select the Term you want to delete and click the delete button to continue or click on an Term's identifier or name to edit them.</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.search_head">Search results</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.search_column1"></message>
-    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column2">ID</message>
-    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column3">Creation Date</message>
-    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column4">Literal Form</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column2">Creation Date</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column3">Literal Form</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.search_column4">Actions</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.submit_delete">Delete Term</message>
     <message key="xmlui.aspect.authority.term.ManageTermMain.no_results">Your search found no results..</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.action_attribute">Edit Attributes</message>
+    <message key="xmlui.aspect.authority.term.ManageTermMain.action_metadata">Edit Metadata</message>
+    <message key="xmlui.aspect.authority.term.general.term_trail">Manage Terms</message>
 
 
     <!-- org.dspace.app.xmlui.aspect.authority.term.AddTermForm -->
@@ -410,13 +413,15 @@
     <message key="xmlui.administrative.metadatarelation.AddConcept2TermForm.submit_create">Create Concept To Term</message>
 
     <message key="xmlui.administrative.concept.AddConceptForm.top_concept">Top Level</message>
-    <message key="xmlui.administrative.FlowConceptUtils.add_Concept_success_notice">Successfully Added</message>
+    <message key="xmlui.administrative.FlowConceptUtils.add_Concept_success_notice">Concept Successfully Added</message>
     <message key="xmlui.administrative.term.EditTermForm.head1">Edit Term</message>
-    <message key="xmlui.administrative.term.EditTermForm.trail">Edit Term</message>
+    <message key="xmlui.administrative.term.EditTermForm.trail">Edit Attributes</message>
     <message key="xmlui.administrative.term.general.epeople_trail">Term</message>
     <message key="xmlui.administrative.term.EditTermForm.head2">Term Properties</message>
     <message key="xmlui.Term.EditProfile.literalForm_address">Literal Form</message>
     <message key="xmlui.Term.EditProfile.status">Status</message>
+    <message key="xmlui.administrative.term.DeleteTermConfirm.confirm_head">Confirm Deletion of Term(s)</message>
+    <message key="xmlui.administrative.term.DeleteTermConfirm.confirm_para">The following Term(s) will be deleted:</message>
 
     <message key="xmlui.Term.EditProfile.source">Source</message>
     <message key="xmlui.Term.EditProfile.identifier">Identifier</message>
@@ -640,7 +645,7 @@
     <message key="xmlui.administrative.FlowSchemeUtils.edit_Scheme_success_notice">Scheme Successfully Edited</message>
     <message key="xmlui.administrative.FlowTermUtils.identifier_exists_notice">Scheme with this identifier exists, Please select a uniq identifier</message>
 
-
+    <message key="xmlui.administrative.FlowTermUtils.add_Term_success_notice">Term Successfully created</message>
     <message key="xmlui.administrative.FlowTermUtils.delete_Term_success_notice">Term Successfully deleted</message>
 
     <message key="xmlui.administrative.FlowConceptUtils.delete_Concept_success_notice">Concept Successfully deleted</message>

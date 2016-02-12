@@ -33,7 +33,9 @@ import org.dspace.app.xmlui.wing.element.Table;
 import org.dspace.app.xmlui.wing.element.TextArea;
 import org.dspace.app.xmlui.wing.element.Value;
 import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authority.model.Term;
+import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.*;
 import org.dspace.content.authority.*;
 
@@ -51,7 +53,8 @@ public class EditTermMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_dspace_home = message("xmlui.general.dspace_home");
     private static final Message T_submit_update = message("xmlui.general.update");
     private static final Message T_submit_return = message("xmlui.general.return");
-    private static final Message T_item_trail = message("xmlui.administrative.item.general.item_trail");
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
+    private static final Message T_term_trail = message("xmlui.administrative.term.general.term_trail");
     private static final Message T_template_head = message("xmlui.administrative.item.general.template_head");
     private static final Message T_option_head = message("xmlui.administrative.item.general.option_head");
     private static final Message T_option_status = message("xmlui.administrative.item.general.option_status");
@@ -76,6 +79,7 @@ public class EditTermMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_column3 = message("xmlui.administrative.item.EditItemMetadataForm.column3");
     private static final Message T_column4 = message("xmlui.administrative.item.EditItemMetadataForm.column4");
     private static final Message T_unlock = message("xmlui.authority.confidence.unlock.help");
+    private static final Message T_authorities = message("xmlui.administrative.scheme.trail.authorities");
 
     public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
@@ -85,10 +89,22 @@ public class EditTermMetadataValueForm extends AbstractDSpaceTransformer {
 
         pageMeta.addMetadata("choice", "scheme").addContent(String.valueOf(schemeID));
         pageMeta.addMetadata("title").addContent(T_title);
-
-
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/term", T_item_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        Concept concept = term.getConcepts()[0];
+        Scheme scheme = concept.getScheme();
+        if(scheme!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(),scheme.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(),concept.getLabel());
+        }
+        if(term!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/term/"+term.getID(), term.getLiteralForm());
+        }
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -263,6 +279,38 @@ public class EditTermMetadataValueForm extends AbstractDSpaceTransformer {
             final String s1 = o1.schema + o1.element + (o1.qualifier==null?"":("." + o1.qualifier));
             final  String s2 = o2.schema + o2.element + (o2.qualifier==null?"":("." + o2.qualifier));
             return s1.compareTo(s2);
+        }
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+
+
+        String termId = this.parameters.getParameter("termID","-1");
+        if(termId==null)
+        {
+            return;
+        }
+        Integer termID = Integer.parseInt(termId);
+        Term term = Term.find(context, termID);
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/term?termID="+term.getID()+"&edit","Edit Term Attribute");
+            authority.addItemXref(contextPath+"/admin/term?termID="+term.getID()+"&editMetadata","Edit Term Metadata Value");
         }
     }
 

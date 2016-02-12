@@ -9,6 +9,7 @@ package org.dspace.app.xmlui.aspect.authority.term;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
@@ -17,6 +18,7 @@ import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authority.model.Concept;
@@ -98,24 +100,31 @@ public class EditTermForm extends AbstractDSpaceTransformer
             message("xmlui.Term.EditProfile.identifier");
     private static final Message T_lang =
             message("xmlui.Term.EditProfile.language");
+    private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
-
-
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        int termID = parameters.getParameterAsInteger("term",-1);
-        try{
-            Term term = Term.find(context, termID);
-            if(term!=null)
-            {
-                pageMeta.addTrailLink(contextPath + "/term/"+term.getID(), term.getLiteralForm());
-            }
-        }catch (Exception e)
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        int termId = parameters.getParameterAsInteger("term",-1);
+        Term term = Term.find(context, termId);
+        Concept concept = term.getConcepts()[0];
+        Scheme scheme = concept.getScheme();
+        if(scheme!=null)
         {
-            return;
+            pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(),scheme.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(),concept.getLabel());
+        }
+        if(term!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/term/"+term.getID(), term.getLiteralForm());
         }
         pageMeta.addTrail().addContent(T_trail);
     }
@@ -199,7 +208,6 @@ public class EditTermForm extends AbstractDSpaceTransformer
 
 
         List identity = edit.addList("form",List.TYPE_FORM);
-        identity.setHead(T_head2.parameterize(term.getName()));
         identity.addItem().addHidden("termId").setValue(term.getID());
         if (admin)
         {
@@ -278,9 +286,12 @@ public class EditTermForm extends AbstractDSpaceTransformer
 
         if (admin)
         {
-            Text langText = identity.addItem().addText("lang");
+            Select langText = identity.addItem().addSelect("lang");
             langText.setLabel(T_lang);
-            langText.setValue(language);
+            for(String lang: Locale.getISOLanguages()){
+                langText.addOption(lang,lang);
+            }
+            langText.setOptionSelected(language);
         }
         else
         {
@@ -298,6 +309,38 @@ public class EditTermForm extends AbstractDSpaceTransformer
         buttons.addButton("submit_cancel").setValue(T_submit_cancel);
 
         edit.addHidden("administrative-continue").setValue(knot.getId());
+    }
+
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    {
+
+
+        String termId = this.parameters.getParameter("term","-1");
+        if(termId==null)
+        {
+            return;
+        }
+        Integer termID = Integer.parseInt(termId);
+        Term term = Term.find(context, termID);
+        options.addList("browse");
+        options.addList("account");
+        List authority = options.addList("context");
+        options.addList("administrative");
+
+
+
+        //Check if a system administrator
+        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
+
+
+        // System Administrator options!
+        if (isSystemAdmin)
+        {
+
+            authority.setHead(T_context_head);
+            authority.addItemXref(contextPath+"/admin/term?termID="+term.getID()+"&edit","Edit Term Attribute");
+            authority.addItemXref(contextPath+"/admin/term?termID="+term.getID()+"&editMetadata","Edit Term Metadata Value");
+        }
     }
 
 }

@@ -23,6 +23,7 @@ import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.browse.ItemCountException;
@@ -53,6 +54,7 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
             message("xmlui.general.dspace_home");
     private static final Message T_administrative_authority 	= message("xmlui.administrative.Navigation.administrative_authority_control");
     private static final Message T_context_head = message("xmlui.administrative.Navigation.context_head");
+    private static final Message T_authorities = message("xmlui.administrative.scheme.trail.authorities");
     public static final Message T_untitled =
             message("xmlui.general.untitled");
 
@@ -191,28 +193,19 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        Concept concept = term.getConcepts()[0];
+        Scheme owner = concept.getScheme();
+        if(owner!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/scheme/"+owner.getID(),owner.getName());
+        }
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(),concept.getLabel());
+        }
         pageMeta.addTrailLink(contextPath + "/term/"+term.getID(),term.getLiteralForm());
         HandleUtil.buildHandleTrail(term, pageMeta,contextPath);
-
-        // Add RSS links if available
-        String formats = ConfigurationManager.getProperty("webui.feed.formats");
-        if ( formats != null )
-        {
-            for (String format : formats.split(","))
-            {
-                // Remove the protocol number, i.e. just list 'rss' or' atom'
-                String[] parts = format.split("_");
-                if (parts.length < 1)
-                {
-                    continue;
-                }
-
-                String feedFormat = parts[0].trim()+"+xml";
-
-                String feedURL = contextPath+"/feed/"+format.trim()+"/"+term.getHandle();
-                pageMeta.addMetadata("feed", feedFormat).addContent(feedURL);
-            }
-        }
     }
 
     /**
@@ -274,31 +267,26 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
             if(AuthorizeManager.isAdmin(context)){
                 //only admin can see metadata
                 ArrayList<Metadatum> values = new ArrayList(term.getMetadata());
-                Iterator i = values.iterator();
-                Division metadataSection = viewer.addDivision("metadata-section","thesaurus-section");
-                metadataSection.setHead("Metadata Values");
-                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 3,"detailtable thesaurus-table");
+                if (!values.isEmpty()) {
+                    Iterator i = values.iterator();
+                    Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
+                    metadataSection.setHead("Metadata Values");
+                    Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 3, "detailtable thesaurus-table");
 
-                Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("ID");
-                header.addCell().addContent("Field Name");
-                header.addCell().addContent("Value");
-                while (i.hasNext())
-                {
-                    Metadatum value = (Metadatum)i.next();
-                    Row mRow = metadataTable.addRow();
+                    Row header = metadataTable.addRow(Row.ROLE_HEADER);
+                    header.addCell().addContent("Field Name");
+                    header.addCell().addContent("Value");
+                    while (i.hasNext()) {
+                        Metadatum value = (Metadatum) i.next();
+                        Row mRow = metadataTable.addRow();
 
-                    // TODO - May need to be Field ID not Field name
-                    mRow.addCell().addContent(value.getField());
-                    if(value.qualifier!=null&&value.qualifier.length()>0)
-                    {
-                        mRow.addCell().addContent(value.schema+"."+value.element+"."+value.qualifier);
+                        if (value.qualifier != null && value.qualifier.length() > 0) {
+                            mRow.addCell().addContent(value.schema + "." + value.element + "." + value.qualifier);
+                        } else {
+                            mRow.addCell().addContent(value.schema + "." + value.element);
+                        }
+                        mRow.addCell().addContent(value.value);
                     }
-                    else
-                    {
-                        mRow.addCell().addContent(value.schema+"."+value.element);
-                    }
-                    mRow.addCell().addContent(value.value);
                 }
             }
 
@@ -310,22 +298,20 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
                 Table table = conceptSection.addTable("concepts", concepts.length + 1, 2,"thesaurus-table");
 
                 Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent("ID");
-                header.addCell().addContent("Identifier");
                 header.addCell().addContent("Preferred Label");
+                header.addCell().addContent("Identifier");
                 for(Concept concept : concepts)
                 {
                     Row item = table.addRow();
-                    item.addCell().addContent(concept.getID());
-                    item.addCell().addXref("/concept/" + concept.getID(), concept.getIdentifier());
                     if(concept.getLabel()==null)
                     {
                         item.addCell().addContent("");
                     }
                     else
                     {
-                        item.addCell().addXref("/concept/" + concept.getID(), concept.getLabel());
+                        item.addCell().addContent(concept.getLabel());
                     }
+                    item.addCell().addContent(concept.getIdentifier());
                 }
             }
         } // main reference

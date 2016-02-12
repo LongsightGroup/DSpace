@@ -19,6 +19,8 @@ import org.dspace.app.xmlui.wing.element.PageMeta;
 import org.dspace.app.xmlui.wing.element.Para;
 import org.dspace.app.xmlui.wing.element.Row;
 import org.dspace.app.xmlui.wing.element.Table;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.Term;
 
@@ -43,10 +45,10 @@ public class DeleteTermConfirm extends AbstractDSpaceTransformer
             message("xmlui.administrative.eperson.DeleteEPeopleConfirm.trail");
 
     private static final Message T_confirm_head =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.confirm_head");
+            message("xmlui.administrative.term.DeleteTermConfirm.confirm_head");
 
     private static final Message T_confirm_para =
-            message("xmlui.administrative.eperson.DeleteEPeopleConfirm.confirm_para");
+            message("xmlui.administrative.term.DeleteTermConfirm.confirm_para");
 
     private static final Message T_head_id =
             message("xmlui.administrative.eperson.DeleteEPeopleConfirm.head_id");
@@ -63,12 +65,20 @@ public class DeleteTermConfirm extends AbstractDSpaceTransformer
     private static final Message T_submit_cancel =
             message("xmlui.general.cancel");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
+        Concept concept = Concept.find(context, parameters.getParameterAsInteger("conceptId",-1));
+        Scheme scheme = concept.getScheme();
+
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/term",T_eperson_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
+        pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -91,14 +101,12 @@ public class DeleteTermConfirm extends AbstractDSpaceTransformer
 
         Table table = deleted.addTable("term-confirm-delete",terms.size() + 1, 1);
         Row header = table.addRow(Row.ROLE_HEADER);
-        header.addCell().addContent(T_head_id);
         header.addCell().addContent("Literal Form");
-        header.addCell().addContent("identifier");
+        header.addCell().addContent("Identifier");
 
         for (Term t : terms)
         {
             Row row = table.addRow();
-            row.addCell().addContent(t.getID());
             row.addCell().addContent(t.getLiteralForm());
             row.addCell().addContent(t.getIdentifier());
         }

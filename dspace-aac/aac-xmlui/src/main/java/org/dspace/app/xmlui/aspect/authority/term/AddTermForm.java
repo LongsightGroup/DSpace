@@ -18,6 +18,7 @@ import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.*;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authority.model.Concept;
 
@@ -94,12 +95,20 @@ public class AddTermForm extends AbstractDSpaceTransformer
     private static final Message T_telephone =
             message("xmlui.Term.EditProfile.telephone");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
+        //Concept concept = Concept.find(context, parameters.getParameterAsInteger("concept",-1));
+        //Scheme scheme = concept.getScheme();
+
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/term",T_term_trail);
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        //pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
+        //pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(), concept.getLabel());
         pageMeta.addTrail().addContent(T_trail);
     }
 
@@ -108,8 +117,6 @@ public class AddTermForm extends AbstractDSpaceTransformer
     {
         // Get all our parameters
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String conceptId = parameters.getParameter("conceptID",null);
-        String schemeId = parameters.getParameter("schemeID",null);
         String errorString = parameters.getParameter("errors",null);
         ArrayList<String> errors = new ArrayList<String>();
         if (errorString != null)
@@ -127,30 +134,12 @@ public class AddTermForm extends AbstractDSpaceTransformer
         // DIVISION: term-add
         Division add = null;
         String formUrl = "/admin/term";
-        if(conceptId!=null)
-        {
-            formUrl = "/admin/concept";
-        }
-        if(schemeId!=null)
-        {
-            formUrl = "/admin/term";
-
-        }
         add = body.addInteractiveDivision("term-add",formUrl,Division.METHOD_POST,"primary administrative term");
 
         add.setHead(T_head1);
 
 
         List identity = add.addList("identity",List.TYPE_FORM);
-
-        if(conceptId!=null)
-        {
-            identity.setHead("Add term to concept:"+conceptId);
-            identity.addItem().addHidden("concept").setValue(conceptId);
-        }
-        else{
-            identity.setHead(T_head2);
-        }
 
         identity.addLabel("Preferred Term");
         CheckBox preferred = identity.addItem().addCheckBox("preferred");

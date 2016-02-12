@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
+import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.Body;
@@ -83,6 +84,9 @@ public class ManageTermMain extends AbstractDSpaceTransformer
     private static final Message T_go =
             message("xmlui.general.go");
 
+    private static final Message T_clear =
+            message("xmlui.general.clear");
+
     private static final Message T_search_head =
             message("xmlui.aspect.authority.term.ManageTermMain.search_head");
 
@@ -104,34 +108,38 @@ public class ManageTermMain extends AbstractDSpaceTransformer
     private static final Message T_no_results =
             message("xmlui.aspect.authority.term.ManageTermMain.no_results");
 
+    private static final Message T_authorities =
+            message("xmlui.administrative.scheme.trail.authorities");
+
+    private static final Message T_action_attribute =
+            message("xmlui.aspect.authority.term.ManageTermMain.action_attribute");
+
+    private static final Message T_edit_metadata =
+            message("xmlui.aspect.authority.term.ManageTermMain.action_metadata");
+
     private static final Message T_administrative_authority 	= message("xmlui.administrative.Navigation.administrative_authority_control");
     /**
      * The total number of entries to show on a page
      */
     private static final int PAGE_SIZE = 15;
 
-    public void addPageMeta(PageMeta pageMeta) throws WingException
+    public void addPageMeta(PageMeta pageMeta) throws WingException, SQLException
     {
         pageMeta.addMetadata("title").addContent(T_title);
         pageMeta.addTrailLink(contextPath + "/", T_dspace_home);
-
-        String conceptId          = parameters.getParameter("concept",null);
-        if(conceptId!=null)
+        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
+        int conceptId = parameters.getParameterAsInteger("conceptId",-1);
+        Concept concept = Concept.find(context, conceptId);
+        Scheme scheme = concept.getScheme();
+        if(scheme!=null)
         {
-            try{
-                Concept concept = Concept.find(context, Integer.parseInt(conceptId));
-                if(concept!=null)
-                {
-                    pageMeta.addTrailLink("/concept/"+concept.getID(),"concept/"+concept.getID());
-                }
-                pageMeta.addTrailLink(null,T_term_trail);
-            }
-            catch (Exception e)
-            {
-
-            }
+            pageMeta.addTrailLink(contextPath + "/scheme/"+scheme.getID(),scheme.getName());
         }
-
+        if(concept!=null)
+        {
+            pageMeta.addTrailLink(contextPath + "/concept/"+concept.getID(),concept.getLabel());
+        }
+        pageMeta.addTrailLink(null,T_term_trail);
 
     }
 
@@ -200,18 +208,14 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         Division main = body.addInteractiveDivision("term-main", contextPath
                 + mainURL, Division.METHOD_POST,
                 "primary administrative term");
-        main.setHead(T_main_head);
+        main.setHead("Term Management for " + concept.getPreferredLabel());
 
         // DIVISION: term-actions
         Division actions = main.addDivision("term-actions");
         actions.setHead(T_actions_head);
 
         List actionsList = actions.addList("actions");
-        actionsList.addLabel(T_actions_create);
         actionsList.addItemXref(termURL + "&submit_add", T_actions_create_link);
-        actionsList.addLabel(T_actions_browse);
-        actionsList.addItemXref(termURL+"&query&submit_search",
-                T_actions_browse_link);
 
         actionsList.addLabel(T_actions_search);
         org.dspace.app.xmlui.wing.element.Item actionItem = actionsList.addItem();
@@ -223,6 +227,7 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         }
         queryField.setHelp(T_search_help);
         actionItem.addButton("submit_search").setValue(T_go);
+        actionItem.addXref(termURL + "&query&submit_search", T_clear);
 
         // DIVISION: term-search
         Division search = main.addDivision("term-search");
@@ -254,7 +259,6 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         header.addCell().addContent(T_search_column2);
         header.addCell().addContent(T_search_column3);
         header.addCell().addContent(T_search_column4);
-        header.addCell().addContent("Action");
 
         CheckBox selectMTerm;
         for (Term term : terms)
@@ -282,10 +286,11 @@ public class ManageTermMain extends AbstractDSpaceTransformer
 //                selectEPerson.setDisabled();
 //            }
 
-            row.addCellContent(termID);
-            row.addCell().addXref("/term/"+term.getID(), term.getCreated().toString());
+            row.addCell().addContent(term.getCreated().toString());
             row.addCell().addXref("/term/"+term.getID(), term.getLiteralForm());
-            row.addCell().addXref(url,"Edit");
+            Cell aCell = row.addCell();
+            aCell.addXref(contextPath+"/admin/term?termID="+term.getID()+"&edit",T_action_attribute);
+            aCell.addXref(contextPath+"/admin/term?termID="+term.getID()+"&editMetadata",T_edit_metadata);
         }
 
         if (terms.length <= 0)
@@ -302,46 +307,15 @@ public class ManageTermMain extends AbstractDSpaceTransformer
 
     }
 
-
     public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
     {
-
-        String conceptId          = parameters.getParameter("concept",null);
-        Concept concept = null;
-        if(conceptId!=null)
-        {
-            try{
-                concept = Concept.find(context, Integer.parseInt(conceptId));
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
-        if(concept==null)
-        {
-            return;
-        }
-
+         /* Create skeleton menu structure to ensure consistent order between aspects,
+        * even if they are never used
+        */
         options.addList("browse");
         List account = options.addList("account");
         List context = options.addList("context");
         List admin = options.addList("administrative");
-
-
-        //Check if a system administrator
-        boolean isSystemAdmin = AuthorizeManager.isAdmin(this.context);
-
-
-        // System Administrator options!
-        if (isSystemAdmin)
-        {
-
-            List authority = admin.addList("authority");
-            authority.setHead(T_administrative_authority);
-            authority.addItemXref(contextPath+"/concept/"+concept.getID(),"Back to Concept");
-        }
     }
 
 
