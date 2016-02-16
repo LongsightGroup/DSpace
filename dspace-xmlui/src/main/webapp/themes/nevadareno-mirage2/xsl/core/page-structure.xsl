@@ -914,4 +914,10 @@
         </xsl:if>
     </xsl:template>-->
 
+    <xsl:template match="dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']">
+        <xsl:if test="not($request-uri = '')">
+            <xsl:apply-templates/>
+        </xsl:if>
+    </xsl:template>
+
 </xsl:stylesheet>
