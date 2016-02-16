@@ -906,4 +906,12 @@
         </xsl:if>
     </xsl:template>
 
+
+    <!-- Hide the browse for the Thesis
+    <xsl:template name="disable_browse_thesis" match="dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']">
+        <xsl:if test="not($request-uri = '/handle/123456789/252')">
+            <xsl:apply-templates/>
+        </xsl:if>
+    </xsl:template>-->
+
 </xsl:stylesheet>
