@@ -43,8 +43,10 @@ implements ConverterPlugin
     public static final String SIMPLE_RELATIONS_COLLECTION2ITEM_KEY = "rdf.simplerelations.collection2item";
     public static final String SIMPLE_RELATIONS_ITEM2COLLECTION_KEY = "rdf.simplerelations.item2collection";
     public static final String SIMPLE_RELATIONS_ITEM2BITSTREAM_KEY = "rdf.simplerelations.item2bitstream";
+    public static final String SIMPLE_RELATIONS_BITSTREAM2ITEM_KEY = "rdf.simplerelations.bitstream2item";
 
-    
+
+
     private static final Logger log = Logger.getLogger(SimpleDSORelationsConverterPlugin.class);
     protected ConfigurationService configurationService;
     
@@ -57,6 +59,7 @@ implements ConverterPlugin
     protected String[] collection2item;
     protected String[] item2collection;
     protected String[] item2bitstream;
+    protected String[] bitstream2item;
 
     public SimpleDSORelationsConverterPlugin()
     {
@@ -69,6 +72,7 @@ implements ConverterPlugin
         collection2item = RDFConfiguration.loadConfigurationArray(SIMPLE_RELATIONS_COLLECTION2ITEM_KEY);
         item2collection = RDFConfiguration.loadConfigurationArray(SIMPLE_RELATIONS_ITEM2COLLECTION_KEY);
         item2bitstream = RDFConfiguration.loadConfigurationArray(SIMPLE_RELATIONS_ITEM2BITSTREAM_KEY);
+        bitstream2item = RDFConfiguration.loadConfigurationArray(SIMPLE_RELATIONS_BITSTREAM2ITEM_KEY);
         
         if (site2community == null)
         {
@@ -123,6 +127,12 @@ implements ConverterPlugin
             log.warn("SimpleDSORelationsConverterPlugin was unable to load "
                     + "configuration to convert relation between "
                     + "items and bitstreams.");
+        }
+        if (bitstream2item == null)
+        {
+            log.warn("SimpleDSORelationsConverterPlugin was unable to load "
+                    + "configuration to convert relation between "
+                    + "bitstreams and items.");
         }
     }
     
@@ -190,6 +200,10 @@ implements ConverterPlugin
             case (Constants.ITEM) :
             {
                 return convertItem(context, (Item) dso);
+            }
+            case (Constants.BITSTREAM) :
+            {
+                return convertBitstream(context, (Bitstream) dso);
             }
         }
         return null;
@@ -518,7 +532,8 @@ implements ConverterPlugin
                 {
                     if (RDFUtil.isPublicBoolean(context, bs))
                     {
-                        String url = bitstreamURI(bs);
+                        String url = RDFUtil.generateIdentifier(context, bs);
+
                         if (url != null)
                         {
                             for (String link : item2bitstream)
@@ -533,6 +548,70 @@ implements ConverterPlugin
             }
         }
         
+        if (m.isEmpty())
+        {
+            m.close();
+            return null;
+        }
+        return m;
+    }
+
+    public Model convertBitstream(Context context, Bitstream bitstream)
+            throws SQLException
+    {
+        if (bitstream2item == null)
+        {
+            log.info("Either there was a problem loading the configuration or "
+                    + "linking from bitstreams to items was disabled. "
+                    + "Won't link from bitstreams to items.");
+        }
+
+        if (bitstream2item == null && item2bitstream == null)
+        {
+            return null;
+        }
+
+        Model m = ModelFactory.createDefaultModel();
+        Model prefixes = this.getPrefixes();
+        m.setNsPrefixes(prefixes);
+        prefixes.close();
+
+        String myId = RDFUtil.generateIdentifier(context, bitstream);
+        if (myId == null)
+        {
+            return null;
+        }
+
+        // add all parents
+        DSpaceObject parent = bitstream.getParentObject();
+
+        {
+            if (RDFUtil.isPublicBoolean(context, parent))
+            {
+                String id = RDFUtil.generateIdentifier(context, parent);
+                if (id != null)
+                {
+                    for (String link : bitstream2item)
+                    {
+                        m.add(m.createResource(myId),
+                                m.createProperty(link),
+                                m.createResource(id));
+                    }
+                }
+
+                m.add(m.createResource(myId), m.createProperty("owl:sameAs"), bitstreamURI(bitstream));
+
+                m.add(m.createResource(myId), m.createProperty("dc:title"), bitstream.getName());
+                m.add(m.createResource(myId), m.createProperty("dc:description"), bitstream.getDescription());
+                m.add(m.createResource(myId), m.createProperty("dspace:checksum"), bitstream.getChecksum());
+                m.add(m.createResource(myId), m.createProperty("dspace:checksumAlgorithm"), bitstream.getChecksumAlgorithm());
+                m.add(m.createResource(myId), m.createProperty("dspace:mimeType"), bitstream.getFormat().getMIMEType());
+                m.add(m.createResource(myId), m.createProperty("dspace:size"), bitstream.getSize() + "");
+
+            }
+
+        }
+
         if (m.isEmpty())
         {
             m.close();
@@ -583,6 +662,8 @@ implements ConverterPlugin
     {
         switch (type)
         {
+            case (Constants.BITSTREAM) :
+                return true;
             case (Constants.COLLECTION) :
                 return true;
             case (Constants.COMMUNITY) :

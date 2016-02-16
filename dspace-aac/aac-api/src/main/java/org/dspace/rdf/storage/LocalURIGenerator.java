@@ -10,12 +10,16 @@ package org.dspace.rdf.storage;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.app.util.Util;
+import org.dspace.content.Bitstream;
 import org.dspace.content.DSpaceObject;
+import org.dspace.content.Item;
 import org.dspace.content.Site;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rdf.RDFConfiguration;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 /**
@@ -35,6 +39,31 @@ public class LocalURIGenerator implements URIGenerator {
         if (type == Constants.SITE)
         {
             return urlPrefix + Site.getSiteHandle();
+        }
+
+        if (type == Constants.BITSTREAM)
+        {
+            Bitstream bitstream = Bitstream.find(context, id);
+
+            DSpaceObject parent = bitstream.getParentObject();
+
+            if (!(parent instanceof Item))
+            {
+                // Bitstream is a community or collection logo.
+                // we currently ignore those
+                return null;
+            }
+
+            String name = "file";
+
+            try{
+                name = Util.encodeBitstreamName(bitstream.getName(), Constants.DEFAULT_ENCODING);
+            } catch (UnsupportedEncodingException e) {
+                log.error(e.getMessage(), e);
+            }
+
+            return urlPrefix + parent.getHandle() + "/" + bitstream.getSequenceID() + "/" + name;
+
         }
         
         if (type == Constants.COMMUNITY 
@@ -56,7 +85,8 @@ public class LocalURIGenerator implements URIGenerator {
         if (dso.getType() != Constants.SITE
                 && dso.getType() != Constants.COMMUNITY
                 && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM)
+                && dso.getType() != Constants.ITEM
+                && dso.getType() != Constants.BITSTREAM)
         {
             return null;
         }
