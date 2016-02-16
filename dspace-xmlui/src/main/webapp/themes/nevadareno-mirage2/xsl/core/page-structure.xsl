@@ -717,7 +717,7 @@
                 </div>
                 <nav class="row">
                     <ul class="footer-nav col-sm-12">
-                        <li><a title="General Information: Contact Us" href="http://www.unr.edu/general-information/contact-us">Contact Us</a> <span>|</span> </li>
+                        <li><a title="General Information: Contact Us" href="https://scholarworks.unr.edu/contact">Contact Us</a> <span>|</span> </li>
                         <li><a title="General Information: Copyright" href="http://www.unr.edu/general-information/copyright">Copyright</a> <span>|</span> </li>
                         <li><a title="General Information: Privacy" href="http://www.unr.edu/general-information/privacy">Privacy</a> <span>|</span> </li>
                         <li><a title="General Information: Accessibility" href="http://www.unr.edu/general-information/accessibility">Accessibility</a> <span>|</span> </li>
