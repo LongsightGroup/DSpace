@@ -55,7 +55,7 @@ body {
     line-height: 22.81px;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, .h3 {
     font-family: "Myriad Pro Cond 1167289", "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 500;
     text-rendering: optimizeLegibility;
@@ -589,4 +589,32 @@ h4.artifact-title {
     font-family: 'Myriad Pro 1167301', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 22.81px;
+}
+
+li.community h4.artifact-title {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    overflow: hidden;
+}
+
+#file_news_div_news {
+    padding-right: 100px;
+}
+
+#file_news_div_news .h3 a {
+    text-decoration: underline!important;
+}
+
+#file_news_div_news .h3 {
+    margin: .5em 0 .2em;
+    font-size: 28px!important;
+    text-transform: inherit;
+    color: #003366;
+}
+
+#file_news_div_news p.home-caption {
+    margin: .5em 0 2em;
+    padding: 0;
+    line-height: 1.8em;
 }
