@@ -137,11 +137,11 @@
                 <!-- Add buttons should be named "submit_[field]_add" so that we can ignore errors from required fields when simply adding new values-->
                <input type="submit" value="Add" name="{concat('submit_',@n,'_add')}" class="ds-button-field ds-add-button">
                   <!-- Make invisible if we have choice-lookup operation that provides its own Add. -->
-                  <!--<xsl:if test="dri:params/@choicesPresentation = 'lookup'">
+                  <xsl:if test="dri:params/@choicesPresentation = 'lookup'">
                     <xsl:attribute name="style">
                       <xsl:text>display:none;</xsl:text>
                     </xsl:attribute>
-                    </xsl:if>-->
+                    </xsl:if>
                </input>
             </xsl:if>
             <!-- insert choice mechansim and/or Add button here -->
@@ -224,11 +224,6 @@
                         <xsl:text>display:none;</xsl:text>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="dri:params/@choicesPresentation = 'authorLookup'">
-                    <xsl:attribute name="style">
-                        <xsl:text>display:none;</xsl:text>
-                    </xsl:attribute>
-                </xsl:if>
             </input>
         </xsl:if>
         <xsl:if test="$test">
@@ -299,11 +294,11 @@
             <!-- Add buttons should be named "submit_[field]_add" so that we can ignore errors from required fields when simply adding new values-->
             <input type="submit" value="Add" name="{concat('submit_',@n,'_add')}" class="ds-button-field ds-add-button">
               <!-- Make invisible if we have choice-lookup popup that provides its own Add. -->
-              <xsl:if test="dri:params/@choicesPresentation = 'lookup'">
+              <!--<xsl:if test="dri:params/@choicesPresentation = 'lookup'">
                 <xsl:attribute name="style">
                   <xsl:text>display:none;</xsl:text>
                 </xsl:attribute>
-               </xsl:if>
+               </xsl:if>-->
                 <xsl:if test="dri:params/@choicesPresentation = 'authorLookup'">
                     <xsl:attribute name="style">
                         <xsl:text>display:none;</xsl:text>

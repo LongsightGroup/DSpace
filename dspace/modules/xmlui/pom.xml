@@ -91,6 +91,14 @@
                                    next. the order is unpredictable.
                                 -->
                                 <overlay>
+                                    <groupId>com.atmire</groupId>
+                                    <artifactId>aac-xmlui</artifactId>
+                                    <type>war</type>
+                                    <excludes>
+                                        <exclude>WEB-INF/classes/**</exclude>
+                                    </excludes>
+                                </overlay>
+                                <overlay>
                                     <groupId>org.dspace</groupId>
                                     <artifactId>dspace-xmlui-lang</artifactId>
                                     <type>war</type>

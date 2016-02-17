@@ -287,7 +287,7 @@ public class ChoiceLookupTransformer extends AbstractDSpaceTransformer
         String cv = getFieldLabel(field, name);
         if (cv == null)
         {
-            return message(MESSAGE_PREFIX + "field." + field + "." + name);
+            return message(MESSAGE_PREFIX + name);
         }
         else
         {

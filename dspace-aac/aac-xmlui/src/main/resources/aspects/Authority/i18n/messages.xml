@@ -652,4 +652,6 @@
     <message key="xmlui.administrative.FlowConceptUtils.add_Concept_failed">You must supply a Preferred Term</message>
 
     <message key="xmlui.administrative.FlowSchemeUtils.delete_Scheme_success_notice">Scheme Successfully deleted</message>
+    <message key="xmlui.ChoiceLookupTransformer.help">Search here</message>
+    <message key="xmlui.ChoiceLookupTransformer.nonauthority">Non-authority value: @1@</message>
 </catalogue>

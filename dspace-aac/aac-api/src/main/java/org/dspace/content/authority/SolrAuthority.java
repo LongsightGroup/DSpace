@@ -89,22 +89,13 @@ public class SolrAuthority implements ChoiceAuthority {
         }
         queryArgs.set(CommonParams.ROWS, maxNumberOfSolrResults);
 
-        if (ConfigurationManager.getBooleanProperty("solrauthority.sort-alphabetically", true)) {
-            String sortField = ConfigurationManager.getProperty("solrauthority.sortfieldtype." + field);
-            if (sortField == null) {
-                sortField = ConfigurationManager.getProperty("solrauthority.sortfieldtype");
-
-                if (sortField == null) {
-                    sortField = "value";
-                }
-            }
+        String sortField = "value";
         String localSortField = "";
         if (StringUtils.isNotBlank(locale)) {
             localSortField = sortField + "_" + locale;
-            queryArgs.setSort(localSortField, SolrQuery.ORDER.asc);
+            queryArgs.setSortField(localSortField, SolrQuery.ORDER.asc);
         } else {
-            queryArgs.setSort(sortField, SolrQuery.ORDER.asc);
-        }
+            queryArgs.setSortField(sortField, SolrQuery.ORDER.asc);
         }
 
         Choices result;

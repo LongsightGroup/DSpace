@@ -598,4 +598,11 @@
         <qualifier>license</qualifier>
         <scope_note></scope_note>
     </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>vessel</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 </dspace-dc-types>
