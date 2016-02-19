@@ -219,6 +219,12 @@
                             <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
                         </xsl:call-template>
                     </xsl:when>
+                    <xsl:when test="dri:params/@choicesPresentation = 'authorLookup'">
+                        <xsl:call-template name="addLookupButtonAuthor">
+                            <xsl:with-param name="isName" select="'true'"/>
+                            <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
+                        </xsl:call-template>
+                    </xsl:when>
                 </xsl:choose>
             </xsl:when>
 
@@ -330,6 +336,12 @@
                             <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
                         </xsl:call-template>
                     </xsl:when>
+                    <xsl:when test="dri:params/@choicesPresentation = 'authorLookup'">
+                        <xsl:call-template name="addLookupButtonAuthor">
+                            <xsl:with-param name="isName" select="'false'"/>
+                            <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
+                        </xsl:call-template>
+                    </xsl:when>
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
@@ -402,11 +414,11 @@
                         <xsl:if test="contains(dri:params/@operations,'add')">
                         <button type="submit" name="{concat('submit_',@n,'_add')}"
                                 class="ds-button-field btn btn-default pull-right ds-add-button">
-                            <xsl:if test="dri:params/@choicesPresentation = 'lookup'">
+                            <!--<xsl:if test="dri:params/@choicesPresentation = 'lookup'">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
                                 </xsl:attribute>
-                            </xsl:if>
+                            </xsl:if>-->
                             <!-- Make invisible if we have choice-lookup operation that provides its own Add. -->
                             <i18n:text>xmlui.ChoiceLookupTransformer.add</i18n:text>  <!--TODO needs separate i18n msg-->
                         </button>
@@ -422,6 +434,12 @@
                     <!-- lookup popup includes its own Add button if necessary. -->
                     <xsl:when test="dri:params/@choicesPresentation = 'lookup'">
                         <xsl:call-template name="addLookupButton">
+                            <xsl:with-param name="isName" select="'true'"/>
+                            <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:when test="dri:params/@choicesPresentation = 'authorLookup'">
+                        <xsl:call-template name="addLookupButtonAuthor">
                             <xsl:with-param name="isName" select="'true'"/>
                             <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
                         </xsl:call-template>
@@ -551,6 +569,12 @@
                             <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
                         </xsl:call-template>
                     </xsl:when>
+                    <xsl:when test="dri:params/@choicesPresentation = 'authorLookup'">
+                        <xsl:call-template name="addLookupButtonAuthor">
+                            <xsl:with-param name="isName" select="'true'"/>
+                            <xsl:with-param name="confIndicator" select="$confidenceIndicatorID"/>
+                        </xsl:call-template>
+                    </xsl:when>
                 </xsl:choose>
                 <xsl:if test="dri:params/@authorityControlled">
                     <xsl:variable name="confValue" select="dri:field/dri:value[@type='authority'][1]/@confidence"/>
@@ -668,6 +692,11 @@
                                 class="pull-right ds-button-field btn btn-default ds-add-button">
                             <!-- Make invisible if we have choice-lookup popup that provides its own Add. -->
                             <xsl:if test="dri:params/@choicesPresentation = 'lookup'">
+                                <xsl:attribute name="style">
+                                    <xsl:text>display:none;</xsl:text>
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:if test="dri:params/@choicesPresentation = 'authorLookup'">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
                                 </xsl:attribute>

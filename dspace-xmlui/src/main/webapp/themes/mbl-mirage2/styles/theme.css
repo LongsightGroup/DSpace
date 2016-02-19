@@ -58,7 +58,7 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
     border: 1px solid #8b9eb2;
 }
 .btn-success[disabled], .btn-success.disabled {
-    background-color: #ffffff;
+    background-color: #CDD3D9;
     border: 1px solid #8b9eb2;
 }
 .btn-success:hover {
