@@ -7,8 +7,9 @@ import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Item;
-import org.dspace.authority.model.AuthorityMetadataValue;
 import org.dspace.authority.model.AuthorityObject;
+import org.dspace.content.MetadataField;
+import org.dspace.content.MetadataSchema;
 import org.dspace.content.authority.Choices;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
@@ -34,7 +35,7 @@ public class FlowAuthorityMetadataValueUtils {
         FlowResult result = new FlowResult();
         result.setContinue(false); // default to failure
         try{
-            AuthorityObject authorityObject = AuthorityObject.find(context,type,Integer.parseInt(authorityId));
+            AuthorityObject authorityObject = (AuthorityObject) AuthorityObject.find(context,type,Integer.parseInt(authorityId));
             String editFieldIds = request.getParameter("field");
             // STEP 1:
             // Clear all metadata within the scope
@@ -124,7 +125,7 @@ public class FlowAuthorityMetadataValueUtils {
         FlowResult result = new FlowResult();
         result.setContinue(false); // default to failure
         String fieldIDs = request.getParameter("field");
-        AuthorityObject authorityObject = AuthorityObject.find(context,type,Integer.parseInt(id));
+        AuthorityObject authorityObject = (AuthorityObject) AuthorityObject.find(context,type,Integer.parseInt(id));
 
         context.commit();
         return result;
@@ -133,26 +134,21 @@ public class FlowAuthorityMetadataValueUtils {
     public static FlowResult doAddMetadata(Context context,int type, int id, Request request) throws SQLException, AuthorizeException, UIException, IOException
     {
         FlowResult result = new FlowResult();
-        String tableName = "";
         result.setContinue(false);
-        switch (type)
-        {
-            case Constants.SCHEME: tableName = "SchemeMetadataValue";break;
-            case Constants.TERM: tableName = "TermMetadataValue"; break;
-            case Constants.CONCEPT: tableName = "ConceptMetadataValue"; break;
-        }
+
+        AuthorityObject authorityObject = (AuthorityObject) AuthorityObject.find(context, type, id);
+
+
         String fieldID = request.getParameter("field");
         String value = request.getParameter("value");
         String language = request.getParameter("language");
 
-        //add email to concept metadata
-        AuthorityMetadataValue authorityMetadataValue = new AuthorityMetadataValue(tableName);
+        MetadataField field = MetadataField.find(context,Integer.valueOf(fieldID));
+        MetadataSchema schema = MetadataSchema.find(context,field.getSchemaID());
 
-        authorityMetadataValue.setValue(value);
-        authorityMetadataValue.setFieldId(Integer.parseInt(fieldID));
-        authorityMetadataValue.setParentId(id);
-        authorityMetadataValue.create(context);
-        context.addEvent(new Event(Event.MODIFY_METADATA, type, id, null));
+        authorityObject.addMetadata(schema.getName(), field.getElement(), field.getQualifier(), language, value);
+
+        authorityObject.update();
         context.commit();
 
         result.setContinue(true);

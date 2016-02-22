@@ -141,9 +141,9 @@ public class AuthorityConceptEventConsumer implements Consumer {
                     break;
                 default:
                     log.warn("IndexConsumer should not have been given a event of type="
-                            + event.getEventTypeAsString()
-                            + " on subject="
-                            + event.getSubjectTypeAsString());
+                                    + event.getEventTypeAsString()
+                                    + " on subject="
+                                    + event.getSubjectTypeAsString());
                     break;
             }
 

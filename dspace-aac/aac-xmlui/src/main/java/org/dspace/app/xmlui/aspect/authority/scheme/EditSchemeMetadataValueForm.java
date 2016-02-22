@@ -32,7 +32,6 @@ import org.dspace.app.xmlui.wing.element.Select;
 import org.dspace.app.xmlui.wing.element.Table;
 import org.dspace.app.xmlui.wing.element.TextArea;
 import org.dspace.app.xmlui.wing.element.Value;
-import org.dspace.authority.model.AuthorityMetadataValue;
 import org.dspace.authority.model.Scheme;
 import org.dspace.content.*;
 import org.dspace.content.authority.*;
@@ -104,8 +103,8 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
         // Get our parameters and state
         int schemeID = parameters.getParameterAsInteger("schemeID",-1);
         Scheme scheme = Scheme.find(context, schemeID);
-        AuthorityMetadataValue[] values = new AuthorityMetadataValue[scheme.getMetadata().size()];
-        values = (AuthorityMetadataValue[])scheme.getMetadata().toArray(values);
+        Metadatum[] values = new Metadatum[scheme.getMetadata().size()];
+        values = (Metadatum[])scheme.getMetadata().toArray(values);
         Arrays.sort(values, new DCValueComparator());
         String baseURL = contextPath+"/admin/scheme?administrative-continue="+knot.getId();
 
@@ -193,7 +192,7 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
         header.addCell().addContent(T_column4);
 
         ChoiceAuthorityManager cmgr = ChoiceAuthorityManager.getManager();
-        for(AuthorityMetadataValue value : values)
+        for(Metadatum value : values)
         {
             String name = value.schema + "_" + value.element;
             if (value.qualifier != null)
@@ -280,8 +279,8 @@ public class EditSchemeMetadataValueForm extends AbstractDSpaceTransformer {
      */
     static class DCValueComparator implements Comparator, Serializable {
         public int compare(Object arg0, Object arg1) {
-            final AuthorityMetadataValue o1 = (AuthorityMetadataValue)arg0;
-            final AuthorityMetadataValue o2 = (AuthorityMetadataValue)arg1;
+            final Metadatum o1 = (Metadatum)arg0;
+            final Metadatum o2 = (Metadatum)arg1;
             final String s1 = o1.schema + o1.element + (o1.qualifier==null?"":("." + o1.qualifier));
             final  String s2 = o2.schema + o2.element + (o2.qualifier==null?"":("." + o2.qualifier));
             return s1.compareTo(s2);

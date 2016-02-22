@@ -325,7 +325,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             metadataSection.setHead("Metadata Values");
             if(AuthorizeManager.isAdmin(context)){
                 //only admin can see metadata
-                java.util.List<AuthorityMetadataValue> values = concept.getMetadata();
+                java.util.List<Metadatum> values = concept.getMetadata();
                 int i = 0;
 
                 if(values!=null&&values.size()>0)
@@ -340,9 +340,11 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                     while (i<values.size()&&values.get(i)!=null)
                     {
 
-                        AuthorityMetadataValue value = (AuthorityMetadataValue)values.get(i);
+                        Metadatum value = (Metadatum)values.get(i);
                         Row mRow = metadataTable.addRow();
-                        mRow.addCell().addContent(value.getFieldId());
+
+                        // TODO - May need to be Field ID not Field name
+                        mRow.addCell().addContent(value.getField());
                         if(value.qualifier!=null&&value.qualifier.length()>0)
                         {
                             mRow.addCell().addContent(value.schema + "." + value.element + "." + value.qualifier);
@@ -351,7 +353,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                         {
                             mRow.addCell().addContent(value.schema + "." + value.element);
                         }
-                        mRow.addCell().addContent(value.getValue());
+                        mRow.addCell().addContent(value.value);
                         i++;
                     }
 
@@ -414,7 +416,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
 
 
 
-    public void addOptions(Options options) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
     {
 
 

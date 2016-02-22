@@ -11,13 +11,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
-import org.dspace.content.Item;
+import org.dspace.authority.config.AuthorityTypeConfiguration;
+import org.dspace.authority.model.*;
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Metadatum;
+import org.dspace.content.Item;
 import org.dspace.utils.DSpace;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,6 +34,9 @@ import java.util.*;
  */
 public class AuthorityValue {
 
+    public static final String LABELPREFIX = "meta_";
+
+    public static final String ALTERNATE_LABEL = "alternate_label";
 
     /**
      * The id of the record in solr
@@ -60,6 +68,15 @@ public class AuthorityValue {
      */
     private Date lastModified;
 
+    private String fullText;
+
+    /** Alternate Terms */
+    private List<String> nameVariants = new ArrayList<String>();
+
+
+    private Map<String, List<String>> otherMetadata = new HashMap<String, List<String>>();
+
+
     public AuthorityValue() {
     }
 
@@ -77,6 +94,14 @@ public class AuthorityValue {
 
     public String getValue() {
         return value;
+    }
+
+    public String getFullText() {
+        return fullText == null ? value : fullText;
+    }
+
+    public void setFullText(String fullText) {
+        this.fullText = fullText;
     }
 
     public void setId(String id) {
@@ -136,6 +161,41 @@ public class AuthorityValue {
         updateLastModifiedDate();
     }
 
+
+    public List<String> getNameVariants() {
+        return nameVariants;
+    }
+
+    public void addNameVariant(String name) {
+        if (StringUtils.isNotBlank(name)) {
+            nameVariants.add(name);
+        }
+    }
+
+
+    protected void clearNameVariants() {
+        nameVariants.clear();
+    }
+
+
+    public Map<String, List<String>> getOtherMetadata() {
+        return otherMetadata;
+    }
+
+    public void addOtherMetadata(String label, String data) {
+        List<String> strings = otherMetadata.get(label);
+        if (strings == null) {
+            strings = new ArrayList<String>();
+        }
+        strings.add(data);
+        otherMetadata.put(label, strings);
+    }
+
+    public void clearOtherMetadata()
+    {
+         otherMetadata.clear();
+    }
+
     /**
      * Generate a solr record from this instance
      */
@@ -145,10 +205,25 @@ public class AuthorityValue {
         doc.addField("id", getId());
         doc.addField("field", getField());
         doc.addField("value", getValue());
+        doc.addField("display-value", getValue());
+        doc.addField("full-text", getFullText());
+        doc.addField("source", "LOCAL");
         doc.addField("deleted", isDeleted());
-        doc.addField("creation_date", getCreationDate());
-        doc.addField("last_modified_date", getLastModified());
+        doc.addField("creation_date", dateToString(getCreationDate()));
+        doc.addField("last_modified_date", dateToString(getLastModified()));
         doc.addField("authority_type", getAuthorityType());
+        for(String name:nameVariants)
+        {
+            doc.addField(ALTERNATE_LABEL,name);
+        }
+        for(String key:otherMetadata.keySet())
+        {
+            for(String v:otherMetadata.get(key))
+            {
+                doc.addField(LABELPREFIX+key,v);
+            }
+
+        }
         return doc;
     }
 
@@ -159,13 +234,39 @@ public class AuthorityValue {
         this.id = String.valueOf(document.getFieldValue("id"));
         this.field = String.valueOf(document.getFieldValue("field"));
         this.value = String.valueOf(document.getFieldValue("value"));
-        this.deleted = (Boolean) document.getFieldValue("deleted");
+        if(document.getFieldValue("deleted")!=null)
+            this.deleted = (Boolean) document.getFieldValue("deleted");
         this.creationDate = (Date) document.getFieldValue("creation_date");
         this.lastModified = (Date) document.getFieldValue("last_modified_date");
+        this.fullText = String.valueOf(document.getFieldValue("full-text"));
+
+        clearNameVariants();
+
+        Collection<Object> document_name_variant = document.getFieldValues(ALTERNATE_LABEL);
+        if (document_name_variant != null) {
+            for (Object name_variants : document_name_variant) {
+                addNameVariant(name_variants.toString());
+            }
+        }
+
+        clearOtherMetadata();
+
+        for (String fieldName : document.getFieldNames()) {
+            String labelPrefix = LABELPREFIX;
+            if (fieldName.startsWith(labelPrefix)) {
+                String label = fieldName.substring(labelPrefix.length()).replace("_",".");
+                List<String> list = new ArrayList<String>();
+                Collection<Object> fieldValues = document.getFieldValues(fieldName);
+                for (Object o : fieldValues) {
+                    list.add(o.toString());
+                }
+                otherMetadata.put(label, list);
+            }
+        }
     }
 
     /**
-     * Replace an item's DCValue with this authority
+     * Replace an item's Metadatum with this authority
      */
     public void updateItem(Item currentItem, Metadatum value) {
         Metadatum newValue = value.copy();
@@ -178,7 +279,37 @@ public class AuthorityValue {
      * Information that can be used the choice ui
      */
     public Map<String, String> choiceSelectMap() {
-        return new HashMap<String, String>();
+        return getChoiceSelectMap("Internal");
+    }
+
+    protected Map<String, String> getChoiceSelectMap(String type)
+    {
+        HashMap<String,String> map =  new HashMap<String, String>();
+
+        //todo:add choiceSelectFields
+        AuthorityTypeConfiguration config = getAuthorityTypes().getConfigForType(type);
+
+        if(config != null  && config.getChoiceSelectFields() != null)
+        {
+            Map<String, String> choiceSelectFields = config.getChoiceSelectFields();
+            for(Object key:choiceSelectFields.keySet())
+            {
+                String keyValue = (String)key;
+                String metadataField = (String) choiceSelectFields.get(key);
+                String metadataValue = null;
+                if(this.getOtherMetadata().get(metadataField)!=null&&this.getOtherMetadata().get(metadataField).size()>0)
+                {
+                    ArrayList<String> metadataValues = (ArrayList<String>) this.getOtherMetadata().get(metadataField);
+                    metadataValue = metadataValues.get(0);
+                }
+                if (metadataValue!=null) {
+                    map.put(keyValue,metadataValue );
+                } else {
+                    map.put(keyValue, "/");
+                }
+            }
+        }
+        return map;
     }
 
 
@@ -187,6 +318,15 @@ public class AuthorityValue {
         list.add(ISODateTimeFormat.dateTime());
         list.add(ISODateTimeFormat.dateTimeNoMillis());
         return list;
+    }
+
+    public String dateToString(Date date) {
+        String string = null;
+        if (date != null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            string = format.format(date);
+        }
+        return string;
     }
 
     public Date stringToDate(String date) {
@@ -227,6 +367,8 @@ public class AuthorityValue {
                 ", creationDate=" + creationDate +
                 ", deleted=" + deleted +
                 ", lastModified=" + lastModified +
+                ", nameVariants=" + nameVariants +
+                ", otherMetadata=" + otherMetadata +
                 '}';
     }
 
@@ -245,8 +387,10 @@ public class AuthorityValue {
         return new AuthorityValue();
     }
 
+    private String authorityType = "Internal";
+
     public String getAuthorityType() {
-        return "internal";
+        return  authorityType;
     }
 
     private static AuthorityTypes authorityTypes;
@@ -265,6 +409,85 @@ public class AuthorityValue {
     }
 
 
+    public static AuthorityValue fromConcept(Concept concept) throws SQLException {
+        AuthorityValue value = getAuthorityTypes().getEmptyAuthorityValue(concept.getSource());
+        value.setValues(concept);
+        return value;
+    }
+
+    protected void setValues(Concept concept) throws SQLException {
+
+        this.setId(concept.getIdentifier());
+        this.setCreationDate(concept.getCreated());
+        this.setLastModified(concept.getLastModified());
+        this.setDeleted(false);
+        this.setValue(concept.getPreferredLabel());
+
+        // Will be the same as hardcoded value in ORCIDAuthorityValue and PersonAuthorityValue
+        this.setAuthorityType(concept.getSource());
+
+        // TODO: Name Variants : Set all terms as full text for search and term completion.
+        String fullText = "";
+        for(Term term : concept.getTerms() )
+        {
+            fullText = fullText +" , "+ term.getLiteralForm();
+        }
+        this.setFullText(fullText);
+
+        if(concept.getScheme()!=null)
+            this.setField(concept.getScheme().getIdentifier().replace(".", "_"));
+
+
+        clearOtherMetadata();
+
+        List<Metadatum> authorityMetadataValues = concept.getMetadata();
+        for(Metadatum authorityMetadataValue : authorityMetadataValues)
+        {
+            String key = authorityMetadataValue.schema+"_"+authorityMetadataValue.element;
+            if(authorityMetadataValue.qualifier!=null)
+                key=key+"_"+authorityMetadataValue.qualifier;
+            this.addOtherMetadata(key, authorityMetadataValue.value);
+        }
+             //TODO:HIER.INCOMING GROUPED BY SCHEME  ,lower cased
+        Concept[] concepts = concept.getRelatedConcepts(Concept2ConceptRole.relation_hier,Concept2ConceptRole.relation_incoming,"institution");
+        for(Concept concept1 : concepts)
+        {
+           String keyValue = "related_institution";
+           this.addOtherMetadata(keyValue, concept1.getPreferredLabel());
+        }
+    }
+
+    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+
+        for(String name : otherMetadata.keySet())
+        {
+            if(name.startsWith(LABELPREFIX)){
+                String key = name.replace(LABELPREFIX,"");
+                String[] keys = key.split("_");
+                String schema = keys[0];
+                String element = keys[1];
+                String qualifier = null;
+                if(keys.length>2)
+                 qualifier = keys[2];
+                for(String value : otherMetadata.get(name))
+                {
+                    // Add it to the list
+                    concept.addMetadata(schema,element,qualifier,"",value,null,-1);
+                }
+
+            }
+        }
+        for(String name : nameVariants)
+        {
+            //add alternate terms
+            Term term = concept.createTerm(name, Term.alternate_term);
+            term.update();
+        }
+    }
+
+    protected void setAuthorityType(String source) {
+        this.authorityType = source;
+    }
 
     /**
      * The regular equals() only checks if both AuthorityValues describe the same authority.
@@ -294,6 +517,32 @@ public class AuthorityValue {
             return false;
         }
 
+        if (nameVariants != null ? !nameVariants.equals(that.nameVariants) : that.nameVariants != null) {
+            return false;
+        }
+
+        for (String key : getOtherMetadata().keySet()) {
+            if(getOtherMetadata().get(key) != null){
+                List<String> metadata = getOtherMetadata().get(key);
+                List<String> otherMetadata = that.getOtherMetadata().get(key);
+                if (otherMetadata == null) {
+                    return false;
+                } else {
+                    HashSet<String> metadataSet = new HashSet<String>(metadata);
+                    HashSet<String> otherMetadataSet = new HashSet<String>(otherMetadata);
+                    if (!metadataSet.equals(otherMetadataSet)) {
+                        return false;
+                    }
+                }
+            }else{
+                if(that.getOtherMetadata().get(key) != null){
+                    return false;
+                }
+            }
+        }
+
+
         return true;
     }
+
 }

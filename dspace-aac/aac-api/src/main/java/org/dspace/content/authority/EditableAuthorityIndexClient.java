@@ -119,5 +119,5 @@ public class EditableAuthorityIndexClient {
         }
 
         log.info("Done with indexing");
-    }
+	}
 }

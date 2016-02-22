@@ -68,7 +68,7 @@
             <list>
                 <bean class="org.dspace.authority.orcid.OrcidAuthorityValue"/>
                 <bean class="org.dspace.authority.PersonAuthorityValue"/>
-                <bean class="org.dspace.authority.sparql.SPARQLAuthorityValue"/>
+                <!--<bean class="org.dspace.authority.sparql.SPARQLAuthorityValue"/>-->
                 <bean class="org.dspace.authority.mock.MockAuthorityValue"/>
             </list>
         </property>
@@ -87,9 +87,9 @@
                 <entry key="dc_contributor_author">
                     <ref bean="OrcidSource"/>
                 </entry>
-                <entry key="dc_subject_vessel">
+                <!--<entry key="dc_subject_vessel">
                     <ref bean="org.dspace.authority.sparql.SPARQLSource"/>
-                </entry>
+                </entry>-->
                 <entry key="dc_subject_vessel1">
                     <ref bean="org.dspace.authority.mock.MockSource"/>
                 </entry>
@@ -103,10 +103,10 @@
         <!--<constructor-arg value="http://api.sandbox.orcid.org/v1.1"/>  -->
     </bean>
 
-    <bean name="org.dspace.authority.sparql.SPARQLSource" class="org.dspace.authority.sparql.SPARQLSource">
+    <!--<bean name="org.dspace.authority.sparql.SPARQLSource" class="org.dspace.authority.sparql.SPARQLSource">
         <constructor-arg value="http://linked.rvdata.us/sparql"/>
         <property name="spring_query" value="Bermuda"/>
-    </bean>
+    </bean>-->
 
     <bean name="org.dspace.authority.mock.MockSource" class="org.dspace.authority.mock.MockSource"/>
 

@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.dspace</groupId>
         <artifactId>dspace-parent</artifactId>
-        <version>4.3-SNAPSHOT</version>
+        <version>5.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -20,8 +20,8 @@
     <!-- The 'additions' module must *always* be built, as it is included
          as a dependency in most other modules in [src]/dspace/modules -->
     <modules>
-        <module>atmire-authority-api</module>
-        <module>atmire-authority-xmlui</module>
+        <module>aac-api</module>
+        <module>aac-xmlui</module>
     </modules>
 
 </project>

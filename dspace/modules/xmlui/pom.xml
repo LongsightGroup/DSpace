@@ -21,6 +21,20 @@
         <root.basedir>${basedir}/../../..</root.basedir>
     </properties>
 
+   <repositories>
+        <repository>
+            <id>ocean-link-release-repository</id>
+            <name>DSpace OceanLink Release Repository</name>
+            <url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+   </repositories>
+
     <build>
         <filters>
             <!-- Filter using the properties file defined by dspace-parent POM -->
@@ -187,6 +201,24 @@
     </profiles>
 
     <dependencies>
+
+
+
+       <dependency>
+           <groupId>com.atmire</groupId>
+           <artifactId>aac-xmlui</artifactId>
+           <version>${version}</version>
+           <type>war</type>
+       </dependency>
+
+
+       <dependency>
+           <groupId>com.atmire</groupId>
+           <artifactId>aac-xmlui</artifactId>
+           <version>${version}</version>
+           <type>jar</type>
+           <classifier>classes</classifier>
+       </dependency>
 
         <dependency>
             <groupId>org.dspace.modules</groupId>

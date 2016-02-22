@@ -15,6 +15,9 @@ import org.apache.log4j.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
+import org.dspace.authority.model.Term;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.authority.ChoiceAuthorityManager;
 import org.dspace.content.authority.Choices;
@@ -76,8 +79,18 @@ public abstract class DSpaceObject
         modifiedMetadata = false;
     }
 
-
     public void updateMetadata() throws SQLException, AuthorizeException {
+            updateMetadataBoolean();
+    }
+
+    /**
+     * Update metadata for this object.
+     *
+     * @return true if metdata has changed since update, false otherwise.
+     * @throws SQLException
+     * @throws AuthorizeException
+     */
+    public boolean updateMetadataBoolean() throws SQLException, AuthorizeException {
         // Map counting number of values for each element/qualifier.
         // Keys are Strings: "element" or "element.qualifier"
         // Values are Integers indicating number of values written for a
@@ -261,7 +274,9 @@ public abstract class DSpaceObject
         if(modifiedMetadata) {
             ourContext.addEvent(new Event(Event.MODIFY_METADATA, getType(), getID(), getDetails(), getIdentifiers(ourContext)));
             modifiedMetadata = false;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -421,6 +436,9 @@ public abstract class DSpaceObject
             case Constants.GROUP     : return Group.find(context, id);
             case Constants.EPERSON   : return EPerson.find(context, id);
             case Constants.SITE      : return Site.find(context, id);
+            case Constants.SCHEME    : return Scheme.find(context, id);
+            case Constants.CONCEPT   : return Concept.find(context, id);
+            case Constants.TERM      : return Term.find(context, id);
         }
         return null;
     }
@@ -669,7 +687,7 @@ public abstract class DSpaceObject
         }
     }
 
-    protected List<Metadatum> getMetadata()
+    public List<Metadatum> getMetadata()
     {
         try
         {

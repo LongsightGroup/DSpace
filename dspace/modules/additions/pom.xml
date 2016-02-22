@@ -26,6 +26,20 @@
        <root.basedir>${basedir}/../../..</root.basedir>
    </properties>
 
+   <repositories>
+        <repository>
+            <id>ocean-link-release-repository</id>
+            <name>DSpace OceanLink Release Repository</name>
+            <url>https://raw.githubusercontent.com/dspace-oceanlink/mvn-repo/master/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+   </repositories>
+
    <profiles>
       <profile>
          <id>oracle-support</id>
@@ -72,6 +86,13 @@
    Runtime and Compile Time dependencies for DSpace.
    -->
    <dependencies>
+
+       <dependency>
+           <groupId>com.atmire</groupId>
+           <artifactId>aac-api</artifactId>
+           <version>5.5-SNAPSHOT</version>
+       </dependency>
+
       <dependency>
          <groupId>org.dspace</groupId>
          <artifactId>dspace-api</artifactId>

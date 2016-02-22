@@ -68,7 +68,7 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
 
 
         String field = value.getField(); // ChoiceAuthorityManager.makeFieldKey(dcValue.schema,dcValue.element,dcValue.qualifier)
-        /// Find concept and reindex it or make new concept and index it........
+       /// Find concept and reindex it or make new concept and index it........
 
         String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + field);
 
@@ -122,7 +122,7 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
 
             } catch (Exception e) {
 
-                log.error(e.getMessage(), e);
+                 log.error(e.getMessage(), e);
 
                 if(context != null)
                 {
@@ -201,6 +201,17 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
         } catch (IOException e) {
             log.error("Error while committing authority solr server", e);
         }
+    }
+
+    @Override
+    public boolean isConfiguredProperly() {
+        boolean solrReturn = false;
+        try {
+            solrReturn = (getSolr()!=null);
+        } catch (Exception e) {
+            log.error("Authority solr is not correctly configured, check \"solr.authority.server\" property in the dspace.cfg", e);
+        }
+        return solrReturn;
     }
 
     @Override

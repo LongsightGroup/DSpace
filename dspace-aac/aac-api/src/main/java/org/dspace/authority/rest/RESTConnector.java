@@ -7,12 +7,11 @@
  */
 package org.dspace.authority.rest;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.log4j.Logger;
 import org.dspace.authority.util.XMLUtils;
+import org.dspace.core.ConfigurationManager;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
@@ -45,15 +44,24 @@ public class RESTConnector {
         path = trimSlashes(path);
 
         String fullPath = url + '/' + path;
-        HttpGet httpGet = new HttpGet(fullPath);
+        //HttpGet httpGet = new HttpGet(fullPath);
+        GetMethod httpGet = new GetMethod(fullPath);
+
         try {
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpResponse getResponse = httpClient.execute(httpGet);
+            boolean ignoreSSL = ConfigurationManager.getBooleanProperty("orcid", "httpclient.ignoressl");
+
+            HttpClient httpclient = new HttpClient();
+
+            //HttpClient httpClient = HttpClientFactory.getNewHttpClient(ignoreSSL);
+            //HttpResponse getResponse = httpClient.execute(httpGet);
+
+            httpclient.executeMethod(httpGet);
             //do not close this httpClient
-            result = getResponse.getEntity().getContent();
-            document = XMLUtils.convertStreamToXML(result);
+            //result = getResponse.getEntity().getContent();
+            document = XMLUtils.convertStreamToXML(httpGet.getResponseBodyAsStream());
 
         } catch (Exception e) {
+            httpGet.releaseConnection();
             getGotError(e, fullPath);
         }
 

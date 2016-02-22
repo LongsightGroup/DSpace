@@ -7,11 +7,15 @@
  */
 package org.dspace.authority;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Item;
+import org.dspace.authority.model.Concept;
+import org.dspace.content.Metadatum;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +30,17 @@ import java.util.Map;
  */
 public class PersonAuthorityValue extends AuthorityValue {
 
+
+    public static final String LASTNAME = "meta_person_familyName";
+    public static final String familyName = "familyName";
+    public static final String FIRSTNAME = "meta_person_givenName";
+    public static final String givenName = "givenName";
+    public static final String INSTITUTION = "meta_person_instition";
+    public static final String instite = "instition";
+    public static final String EMAIL = "meta_person_email";
+    public static final String email = "email";
+
+    public static final String PERSON = "person";
     private String firstName;
     private String lastName;
     private List<String> nameVariants = new ArrayList<String>();
@@ -122,47 +137,73 @@ public class PersonAuthorityValue extends AuthorityValue {
     public SolrInputDocument getSolrInputDocument() {
         SolrInputDocument doc = super.getSolrInputDocument();
         if (StringUtils.isNotBlank(getFirstName())) {
-            doc.addField("first_name", getFirstName());
+            doc.addField(FIRSTNAME, getFirstName());
         }
         if (StringUtils.isNotBlank(getLastName())) {
-            doc.addField("last_name", getLastName());
+            doc.addField(LASTNAME, getLastName());
         }
         for (String nameVariant : getNameVariants()) {
-            doc.addField("name_variant", nameVariant);
+            doc.addField(ALTERNATE_LABEL, nameVariant);
         }
 
         for (String email : emails) {
-            doc.addField("email", email);
+            doc.addField(EMAIL, email);
         }
-        doc.addField("institution", getInstitution());
+        doc.addField(INSTITUTION, getInstitution());
         return doc;
     }
 
     @Override
     public void setValues(SolrDocument document) {
         super.setValues(document);
-        this.firstName = ObjectUtils.toString(document.getFieldValue("first_name"));
-        this.lastName = ObjectUtils.toString(document.getFieldValue("last_name"));
-        nameVariants = new ArrayList<String>();
-        Collection<Object> document_name_variant = document.getFieldValues("name_variant");
-        if (document_name_variant != null) {
-            for (Object name_variants : document_name_variant) {
-                addNameVariant(String.valueOf(name_variants));
-            }
+
+        try{
+            ArrayList<String>firstNames= (ArrayList<String>)document.getFieldValue(FIRSTNAME);
+            ArrayList<String>lastNames = (ArrayList<String>)document.getFieldValue(LASTNAME);
+            if(firstNames!=null&&firstNames.size()>0)
+                this.firstName= firstNames.get(0);
+            if(lastNames!=null&&lastNames.size()>0)
+                this.lastName = lastNames.get(0);
+        }catch (Exception e)
+        {
+            this.firstName= (String)document.getFieldValue(FIRSTNAME);
+            this.lastName = (String)document.getFieldValue(LASTNAME);
         }
-        if (document.getFieldValue("institution") != null) {
-            this.institution = String.valueOf(document.getFieldValue("institution"));
+        if (document.getFieldValue(INSTITUTION) != null) {
+            this.institution = (String)document.getFieldValue(INSTITUTION);
         }
 
-        Collection<Object> emails = document.getFieldValues("email");
+        Collection<Object> emails = document.getFieldValues(EMAIL);
         if (emails != null) {
             for (Object email : emails) {
-                addEmail(String.valueOf(email));
+                addEmail(email.toString());
             }
         }
     }
-
-
+    @Override
+    public void setValues(Concept concept) throws SQLException{
+        super.setValues(concept);
+        //the name is set in the setName function
+        if(concept.getMetadata(PERSON,familyName,null, Item.ANY)!=null&&concept.getMetadata(PERSON,familyName,null, Item.ANY).length>0)
+        {
+             this.lastName = concept.getMetadata(PERSON,familyName,null, Item.ANY)[0].value;
+        }
+        if(concept.getMetadata(PERSON,givenName,null, Item.ANY)!=null&&concept.getMetadata(PERSON,givenName,null, Item.ANY).length>0)
+        {
+            this.firstName = concept.getMetadata(PERSON,givenName,null, Item.ANY)[0].value;
+        }
+        if(concept.getMetadata(PERSON,instite,null, Item.ANY)!=null&&concept.getMetadata(PERSON,instite,null, Item.ANY).length>0)
+        {
+            this.institution = concept.getMetadata(PERSON,instite,null, Item.ANY)[0].value;
+        }
+        if(concept.getMetadata(PERSON,email,null, Item.ANY)!=null&&concept.getMetadata(PERSON,email,null, Item.ANY).length>0)
+        {
+            for(Metadatum metadataValue: concept.getMetadata(PERSON,email,null, Item.ANY))
+            {
+                this.emails.add(metadataValue.value);
+            }
+        }
+    }
     @Override
     public Map<String, String> choiceSelectMap() {
 
@@ -198,7 +239,7 @@ public class PersonAuthorityValue extends AuthorityValue {
 
     @Override
     public String getAuthorityType() {
-        return "person";
+        return PERSON;
     }
 
     @Override
@@ -255,5 +296,18 @@ public class PersonAuthorityValue extends AuthorityValue {
         }
 
         return true;
+    }
+
+
+    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+
+        super.updateConceptFromAuthorityValue(concept);
+        concept.addMetadata(PERSON,"familyName",null,"",lastName,null,-1);
+        concept.addMetadata(PERSON,"givenName",null,"",firstName,null,-1);
+        if(institution!=null)
+        concept.addMetadata(PERSON,"institution",null,"",institution,null,-1);
+        for(String email:emails) {
+            concept.addMetadata(PERSON,"email",null,"",email,null,-1);
+        }
     }
 }

@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atmire</groupId>
-    <artifactId>atmire-authority-xmlui</artifactId>
+    <artifactId>aac-xmlui</artifactId>
     <packaging>war</packaging>
     <name>Atmire Authority Control :: XMLUI Aspect</name>
 
     <parent>
         <groupId>com.atmire</groupId>
         <artifactId>authority</artifactId>
-        <version>4.3-SNAPSHOT</version>
+        <version>5.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -67,7 +67,7 @@
 
         <dependency>
             <groupId>com.atmire</groupId>
-            <artifactId>atmire-authority-api</artifactId>
+            <artifactId>aac-api</artifactId>
             <version>${version}</version>
             <type>jar</type>
         </dependency>

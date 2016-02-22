@@ -7,6 +7,7 @@
  */
 package org.dspace.content.authority;
 
+import com.ibm.icu.text.Normalizer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -15,8 +16,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CommonParams;
 import org.dspace.authority.AuthoritySearchService;
+import org.dspace.authority.AuthorityTypes;
 import org.dspace.authority.AuthorityValue;
-import org.dspace.authority.rest.RestSource;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.utils.DSpace;
 
@@ -35,18 +36,30 @@ import java.util.Map;
 public class SolrAuthority implements ChoiceAuthority {
 
     private static final Logger log = Logger.getLogger(SolrAuthority.class);
-    private RestSource source = new DSpace().getServiceManager().getServiceByName("AuthoritySource", RestSource.class);
+
+    private AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
+
     private boolean externalResults = false;
 
     public Choices getMatches(String field, String text, int collection, int start, int limit, String locale, boolean bestMatch) {
         if(limit == 0)
             limit = 10;
-
+        String fieldKey = ConfigurationManager.getProperty("solrauthority.searchscheme." + field);
         SolrQuery queryArgs = new SolrQuery();
         if (text == null || text.trim().equals("")) {
             queryArgs.setQuery("*:*");
         } else {
-            String searchField = "value";
+            String searchField = ConfigurationManager.getProperty("solrauthority.searchfieldtype." + field);
+            if (searchField == null) {
+                searchField = ConfigurationManager.getProperty("solrauthority.searchfieldtype");
+
+                if (searchField == null) {
+                    searchField = "value";
+                }
+            }
+            if (searchField.contains("nodiacritics")) {
+                text = removeDiacritics(text);
+            }
             String localSearchField = "";
             try {
                 //A downside of the authors is that the locale is sometimes a number, make sure that this isn't one
@@ -65,8 +78,9 @@ public class SolrAuthority implements ChoiceAuthority {
             }
             queryArgs.setQuery(query);
         }
+        //TODO: check if this is right ! could always be this.field
 
-        queryArgs.addFilterQuery("field:" + field);
+        queryArgs.addFilterQuery("field:" + fieldKey);
         queryArgs.set(CommonParams.START, start);
         //We add one to our facet limit so that we know if there are more matches
         int maxNumberOfSolrResults = limit + 1;
@@ -75,13 +89,22 @@ public class SolrAuthority implements ChoiceAuthority {
         }
         queryArgs.set(CommonParams.ROWS, maxNumberOfSolrResults);
 
-        String sortField = "value";
+        if (ConfigurationManager.getBooleanProperty("solrauthority.sort-alphabetically", true)) {
+            String sortField = ConfigurationManager.getProperty("solrauthority.sortfieldtype." + field);
+            if (sortField == null) {
+                sortField = ConfigurationManager.getProperty("solrauthority.sortfieldtype");
+
+                if (sortField == null) {
+                    sortField = "value";
+                }
+            }
         String localSortField = "";
         if (StringUtils.isNotBlank(locale)) {
             localSortField = sortField + "_" + locale;
             queryArgs.setSortField(localSortField, SolrQuery.ORDER.asc);
         } else {
             queryArgs.setSortField(sortField, SolrQuery.ORDER.asc);
+        }
         }
 
         Choices result;
@@ -91,29 +114,39 @@ public class SolrAuthority implements ChoiceAuthority {
             QueryResponse searchResponse = getSearchService().search(queryArgs);
             SolrDocumentList authDocs = searchResponse.getResults();
             ArrayList<Choice> choices = new ArrayList<Choice>();
-            if (authDocs != null) {
-                max = (int) searchResponse.getResults().getNumFound();
-                int maxDocs = authDocs.size();
-                if (limit < maxDocs)
-                    maxDocs = limit;
-                List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
-                for (int i = 0; i < maxDocs; i++) {
-                    SolrDocument solrDocument = authDocs.get(i);
-                    if (solrDocument != null) {
-                        AuthorityValue val = AuthorityValue.fromSolr(solrDocument);
 
-                        Map<String, String> extras = val.choiceSelectMap();
-                        extras.put("insolr", val.getId());
-                        choices.add(new Choice(val.getId(), val.getValue(), val.getValue(), extras));
-                        alreadyPresent.add(val);
+            List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
+            if (externalResults &&
+                    types.getExternalSources().containsKey(field)  &&
+                    StringUtils.isNotBlank(text)) {
+
+                int sizeFromSolr = alreadyPresent.size();
+                int maxExternalResults = limit <= 10 ? Math.max(limit - sizeFromSolr, 2) : Math.max(limit - 10 - sizeFromSolr, 2) + limit - 10;
+                addExternalResults(field, text, choices, alreadyPresent, maxExternalResults);
+            }
+
+            else
+            {
+                if (authDocs != null) {
+                    max = (int) searchResponse.getResults().getNumFound();
+                    int maxDocs = authDocs.size();
+                    if (limit < maxDocs)
+                        maxDocs = limit;
+                    //List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
+                    for (int i = 0; i < maxDocs; i++) {
+                        SolrDocument solrDocument = authDocs.get(i);
+                        if (solrDocument != null) {
+                            AuthorityValue val = AuthorityValue.fromSolr(solrDocument);
+
+                            Map<String, String> extras = val.choiceSelectMap();
+                            extras.put("insolr", val.getId());
+                            choices.add(new Choice(val.getId(), val.getValue(), val.getValue(), extras));
+                            alreadyPresent.add(val);
+                        }
                     }
                 }
 
-                if (externalResults && StringUtils.isNotBlank(text)) {
-                    int sizeFromSolr = alreadyPresent.size();
-                    int maxExternalResults = limit <= 10 ? Math.max(limit - sizeFromSolr, 2) : Math.max(limit - 10 - sizeFromSolr, 2) + limit - 10;
-                    addExternalResults(text, choices, alreadyPresent, maxExternalResults);
-                }
+
 
 
                 // hasMore = (authDocs.size() == (limit + 1));
@@ -138,10 +171,15 @@ public class SolrAuthority implements ChoiceAuthority {
         return result;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    protected void addExternalResults(String text, ArrayList<Choice> choices, List<AuthorityValue> alreadyPresent, int max) {
-        if(source != null){
+    private String removeDiacritics(String str) {
+        return Normalizer.normalize(str, Normalizer.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    protected void addExternalResults(String fieldKey, String text, ArrayList<Choice> choices, List<AuthorityValue> alreadyPresent, int max) {
+
+        if(types.getExternalSources() != null && types.getExternalSources().containsKey(fieldKey)){
             try {
-                List<AuthorityValue> values = source.queryAuthorities(text, max * 2); // max*2 because results get filtered
+                List<AuthorityValue> values = types.getExternalSources().get(fieldKey).queryAuthorities(text, max * 2); // max*2 because results get filtered
 
                 // filtering loop
                 Iterator<AuthorityValue> iterator = values.iterator();
@@ -172,7 +210,7 @@ public class SolrAuthority implements ChoiceAuthority {
     }
 
     private String toQuery(String searchField, String text) {
-        return searchField + ":\"" + text.toLowerCase().replaceAll(":", "\\:") + "*\" or " + searchField + ":\"" + text.toLowerCase().replaceAll(":", "\\:")+"\"";
+        return searchField + ":" + text.toLowerCase().replaceAll(":", "\\:") + "* or " + searchField + ":" + text.toLowerCase().replaceAll(":", "\\:");
     }
 
     @Override

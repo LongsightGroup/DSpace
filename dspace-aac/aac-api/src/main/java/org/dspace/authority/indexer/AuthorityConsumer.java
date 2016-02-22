@@ -75,8 +75,13 @@ public class AuthorityConsumer implements Consumer {
             for (Integer id : itemsToReindex) {
                 Item item = Item.find(ctx, id);
                 AuthorityIndexClient.indexItem(ctx, item);
+
+
+                // Disabled because EAC produces new DSpace Objects (Scheme, Concpet, Term)
+                // that need events generated upon commit.
+
                 //Commit our DB connection in case new UUID were generated.
-                ctx.getDBConnection().commit();
+                //ctx.getDBConnection().commit();
 
             }
         } catch (Exception e){

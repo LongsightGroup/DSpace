@@ -454,7 +454,7 @@ public class EditConceptForm extends AbstractDSpaceTransformer
                 org.dspace.content.Collection collection = org.dspace.content.Collection.find(context, FlowGroupUtils.getCollectionId(concept.getName()));
                 if (collection != null)
                 {
-                    String collectionName = collection.getMetadata("name");
+                    String collectionName = collection.getMetadataByMetadataString("name")[0].value;
 
                     if (collectionName == null)
                     {

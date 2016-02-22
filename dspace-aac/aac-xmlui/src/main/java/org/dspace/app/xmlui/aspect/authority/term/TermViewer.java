@@ -30,9 +30,9 @@ import org.dspace.browse.ItemCounter;
 
 
 import org.dspace.content.DSpaceObject;
-import org.dspace.authority.model.AuthorityMetadataValue;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Term;
+import org.dspace.content.Metadatum;
 import org.dspace.core.ConfigurationManager;
 import org.xml.sax.SAXException;
 
@@ -273,7 +273,7 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
 
             if(AuthorizeManager.isAdmin(context)){
                 //only admin can see metadata
-                ArrayList<AuthorityMetadataValue> values = term.getMetadata();
+                ArrayList<Metadatum> values = new ArrayList(term.getMetadata());
                 Iterator i = values.iterator();
                 Division metadataSection = viewer.addDivision("metadata-section","thesaurus-section");
                 metadataSection.setHead("Metadata Values");
@@ -285,9 +285,11 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
                 header.addCell().addContent("Value");
                 while (i.hasNext())
                 {
-                    AuthorityMetadataValue value = (AuthorityMetadataValue)i.next();
+                    Metadatum value = (Metadatum)i.next();
                     Row mRow = metadataTable.addRow();
-                    mRow.addCell().addContent(value.getFieldId());
+
+                    // TODO - May need to be Field ID not Field name
+                    mRow.addCell().addContent(value.getField());
                     if(value.qualifier!=null&&value.qualifier.length()>0)
                     {
                         mRow.addCell().addContent(value.schema+"."+value.element+"."+value.qualifier);
@@ -296,7 +298,7 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
                     {
                         mRow.addCell().addContent(value.schema+"."+value.element);
                     }
-                    mRow.addCell().addContent(value.getValue());
+                    mRow.addCell().addContent(value.value);
                 }
             }
 
@@ -331,7 +333,7 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
 
 
 
-    public void addOptions(Options options) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
     {
 
 

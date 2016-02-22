@@ -8,10 +8,8 @@
 package org.dspace.authority;
 
 import org.apache.commons.lang.StringUtils;
-import org.dspace.core.Context;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,29 +31,14 @@ public class AuthorityValueGenerator {
     public static final String GENERATE = "will be generated" + SPLIT;
 
 
-    public static AuthorityValue generate(Context context, String authorityKey, String content, String field) {
+    public static AuthorityValue generate(String uid, String content, String field) {
         AuthorityValue nextValue = null;
 
-        nextValue = generateRaw(authorityKey, content, field);
+        nextValue = generateRaw(uid, content, field);
 
 
         if (nextValue != null) {
-            //Only generate a new UUID if there isn't one offered OR if the identifier needs to be generated
-            if (StringUtils.isBlank(authorityKey)) {
-                // An existing metadata without authority is being indexed
-                // If there is an exact match in the index, reuse it before adding a new one.
-                AuthorityValueFinder authorityValueFinder = new AuthorityValueFinder();
-                List<AuthorityValue> byValue = authorityValueFinder.findByExactValue(context, field, content);
-                if (byValue != null && !byValue.isEmpty()) {
-                    authorityKey = byValue.get(0).getId();
-                } else {
-                    authorityKey = UUID.randomUUID().toString();
-                }
-            } else if (StringUtils.startsWith(authorityKey, AuthorityValueGenerator.GENERATE)) {
-                authorityKey = UUID.randomUUID().toString();
-            }
-
-            nextValue.setId(authorityKey);
+            nextValue.setId(UUID.randomUUID().toString());
             nextValue.updateLastModifiedDate();
             nextValue.setCreationDate(new Date());
             nextValue.setField(field);
@@ -64,10 +47,11 @@ public class AuthorityValueGenerator {
         return nextValue;
     }
 
-    protected static AuthorityValue generateRaw(String authorityKey, String content, String field) {
+    protected static AuthorityValue generateRaw(String uid, String content, String field) {
         AuthorityValue nextValue;
-        if (authorityKey != null && authorityKey.startsWith(AuthorityValueGenerator.GENERATE)) {
-            String[] split = StringUtils.split(authorityKey, SPLIT);
+        if (uid != null && uid.startsWith(AuthorityValueGenerator.GENERATE)) {
+
+            String[] split = StringUtils.split(uid, SPLIT);
             String type = null, info = null;
             if (split.length > 0) {
                 type = split[1];
@@ -77,12 +61,21 @@ public class AuthorityValueGenerator {
             }
             AuthorityValue authorityType = AuthorityValue.getAuthorityTypes().getEmptyAuthorityValue(type);
             nextValue = authorityType.newInstance(info);
+
         } else {
+
             Map<String, AuthorityValue> fieldDefaults = AuthorityValue.getAuthorityTypes().getFieldDefaults();
-            nextValue = fieldDefaults.get(field).newInstance(null);
+
+            nextValue = fieldDefaults.get(field);
+
             if (nextValue == null) {
                 nextValue = new AuthorityValue();
             }
+            else
+            {
+                nextValue = nextValue.newInstance(null);
+            }
+
             nextValue.setValue(content);
         }
         return nextValue;

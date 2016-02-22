@@ -39,18 +39,13 @@ public class Term extends AuthorityObject {
     }
 
     @Override
-    public String getMetadataTable() {
-        return "TermMetadataValue";
-    }
-
-    @Override
     public int getType() {
         return Constants.TERM;
     }
 
     @Override
     public int getID() {
-        return myRow.getIntColumn("id");
+        return row.getIntColumn("id");
     }
 
     @Override
@@ -65,7 +60,7 @@ public class Term extends AuthorityObject {
 
     public Date getLastModified()
     {
-        Date myDate = myRow.getDateColumn("modified");
+        Date myDate = row.getDateColumn("modified");
 
         if (myDate == null)
         {
@@ -76,18 +71,18 @@ public class Term extends AuthorityObject {
     }
     public void setLastModified(Date date)
     {
-        Date myDate = myRow.getDateColumn("modified");
+        Date myDate = row.getDateColumn("modified");
 
         if (date != null)
         {
-            myRow.setColumn("modified", date);
+            row.setColumn("modified", date);
             modified = true;
         }
     }
 
     public Date getCreated()
     {
-        Date myDate = myRow.getDateColumn("created");
+        Date myDate = row.getDateColumn("created");
 
         if (myDate == null)
         {
@@ -98,11 +93,11 @@ public class Term extends AuthorityObject {
     }
     public void setCreated(Date date)
     {
-        Date myDate = myRow.getDateColumn("created");
+        Date myDate = row.getDateColumn("created");
 
         if (date != null)
         {
-            myRow.setColumn("created", date);
+            row.setColumn("created", date);
             modified = true;
         }
     }
@@ -111,44 +106,44 @@ public class Term extends AuthorityObject {
 
     public String getStatus()
     {
-        return myRow.getStringColumn("status");
+        return row.getStringColumn("status");
 
     }
     public void setStatus(String status)
     {
-        myRow.setColumn("status", status);
+        row.setColumn("status", status);
         modified = true;
     }
 
     public String getSource()
     {
-        return myRow.getStringColumn("source");
+        return row.getStringColumn("source");
 
     }
     public void setSource(String source)
     {
-        myRow.setColumn("source", source);
+        row.setColumn("source", source);
         modified = true;
     }
 
     public String getLiteralForm()
     {
-        return myRow.getStringColumn("literalForm");
+        return row.getStringColumn("literalForm");
 
     }
     public void setLiteralForm(String literalForm)
     {
-        myRow.setColumn("literalForm", literalForm);
+        row.setColumn("literalForm", literalForm);
         modified = true;
     }
     public String getLang()
     {
-        return myRow.getStringColumn("lang");
+        return row.getStringColumn("lang");
 
     }
     public void setLang(String lang)
     {
-        myRow.setColumn("lang", lang);
+        row.setColumn("lang", lang);
         modified = true;
     }
 
@@ -367,13 +362,13 @@ public class Term extends AuthorityObject {
     public void delete() throws SQLException, AuthorizeException
     {
         // authorized?
-        if (!AuthorizeManager.isAdmin(myContext))
+        if (!AuthorizeManager.isAdmin(ourContext))
         {
             throw new AuthorizeException(
                     "You must be an admin to delete an Term");
         }
 
-        TableRow trow = DatabaseManager.querySingle(myContext,
+        TableRow trow = DatabaseManager.querySingle(ourContext,
                 "SELECT COUNT(DISTINCT concept_id) AS num FROM concept2term WHERE term_id= ? AND role_id=1",
                 getID());
         if (trow.getLongColumn("num") > 0)
@@ -382,23 +377,23 @@ public class Term extends AuthorityObject {
         }
 
         // Remove from cache
-        myContext.removeCached(this, getID());
+        ourContext.removeCached(this, getID());
 
 
         // Remove metadata
-        DatabaseManager.updateQuery(myContext,
-                "DELETE FROM TermMetadataValue WHERE parent_id= ? ",
+        DatabaseManager.updateQuery(ourContext,
+                "DELETE FROM MetadataValue WHERE resource_id= ? ",
                 getID());
 
         // Remove any concept memberships first
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM Concept2Term WHERE term_id= ? ",
                 getID());
 
         // Remove ourself
-        DatabaseManager.delete(myContext, myRow);
+        DatabaseManager.delete(ourContext, row);
 
-        log.info(LogManager.getHeader(myContext, "delete_metadata_term",
+        log.info(LogManager.getHeader(ourContext, "delete_metadata_term",
                 "term_id=" + getID()));
     }
 
@@ -476,7 +471,7 @@ public class Term extends AuthorityObject {
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "concept",
+                ourContext, "concept",
                 "SELECT concept.* FROM concept, concept2term WHERE " +
                         "concept2term.concept_id=concept.id " +
                         "AND concept2term.term_id= ? ORDER BY LOWER(concept.identifier)",
@@ -490,7 +485,7 @@ public class Term extends AuthorityObject {
                 TableRow row = tri.next();
 
                 // First check the cache
-                Concept fromCache = (Concept) myContext.fromCache(
+                Concept fromCache = (Concept) ourContext.fromCache(
                         Concept.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -499,7 +494,7 @@ public class Term extends AuthorityObject {
                 }
                 else
                 {
-                    concepts.add(new Concept(myContext, row));
+                    concepts.add(new Concept(ourContext, row));
                 }
             }
         }

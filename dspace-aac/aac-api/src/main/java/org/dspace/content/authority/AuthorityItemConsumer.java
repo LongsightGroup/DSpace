@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Scheme;
 import org.dspace.authority.model.Term;
-import org.dspace.content.DCValue;
+import org.dspace.content.Metadatum;
 import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
@@ -89,13 +89,13 @@ public class AuthorityItemConsumer implements Consumer {
             {
                 List<String> keys = new ArrayList<String>();
 
-                for(DCValue dcValue : item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY)){
+                for(Metadatum metadatum : item.getMetadata(Item.ANY, Item.ANY, Item.ANY, Item.ANY)){
 
-                    String key = ChoiceAuthorityManager.makeFieldKey(dcValue.schema, dcValue.element, dcValue.qualifier);
+                    String key = ChoiceAuthorityManager.makeFieldKey(metadatum.schema, metadatum.element, metadatum.qualifier);
                     String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + key);
 
                     if(schemeId != null)
-                        keys.add(dcValue.schema + "." + dcValue.element + (dcValue.qualifier != null ? "." + dcValue.qualifier : ""));
+                        keys.add(metadatum.schema + "." + metadatum.element + (metadatum.qualifier != null ? "." + metadatum.qualifier : ""));
 
                 }
 
@@ -104,15 +104,15 @@ public class AuthorityItemConsumer implements Consumer {
 
                 for(String key : keys)
                 {
-                    DCValue[] vals = item.getMetadata(key);
+                    Metadatum[] vals = item.getMetadataByMetadataString(key);
 
                     if(vals != null && vals.length > 0 && vals[0] != null)
                     {
                         item.clearMetadata(vals[0].schema, vals[0].element, vals[0].qualifier, Item.ANY);
 
-                        for(DCValue dcValue : vals){
+                        for(Metadatum metadatum : vals){
 
-                            String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + ChoiceAuthorityManager.makeFieldKey(dcValue.schema, dcValue.element, dcValue.qualifier));
+                            String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + ChoiceAuthorityManager.makeFieldKey(metadatum.schema, metadatum.element, metadatum.qualifier));
 
                             if(schemeId != null)
                             {
@@ -122,20 +122,20 @@ public class AuthorityItemConsumer implements Consumer {
 
                                     Concept newConcept = null;
 
-                                    if(dcValue.authority != null)
+                                    if(metadatum.authority != null)
                                     {
-                                        List<Concept> newConcepts = Concept.findByIdentifier(context, dcValue.authority);
+                                        List<Concept> newConcepts = Concept.findByIdentifier(context, metadatum.authority);
                                         if(newConcepts != null && newConcepts.size() > 0)
                                             newConcept = newConcepts.get(0);
                                     }
                                     else
                                     {
-                                        log.info("item:"+item.getHandle()+" has a unsaved concept :"+dcValue.value);
+                                        log.info("item:"+item.getHandle()+" has a unsaved concept :"+metadatum.value);
                                     }
 
                                     if(newConcept == null)
                                     {
-                                        Concept newConcepts[] = Concept.findByPreferredLabel(context, dcValue.value, scheme.getID());
+                                        Concept newConcepts[] = Concept.findByPreferredLabel(context, metadatum.value, scheme.getID());
                                         if(newConcepts!=null && newConcepts.length>0){
                                             newConcept = newConcepts[0];
                                         }
@@ -145,16 +145,16 @@ public class AuthorityItemConsumer implements Consumer {
                                         newConcept = scheme.createConcept();
                                         newConcept.setStatus(Concept.Status.ACCEPTED);
                                         newConcept.update();
-                                        Term term = newConcept.createTerm(dcValue.value, Term.prefer_term);
+                                        Term term = newConcept.createTerm(metadatum.value, Term.prefer_term);
                                         term.update();
                                         context.commit();
                                     }
 
-                                    item.addMetadata(dcValue.schema,
-                                            dcValue.element,
-                                            dcValue.qualifier,
-                                            dcValue.language,
-                                            dcValue.value,
+                                    item.addMetadata(metadatum.schema,
+                                            metadatum.element,
+                                            metadatum.qualifier,
+                                            metadatum.language,
+                                            metadatum.value,
                                             newConcept.getIdentifier(),
                                             Choices.CF_ACCEPTED);
 

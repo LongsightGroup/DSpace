@@ -312,6 +312,11 @@
      <field name="last_modified_date" type="date" indexed="true" stored="true" required="true" />
      <field name="creation_date" type="date" indexed="true" stored="true" required="true" />
      <field name="authority_type" type="string" multiValued="false" indexed="true" stored="true" required="false"/>
+
+     <!-- Authority Metadata ( meta_{schema}_{element}_{qualifier} -->
+     <dynamicField name="*" type="text" multiValued="true" indexed="true" stored="true" required="false"/>
+
+
  </fields>
 
  <!-- Field to use to determine and enforce document uniqueness.

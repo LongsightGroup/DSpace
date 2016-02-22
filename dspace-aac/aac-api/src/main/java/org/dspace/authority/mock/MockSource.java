@@ -32,10 +32,10 @@ public class MockSource implements AuthoritySource {
         ArrayList<AuthorityValue> values = new  ArrayList<AuthorityValue>();
         for(Map.Entry<String,MockAuthorityValue> entry : map.entrySet())
         {
-            if(entry.getKey().startsWith(text))
-            {
-                values.add(entry.getValue());
-            }
+               if(entry.getKey().startsWith(text))
+               {
+                   values.add(entry.getValue());
+               }
 
         }
         return values;

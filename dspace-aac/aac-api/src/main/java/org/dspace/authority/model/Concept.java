@@ -59,7 +59,7 @@ public class Concept extends AuthorityObject
 
     public Date getCreated()
     {
-        Date myDate = myRow.getDateColumn("created");
+        Date myDate = row.getDateColumn("created");
 
         if (myDate == null)
         {
@@ -70,18 +70,18 @@ public class Concept extends AuthorityObject
     }
     public void setCreated(Date date)
     {
-        Date myDate = myRow.getDateColumn("created");
+        Date myDate = row.getDateColumn("created");
 
         if (date != null)
         {
-            myRow.setColumn("created", date);
+            row.setColumn("created", date);
             modified = true;
         }
     }
 
     public String getStatus()
     {
-        return myRow.getStringColumn("status");
+        return row.getStringColumn("status");
 
     }
 
@@ -91,7 +91,7 @@ public class Concept extends AuthorityObject
         {
             Status c = Status.valueOf(status);
             if (!c.name().equals(getStatus()) ) {
-                myRow.setColumn("status", c.name());
+                row.setColumn("status", c.name());
                 modified = true;
             }
         }
@@ -99,7 +99,7 @@ public class Concept extends AuthorityObject
         {
             if(status == null && getStatus() != null)
             {
-                myRow.setColumnNull("status");
+                row.setColumnNull("status");
                 modified = true;
             }
         }
@@ -112,36 +112,36 @@ public class Concept extends AuthorityObject
         {
             if(getStatus() != null)
             {
-                myRow.setColumnNull("status");
+                row.setColumnNull("status");
                 modified = true;
             }
         }
         else if (!status.name().equals(getStatus()))
         {
-            myRow.setColumn("status", status.name());
+            row.setColumn("status", status.name());
             modified = true;
         }
     }
 
     public String getSource()
     {
-        return myRow.getStringColumn("source");
+        return row.getStringColumn("source");
 
     }
     public void setSource(String source)
     {
-        myRow.setColumn("source", source);
+        row.setColumn("source", source);
         modified = true;
     }
 
     public String getLang()
     {
-        return myRow.getStringColumn("lang");
+        return row.getStringColumn("lang");
 
     }
     public void setLang(String lang)
     {
-        myRow.setColumn("lang", lang);
+        row.setColumn("lang", lang);
         modified = true;
     }
 
@@ -149,12 +149,12 @@ public class Concept extends AuthorityObject
 
     public Boolean getTopConcept()
     {
-        return myRow.getBooleanColumn("topConcept");
+        return row.getBooleanColumn("topConcept");
 
     }
     public void setTopConcept(Boolean topConcept)
     {
-        myRow.setColumn("topConcept", topConcept);
+        row.setColumn("topConcept", topConcept);
         modified = true;
     }
     /**
@@ -207,7 +207,7 @@ public class Concept extends AuthorityObject
      */
     public int getID()
     {
-        return myRow.getIntColumn("id");
+        return row.getIntColumn("id");
     }
 
     /**
@@ -246,14 +246,14 @@ public class Concept extends AuthorityObject
     {
 
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
-        log.info(LogManager.getHeader(myContext, "remove_preferredTerm",
+        AuthorizeManager.isAdmin(ourContext);
+        log.info(LogManager.getHeader(ourContext, "remove_preferredTerm",
                 "concept_id=" + getID() + ",term_id=" + t.getID()));
 
-        TableRow trow = DatabaseManager.querySingle(myContext,
+        TableRow trow = DatabaseManager.querySingle(ourContext,
                 "SELECT COUNT(DISTINCT concept_id) AS num FROM concept2term WHERE term_id= ? AND role_id=1",
                 t.getID());
-        DatabaseManager.setConstraintDeferred(myContext, "concept2term_term_id_fkey");
+        DatabaseManager.setConstraintDeferred(ourContext, "concept2term_term_id_fkey");
 
         if (trow.getLongColumn("num") == 1)
         {
@@ -261,16 +261,16 @@ public class Concept extends AuthorityObject
             t.delete();
         }
 
-        log.info(LogManager.getHeader(myContext, "remove_term",
+        log.info(LogManager.getHeader(ourContext, "remove_term",
                 "concept_id=" + getID() + ",term_id=" + t.getID()));
 
         // Remove any mappings
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM concept2term WHERE concept_id= ? " +
                         "AND term_id= ? AND role_id=1", getID(), t.getID());
 
-        DatabaseManager.setConstraintImmediate(myContext, "concept2term_term_id_fkey");
-        myContext.addEvent(new Event(Event.REMOVE, Constants.TERM, t.getID(), null));
+        DatabaseManager.setConstraintImmediate(ourContext, "concept2term_term_id_fkey");
+        ourContext.addEvent(new Event(Event.REMOVE, Constants.TERM, t.getID(), null));
     }
 
     /**
@@ -283,14 +283,14 @@ public class Concept extends AuthorityObject
             AuthorizeException, IOException
     {
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
-        log.info(LogManager.getHeader(myContext, "remove_altTerm",
+        AuthorizeManager.isAdmin(ourContext);
+        log.info(LogManager.getHeader(ourContext, "remove_altTerm",
                 "concept_id=" + getID() + ",term_id=" + t.getID()));
 
-        TableRow trow = DatabaseManager.querySingle(myContext,
+        TableRow trow = DatabaseManager.querySingle(ourContext,
                 "SELECT COUNT(DISTINCT concept_id) AS num FROM concept2term WHERE term_id= ? AND role_id=2",
                 t.getID());
-        DatabaseManager.setConstraintDeferred(myContext, "concept2term_term_id_fkey");
+        DatabaseManager.setConstraintDeferred(ourContext, "concept2term_term_id_fkey");
 
         if (trow.getLongColumn("num") == 1)
         {
@@ -298,16 +298,16 @@ public class Concept extends AuthorityObject
             t.delete();
         }
 
-        log.info(LogManager.getHeader(myContext, "remove_term",
+        log.info(LogManager.getHeader(ourContext, "remove_term",
                 "concept_id=" + getID() + ",term_id=" + t.getID()));
 
         // Remove any mappings
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM concept2term WHERE concept_id= ? " +
                         "AND term_id= ? AND role_id=2", getID(), t.getID());
 
-        DatabaseManager.setConstraintImmediate(myContext, "concept2term_term_id_fkey");
-        myContext.addEvent(new Event(Event.REMOVE, Constants.TERM, t.getID(), null));
+        DatabaseManager.setConstraintImmediate(ourContext, "concept2term_term_id_fkey");
+        ourContext.addEvent(new Event(Event.REMOVE, Constants.TERM, t.getID(), null));
     }
     /**
      * remove concept from this concept
@@ -318,22 +318,22 @@ public class Concept extends AuthorityObject
             AuthorizeException, IOException
     {
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
-        log.info(LogManager.getHeader(myContext, "remove_parentConcept",
+        AuthorizeManager.isAdmin(ourContext);
+        log.info(LogManager.getHeader(ourContext, "remove_parentConcept",
                 "concept_id=" + getID() + ",parent_concept_id=" + c.getID()));
 
-        DatabaseManager.setConstraintDeferred(myContext, "Concept2Concept_incoming_id_fkey ");
+        DatabaseManager.setConstraintDeferred(ourContext, "Concept2Concept_incoming_id_fkey ");
 
-        log.info(LogManager.getHeader(myContext, "remove_term",
+        log.info(LogManager.getHeader(ourContext, "remove_term",
                 "concept_id=" + getID() + ",parent_concept_id=" + c.getID()));
 
         // Remove any mappings
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM concept2term WHERE imcoming_id= ? " +
                         "AND outgoing_id= ? AND role_id=1", getID(), c.getID());
 
-        DatabaseManager.setConstraintImmediate(myContext, "Concept2Concept_incoming_id_fkey ");
-        myContext.addEvent(new Event(Event.REMOVE, Constants.CONCEPT, c.getID(), null));
+        DatabaseManager.setConstraintImmediate(ourContext, "Concept2Concept_incoming_id_fkey ");
+        ourContext.addEvent(new Event(Event.REMOVE, Constants.CONCEPT, c.getID(), null));
     }
 
     /**
@@ -345,22 +345,22 @@ public class Concept extends AuthorityObject
             AuthorizeException, IOException
     {
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
-        log.info(LogManager.getHeader(myContext, "remove_parentConcept",
+        AuthorizeManager.isAdmin(ourContext);
+        log.info(LogManager.getHeader(ourContext, "remove_parentConcept",
                 "concept_id=" + getID() + ",child_concept_id=" + c.getID()));
 
-        DatabaseManager.setConstraintDeferred(myContext, "Concept2Concept_outgoing_id_fkey ");
+        DatabaseManager.setConstraintDeferred(ourContext, "Concept2Concept_outgoing_id_fkey ");
 
-        log.info(LogManager.getHeader(myContext, "remove_term",
+        log.info(LogManager.getHeader(ourContext, "remove_term",
                 "concept_id=" + getID() + ",child_concept_id=" + c.getID()));
 
         // Remove any mappings
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM concept2term WHERE outgoing_id= ? " +
                         "AND incoming_id= ? AND role_id=1", getID(), c.getID());
 
-        DatabaseManager.setConstraintImmediate(myContext, "Concept2Concept_outgoing_id_fkey ");
-        myContext.addEvent(new Event(Event.REMOVE, Constants.CONCEPT, c.getID(), null));
+        DatabaseManager.setConstraintImmediate(ourContext, "Concept2Concept_outgoing_id_fkey ");
+        ourContext.addEvent(new Event(Event.REMOVE, Constants.CONCEPT, c.getID(), null));
     }
 
     /**
@@ -721,11 +721,11 @@ public class Concept extends AuthorityObject
         // FIXME: authorizations
 
         // Remove from cache
-        myContext.removeCached(this, getID());
+        ourContext.removeCached(this, getID());
 
         // Remove all metadata
-        DatabaseManager.updateQuery(myContext,
-                "DELETE FROM ConceptMetadataValue WHERE parent_id= ? ",
+        DatabaseManager.updateQuery(ourContext,
+                "DELETE FROM MetadataValue WHERE resource_id= ? ",
                 getID());
 
         //delete term
@@ -740,23 +740,23 @@ public class Concept extends AuthorityObject
             }
         }
         //remove concept from scheme
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM Scheme2Concept WHERE concept_id= ? ",
                 getID());
         //remove relationships
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM Concept2Concept WHERE incoming_id= ?",
                 getID());
-        DatabaseManager.updateQuery(myContext,
+        DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM Concept2Concept WHERE outgoing_id= ?",
                 getID());
         //delete concept
-        DatabaseManager.delete(myContext, myRow);
+        DatabaseManager.delete(ourContext, row);
 
 
-        myContext.addEvent(new Event(Event.DELETE, Constants.CONCEPT, getID(), getIdentifier()));
+        ourContext.addEvent(new Event(Event.DELETE, Constants.CONCEPT, getID(), getIdentifier()));
 
-        log.info(LogManager.getHeader(myContext, "delete_concept", "concept_id="
+        log.info(LogManager.getHeader(ourContext, "delete_concept", "concept_id="
                 + getID()));
     }
 
@@ -769,7 +769,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "concept",
+                ourContext, "concept",
                 "SELECT concept.* FROM concept, Concept2Concept WHERE " +
                         "Concept2Concept.incoming_id=concept.id " +
                         "AND Concept2Concept.outgoing_id= ? ORDER BY concept.id",
@@ -783,7 +783,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Concept fromCache = (Concept) myContext.fromCache(
+                Concept fromCache = (Concept) ourContext.fromCache(
                         Concept.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -792,7 +792,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    concepts.add(new Concept(myContext, row));
+                    concepts.add(new Concept(ourContext, row));
                 }
             }
         }
@@ -853,7 +853,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "concept",
+                ourContext, "concept",
                 query,
                 getID());
 
@@ -865,7 +865,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Concept fromCache = (Concept) myContext.fromCache(
+                Concept fromCache = (Concept) ourContext.fromCache(
                         Concept.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -874,7 +874,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    concepts.add(new Concept(myContext, row));
+                    concepts.add(new Concept(ourContext, row));
                 }
             }
         }
@@ -903,7 +903,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "concept",
+                ourContext, "concept",
                 "SELECT concept.* FROM concept, Concept2Concept WHERE " +
                         "Concept2Concept.outgoing_id=concept.id " +
                         "AND Concept2Concept.incoming_id= ? ORDER BY concept.id",
@@ -917,7 +917,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Concept fromCache = (Concept) myContext.fromCache(
+                Concept fromCache = (Concept) ourContext.fromCache(
                         Concept.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -926,7 +926,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    concepts.add(new Concept(myContext, row));
+                    concepts.add(new Concept(ourContext, row));
                 }
             }
         }
@@ -979,7 +979,7 @@ public class Concept extends AuthorityObject
     public int hashCode()
     {
         int hash = 7;
-        hash = 59 * hash + (this.myRow != null ? this.myRow.hashCode() : 0);
+        hash = 59 * hash + (this.row != null ? this.row.hashCode() : 0);
         return hash;
     }
 
@@ -1008,7 +1008,7 @@ public class Concept extends AuthorityObject
     public Scheme getScheme() throws SQLException
     {
         // Get the bundle table rows
-        TableRowIterator tri = DatabaseManager.queryTable(myContext, "scheme",
+        TableRowIterator tri = DatabaseManager.queryTable(ourContext, "scheme",
                 "SELECT scheme.* FROM scheme, scheme2concept WHERE " +
                         "scheme.id=scheme2concept.scheme_id " +
                         "AND scheme2concept.concept_id= ? ",
@@ -1024,12 +1024,12 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Scheme owner = (Scheme) myContext.fromCache(Scheme.class,
+                Scheme owner = (Scheme) ourContext.fromCache(Scheme.class,
                         row.getIntColumn("id"));
 
                 if (owner == null)
                 {
-                    owner = new Scheme(myContext, row);
+                    owner = new Scheme(ourContext, row);
                 }
 
                 schemes.add(owner);
@@ -1054,7 +1054,7 @@ public class Concept extends AuthorityObject
 
     public Date getLastModified()
     {
-        Date myDate = myRow.getDateColumn("modified");
+        Date myDate = row.getDateColumn("modified");
 
         if (myDate == null)
         {
@@ -1065,11 +1065,11 @@ public class Concept extends AuthorityObject
     }
     public void setLastModified(Date date)
     {
-        Date myDate = myRow.getDateColumn("modified");
+        Date myDate = row.getDateColumn("modified");
 
         if (date != null)
         {
-            myRow.setColumn("modified", date);
+            row.setColumn("modified", date);
             modified = true;
         }
     }
@@ -1080,19 +1080,16 @@ public class Concept extends AuthorityObject
     {
         try {
             Date lastModified = new java.sql.Timestamp(new Date().getTime());
-            myRow.setColumn("modified", lastModified);
-            DatabaseManager.updateQuery(myContext, "UPDATE concept SET modified = ? WHERE id= ? ", lastModified, getID());
+            row.setColumn("modified", lastModified);
+            DatabaseManager.updateQuery(ourContext, "UPDATE concept SET modified = ? WHERE id= ? ", lastModified, getID());
             //Also fire a modified event since the item HAS been modified
             //ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), null));
         } catch (SQLException e) {
-            log.error(LogManager.getHeader(myContext, "Error while updating modified timestamp", "Concept: " + getID()));
+            log.error(LogManager.getHeader(ourContext, "Error while updating modified timestamp", "Concept: " + getID()));
         }
     }
 
-    @Override
-    public String getMetadataTable() {
-        return "ConceptMetadataValue";
-    }
+
 
     public Term[] getPreferredTerms() throws SQLException
     {
@@ -1100,7 +1097,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "term",
+                ourContext, "term",
                 "SELECT term.* FROM term, concept2term WHERE " +
                         "concept2term.term_id=term.id " +
                         "AND concept2term.concept_id= ?  AND role_id = 1 ORDER BY term.identifier",
@@ -1114,7 +1111,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Term fromCache = (Term) myContext.fromCache(
+                Term fromCache = (Term) ourContext.fromCache(
                         Term.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -1123,7 +1120,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    terms.add(new Term(myContext, row));
+                    terms.add(new Term(ourContext, row));
                 }
             }
         }
@@ -1149,7 +1146,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "term",
+                ourContext, "term",
                 "SELECT term.* FROM term, concept2term WHERE " +
                         "concept2term.term_id=term.id " +
                         "AND concept2term.concept_id= ? AND role_id = 2 ORDER BY term.identifier",
@@ -1163,7 +1160,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Term fromCache = (Term) myContext.fromCache(
+                Term fromCache = (Term) ourContext.fromCache(
                         Term.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -1172,7 +1169,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    terms.add(new Term(myContext, row));
+                    terms.add(new Term(ourContext, row));
                 }
             }
         }
@@ -1197,13 +1194,13 @@ public class Concept extends AuthorityObject
     {
 
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
+        AuthorizeManager.isAdmin(ourContext);
 
-        log.info(LogManager.getHeader(myContext, "add_parentConcept",
+        log.info(LogManager.getHeader(ourContext, "add_parentConcept",
                 "concept_id=" + getID() + ",parent_concept_id=" + incoming.getID()));
 
         // Find out if mapping exists
-        TableRowIterator tri = DatabaseManager.queryTable(myContext,
+        TableRowIterator tri = DatabaseManager.queryTable(ourContext,
                 "Concept2Concept",
                 "SELECT * FROM Concept2Concept WHERE " +
                         "outgoing_id= ? AND incoming_id= ? ", getID(), incoming.getID());
@@ -1218,8 +1215,8 @@ public class Concept extends AuthorityObject
                 mappingRow.setColumn("outgoing_id", getID());
                 mappingRow.setColumn("incoming_id", incoming.getID());
                 mappingRow.setColumn("role_id", roleId);
-                DatabaseManager.insert(myContext, mappingRow);
-                myContext.addEvent(new Event(Event.ADD, Constants.CONCEPT, incoming.getID(), null));
+                DatabaseManager.insert(ourContext, mappingRow);
+                ourContext.addEvent(new Event(Event.ADD, Constants.CONCEPT, incoming.getID(), null));
             }
         }
         finally
@@ -1236,13 +1233,13 @@ public class Concept extends AuthorityObject
             AuthorizeException
     {
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
+        AuthorizeManager.isAdmin(ourContext);
 
-        log.info(LogManager.getHeader(myContext, "add_childConcept",
+        log.info(LogManager.getHeader(ourContext, "add_childConcept",
                 "concept_id=" + getID() + ",child_concept_id=" + outgoing.getID()));
 
         // Find out if mapping exists
-        TableRowIterator tri = DatabaseManager.queryTable(myContext,
+        TableRowIterator tri = DatabaseManager.queryTable(ourContext,
                 "Concept2Concept",
                 "SELECT * FROM Concept2Concept WHERE " +
                         "incoming_id= ? AND outgoing_id= ? ", getID(), outgoing.getID());
@@ -1257,8 +1254,8 @@ public class Concept extends AuthorityObject
                 mappingRow.setColumn("outgoing_id", outgoing.getID());
                 mappingRow.setColumn("incoming_id", getID());
                 mappingRow.setColumn("role_id", roleId);
-                DatabaseManager.insert(myContext, mappingRow);
-                myContext.addEvent(new Event(Event.ADD, Constants.CONCEPT, outgoing.getID(), null));
+                DatabaseManager.insert(ourContext, mappingRow);
+                ourContext.addEvent(new Event(Event.ADD, Constants.CONCEPT, outgoing.getID(), null));
             }
         }
         finally
@@ -1310,13 +1307,13 @@ public class Concept extends AuthorityObject
             AuthorizeException
     {
         // Check authorisation
-        AuthorizeManager.isAdmin(myContext);
+        AuthorizeManager.isAdmin(ourContext);
 
-        log.info(LogManager.getHeader(myContext, "add_term",
+        log.info(LogManager.getHeader(ourContext, "add_term",
                 "concept_id=" + getID() + ",term_id=" + t.getID()));
 
         // Find out if mapping exists
-        TableRowIterator tri = DatabaseManager.queryTable(myContext,
+        TableRowIterator tri = DatabaseManager.queryTable(ourContext,
                 "concept2term",
                 "SELECT * FROM concept2term WHERE " +
                         "concept_id= ? AND term_id= ? ", getID(), t.getID());
@@ -1331,8 +1328,8 @@ public class Concept extends AuthorityObject
                 mappingRow.setColumn("concept_id", getID());
                 mappingRow.setColumn("term_id", t.getID());
                 mappingRow.setColumn("role_id", role_id);
-                DatabaseManager.insert(myContext, mappingRow);
-                myContext.addEvent(new Event(Event.ADD, Constants.TERM,t.getID(), null));
+                DatabaseManager.insert(ourContext, mappingRow);
+                ourContext.addEvent(new Event(Event.ADD, Constants.TERM,t.getID(), null));
             }
         }
         finally
@@ -1390,7 +1387,7 @@ public class Concept extends AuthorityObject
 
         // Get the table rows
         TableRowIterator tri = DatabaseManager.queryTable(
-                myContext, "term",
+                ourContext, "term",
                 "SELECT term.* FROM term, concept2term WHERE " +
                         "concept2term.term_id=term.id " +
                         "AND concept2term.concept_id= ?",
@@ -1404,7 +1401,7 @@ public class Concept extends AuthorityObject
                 TableRow row = tri.next();
 
                 // First check the cache
-                Term fromCache = (Term) myContext.fromCache(
+                Term fromCache = (Term) ourContext.fromCache(
                         Term.class, row.getIntColumn("id"));
 
                 if (fromCache != null)
@@ -1413,7 +1410,7 @@ public class Concept extends AuthorityObject
                 }
                 else
                 {
-                    terms.add(new Term(myContext, row));
+                    terms.add(new Term(ourContext, row));
                 }
             }
         }
@@ -1433,7 +1430,7 @@ public class Concept extends AuthorityObject
         return termArray;
     }
     public Term createTerm(String literalForm,int relationType)throws SQLException,AuthorizeException {
-        Term term = Term.create(this.myContext);
+        Term term = Term.create(this.ourContext);
         term.setLiteralForm(literalForm);
         term.setCreated(getCreated());
         term.setLang(getLang());
@@ -1453,13 +1450,13 @@ public class Concept extends AuthorityObject
     public void addTermByType(Term t,int type)
     {
 
-        log.info(LogManager.getHeader(myContext, "add_Term_by_type",
+        log.info(LogManager.getHeader(ourContext, "add_Term_by_type",
                 "concept_id=" + getID() + ",term_id=" + t.getID())+",type="+type);
         TableRowIterator tri = null;
         try
         {
             // Find out if mapping exists
-            tri = DatabaseManager.queryTable(myContext,
+            tri = DatabaseManager.queryTable(ourContext,
                     "concept2term",
                     "SELECT * FROM concept2term WHERE " +
                             "concept_id= ? AND term_id= ? AND role_id= ?", getID(), t.getID(), type);
@@ -1473,8 +1470,8 @@ public class Concept extends AuthorityObject
                 mappingRow.setColumn("concept_id", getID());
                 mappingRow.setColumn("term_id", t.getID());
                 mappingRow.setColumn("role_id", type);
-                DatabaseManager.insert(myContext, mappingRow);
-                myContext.addEvent(new Event(Event.ADD, Constants.TERM, t.getID(), null));
+                DatabaseManager.insert(ourContext, mappingRow);
+                ourContext.addEvent(new Event(Event.ADD, Constants.TERM, t.getID(), null));
             }
         }        catch (Exception e)
         {

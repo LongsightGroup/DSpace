@@ -92,7 +92,12 @@ public class FlowTermUtils {
             if(conceptId!=null&&conceptId.length()>0)
             {
                 Concept concept = Concept.find(context, Integer.parseInt(conceptId));
-                Term newTerm = concept.createTerm(literalForm,1);
+                Term newTerm = null;
+                if (request.getParameter("preferred")!=null) {
+                    newTerm = concept.createTerm(literalForm, Integer.parseInt(request.getParameter("preferred")));
+                } else {
+                    newTerm = concept.createTerm(literalForm, 2);
+                }
                 newTerm.update();
 
                 context.commit();

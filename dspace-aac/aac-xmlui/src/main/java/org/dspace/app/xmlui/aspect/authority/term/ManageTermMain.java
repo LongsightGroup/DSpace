@@ -303,7 +303,7 @@ public class ManageTermMain extends AbstractDSpaceTransformer
     }
 
 
-    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, WingException, org.dspace.app.xmlui.utils.UIException, SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
+    public void addOptions(org.dspace.app.xmlui.wing.element.Options options) throws org.xml.sax.SAXException, org.dspace.app.xmlui.wing.WingException, org.dspace.app.xmlui.utils.UIException, java.sql.SQLException, java.io.IOException, org.dspace.authorize.AuthorizeException
     {
 
         String conceptId          = parameters.getParameter("concept",null);
