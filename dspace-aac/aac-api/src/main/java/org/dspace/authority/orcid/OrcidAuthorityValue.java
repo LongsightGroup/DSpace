@@ -7,6 +7,10 @@
  */
 package org.dspace.authority.orcid;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.AuthorityValueGenerator;
 import org.dspace.authority.PersonAuthorityValue;
@@ -14,11 +18,11 @@ import org.dspace.authority.orcid.model.Bio;
 import org.dspace.authority.orcid.model.BioExternalIdentifier;
 import org.dspace.authority.orcid.model.BioName;
 import org.dspace.authority.orcid.model.BioResearcherUrl;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrInputDocument;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Item;
+import org.dspace.authority.model.Concept;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -87,6 +91,15 @@ public class OrcidAuthorityValue extends PersonAuthorityValue {
             }
         }
         return doc;
+    }
+
+    @Override
+    public void setValues(Concept concept) throws SQLException {
+        super.setValues(concept);
+        if(concept.getMetadata(PERSON,"orcid","id", Item.ANY)!=null){
+            this.orcid_id = concept.getMetadata(PERSON,"orcid","id", Item.ANY)[0].value;
+        }
+
     }
 
     @Override
@@ -312,5 +325,14 @@ public class OrcidAuthorityValue extends PersonAuthorityValue {
         }
 
         return true;
+    }
+
+
+    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+
+        super.updateConceptFromAuthorityValue(concept);
+        if(orcid_id!=null)  {
+            concept.addMetadata(PERSON,"orcid","id",null,orcid_id,null,-1);
+        }
     }
 }
