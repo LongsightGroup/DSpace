@@ -81,3 +81,11 @@ input.ds-authority-lock.is-unlocked
   { background-image: url(../../images/authority_control/unlock24.png); }
 
 #aspect_general_ChoiceLookupTransformer_div_lookup select {height: auto;}
+
+#aspect_authority_concept_ConceptViewer_div_concept-view {
+  margin-top: 15px;
+}
+
+#aspect_authority_concept_ConceptViewer_div_concept-view h2{
+  margin-top: 20px;
+}
