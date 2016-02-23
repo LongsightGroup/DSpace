@@ -249,13 +249,15 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
 
             //row.addCellContent(schemeID);
             if(isSystemAdmin){
-                row.addCell().addContent(scheme.getCreated().toString());
                 Cell identifierCell = row.addCell();
                 identifierCell.addXref("/scheme/"+scheme.getID(), scheme.getName());
-                identifierCell.addContent("(" + scheme.getIdentifier().substring(0,8) + ")");
+                identifierCell.addContent(" (" + scheme.getIdentifier().substring(0,8) + ")");
+                row.addCell().addContent(scheme.getCreated().toString());
                 Cell actionCell = row.addCell() ;
                 actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&edit", T_actions_edit_attribute);
+                actionCell.addContent(" | ");
                 actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&editMetadata", T_actions_edit_metadata);
+                actionCell.addContent(" | ");
                 actionCell.addXref(contextPath+"/admin/scheme?schemeID="+schemeID+"&search", T_actions_view_concepts);
             }
             else

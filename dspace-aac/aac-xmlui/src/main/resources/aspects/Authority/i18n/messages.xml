@@ -464,8 +464,8 @@
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_para1">Below is the list of Scheme that matched your search query. Select the Scheme you want to delete and click the delete button to continue or click on an Scheme's Identifier or name to edit them.</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_head">Search results</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column1"></message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column2">Creation Date</message>
-    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column3">Name</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column2">Name</message>
+    <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column3">Creation Date</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.search_column4">Actions</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.submit_delete">Delete Scheme</message>
     <message key="xmlui.aspect.authority.scheme.ManageSchemeMain.no_results">Your search found no results..</message>
