@@ -315,8 +315,11 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
             row.addCell().addXref("/concept/"+concept.getID(), concept.getLabel());
             Cell actionCell = row.addCell() ;
             actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&edit", T_actions_edit_attribute);
+            actionCell.addContent(" | ");
             actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&editMetadata", T_actions_edit_metadata);
+            actionCell.addContent(" | ");
             actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&addConcept", T_actions_add_concepts);
+            actionCell.addContent(" | ");
             actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&search", T_actions_view_terms);
         }
 

@@ -635,9 +635,6 @@
     <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.search">Search for a Concept</message>
     <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.role">Select a Role</message>
     <message key="xmlui.administrative.concept.AddConcept2ConceptRelationForm.trail">Add Related Concept</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column1">Creation Date</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column2">Preferred Term</message>
-    <message key="xmlui.aspect.authority.concept.ManageConceptMain.search_column1">Selected</message>
 
 
     <message key="xmlui.Concept.EditProfile.language">Language</message>
