@@ -90,8 +90,9 @@
                 <!--<entry key="dc_subject_vessel">
                     <ref bean="org.dspace.authority.sparql.SPARQLSource"/>
                 </entry>-->
-                <entry key="dc_subject_vessel1">
-                    <ref bean="org.dspace.authority.mock.MockSource"/>
+                <entry key="dc_subject_vessel">
+                    <!--<ref bean="org.dspace.authority.mock.MockSource"/>-->
+                    <ref bean="OrcidSource"/>
                 </entry>
             </map>
         </property>

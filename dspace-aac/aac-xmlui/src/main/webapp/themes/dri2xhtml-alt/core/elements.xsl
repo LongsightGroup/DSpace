@@ -102,7 +102,15 @@
                 <xsl:attribute name="method">post</xsl:attribute>
                 <xsl:attribute name="enctype">multipart/form-data</xsl:attribute>
             </xsl:if>
-            <xsl:attribute name="onsubmit">javascript:tSubmit(this);</xsl:attribute>
+            <!-- If this is a ChoiceLookupTransformer form, do a search instead of submit-->
+            <xsl:choose>
+                <xsl:when test="contains(@id, 'ChoiceLookupTransformer')">
+                    <xsl:attribute name="onsubmit">javascript:DSpaceChoicesSearch(this);return false;</xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="onsubmit">javascript:tSubmit(this);</xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
                         <!--For Item Submission process, disable ability to submit a form by pressing 'Enter'-->
                         <xsl:if test="starts-with(@n,'submit')">
                                 <xsl:attribute name="onkeydown">javascript:return disableEnterKey(event);</xsl:attribute>

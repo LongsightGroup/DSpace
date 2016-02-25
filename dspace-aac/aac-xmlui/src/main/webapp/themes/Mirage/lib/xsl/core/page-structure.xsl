@@ -270,6 +270,14 @@
                                 };
 
                                 var runAfterJSImports = new FnArray();
+                            
+                                //This function allows choice-support to search
+                                function DSpaceChoicesSearch(form) {
+                                var query = $('#aspect_general_ChoiceLookupTransformer_field_text1').val();
+                                $('*[name="paramValue"]').val(query);
+
+                                DSpaceChoicesLoad(form);
+                                }
             </script>
 
             <!-- Modernizr enables HTML5 elements & feature detects -->

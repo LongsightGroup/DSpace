@@ -1098,11 +1098,11 @@
                         <button type="submit" name="{concat('submit_',@n,'_add')}"
                                 class="pull-right ds-button-field btn btn-default ds-add-button">
                             <!-- Make invisible if we have choice-lookup popup that provides its own Add. -->
-                            <xsl:if test="dri:params/@choicesPresentation = 'lookup'">
+                            <!--<xsl:if test="dri:params/@choicesPresentation = 'lookup'">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
                                 </xsl:attribute>
-                            </xsl:if>
+                            </xsl:if>-->
                             <i18n:text>xmlui.mirage2.forms.nonCompositeFieldSet.add</i18n:text>
                         </button>
                     </div>

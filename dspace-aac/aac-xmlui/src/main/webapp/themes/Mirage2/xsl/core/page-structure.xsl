@@ -257,6 +257,13 @@
                 else
                 return true;
                 }
+                //This function allows choice-support to search
+                function DSpaceChoicesSearch(form) {
+                var query = $('#aspect_general_ChoiceLookupTransformer_field_text1').val();
+                $('*[name="paramValue"]').val(query);
+
+                DSpaceChoicesLoad(form);
+                }
             </script>
 
             <xsl:text disable-output-escaping="yes">&lt;!--[if lt IE 9]&gt;
