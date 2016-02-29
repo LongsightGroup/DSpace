@@ -1,3 +1,5 @@
+respace-*.sh
+
 ## Ignore the MVN compiled output directories from version tracking
 target/
 
