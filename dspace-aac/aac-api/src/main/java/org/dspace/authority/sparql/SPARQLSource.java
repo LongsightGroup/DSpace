@@ -1,18 +1,16 @@
 package org.dspace.authority.sparql;
 
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.shared.PrefixMapping;
+import org.apache.log4j.Logger;
 import org.dspace.authority.AuthoritySource;
 import org.dspace.authority.AuthorityValue;
-import org.dspace.authority.model.AuthorityMetadataValue;
 import org.dspace.authority.model.Scheme;
 import org.dspace.content.authority.Choices;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 /**
  * User: mini @ atmire . com
@@ -21,94 +19,86 @@ import java.util.UUID;
  */
 public class SPARQLSource implements AuthoritySource {
 
+    // log4j category
+    private static final Logger log = Logger.getLogger(SPARQLSource.class);
+
     // contact URL from configuration
-    private static String endpoint_url = null;
+    private static String endpointUrl = null;
+    private String termCompletionQuery;
+    private String schemeId;
+    private String recordQuery;
 
-    private static String sparql_query = null;
-
-    private String spring_query;
-    private String sparql_query_one_record;
-
-
-    public SPARQLSource(String url){
-        this.endpoint_url = url;
+    public String getRecordQuery() {
+        return recordQuery;
     }
 
-    public void setSpring_query(String spring_query) {
-        this.spring_query = spring_query;
+    public void setRecordQuery(String recordQuery) {
+        this.recordQuery = recordQuery;
     }
 
-    public String getSpring_query() {
-        return spring_query;
+    public String getSchemeId() {
+        return schemeId;
+    }
+
+    public void setSchemeId(String schemeId) {
+        this.schemeId = schemeId;
+    }
+
+    public void setEndpointUrl(String endpoint_url) {
+        this.endpointUrl = endpoint_url;
+    }
+
+    public String getEndpointUrl() {
+        return endpointUrl;
+    }
+
+    public void setTermCompletionQuery(String termCompletionQuery) {
+        this.termCompletionQuery = termCompletionQuery;
+    }
+
+    public String getTermCompletionQuery() {
+        return termCompletionQuery;
     }
 
     @Override
-    public List<AuthorityValue> queryAuthorities(String query, int max) {
-
-
-        String metadataValue = null;
-        String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + "dc_subject_vessel");
+    public List<AuthorityValue> queryAuthorities(String filter, int max) {
         try {
             Context context = new Context();
             Scheme scheme = Scheme.findByIdentifier(context, schemeId);
-            AuthorityMetadataValue[] queryFromSchemeMetadata = scheme.getMetadata("authority","source","querytemplate",null);
-            if(queryFromSchemeMetadata != null)
-            {
-                for(AuthorityMetadataValue metadataValues : queryFromSchemeMetadata)
-                {
-                    metadataValue = metadataValues.getValue();
-                }
+            String query = scheme.getMetadata("authority.source.querytemplate");
+
+            if(query == null || query.length() <= 0) {
+                query = getTermCompletionQuery();
             }
 
-            if(metadataValue == null || metadataValue.length() <= 0)
-                sparql_query = getSpring_query();
-            else
-                sparql_query = metadataValue;
-        } catch (SQLException e) {
-            e.printStackTrace();
+            filter = filter.substring(0,1).toUpperCase()+filter.substring(1,filter.length());
+            query = query.replace("AC_USER_INPUT", filter);
+
+            return queryEndPoint(endpointUrl, query);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-
-        query = query.substring(0,1).toUpperCase()+query.substring(1,query.length());
-        sparql_query = sparql_query.replace("AC_USER_INPUT", query);
-
-        if(query != null)
-        {
-            //sparql_query = prefix + "SELECT DISTINCT ?value WHERE { ?s a <http://linked.rvdata.us/vocab/resource/class/Cruise> . ?s <http://purl.org/dc/terms/title> ?value FILTER regex(?value, \'^"+query+"\') } ORDER BY ?s LIMIT 100";
-            return queryEndPoint(endpoint_url, sparql_query);
-        }
-
         return new ArrayList<AuthorityValue>();
     }
 
     @Override
     public AuthorityValue queryAuthorityID(String id) {
 
-        //sparql_query =prefix + "SELECT DISTINCT * WHERE { ?s a <http://linked.rvdata.us/vocab/resource/class/Cruise> . ?s <http://purl.org/dc/terms/title> ?value  . ?s dcterms:identifier \'+id+\' } ORDER BY ?s LIMIT 100";
-        //sparql_query = prefix+"SELECT DISTINCT ?s ?p ?o WHERE { BIND(<http://linked.rvdata.us/resource/cruise/AE0801> as ?s) <http://linked.rvdata.us/resource/cruise/AE0801> ?p ?o }";
-        String metadataValue = null;
-        String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + "dc_subject_vessel");
         try {
             Context context = new Context();
             Scheme scheme = Scheme.findByIdentifier(context, schemeId);
-            AuthorityMetadataValue[] queryFromSchemeMetadata = scheme.getMetadata("authority","source","querytemplateonerecord",null);
-            if(queryFromSchemeMetadata != null)
-            {
-                for(AuthorityMetadataValue metadataValues : queryFromSchemeMetadata)
-                {
-                    metadataValue = metadataValues.getValue();
-                }
+            String query = scheme.getMetadata("authority.source.querytemplateonerecord");
+
+            if(query == null || query.length() <= 0) {
+                query = getRecordQuery();
             }
 
-            if(metadataValue == null || metadataValue.length() <= 0)
-                sparql_query_one_record = getSpring_query();
-            else
-                sparql_query_one_record = metadataValue;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        sparql_query_one_record = sparql_query_one_record.replace("AC_RESOURCE", id);
-        return queryEndPointOneEntry(endpoint_url,sparql_query_one_record);
+            return queryEndPointOneEntry(endpointUrl, query);
 
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     public Choices getBestMatch(String field, String text, int collection, String locale)
@@ -142,8 +132,8 @@ public class SPARQLSource implements AuthoritySource {
         Query query_result = QueryFactory.create(query);
         QueryExecution qExe = QueryExecutionFactory.sparqlService(endpoint, query_result);
         ResultSet results = qExe.execSelect();
-        QuerySolution row=results.nextSolution();
-        AuthorityValue authorityValue = map(row);
+        SPARQLAuthorityValue authorityValue = map2(results, query_result.getPrefixMapping());
+        authorityValue.setSparql_id(query);
         return authorityValue;
     }
 
@@ -163,5 +153,29 @@ public class SPARQLSource implements AuthoritySource {
 
     }
 
+    private SPARQLAuthorityValue map2(ResultSet rs, PrefixMapping prefixMap) {
+
+        SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
+        authorityValue.getOtherMetadata();
+
+        int count = 0;
+        while (rs.hasNext()) {
+            QuerySolution row = rs.next();
+            Resource r = row.getResource("p");
+            String element = r.getLocalName();
+            String prefix = prefixMap.getNsURIPrefix(r.getNameSpace());
+            if (prefix == null) {
+                log.error("Namespace: " + r.getNameSpace() + " does not have a defined prefix. Make sure this is present in the query.");
+                return null;
+            }
+            if (count == 0 || element.equals("label")) {
+                authorityValue.setValue(row.getLiteral("o").toString());
+            }
+            authorityValue.addOtherMetadata("meta_" + prefix + "_" + element, row.get("o").toString());
+            count++;
+        }
+
+        return authorityValue;
+    }
 
 }

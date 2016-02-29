@@ -2,6 +2,8 @@ package org.dspace.authority.sparql;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.dspace.authority.AuthoritySource;
+import org.dspace.authority.AuthorityTypes;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.AuthorityValueGenerator;
 import org.dspace.utils.DSpace;
@@ -34,10 +36,11 @@ public class SPARQLAuthorityValue extends AuthorityValue {
     }
 
     @Override
-    public AuthorityValue newInstance(String info) {
-        if (StringUtils.isNotBlank(info)) {
-            SPARQLSource source = new DSpace().getSingletonService(SPARQLSource.class);
-            return source.queryAuthorityID(info);
+    public AuthorityValue newInstance(String field) {
+        if (StringUtils.isNotBlank(field)) {
+            AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
+            AuthoritySource source = types.getExternalSources().get(field);
+            return source.queryAuthorityID(null);
         } else {
             SPARQLAuthorityValue sparqlAuthorityValue = new SPARQLAuthorityValue();
             sparqlAuthorityValue.setId(UUID.randomUUID().toString());

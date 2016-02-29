@@ -1,6 +1,7 @@
 package org.dspace.content.authority;
 
 import org.apache.log4j.Logger;
+import org.dspace.authority.indexer.AuthorityIndexClient;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Scheme;
 import org.dspace.authority.model.Term;
@@ -37,6 +38,9 @@ public class AuthorityItemConsumer implements Consumer {
     // handles to delete since IDs are not useful by now.
     private Set<String> handlesToDelete = null;
 
+    /** A set of items who's metadata needs to be reindexed **/
+    private Set<Item> itemsToReindex = null;
+
     public void initialize() throws Exception {
         // No-op
 
@@ -56,6 +60,7 @@ public class AuthorityItemConsumer implements Consumer {
         if(itemsToUpdate==null)
         {
             itemsToUpdate = new HashSet<Item>();
+            itemsToReindex = new HashSet<Item>();
         }
         try {
 
@@ -65,6 +70,8 @@ public class AuthorityItemConsumer implements Consumer {
                         Item item = (Item) event.getSubject(ctx);
                         if(item.isArchived()){
                             itemsToUpdate.add(item);
+                            if(!itemsToReindex.contains(item))
+                                itemsToReindex.add(item);
                         }
                     }
                     break;
@@ -180,6 +187,19 @@ public class AuthorityItemConsumer implements Consumer {
 
     public void end(Context ctx) throws Exception {
         try{
+            if (itemsToReindex!=null&&itemsToReindex.size()>0) {
+                //Loop over our items which need to be re indexed
+                for (Item item : itemsToReindex) {
+                    AuthorityIndexClient.indexItem(ctx, item);
+
+
+                    // Disabled because EAC produces new DSpace Objects (Scheme, Concpet, Term)
+                    // that need events generated upon commit.
+
+                    //Commit our DB connection in case new UUID were generated.
+                    //ctx.getDBConnection().commit();
+                }
+            }
             if(itemsToUpdate!=null&&itemsToUpdate.size()>0)
             {
                 ctx.turnOffAuthorisationSystem();
@@ -190,15 +210,17 @@ public class AuthorityItemConsumer implements Consumer {
                 }
 
                 ctx.getDBConnection().commit();
-                ctx.restoreAuthSystemState();
             }
-
-
         }catch (Exception e)
         {
             log.error(e.getMessage());
+        } finally {
+            itemsToUpdate = null;
+            itemsToReindex = null;
+
+            ctx.restoreAuthSystemState();
         }
-        itemsToUpdate = null;
+
     }
 
 }

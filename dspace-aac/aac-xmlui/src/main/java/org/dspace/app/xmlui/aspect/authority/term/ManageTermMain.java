@@ -290,6 +290,7 @@ public class ManageTermMain extends AbstractDSpaceTransformer
             row.addCell().addXref("/term/"+term.getID(), term.getLiteralForm());
             Cell aCell = row.addCell();
             aCell.addXref(contextPath+"/admin/term?termID="+term.getID()+"&edit",T_action_attribute);
+            aCell.addContent(" | ");
             aCell.addXref(contextPath+"/admin/term?termID="+term.getID()+"&editMetadata",T_edit_metadata);
         }
 

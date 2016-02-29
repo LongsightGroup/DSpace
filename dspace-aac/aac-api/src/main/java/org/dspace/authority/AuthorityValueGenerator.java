@@ -60,7 +60,7 @@ public class AuthorityValueGenerator {
                 }
             }
             AuthorityValue authorityType = AuthorityValue.getAuthorityTypes().getEmptyAuthorityValue(type);
-            nextValue = authorityType.newInstance(info);
+            nextValue = authorityType.newInstance(field);
 
         } else {
 
