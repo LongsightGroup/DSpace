@@ -754,13 +754,14 @@
         <script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
         <script src="{$theme-path}/scripts/holder.js">&#160;</script>
 
+        <!--
         <script src="{$theme-path}/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
         <script src="{$theme-path}/vendor/BookReader/dragscrollable.js"></script>
         <script src="{$theme-path}/vendor/BookReader/jquery.colorbox-min.js"></script>
         <script src="{$theme-path}/vendor/BookReader/jquery.ui.ipad.js"></script>
         <script src="{$theme-path}/vendor/BookReader/jquery.bt.min.js"></script>
         <script src="{$theme-path}/vendor/BookReader/BookReader.js"></script>
-        <script src="{$theme-path}/vendor/BookReader/BookReaderJSSimple.js"></script>
+        <script src="{$theme-path}/vendor/BookReader/BookReaderJSSimple.js"></script>-->
 
         <!-- Snazy -->
         <script src="{$theme-path}/scripts/jquery.lazyload.min.js"></script>
@@ -813,6 +814,15 @@
         <xsl:if test="dri:body/dri:div[@n='lookup']">
             <xsl:call-template name="choiceLookupPopUpSetup"/>
         </xsl:if>
+
+        <!-- Add a contextpath to a JS variable -->
+        <script type="text/javascript"><xsl:text>
+            if(typeof window.orcid === 'undefined'){
+            window.orcid={};
+            };
+            window.orcid.contextPath= '</xsl:text><xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/><xsl:text>';</xsl:text>
+            <xsl:text>window.orcid.themePath= '</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
+        </script>
     </xsl:template>
 
     <xsl:template name="languageSelection">

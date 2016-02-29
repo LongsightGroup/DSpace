@@ -85,6 +85,44 @@
       </input>
     </xsl:template>
 
+    <xsl:template name="addLookupButtonAuthor">
+        <xsl:param name="isName" select="'missing value'"/>
+        <input type="button" name="{concat('lookup_',@n)}" class="ds-button-field ds-add-button" >
+            <xsl:attribute name="value">
+                <xsl:text>Lookup</xsl:text>
+                <xsl:if test="contains(dri:params/@operations,'add')">
+                    <xsl:text> &amp; Add</xsl:text>
+                </xsl:if>
+            </xsl:attribute>
+            <xsl:attribute name="onClick">
+                <xsl:text>javascript:AuthorLookup('</xsl:text>
+                <!-- URL -->
+                <xsl:value-of select="concat($context-path, '/choices/')"/>
+                <xsl:choose>
+                    <xsl:when test="starts-with(@n, 'value_')">
+                        <xsl:value-of select="dri:params/@choices"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@n"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:text>', '</xsl:text>
+                <xsl:value-of select="@n"/>
+                <xsl:text>', </xsl:text>
+                <!-- Collection ID for context -->
+                <xsl:choose>
+                    <xsl:when test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='choice'][@qualifier='collection']">
+                        <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='choice'][@qualifier='collection']"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>-1</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:text>);</xsl:text>
+            </xsl:attribute>
+        </input>
+    </xsl:template>
+
     <!-- Fragment to display an authority confidence icon.
        -  Insert an invisible 1x1 image which gets "covered" by background
        -  image as dictated by the CSS, so icons are easily adjusted in CSS.
@@ -174,7 +212,7 @@
         </xsl:attribute>
         <img alt="Loading...">
           <xsl:attribute name="src">
-           <xsl:value-of select="concat($theme-path,'/images/authority_control/suggest-indicator.gif')"/>
+           <xsl:value-of select="concat($theme-path,'../mirage2/images/authority_control/suggest-indicator.gif')"/>
           </xsl:attribute>
         </img>
       </span>
@@ -350,7 +388,7 @@
             <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="src">
-             <xsl:value-of select="concat($theme-path,'/images/authority_control/invisible.gif')"/>
+             <xsl:value-of select="concat($theme-path,'../mirage2/images/authority_control/invisible.gif')"/>
           </xsl:attribute>
           <xsl:attribute name="i18n:attr">title</xsl:attribute>
           <xsl:attribute name="title">
@@ -383,7 +421,7 @@
     <xsl:template match="dri:item[@id='aspect.general.ChoiceLookupTransformer.item.select']/dri:figure">
       <img id="lookup_indicator_id" alt="Loading..." style="display:none;">
         <xsl:attribute name="src">
-         <xsl:value-of select="concat($theme-path,'/images/authority_control/lookup-indicator.gif')"/>
+         <xsl:value-of select="concat($theme-path,'../mirage2/images/authority_control/lookup-indicator.gif')"/>
         </xsl:attribute>
       </img>
     </xsl:template>
