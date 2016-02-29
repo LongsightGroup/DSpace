@@ -509,6 +509,9 @@ public class ControlPanel extends AbstractDSpaceTransformer implements Serviceab
         dspace.addLabel(T_DSPACE_NAME);
         dspace.addItem(notempty(ConfigurationManager.getProperty("dspace.name")));
 
+        dspace.addLabel("OAI URL");
+        dspace.addItem(notempty(ConfigurationManager.getProperty("oai", "dspace.oai.url")));
+
         dspace.addLabel(T_DB_NAME);
         dspace.addItem(notempty(DatabaseManager.getDbName()));
 
