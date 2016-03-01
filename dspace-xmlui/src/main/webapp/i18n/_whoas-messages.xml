@@ -211,11 +211,6 @@
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.firstLineOfChorus">Browsing {0} by First Line of Chorus {1}</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.firstLineOfChorus">Browsing {0} by First Line of Chorus</message>
 
-	<message key="xmlui.Administrative.PrivateItems.title.item.dateissued">Private Items by Issue Date</message>
-	<message key="xmlui.Administrative.PrivateItems.trail.item.dateissued">Private Items by Issue Date</message>
-
-	<message key="xmlui.Administrative.PrivateItems.title.item.dateaccessioned">Private Items by Submit Date</message>
-	<message key="xmlui.Administrative.PrivateItems.trail.item.dateaccessioned">Private Items by Submit Date</message>
 
 	<!-- org.dspace.app.xmlui.artifactbrowser.CollectionViewer.java -->
 	<message key="xmlui.ArtifactBrowser.CollectionViewer.search_scope">Search Scope</message>
@@ -2267,6 +2262,11 @@
     <message key="xmlui.metadata.dc.author-of-text">Author of Text</message>
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
+    <message key="xmlui.metadata.dc.contributor.author">Author</message>
+    <message key="xmlui.metadata.dc.contributor.editor">Editor</message>
+    <message key="xmlui.metadata.dc.contributor.other">Contributor, other</message>
+    <message key="xmlui.metadata.dc.coverage.spatial">Location</message>
+    <message key="xmlui.metadata.dc.coverage.temporal">Time</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2275,20 +2275,30 @@
     <message key="xmlui.metadata.dc.date.issued">Date of Issue</message>
     <message key="xmlui.metadata.dc.description">Description</message>
     <message key="xmlui.metadata.dc.description.abstract">Description</message>
+    <message key="xmlui.metadata.dc.description.embargo">Embargo Lift Date</message>
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
+    <message key="xmlui.metadata.dc.description.sponsorship">Sponsors</message>
     <message key="xmlui.metadata.dc.first-line-of-chorus">First Line of Chorus</message>
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Item Format</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
+    <message key="xmlui.metadata.dc.identifier">Identifier</message>
+    <message key="xmlui.metadata.dc.identifier.citation">Citation</message>
+    <message key="xmlui.metadata.dc.identifier.doi">DOI</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
     <message key="xmlui.metadata.dc.language.iso">Language</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
-    <message key="xmlui.metadata.dc.relation.ispartof">Digital Collection</message>
+    <message key="xmlui.metadata.dc.relation.haspart">Related Material/Data</message>
+    <message key="xmlui.metadata.dc.relation.ispartof">Related Material/Data</message>
+    <message key="xmlui.metadata.dc.relation.requires">Related Material/Data</message>
+    <message key="xmlui.metadata.dc.relation.uri">As published</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
+    <message key="xmlui.metadata.dc.rights.uri">Rights</message>
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
     <message key="xmlui.metadata.dc.title">Title</message>
+    <message key="xmlui.metadata.dc.title.alternative">Alternative Title</message>
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
 
