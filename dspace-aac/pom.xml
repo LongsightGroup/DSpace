@@ -22,6 +22,7 @@
     <modules>
         <module>aac-api</module>
         <module>aac-xmlui</module>
+        <module>aac-rdf</module>
     </modules>
 
 </project>
