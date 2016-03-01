@@ -128,7 +128,7 @@
                 }
             </value>
         </property>
-        <property name="schemeId" value="b7d82502963944d5b7a8b5754baac7c1"/>
+        <property name="schemeId" value="${custom.cruise.scheme}"/>
     </bean>
 
     <bean name="sparqlVessel" class="org.dspace.authority.sparql.SPARQLSource">
@@ -164,12 +164,12 @@
                 PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#>
                 SELECT DISTINCT ?s ?p ?o WHERE {
-                BIND(&lt;http://linked.rvdata.us/resource/vessel/31WT> as ?s)
-                &lt;http://linked.rvdata.us/resource/vessel/31WT> ?p ?o
+                BIND(&lt;AC_USER_INPUT> as ?s)
+                &lt;AC_USER_INPUT> ?p ?o
                 }
             </value>
         </property>
-        <property name="schemeId" value="2276c82cc3dd47a68cfff1d7993145bc"/>
+        <property name="schemeId" value="${custom.cruise.vessel}"/>
     </bean>
 
 
