@@ -157,14 +157,16 @@ public class RDFizer {
     public void delete(DSpaceObject dso, boolean reset)
             throws SQLException
     {
-        if (dso.getType() != Constants.SITE
-                && dso.getType() != Constants.COMMUNITY
-                && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM)
-        {
-            throw new IllegalArgumentException(dso.getTypeText()
-                    + " is currently not supported as independent entity.");
-        }
+        // Commenting out : Allow checks for more DSO Types
+        //        if (dso.getType() != Constants.SITE
+        //                && dso.getType() != Constants.COMMUNITY
+        //                && dso.getType() != Constants.COLLECTION
+        //                && dso.getType() != Constants.ITEM)
+        //        {
+        //            throw new IllegalArgumentException(dso.getTypeText()
+        //                    + " is currently not supported as independent entity.");
+        //        }
+
 
         if (dso.getType() == Constants.SITE)
         {
@@ -215,14 +217,16 @@ public class RDFizer {
     protected void convert(DSpaceObject dso, boolean reset)
             throws SQLException
     {
-        if (dso.getType() != Constants.SITE
-                && dso.getType() != Constants.COMMUNITY
-                && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM)
-        {
-            throw new IllegalArgumentException(dso.getTypeText()
-                    + " is currently not supported as independent entity.");
-        }
+
+        // Commenting out : Allow checks for more DSO Types
+        //        if (dso.getType() != Constants.SITE
+        //                && dso.getType() != Constants.COMMUNITY
+        //                && dso.getType() != Constants.COLLECTION
+        //                && dso.getType() != Constants.ITEM)
+        //        {
+        //            throw new IllegalArgumentException(dso.getTypeText()
+        //                    + " is currently not supported as independent entity.");
+        //        }
         
         Callback callback = new Callback() {
             @Override
@@ -291,14 +295,16 @@ public class RDFizer {
     protected void dspaceDFS(DSpaceObject dso, Callback callback, boolean check, boolean reset)
             throws SQLException
     {
-        if (dso.getType() != Constants.SITE
-                && dso.getType() != Constants.COMMUNITY
-                && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM)
-        {
-            throw new IllegalArgumentException(dso.getTypeText()
-                    + " is currently not supported as independent entity.");
-        }
+
+        // Commenting out : Allow checks for more DSO Types
+        //        if (dso.getType() != Constants.SITE
+        //                && dso.getType() != Constants.COMMUNITY
+        //                && dso.getType() != Constants.COLLECTION
+        //                && dso.getType() != Constants.ITEM)
+        //        {
+        //            throw new IllegalArgumentException(dso.getTypeText()
+        //                    + " is currently not supported as independent entity.");
+        //        }
 
         if (reset)
         {
@@ -375,7 +381,7 @@ public class RDFizer {
                 this.dspaceDFS(collection, callback, check, false);
             }
         }
-        
+
         if (dso instanceof Collection)
         {
             ItemIterator items = ((Collection) dso).getAllItems();
@@ -383,6 +389,22 @@ public class RDFizer {
             {
                 Item item = items.next();
                 this.dspaceDFS(item, callback, check, false);
+
+                // Add Bitstream Entities to RDF Output
+                for (Bundle bundle : item.getBundles()) {
+                    // currently link only the original files
+                    // TODO: Discuss if LICENSEs, THUMBNAILs and/or extracted TEXTs
+                    // should be linked/exported as well (and if sutch a feature should
+                    // be configurable).
+                    if (bundle.getName().equals("ORIGINAL")) {
+                        for (Bitstream bs : bundle.getBitstreams()) {
+                            this.dspaceDFS(bs, callback, check, false);
+                            context.removeCached(bs,bs.getID());
+                        }
+                    }
+                    context.removeCached(bundle,bundle.getID());
+                }
+
                 item.decache();
             }
         }

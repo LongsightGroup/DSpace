@@ -542,6 +542,8 @@ implements ConverterPlugin
                                     m.createProperty(link),
                                     m.createResource(url));
                             }
+
+                            //m.add(convertBitstream(context, bs));
                         }
                     }
                 }
@@ -574,6 +576,7 @@ implements ConverterPlugin
         Model m = ModelFactory.createDefaultModel();
         Model prefixes = this.getPrefixes();
         m.setNsPrefixes(prefixes);
+
         prefixes.close();
 
         String myId = RDFUtil.generateIdentifier(context, bitstream);
@@ -599,7 +602,7 @@ implements ConverterPlugin
                     }
                 }
 
-                m.add(m.createResource(myId), m.createProperty("owl:sameAs"), bitstreamURI(bitstream));
+                m.add(m.createResource(myId), m.createProperty("owl:sameAs"), m.createResource(bitstreamURI(bitstream)));
 
                 m.add(m.createResource(myId), m.createProperty("dc:title"), bitstream.getName());
                 m.add(m.createResource(myId), m.createProperty("dc:description"), bitstream.getDescription());
@@ -646,7 +649,7 @@ implements ConverterPlugin
         try
         {
             // this currently (DSpace 4.1) works with xmlui and jspui.
-            link = dspaceURL + "/bitstream/" + parent.getHandle() + "/" 
+            link = dspaceURL + "/bitstream/handle/" + parent.getHandle() + "/"
                 + bitstream.getSequenceID() + "/" 
                 + Util.encodeBitstreamName(bitstream.getName(), Constants.DEFAULT_ENCODING);
         }

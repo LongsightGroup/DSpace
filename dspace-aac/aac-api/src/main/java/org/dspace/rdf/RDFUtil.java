@@ -119,14 +119,17 @@ public class RDFUtil {
             ItemWithdrawnException, ItemNotDiscoverableException,
             AuthorizeException, IllegalArgumentException
     {
-        if (dso.getType() != Constants.SITE
-                && dso.getType() != Constants.COMMUNITY
-                && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM)
-        {
-            throw new IllegalArgumentException(dso.getTypeText()
-                    + " is currently not supported as independent entity.");
-        }
+
+        // Commenting out : Allow checks for more DSO Types
+        //
+        //        if (dso.getType() != Constants.SITE
+        //                && dso.getType() != Constants.COMMUNITY
+        //                && dso.getType() != Constants.COLLECTION
+        //                && dso.getType() != Constants.ITEM)
+        //        {
+        //            throw new IllegalArgumentException(dso.getTypeText()
+        //                    + " is currently not supported as independent entity.");
+        //        }
 
         if (!RDFConfiguration.isConvertType(dso.getTypeText()))
         {

@@ -82,14 +82,14 @@ public class LocalURIGenerator implements URIGenerator {
 
     @Override
     public String generateIdentifier(Context context, DSpaceObject dso) throws SQLException {
-        if (dso.getType() != Constants.SITE
-                && dso.getType() != Constants.COMMUNITY
-                && dso.getType() != Constants.COLLECTION
-                && dso.getType() != Constants.ITEM
-                && dso.getType() != Constants.BITSTREAM)
-        {
-            return null;
-        }
+//        if (dso.getType() != Constants.SITE
+//                && dso.getType() != Constants.COMMUNITY
+//                && dso.getType() != Constants.COLLECTION
+//                && dso.getType() != Constants.ITEM
+//                && dso.getType() != Constants.BITSTREAM)
+//        {
+//            return null;
+//        }
         
         return generateIdentifier(context, dso.getType(), dso.getID(), dso.getHandle(), dso.getIdentifiers(context));
     }
