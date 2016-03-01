@@ -1,7 +1,7 @@
 package org.dspace.authority.sparql;
 
 import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.shared.PrefixMapping;
 import org.apache.log4j.Logger;
 import org.dspace.authority.AuthoritySource;
@@ -60,6 +60,15 @@ public class SPARQLSource implements AuthoritySource {
         return termCompletionQuery;
     }
 
+    /**
+     *
+     * Generates a a list of AuthorityValues with only minimal data returned
+     * primarily used for term completion and lookup.
+     *
+     * @param filter
+     * @param max
+     * @return
+     */
     @Override
     public List<AuthorityValue> queryAuthorities(String filter, int max) {
         try {
@@ -74,13 +83,41 @@ public class SPARQLSource implements AuthoritySource {
             filter = filter.substring(0,1).toUpperCase()+filter.substring(1,filter.length());
             query = query.replace("AC_USER_INPUT", filter);
 
-            return queryEndPoint(endpointUrl, query);
+            List<AuthorityValue> authorities = new ArrayList<AuthorityValue>();
+            Query query_result = QueryFactory.create(query);
+            QueryExecution qExe = QueryExecutionFactory.sparqlService(endpointUrl, query_result);
+            ResultSet results = qExe.execSelect();
+            while(results.hasNext())
+            {
+                QuerySolution row=results.nextSolution();
+
+                SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
+                authorityValue.setId(UUID.randomUUID().toString());
+                authorityValue.setCreationDate(new Date());
+                if(row.getLiteral("value") != null)
+                    authorityValue.setValue(row.getLiteral("value").getString());
+                else
+                    authorityValue.setValue(row.getLiteral("s").getString());
+                String uri = row.getResource("s").getURI();
+                authorityValue.setSparql_id(uri);
+
+                authorities.add(authorityValue);
+            }
+
+            return authorities;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
         return new ArrayList<AuthorityValue>();
     }
 
+    /**
+     * Generates a single complete AuthorityValue containing the full set of properties
+     * for the primary resource returned in the sparql query.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public AuthorityValue queryAuthorityID(String id) {
 
@@ -93,11 +130,50 @@ public class SPARQLSource implements AuthoritySource {
                 query = getRecordQuery();
             }
 
-            return queryEndPointOneEntry(endpointUrl, query);
+            query = query.replace("AC_USER_INPUT", id);
+
+            Query query_result = QueryFactory.create(query);
+            QueryExecution qExe = QueryExecutionFactory.sparqlService(endpointUrl, query_result);
+            ResultSet results = qExe.execSelect();
+
+            SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
+            authorityValue.getOtherMetadata();
+
+            Model model = ModelFactory.createDefaultModel();
+            model.getNsPrefixMap().putAll(query_result.getPrefixMapping().getNsPrefixMap());
+
+            Resource s = model.createResource(id);
+
+            int count = 0;
+            while (results.hasNext()) {
+                QuerySolution row = results.next();
+                Resource r = row.getResource("p");
+                String element = r.getLocalName();
+                String prefix = query_result.getPrefixMapping().getNsURIPrefix(r.getNameSpace());
+                if (prefix == null) {
+                    log.error("Namespace: " + r.getNameSpace() + " does not have a defined prefix. Make sure this is present in the query.");
+                    return null;
+                }
+                if (count == 0 || element.equals("label") || element.equals("title")) {
+                    authorityValue.setValue(row.getLiteral("o").toString());
+                }
+                authorityValue.addOtherMetadata("meta_" + prefix + "_" + element, row.get("o").toString());
+
+                model.add(s,model.createProperty(row.getResource("p").getURI()),row.get("o"));
+
+                count++;
+            }
+
+            authorityValue.setModel(model);
+            authorityValue.setSparql_id(query);
+
+
+            return authorityValue;
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+
         return null;
     }
 
@@ -110,72 +186,6 @@ public class SPARQLSource implements AuthoritySource {
     public String getLabel(String field, String key, String locale)
     {
         return null;
-    }
-
-    private List<AuthorityValue> queryEndPoint(String endpoint, String query) {
-
-        List<AuthorityValue> authorities = new ArrayList<AuthorityValue>();
-        Query query_result = QueryFactory.create(query);
-        QueryExecution qExe = QueryExecutionFactory.sparqlService(endpoint, query_result);
-        ResultSet results = qExe.execSelect();
-        while(results.hasNext())
-        {
-            QuerySolution row=results.nextSolution();
-            AuthorityValue authorityValue = map(row);
-            authorities.add(authorityValue);
-        }
-        return authorities;
-    }
-
-    private AuthorityValue queryEndPointOneEntry(String endpoint, String query) {
-
-        Query query_result = QueryFactory.create(query);
-        QueryExecution qExe = QueryExecutionFactory.sparqlService(endpoint, query_result);
-        ResultSet results = qExe.execSelect();
-        SPARQLAuthorityValue authorityValue = map2(results, query_result.getPrefixMapping());
-        authorityValue.setSparql_id(query);
-        return authorityValue;
-    }
-
-
-
-    private AuthorityValue map(QuerySolution row) {
-        SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
-        authorityValue.setId(UUID.randomUUID().toString());
-        authorityValue.setCreationDate(new Date());
-        if(row.getLiteral("value") != null)
-            authorityValue.setValue(row.getLiteral("value").getString());
-        else
-            authorityValue.setValue(row.getLiteral("s").getString());
-        String uri = row.getResource("s").getURI();
-        authorityValue.setSparql_id(uri);
-        return authorityValue;
-
-    }
-
-    private SPARQLAuthorityValue map2(ResultSet rs, PrefixMapping prefixMap) {
-
-        SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
-        authorityValue.getOtherMetadata();
-
-        int count = 0;
-        while (rs.hasNext()) {
-            QuerySolution row = rs.next();
-            Resource r = row.getResource("p");
-            String element = r.getLocalName();
-            String prefix = prefixMap.getNsURIPrefix(r.getNameSpace());
-            if (prefix == null) {
-                log.error("Namespace: " + r.getNameSpace() + " does not have a defined prefix. Make sure this is present in the query.");
-                return null;
-            }
-            if (count == 0 || element.equals("label")) {
-                authorityValue.setValue(row.getLiteral("o").toString());
-            }
-            authorityValue.addOtherMetadata("meta_" + prefix + "_" + element, row.get("o").toString());
-            count++;
-        }
-
-        return authorityValue;
     }
 
 }
