@@ -53,14 +53,16 @@ public class AuthorityValueGenerator {
 
             String[] split = StringUtils.split(uid, SPLIT);
             String type = null, info = null;
-            if (split.length > 0) {
+            if (split.length > 1) {
                 type = split[1];
-                if (split.length > 1) {
+                if (split.length > 3) {
+                    info = split[2] + ":" + split[3];
+                } else if (split.length > 2) {
                     info = split[2];
                 }
             }
             AuthorityValue authorityType = AuthorityValue.getAuthorityTypes().getEmptyAuthorityValue(type);
-            nextValue = authorityType.newInstance(field);
+            nextValue = authorityType.newInstance(field, info);
 
         } else {
 
@@ -73,7 +75,7 @@ public class AuthorityValueGenerator {
             }
             else
             {
-                nextValue = nextValue.newInstance(null);
+                nextValue = nextValue.newInstance(field, "");
             }
 
             nextValue.setValue(content);

@@ -386,6 +386,9 @@ public class AuthorityValue {
     public AuthorityValue newInstance(String info) {
         return new AuthorityValue();
     }
+    public AuthorityValue newInstance(String field, String info) {
+        return new AuthorityValue();
+    }
 
     private String authorityType = "Internal";
 

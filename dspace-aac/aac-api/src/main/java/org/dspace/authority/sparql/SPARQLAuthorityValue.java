@@ -51,11 +51,11 @@ public class SPARQLAuthorityValue extends AuthorityValue {
     }
 
     @Override
-    public AuthorityValue newInstance(String field) {
-        if (StringUtils.isNotBlank(field)) {
+    public AuthorityValue newInstance(String field, String info) {
+        if (StringUtils.isNotBlank(info)) {
             AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
             AuthoritySource source = types.getExternalSources().get(field);
-            return source.queryAuthorityID(null);
+            return source.queryAuthorityID(info);
         } else {
             SPARQLAuthorityValue sparqlAuthorityValue = new SPARQLAuthorityValue();
             sparqlAuthorityValue.setId(UUID.randomUUID().toString());
