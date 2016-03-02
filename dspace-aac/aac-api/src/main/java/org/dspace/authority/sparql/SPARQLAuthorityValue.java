@@ -13,6 +13,7 @@ import org.dspace.authority.model.Term;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.MetadataField;
 import org.dspace.content.MetadataSchema;
+import org.dspace.content.Metadatum;
 import org.dspace.content.NonUniqueMetadataException;
 import org.dspace.core.Context;
 import org.dspace.utils.DSpace;
@@ -243,6 +244,52 @@ public class SPARQLAuthorityValue extends AuthorityValue {
             Term term = concept.createTerm(name, Term.alternate_term);
             term.update();
         }
+    }
+
+    public void updateConceptFromAuthorityValue(Context context, Concept concept) throws SQLException,AuthorizeException {
+        // First, update the concept from our authority value
+        updateConceptFromAuthorityValue(concept);
+
+        // For each metadata field,
+        for (Metadatum metadata : concept.getMetadata()) {
+            MetadataSchema schema = null;
+            // If the schema is not found, make a new one.
+            if ((schema = MetadataSchema.find(context, metadata.schema)) == null) {
+                try {
+                    schema = new MetadataSchema(model.getNsPrefixURI(metadata.schema), metadata.schema);
+                    context.turnOffAuthorisationSystem();
+                    schema.create(context);
+                } catch (SQLException e) {
+                    log.error(e.getMessage(),e);
+                    throw e;
+                } catch (NonUniqueMetadataException me) {
+                    // This should never happen since we checked for this schema's existence
+                    log.error(me.getMessage(), me);
+                }
+                finally
+                {
+                    context.restoreAuthSystemState();
+                }
+            }
+            // If the field is not found, make a new one.
+            if (MetadataField.findByElement(context, schema.getSchemaID(), metadata.element, metadata.qualifier) == null) {
+                try {
+                    context.turnOffAuthorisationSystem();
+                    MetadataField field = new MetadataField(schema,metadata.element,metadata.qualifier,"Auto-Created by Authority Control");
+                    field.create(context);
+                } catch (SQLException e) {
+                    log.error(e.getMessage(),e);
+                    throw e;
+                } catch (Exception me) {
+                    // This should never happen since we checked for this field's existence
+                    log.error(me.getMessage(),me);
+                }
+                finally {
+                    context.restoreAuthSystemState();
+                }
+            }
+        }
+        concept.update();
     }
 
     public void setModel(Model model) {

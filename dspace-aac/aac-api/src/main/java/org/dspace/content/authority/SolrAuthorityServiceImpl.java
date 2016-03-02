@@ -13,6 +13,7 @@ import org.dspace.authority.model.AuthorityObject;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Scheme;
 import org.dspace.authority.model.Term;
+import org.dspace.authority.sparql.SPARQLAuthorityValue;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
@@ -111,8 +112,11 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
                         newConcept = scheme.createConcept();
                         newConcept.setStatus(Concept.Status.ACCEPTED);
                         newConcept.setSource(value.getAuthorityType());
-                        value.updateConceptFromAuthorityValue(newConcept);
-                        newConcept.update();
+                        if (value instanceof SPARQLAuthorityValue) {
+                            ((SPARQLAuthorityValue) value).updateConceptFromAuthorityValue(context, newConcept);
+                        } else {
+                            value.updateConceptFromAuthorityValue(newConcept);
+                        }
                         Term term = newConcept.createTerm(value.getValue(), Term.prefer_term);
                         term.update();
                         context.complete();

@@ -1219,30 +1219,7 @@ public abstract class DSpaceObject
 
         if (allMetadataFields != null)
         {
-            int schemaID;
-            MetadataSchema schema = MetadataSchema.find(ourContext,dcv.schema);
-            if (schema == null && dcv.schema != null)
-            {
-
-                try {
-                    schema = new MetadataSchema(dcv.schema,dcv.schema);
-                    ourContext.turnOffAuthorisationSystem();
-                    schema.create(ourContext);
-                } catch (Exception e) {
-                    log.error(e.getMessage(),e);
-                    return null;
-                }
-                finally
-                {
-                    ourContext.restoreAuthSystemState();
-                }
-                schemaID = schema.getSchemaID();
-            }
-            else
-            {
-                schemaID = schema.getSchemaID();
-            }
-
+            int schemaID = getMetadataSchemaID(dcv);
             for (MetadataField field : allMetadataFields)
             {
                 if (field.getSchemaID() == schemaID &&
@@ -1252,22 +1229,6 @@ public abstract class DSpaceObject
                     return field;
                 }
             }
-
-
-            try {
-                ourContext.turnOffAuthorisationSystem();
-                MetadataField field = new MetadataField(schema,dcv.element,dcv.qualifier,"Auto-Created by Authority Control");
-                field.create(ourContext);
-                allMetadataFields = MetadataField.findAll(ourContext);
-                return field;
-            } catch (Exception e) {
-                log.error(e.getMessage(),e);
-            }
-            finally {
-                ourContext.restoreAuthSystemState();
-            }
-
-
         }
 
         return null;
