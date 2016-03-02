@@ -137,10 +137,9 @@ public class SPARQLSource implements AuthoritySource {
             ResultSet results = qExe.execSelect();
 
             SPARQLAuthorityValue authorityValue = new SPARQLAuthorityValue();
-            authorityValue.getOtherMetadata();
 
             Model model = ModelFactory.createDefaultModel();
-            model.getNsPrefixMap().putAll(query_result.getPrefixMapping().getNsPrefixMap());
+            model.setNsPrefixes(query_result.getPrefixMapping().getNsPrefixMap());
 
             Resource s = model.createResource(id);
 

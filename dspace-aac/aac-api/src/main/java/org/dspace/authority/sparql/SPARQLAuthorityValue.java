@@ -150,7 +150,7 @@ public class SPARQLAuthorityValue extends AuthorityValue {
         try
         {
             context = new Context();
-            context.ignoreAuthorization();
+            context.turnOffAuthorisationSystem();
 
             MetadataSchema schema = MetadataSchema.findByNamespace(context, namespace);
 
@@ -182,6 +182,7 @@ public class SPARQLAuthorityValue extends AuthorityValue {
         } finally {
             if(context != null)
             {
+                context.restoreAuthSystemState();
                 context.abort();
             }
         }
@@ -203,12 +204,12 @@ public class SPARQLAuthorityValue extends AuthorityValue {
 
                 MetadataField field = resolveField(
                         property.getNameSpace(),
-                        model.getNsPrefixMap().get(property.getNameSpace()),
+                        model.getNsURIPrefix(property.getNameSpace()),
                         property.getLocalName());
 
                 if(field != null) {
                     concept.addMetadata(
-                            model.getNsPrefixMap().get(property.getNameSpace()),
+                            model.getNsURIPrefix(property.getNameSpace()),
                             field.getElement(),
                             field.getQualifier(),
                             null,

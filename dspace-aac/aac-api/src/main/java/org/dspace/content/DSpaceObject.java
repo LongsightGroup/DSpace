@@ -1221,14 +1221,14 @@ public abstract class DSpaceObject
         {
             int schemaID;
             MetadataSchema schema = MetadataSchema.find(ourContext,dcv.schema);
-            if (schema == null)
+            if (schema == null && dcv.schema != null)
             {
 
                 try {
                     schema = new MetadataSchema(dcv.schema,dcv.schema);
                     ourContext.turnOffAuthorisationSystem();
                     schema.create(ourContext);
-                } catch (NonUniqueMetadataException e) {
+                } catch (Exception e) {
                     log.error(e.getMessage(),e);
                     return null;
                 }
@@ -1258,6 +1258,7 @@ public abstract class DSpaceObject
                 ourContext.turnOffAuthorisationSystem();
                 MetadataField field = new MetadataField(schema,dcv.element,dcv.qualifier,"Auto-Created by Authority Control");
                 field.create(ourContext);
+                allMetadataFields = MetadataField.findAll(ourContext);
                 return field;
             } catch (Exception e) {
                 log.error(e.getMessage(),e);
