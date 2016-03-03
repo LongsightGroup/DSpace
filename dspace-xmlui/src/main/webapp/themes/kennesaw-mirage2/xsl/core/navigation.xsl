@@ -38,7 +38,7 @@
             <div class="ds-option-set">
                 <ul class="list-group">
                     <li class="list-group-item ds-option"><a href="http://archives.kennesaw.edu" target="_blank">KSU Archives</a></li>
-                    <li class="list-group-item ds-option"><a href="{concat($context-path, '/page/primary-communities')}">All Collections</a></li>
+                    <li class="list-group-item ds-option"><a href="http://archon.kennesaw.edu ">All Collections</a></li>
                 </ul>
             </div>
 
@@ -128,7 +128,7 @@
             </h3>
             <div class="ds-option-set">
                 <ul class="list-group">
-                    <li class="list-group-item ds-option"><a href="#policy">Policies</a></li>
+                    <li class="list-group-item ds-option"><a href="http://archives.kennesaw.edu/soar_policies.php">Policies</a></li>
                     <li class="list-group-item ds-option"><a href="#help"><xsl:text>Help &amp; Documentation</xsl:text></a></li>
                 </ul>
             </div>
