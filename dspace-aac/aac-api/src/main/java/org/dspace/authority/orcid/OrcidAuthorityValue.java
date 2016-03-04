@@ -334,5 +334,6 @@ public class OrcidAuthorityValue extends PersonAuthorityValue {
         if(orcid_id!=null)  {
             concept.addMetadata(PERSON,"orcid","id",null,orcid_id,null,-1);
         }
+        concept.update();
     }
 }
