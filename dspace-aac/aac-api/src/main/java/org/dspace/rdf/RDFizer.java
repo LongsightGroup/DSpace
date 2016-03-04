@@ -12,6 +12,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.*;
 import org.dspace.core.Constants;
@@ -210,7 +212,19 @@ public class RDFizer {
             throws SQLException
     {
         report("Starting conversion of all DSpaceItems, this may take a while...");
+
         this.convert(new Site(), true);
+
+        for(Scheme scheme : Scheme.findAll(this.context,Scheme.ID))
+        {
+            this.convert(scheme, true);
+        }
+
+        for(Concept concept : Concept.findAll(this.context,Concept.ID))
+        {
+            this.convert(concept, true);
+        }
+
         report("Conversion ended.");
     }
     

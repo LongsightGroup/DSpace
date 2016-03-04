@@ -250,7 +250,7 @@ public class Scheme extends AuthorityObject
         switch (sortField)
         {
             case ID:
-                s = "concept_scheme_id";
+                s = "id";
 
                 break;
 

@@ -11,6 +11,7 @@ package org.dspace.rdf;
 import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.AuthorityObject;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.DSpaceObject;
@@ -224,7 +225,7 @@ public class RDFUtil {
         // as there is no way to set site permissions in XMLUI or JSPUI, we
         // ignore the permissions of the repository root (DSpaceObject of type
         // Site).
-        if (dso instanceof Site)
+        if (dso instanceof Site || dso instanceof AuthorityObject)
         {
             return;
         }

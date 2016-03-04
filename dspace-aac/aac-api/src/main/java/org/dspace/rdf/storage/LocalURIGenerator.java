@@ -11,6 +11,9 @@ package org.dspace.rdf.storage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.Util;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
+import org.dspace.authority.model.Term;
 import org.dspace.content.Bitstream;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
@@ -39,6 +42,21 @@ public class LocalURIGenerator implements URIGenerator {
         if (type == Constants.SITE)
         {
             return urlPrefix + Site.getSiteHandle();
+        }
+
+        if (type == Constants.SCHEME)
+        {
+            return urlPrefix + "scheme/uuid:" + Scheme.find(context, id).getIdentifier();
+        }
+
+        if (type == Constants.CONCEPT)
+        {
+            return urlPrefix + "concept/uuid:" + Concept.find(context, id).getIdentifier();
+        }
+
+        if (type == Constants.TERM)
+        {
+            return urlPrefix + "term/uuid:" + Term.find(context, id).getIdentifier();
         }
 
         if (type == Constants.BITSTREAM)
@@ -76,7 +94,7 @@ public class LocalURIGenerator implements URIGenerator {
             }
             return urlPrefix + handle;
         }
-        
+
         return null;
     }
 

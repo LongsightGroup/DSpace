@@ -11,6 +11,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.FileUtils;
+import com.hp.hpl.jena.vocabulary.DC;
+import com.hp.hpl.jena.vocabulary.OWL;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.Util;
@@ -602,10 +604,9 @@ implements ConverterPlugin
                     }
                 }
 
-                m.add(m.createResource(myId), m.createProperty("owl:sameAs"), m.createResource(bitstreamURI(bitstream)));
-
-                m.add(m.createResource(myId), m.createProperty("dc:title"), bitstream.getName());
-                m.add(m.createResource(myId), m.createProperty("dc:description"), bitstream.getDescription());
+                m.add(m.createResource(myId), OWL.sameAs, m.createResource(bitstreamURI(bitstream)));
+                m.add(m.createResource(myId), DC.title, bitstream.getName());
+                m.add(m.createResource(myId), DC.description, bitstream.getDescription());
                 m.add(m.createResource(myId), m.createProperty("dspace:checksum"), bitstream.getChecksum());
                 m.add(m.createResource(myId), m.createProperty("dspace:checksumAlgorithm"), bitstream.getChecksumAlgorithm());
                 m.add(m.createResource(myId), m.createProperty("dspace:mimeType"), bitstream.getFormat().getMIMEType());
