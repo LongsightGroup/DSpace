@@ -156,7 +156,6 @@ public class SPARQLSource implements AuthoritySource {
                 if (count == 0 || element.equals("label") || element.equals("title")) {
                     authorityValue.setValue(row.getLiteral("o").toString());
                 }
-                authorityValue.addOtherMetadata("meta_" + prefix + "_" + element, row.get("o").toString());
 
                 model.add(s,model.createProperty(row.getResource("p").getURI()),row.get("o"));
 

@@ -219,25 +219,6 @@ public class SPARQLAuthorityValue extends AuthorityValue {
             }
         }
 
-
-        for(String name : getOtherMetadata().keySet())
-        {
-            if(name.startsWith(LABELPREFIX)){
-                String key = name.replace(LABELPREFIX,"");
-                String[] keys = key.split("_");
-                String schema = keys[0];
-                String element = keys[1];
-                String qualifier = null;
-                if(keys.length>2)
-                 qualifier = keys[2];
-                for(String value : getOtherMetadata().get(name))
-                {
-                    // Add it to the list
-                    concept.addMetadata(schema,element,qualifier,"",value,null,-1);
-                }
-
-            }
-        }
         for(String name : getNameVariants())
         {
             //add alternate terms
