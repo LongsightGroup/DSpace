@@ -122,6 +122,23 @@
         </property>
         <property name="recordQuery">
             <value>
+                PREFIX db: &lt;http://linked.rvdata.us/resource/>
+                PREFIX geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#>
+                PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/>
+                PREFIX r2rmodel: &lt;http://voc.rvdata.us/>
+                PREFIX sf: &lt;http://www.opengis.net/ont/sf#>
+                PREFIX r2r: &lt;http://linked.rvdata.us/vocab/resource/class/>
+                PREFIX vcard: &lt;http://www.w3.org/2001/vcard-rdf/3.0#>
+                PREFIX dcterms: &lt;http://purl.org/dc/terms/>
+                PREFIX gn: &lt;http://www.geonames.org/ontology#>
+                PREFIX geosparql: &lt;http://www.opengis.net/ont/geosparql#>
+                PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX d2r: &lt;http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#>
+                PREFIX map: &lt;http://linked.rvdata.us/resource/#>
+                PREFIX owl: &lt;http://www.w3.org/2002/07/owl#>
+                PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#>
+                PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#>
                 SELECT DISTINCT ?s ?p ?o WHERE {
                 BIND(&lt;AC_RESOURCE> as ?s)
                 &lt;AC_RESOURCE> ?p ?o
