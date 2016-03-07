@@ -50,14 +50,14 @@ import org.dspace.app.bulkedit.MetadataExport;
 public class MetadataExportReader extends AbstractReader implements Recyclable
 {
 
-     /**
+    /**
      * Messages to be sent when the user is not authorized to view 
      * a particular bitstream. They will be redirected to the login
      * where this message will be displayed.
      */
-	private static final String AUTH_REQUIRED_HEADER = "xmlui.ItemExportDownloadReader.auth_header";
-	private static final String AUTH_REQUIRED_MESSAGE = "xmlui.ItemExportDownloadReader.auth_message";
-	
+    private static final String AUTH_REQUIRED_HEADER = "xmlui.ItemExportDownloadReader.auth_header";
+    private static final String AUTH_REQUIRED_MESSAGE = "xmlui.ItemExportDownloadReader.auth_message";
+
     /**
      * How big a buffer should we use when reading from the bitstream before
      * writing to the HTTP response?
@@ -68,7 +68,7 @@ public class MetadataExportReader extends AbstractReader implements Recyclable
      * When should a download expire in milliseconds. This should be set to
      * some low value just to prevent someone hitting DSpace repeatedly from
      * killing the server. Note: there are 60000 milliseconds in a minute.
-     * 
+     *
      * Format: minutes * seconds * milliseconds
      */
     protected static final int expires = 60 * 60 * 60000;
@@ -87,11 +87,11 @@ public class MetadataExportReader extends AbstractReader implements Recyclable
     String filename = null;
     /**
      * Set up the export reader.
-     * 
+     *
      * See the class description for information on configuration options.
      */
     public void setup(SourceResolver resolver, Map objectModel, String src,
-            Parameters par) throws ProcessingException, SAXException,
+                      Parameters par) throws ProcessingException, SAXException,
             IOException
     {
         super.setup(resolver, objectModel, src, par);
@@ -102,38 +102,36 @@ public class MetadataExportReader extends AbstractReader implements Recyclable
             this.response = ObjectModelHelper.getResponse(objectModel);
             Context context = ContextUtil.obtainContext(objectModel);
 
-            if(AuthorizeManager.isAdmin(context))
-            {
-
             /* Get our parameters that identify the item, collection
              * or community to be exported
              *
              */
-
             String handle = par.getParameter("handle");
             DSpaceObject dso = HandleManager.resolveToObject(context, handle);
-            
-            java.util.List<Integer> itemmd = new ArrayList<Integer>();
-            if(dso.getType() == Constants.ITEM)
-            {
-               itemmd.add(dso.getID());
-               exporter = new MetadataExport(context, new ItemIterator(context, itemmd), false);
-            }
-            else if(dso.getType() == Constants.COLLECTION)
-            {
-               Collection collection = (Collection)dso;
-               ItemIterator toExport = collection.getAllItems();
-               exporter = new MetadataExport(context, toExport, false);
-            }
-            else if(dso.getType() == Constants.COMMUNITY)
-            {
-               exporter = new MetadataExport(context, (Community)dso, false);
-            }
 
-            log.info(LogManager.getHeader(context, "metadataexport", "exporting_handle:" + handle));
-            csv = exporter.export();
-            filename = handle.replaceAll("/", "-") + ".csv";
-            log.info(LogManager.getHeader(context, "metadataexport", "exported_file:" + filename));
+            if(AuthorizeManager.isAdmin(context, dso))
+            {
+                java.util.List<Integer> itemmd = new ArrayList<Integer>();
+                if(dso.getType() == Constants.ITEM)
+                {
+                    itemmd.add(dso.getID());
+                    exporter = new MetadataExport(context, new ItemIterator(context, itemmd), false);
+                }
+                else if(dso.getType() == Constants.COLLECTION)
+                {
+                    Collection collection = (Collection)dso;
+                    ItemIterator toExport = collection.getAllItems();
+                    exporter = new MetadataExport(context, toExport, false);
+                }
+                else if(dso.getType() == Constants.COMMUNITY)
+                {
+                    exporter = new MetadataExport(context, (Community)dso, false);
+                }
+
+                log.info(LogManager.getHeader(context, "metadataexport", "exporting_handle:" + handle));
+                csv = exporter.export();
+                filename = handle.replaceAll("/", "-") + ".csv";
+                log.info(LogManager.getHeader(context, "metadataexport", "exported_file:" + filename));
             }
             else {
                     /*
@@ -142,60 +140,60 @@ public class MetadataExportReader extends AbstractReader implements Recyclable
                      *
                      */
 
-                   if(AuthenticationUtil.isLoggedIn(request)) {
-                      String redictURL = request.getContextPath() + "/restricted-resource";
-                        HttpServletResponse httpResponse = (HttpServletResponse)
-            		objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
-            		httpResponse.sendRedirect(redictURL);
-            		return;
-                   }
-                   else {
+                if(AuthenticationUtil.isLoggedIn(request)) {
+                    String redictURL = request.getContextPath() + "/restricted-resource";
+                    HttpServletResponse httpResponse = (HttpServletResponse)
+                            objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+                    httpResponse.sendRedirect(redictURL);
+                    return;
+                }
+                else {
 
-                        String redictURL = request.getContextPath() + "/login";
-                        AuthenticationUtil.interruptRequest(objectModel, AUTH_REQUIRED_HEADER, AUTH_REQUIRED_MESSAGE, null);
-            		HttpServletResponse httpResponse = (HttpServletResponse)
-            		objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
-            		httpResponse.sendRedirect(redictURL);
-            		return;
-                   }
+                    String redictURL = request.getContextPath() + "/login";
+                    AuthenticationUtil.interruptRequest(objectModel, AUTH_REQUIRED_HEADER, AUTH_REQUIRED_MESSAGE, null);
+                    HttpServletResponse httpResponse = (HttpServletResponse)
+                            objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+                    httpResponse.sendRedirect(redictURL);
+                    return;
+                }
 
             }
-            
+
         }
         catch (RuntimeException e)
         {
-            throw e;    
+            throw e;
         }
         catch (Exception e)
         {
             throw new ProcessingException("Unable to read bitstream.",e);
-        } 
+        }
     }
 
-    
+
     /**
-	 * Write the CSV.
-	 * 
-	 */
+     * Write the CSV.
+     *
+     */
     public void generate() throws IOException, SAXException,
             ProcessingException
     {
 
         response.setContentType("text/csv; charset=UTF-8");
         response.setHeader("Content-Disposition","attachment; filename=" + filename);
- 
+
         out.write(csv.toString().getBytes("UTF-8"));
         out.flush();
         out.close();
 
-        
+
     }
 
-    
+
     /**
-	 * Recycle
-	 */
-    public void recycle() {        
+     * Recycle
+     */
+    public void recycle() {
         this.response = null;
         this.request = null;
         this.exporter = null;
