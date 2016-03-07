@@ -215,14 +215,28 @@ public class RDFizer {
 
         this.convert(new Site(), true);
 
+        convertSchemes(true);
+
+        report("Conversion ended.");
+    }
+
+        /**
+     * Converts and stores all DSpaceObjects that are readable for an anonymous
+     * user.
+     */
+    public void convertSchemes(boolean dryrun)
+            throws SQLException
+    {
+        report("Starting conversion of all DSpace Schemes, this may take a while...");
+
         for(Scheme scheme : Scheme.findAll(this.context,Scheme.ID))
         {
-            this.convert(scheme, true);
+            this.convert(scheme, dryrun);
         }
 
         for(Concept concept : Concept.findAll(this.context,Concept.ID))
         {
-            this.convert(concept, true);
+            this.convert(concept, dryrun);
         }
 
         report("Conversion ended.");
@@ -661,6 +675,23 @@ public class RDFizer {
             System.exit(0);
         }
 
+        if (line.hasOption("convert-schemes"))
+        {
+            try {
+                this.convertAll();
+            }
+            catch (SQLException ex)
+            {
+                log.error(ex);
+                System.err.println("A problem with the database connection "
+                        + "occurred. Canceled pending actions.");
+                System.err.println(ex.getMessage());
+                ex.printStackTrace(System.err);
+                System.exit(1);
+            }
+            System.exit(0);
+        }
+
         if (line.hasOption("convert-all"))
         {
             try {
@@ -741,6 +772,12 @@ public class RDFizer {
         options.addOption("n", "dry-run", false, "Don't send any data or commands " +
                 "to the triplestore. Usefull for debugging or in conjunction " +
                 "with --stdout.");
+
+        options.addOption("s", "convert-schemes", false, "Convert all DSpace Schemes" +
+                ". This may take a long time" +
+                "depending on the number of stored concepts in each scheme. Existing" +
+                " information in the triple store will be updated.");
+
         options.addOption("c", "convert-all", false, "Convert all DSpace Objects" +
                 " that are readable for an anonymous user. This may take a long time" +
                 "depending on the number of stored communties, collections and " +
