@@ -1,2 +1,3 @@
+@prefix dspace:     <http://digital-repositories.org/ontologies/dspace/0.1.0#> .
 
-
+<>  a   dspace:Repository .
