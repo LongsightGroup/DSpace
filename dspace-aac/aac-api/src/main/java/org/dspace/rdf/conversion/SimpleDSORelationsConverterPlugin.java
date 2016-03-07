@@ -606,7 +606,9 @@ implements ConverterPlugin
 
                 m.add(m.createResource(myId), OWL.sameAs, m.createResource(bitstreamURI(bitstream)));
                 m.add(m.createResource(myId), DC.title, bitstream.getName());
-                m.add(m.createResource(myId), DC.description, bitstream.getDescription());
+                if(bitstream.getDescription() != null) {
+                    m.add(m.createResource(myId), DC.description, bitstream.getDescription());
+                }
                 m.add(m.createResource(myId), m.createProperty("dspace:checksum"), bitstream.getChecksum());
                 m.add(m.createResource(myId), m.createProperty("dspace:checksumAlgorithm"), bitstream.getChecksumAlgorithm());
                 m.add(m.createResource(myId), m.createProperty("dspace:mimeType"), bitstream.getFormat().getMIMEType());
