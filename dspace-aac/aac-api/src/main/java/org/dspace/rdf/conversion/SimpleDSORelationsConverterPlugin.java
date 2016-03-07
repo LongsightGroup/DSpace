@@ -13,6 +13,7 @@ import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.FileUtils;
 import com.hp.hpl.jena.vocabulary.DC;
 import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDF;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.Util;
@@ -21,6 +22,7 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.rdf.RDFConfiguration;
 import org.dspace.rdf.RDFUtil;
+import org.dspace.rdf.vocabulary.REPO;
 import org.dspace.services.ConfigurationService;
 
 import java.io.IOException;
@@ -545,11 +547,13 @@ implements ConverterPlugin
                                     m.createResource(url));
                             }
 
-                            //m.add(convertBitstream(context, bs));
+                            m.add(convertBitstream(context, bs));
+                            context.removeCached(bs,bs.getID());
                         }
                     }
                 }
             }
+            context.removeCached(bundle,bundle.getID());
         }
         
         if (m.isEmpty())
@@ -604,15 +608,16 @@ implements ConverterPlugin
                     }
                 }
 
+                m.add(m.createResource(myId), RDF.type, REPO.Bitstream );
                 m.add(m.createResource(myId), OWL.sameAs, m.createResource(bitstreamURI(bitstream)));
                 m.add(m.createResource(myId), DC.title, bitstream.getName());
                 if(bitstream.getDescription() != null) {
                     m.add(m.createResource(myId), DC.description, bitstream.getDescription());
                 }
-                m.add(m.createResource(myId), m.createProperty("dspace:checksum"), bitstream.getChecksum());
-                m.add(m.createResource(myId), m.createProperty("dspace:checksumAlgorithm"), bitstream.getChecksumAlgorithm());
-                m.add(m.createResource(myId), m.createProperty("dspace:mimeType"), bitstream.getFormat().getMIMEType());
-                m.add(m.createResource(myId), m.createProperty("dspace:size"), bitstream.getSize() + "");
+                m.add(m.createResource(myId), REPO.checksum, bitstream.getChecksum());
+                m.add(m.createResource(myId), REPO.checksumAlgorithm, bitstream.getChecksumAlgorithm());
+                m.add(m.createResource(myId), REPO.mimeType, bitstream.getFormat().getMIMEType());
+                m.add(m.createResource(myId), REPO.size, bitstream.getSize() + "");
 
             }
 
@@ -668,8 +673,6 @@ implements ConverterPlugin
     {
         switch (type)
         {
-            case (Constants.BITSTREAM) :
-                return true;
             case (Constants.COLLECTION) :
                 return true;
             case (Constants.COMMUNITY) :

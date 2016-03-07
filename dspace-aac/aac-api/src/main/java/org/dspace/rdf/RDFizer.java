@@ -215,7 +215,7 @@ public class RDFizer {
 
         this.convert(new Site(), true);
 
-        convertSchemes(true);
+        convertSchemes();
 
         report("Conversion ended.");
     }
@@ -224,19 +224,19 @@ public class RDFizer {
      * Converts and stores all DSpaceObjects that are readable for an anonymous
      * user.
      */
-    public void convertSchemes(boolean dryrun)
+    public void convertSchemes()
             throws SQLException
     {
         report("Starting conversion of all DSpace Schemes, this may take a while...");
 
         for(Scheme scheme : Scheme.findAll(this.context,Scheme.ID))
         {
-            this.convert(scheme, dryrun);
+            this.convert(scheme, true);
         }
 
         for(Concept concept : Concept.findAll(this.context,Concept.ID))
         {
-            this.convert(concept, dryrun);
+            this.convert(concept, true);
         }
 
         report("Conversion ended.");
@@ -417,22 +417,6 @@ public class RDFizer {
             {
                 Item item = items.next();
                 this.dspaceDFS(item, callback, check, false);
-
-                // Add Bitstream Entities to RDF Output
-                for (Bundle bundle : item.getBundles()) {
-                    // currently link only the original files
-                    // TODO: Discuss if LICENSEs, THUMBNAILs and/or extracted TEXTs
-                    // should be linked/exported as well (and if sutch a feature should
-                    // be configurable).
-                    if (bundle.getName().equals("ORIGINAL")) {
-                        for (Bitstream bs : bundle.getBitstreams()) {
-                            this.dspaceDFS(bs, callback, check, false);
-                            context.removeCached(bs,bs.getID());
-                        }
-                    }
-                    context.removeCached(bundle,bundle.getID());
-                }
-
                 item.decache();
             }
         }
@@ -678,7 +662,7 @@ public class RDFizer {
         if (line.hasOption("convert-schemes"))
         {
             try {
-                this.convertAll();
+                this.convertSchemes();
             }
             catch (SQLException ex)
             {
