@@ -19,7 +19,7 @@ public class REPO {
     /**
      * The namespace of the REPO vocabulary as a string
      */
-    public static final String uri = "http://digital-repositories.org/ontologies/dspace/#";
+    public static final String uri = "http://digital-repositories.org/ontologies/dspace/0.1.0#";
 
     /**
      * Returns the namespace of the REPO schema as a string
