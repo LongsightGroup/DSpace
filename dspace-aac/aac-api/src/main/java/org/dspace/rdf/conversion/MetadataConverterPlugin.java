@@ -21,6 +21,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.MetadataExposure;
+import org.dspace.authority.model.Concept;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
@@ -136,20 +137,29 @@ public class MetadataConverterPlugin implements ConverterPlugin
         
         Item item = (Item) dso;
         Metadatum[] metadata_values = item.getDC(Item.ANY, Item.ANY, Item.ANY);
-        for (Metadatum value : metadata_values)
-        {
+        for (Metadatum value : metadata_values) {
             String fieldname = value.schema + "." + value.element;
-            if (value.qualifier != null) 
-            {
+            if (value.qualifier != null) {
                 fieldname = fieldname + "." + value.qualifier;
             }
             if (MetadataExposure.isHidden(context, value.schema, value.element,
-                    value.qualifier))
-            {
+                    value.qualifier)) {
                 log.debug(fieldname + " is a hidden metadata field, won't "
                         + "convert it.");
                 continue;
             }
+
+
+            Concept concept = null;
+
+            if (value.authority != null && !value.authority.trim().equals("")) {
+                List<Concept> concepts = Concept.findByIdentifier(context, value.authority);
+                if(concepts != null && concepts.size() > 0)
+                {
+                    concept = concepts.get(0);
+                }
+            }
+
 
             boolean converted = false;
             if (value.qualifier != null)
@@ -160,7 +170,7 @@ public class MetadataConverterPlugin implements ConverterPlugin
                     MetadataRDFMapping mapping = iter.next();
                     if (mapping.matchesName(fieldname) && mapping.fulfills(value.value))
                     {
-                        mapping.convert(value.value, value.language, uri, convertedData);
+                        mapping.convert(value, concept, uri, convertedData);
                         converted = true;
                     }
                 }
@@ -174,7 +184,7 @@ public class MetadataConverterPlugin implements ConverterPlugin
                     MetadataRDFMapping mapping = iter.next();
                     if (mapping.matchesName(name) && mapping.fulfills(value.value))
                     {
-                        mapping.convert(value.value, value.language, uri, convertedData);
+                        mapping.convert(value, concept, uri, convertedData);
                         converted = true;
                     }
                 }

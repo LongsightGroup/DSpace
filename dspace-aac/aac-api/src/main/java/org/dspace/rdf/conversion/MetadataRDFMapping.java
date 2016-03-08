@@ -30,6 +30,9 @@ import org.apache.jena.iri.IRI;
 import org.apache.jena.iri.IRIFactory;
 import org.apache.jena.iri.Violation;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.Concept;
+import org.dspace.content.Metadatum;
+import org.dspace.rdf.RDFConfiguration;
 
 /**
  *
@@ -193,15 +196,17 @@ public class MetadataRDFMapping {
         //return this.fulfills.matcher(value).matches();
     }
 
-    public void convert(String value, String lang, String dsoIRI, Model m)
+    public void convert(Metadatum metadatum, Concept concept, String dsoIRI, Model m)
     {
+        String value = metadatum.value;
+
         log.debug("Using convertion for field " + name + " on value: " + value
                 + " for " + dsoIRI + ".");
         // run over all results
         for (Iterator<Resource> iter = this.results.iterator() ; iter.hasNext() ; )
         {
             try {
-                compileResult(m, iter.next(), dsoIRI, name, value, lang);
+                compileResult(m, iter.next(), dsoIRI, name, metadatum, concept);
             } catch (MetadataMappingException ex) {
                 log.error(ex.getMessage() + " Will ignore this mapping result.");
             }
@@ -209,7 +214,7 @@ public class MetadataRDFMapping {
     }
 
     protected void compileResult(Model m, Resource result,
-                                 String dsoIRI, String name, String value, String lang) throws MetadataMappingException
+                                 String dsoIRI, String name, Metadatum metadatum, Concept concept) throws MetadataMappingException
     {
         // for better debug messages.
         String uri = "";
@@ -280,20 +285,20 @@ public class MetadataRDFMapping {
         log.debug("Found object: " + objectNode.toString());
 
         Resource subject = parseSubject(m, subjectNode.asResource(),
-                dsoIRI, name, value);
+                dsoIRI, name, metadatum.value);
         if (subject == null)
         {
             throw new MetadataMappingException("Cannot parse subject of a "
                     + "reified statement " + uri + ".");
         }
         Property predicate = parsePredicate(m, predicateNode.asResource(),
-                dsoIRI, name, value);
+                dsoIRI, name, metadatum.value);
         if (predicate == null)
         {
             throw new MetadataMappingException("Cannot parse predicate of a "
                     + "reified statement " + uri + ".");
         }
-        RDFNode object = parseObject(m, objectNode, dsoIRI, name, value, lang);
+        RDFNode object = parseObject(m, objectNode, dsoIRI, name, metadatum.value, metadatum.language);
         if (object == null)
         {
             throw new MetadataMappingException("Cannot parse object of a "
@@ -301,6 +306,12 @@ public class MetadataRDFMapping {
         }
 
         m.add(subject, predicate, object);
+
+        // If concept present then duplicate with reference to concept
+        if(concept != null)
+        {
+            m.add(subject, predicate, m.createResource(RDFConfiguration.getDSpaceRDFModuleURI() + "/resource/concept/uuid:" + concept.getIdentifier()));
+        }
     }
 
     protected Resource parseSubject(Model m, Resource subject, String dsoIRI,
