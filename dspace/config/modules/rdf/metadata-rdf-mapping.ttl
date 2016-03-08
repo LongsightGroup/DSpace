@@ -426,3 +426,12 @@
   ];
   .
 
+:vessel
+  dm:metadataName "dc.subject.vessel" ;
+  dm:creates [
+    dm:subject dm:DSpaceObjectIRI ;
+    dm:predicate dc:subject ;
+    dm:object dm:DSpaceValue ;
+  ];
+  .
+
