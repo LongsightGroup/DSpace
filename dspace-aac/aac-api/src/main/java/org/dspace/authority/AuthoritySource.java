@@ -12,4 +12,10 @@ public interface AuthoritySource {
     public List<AuthorityValue> queryAuthorities(String text, int max);
 
     public AuthorityValue queryAuthorityID(String id);
+
+    public String getSchemeId();
+
+    public String getSearchFieldType();
+
+    public String getSortFieldType();
 }

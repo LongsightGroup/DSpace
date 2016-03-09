@@ -16,6 +16,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CommonParams;
 import org.dspace.authority.AuthoritySearchService;
+import org.dspace.authority.AuthoritySource;
 import org.dspace.authority.AuthorityTypes;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.core.ConfigurationManager;
@@ -44,14 +45,15 @@ public class SolrAuthority implements ChoiceAuthority {
     public Choices getMatches(String field, String text, int collection, int start, int limit, String locale, boolean bestMatch) {
         if(limit == 0)
             limit = 10;
-        String fieldKey = ConfigurationManager.getProperty("solrauthority.searchscheme." + field);
+        AuthoritySource source = types.getExternalSources().get(field);
+        String scheme = source.getSchemeId();
         SolrQuery queryArgs = new SolrQuery();
         if (text == null || text.trim().equals("")) {
             queryArgs.setQuery("*:*");
         } else {
-            String searchField = ConfigurationManager.getProperty("solrauthority.searchfieldtype." + field);
+            String searchField = source.getSearchFieldType();
             if (searchField == null) {
-                searchField = ConfigurationManager.getProperty("solrauthority.searchfieldtype");
+                searchField = types.getConfigForType("Internal").getSearchFieldType();
 
                 if (searchField == null) {
                     searchField = "value";
@@ -80,7 +82,7 @@ public class SolrAuthority implements ChoiceAuthority {
         }
         //TODO: check if this is right ! could always be this.field
 
-        queryArgs.addFilterQuery("field:" + fieldKey);
+        queryArgs.addFilterQuery("scheme:" + scheme);
         queryArgs.set(CommonParams.START, start);
         //We add one to our facet limit so that we know if there are more matches
         int maxNumberOfSolrResults = limit + 1;

@@ -22,6 +22,9 @@ import java.util.List;
 public abstract class RestSource implements AuthoritySource {
 
     protected RESTConnector restConnector;
+    private String schemeId;
+    private String searchFieldType;
+    private String sortFieldType;
 
     public RestSource(String url) {
         this.restConnector = new RESTConnector(url);
@@ -36,4 +39,31 @@ public abstract class RestSource implements AuthoritySource {
     public abstract List<AuthorityValue> queryAuthorities(String text, int max);
 
     public abstract AuthorityValue queryAuthorityID(String id);
+
+    @Override
+    public String getSchemeId() {
+        return schemeId;
+    }
+
+    public void setSchemeId(String schemeId) {
+        this.schemeId = schemeId;
+    }
+
+    @Override
+    public String getSearchFieldType() {
+        return searchFieldType;
+    }
+
+    public void setSearchFieldType(String searchFieldType) {
+        this.searchFieldType = searchFieldType;
+    }
+
+    @Override
+    public String getSortFieldType() {
+        return sortFieldType;
+    }
+
+    public void setSortFieldType(String sortFieldType) {
+        this.sortFieldType = sortFieldType;
+    }
 }

@@ -55,4 +55,19 @@ public class MockSource implements AuthoritySource {
         return null;
     }
 
+    @Override
+    public String getSchemeId() {
+        return null;
+    }
+
+    @Override
+    public String getSearchFieldType() {
+        return null;
+    }
+
+    @Override
+    public String getSortFieldType() {
+        return null;
+    }
+
 }

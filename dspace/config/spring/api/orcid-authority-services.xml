@@ -31,7 +31,7 @@
     <alias name="org.dspace.authority.AuthoritySearchService"  alias="org.dspace.content.authority.EditableAuthorityIndexingService"/>
     <alias name="org.dspace.authority.AuthoritySearchService" alias="org.dspace.authority.indexer.AuthorityIndexingService"/>
 
-    <bean id="dspace.DSpaceAuthorityIndexer" class="org.dspace.authority.indexer.DSpaceAuthorityIndexer"/>
+    <bean id="dspace.DSpaceAuthorityIndexer" class="org.dspace.authority.indexer.DSpaceAuthorityIndexer" scope="prototype"/>
 
     <bean name="AuthorityTypes" class="org.dspace.authority.AuthorityTypes">
 
@@ -61,6 +61,13 @@
                         </map>
                     </property>
 
+                    <property name="searchFieldType">
+                        <value>full-text</value>
+                    </property>
+
+                    <property name="sortFieldType">
+                        <value>value</value>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -105,6 +112,7 @@
     <bean name="OrcidSource" class="org.dspace.authority.orcid.Orcid">
         <constructor-arg value="http://pub.orcid.org"/>
         <!--<constructor-arg value="http://api.sandbox.orcid.org/v1.1"/>  -->
+        <property name="schemeId" value="${authority.scheme.orcid}"/>
     </bean>
 
     <bean name="sparqlCruise" class="org.dspace.authority.sparql.SPARQLSource">
@@ -145,7 +153,7 @@
                 }
             </value>
         </property>
-        <property name="schemeId" value="${custom.cruise.scheme}"/>
+        <property name="schemeId" value="${authority.scheme.cruise}"/>
     </bean>
 
     <bean name="sparqlVessel" class="org.dspace.authority.sparql.SPARQLSource">
@@ -186,7 +194,7 @@
                 }
             </value>
         </property>
-        <property name="schemeId" value="${custom.cruise.vessel}"/>
+        <property name="schemeId" value="${authority.scheme.vessel}"/>
     </bean>
 
 

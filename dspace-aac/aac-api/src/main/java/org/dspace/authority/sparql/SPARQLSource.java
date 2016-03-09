@@ -27,6 +27,7 @@ public class SPARQLSource implements AuthoritySource {
     private String termCompletionQuery;
     private String schemeId;
     private String recordQuery;
+    private String searchFieldType, sortFieldType;
 
     public String getRecordQuery() {
         return recordQuery;
@@ -36,6 +37,7 @@ public class SPARQLSource implements AuthoritySource {
         this.recordQuery = recordQuery;
     }
 
+    @Override
     public String getSchemeId() {
         return schemeId;
     }
@@ -59,6 +61,25 @@ public class SPARQLSource implements AuthoritySource {
     public String getTermCompletionQuery() {
         return termCompletionQuery;
     }
+
+    @Override
+    public String getSearchFieldType() {
+        return searchFieldType;
+    }
+
+    public void setSearchFieldType(String searchFieldType) {
+        this.searchFieldType = searchFieldType;
+    }
+
+    @Override
+    public String getSortFieldType() {
+        return sortFieldType;
+    }
+
+    public void setSortFieldType(String sortFieldType) {
+        this.sortFieldType = sortFieldType;
+    }
+
 
     /**
      *

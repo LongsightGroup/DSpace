@@ -15,6 +15,24 @@ public class AuthorityTypeConfiguration {
 
     private AuthorityValue type;
 
+    private String searchFieldType, sortFieldType;
+
+    public String getSearchFieldType() {
+        return searchFieldType;
+    }
+
+    public void setSearchFieldType(String searchFieldType) {
+        this.searchFieldType = searchFieldType;
+    }
+
+    public String getSortFieldType() {
+        return sortFieldType;
+    }
+
+    public void setSortFieldType(String sortFieldType) {
+        this.sortFieldType = sortFieldType;
+    }
+
     public void setChoiceSelectFields(Map choiceSelectFields) {
         this.choiceSelectFields = choiceSelectFields;
     }
