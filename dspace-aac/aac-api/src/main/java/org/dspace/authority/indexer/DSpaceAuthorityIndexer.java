@@ -202,7 +202,7 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
             nextValue = AuthorityValueGenerator.generate(context, authorityKey, content, metadataField.replaceAll("\\.", "_"));
         }
         if (nextValue != null && requiresItemUpdate) {
-            nextValue.updateItem(currentItem, value);
+            nextValue.updateItem(context, currentItem, value);
             try {
                 currentItem.update();
             } catch (Exception e) {

@@ -67,77 +67,7 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
     /* This method will only be called from AuthorityIndexClient */
     public void indexContent(AuthorityValue value, boolean force) {
 
-
-        String field = value.getField(); // ChoiceAuthorityManager.makeFieldKey(dcValue.schema,dcValue.element,dcValue.qualifier)
-       /// Find concept and reindex it or make new concept and index it........
-
-        String schemeId = ConfigurationManager.getProperty("solrauthority.searchscheme." + field);
-
-        if(schemeId != null)
-        {
-            Context context = null;
-
-            try
-            {
-                context = new Context();
-
-                context.turnOffAuthorisationSystem();
-
-                Scheme scheme = Scheme.findByIdentifier(context, schemeId);
-
-                if (scheme!=null) {
-
-                    Concept newConcept = null;
-
-                    if(value.getId() != null)
-                    {
-                        List<Concept> newConcepts = Concept.findByIdentifier(context, value.getId());
-                        if(newConcepts != null && newConcepts.size() > 0 && newConcepts.get(0).getPreferredLabel().equals(value.getValue()))
-                            newConcept = newConcepts.get(0);
-                    }
-                    else
-                    {
-                        log.info("AuthorityValue:"+value.getId() +" has a unsaved concept :"+ value.getValue());
-                    }
-
-                    if(newConcept == null)
-                    {
-                        Concept newConcepts[] = Concept.findByPreferredLabel(context, value.getValue(), scheme.getID());
-                        if(newConcepts!=null && newConcepts.length>0){
-                            newConcept = newConcepts[0];
-                        }
-                    }
-
-                    if(newConcept==null){
-                        newConcept = scheme.createConcept();
-                        newConcept.setStatus(Concept.Status.ACCEPTED);
-                        newConcept.setSource(value.getAuthorityType());
-                        if (value instanceof SPARQLAuthorityValue) {
-                            ((SPARQLAuthorityValue) value).updateConceptFromAuthorityValue(context, newConcept);
-                        } else {
-                            value.updateConceptFromAuthorityValue(newConcept);
-                        }
-                        Term term = newConcept.createTerm(value.getValue(), Term.prefer_term);
-                        term.update();
-                        context.complete();
-                    }
-
-                }
-
-            } catch (Exception e) {
-
-                 log.error(e.getMessage(), e);
-
-                if(context != null)
-                {
-                    context.abort();
-                }
-
-            }
-
-
-        }
-        ///internalIndexContent(value, force);
+        //internalIndexContent(value, force);
 
     }
 

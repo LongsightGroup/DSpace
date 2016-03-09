@@ -14,6 +14,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Item;
 import org.dspace.authority.model.Concept;
 import org.dspace.content.Metadatum;
+import org.dspace.core.Context;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -299,9 +300,9 @@ public class PersonAuthorityValue extends AuthorityValue {
     }
 
 
-    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+    public void updateConceptFromAuthorityValue(Context context, Concept concept) throws SQLException,AuthorizeException {
 
-        super.updateConceptFromAuthorityValue(concept);
+        super.updateConceptFromAuthorityValue(context, concept);
         concept.addMetadata(PERSON,"familyName",null,"",lastName,null,-1);
         concept.addMetadata(PERSON,"givenName",null,"",firstName,null,-1);
         if(institution!=null)

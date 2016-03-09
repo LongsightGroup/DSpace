@@ -21,6 +21,7 @@ import org.dspace.authority.orcid.model.BioResearcherUrl;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Item;
 import org.dspace.authority.model.Concept;
+import org.dspace.core.Context;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -328,9 +329,9 @@ public class OrcidAuthorityValue extends PersonAuthorityValue {
     }
 
 
-    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+    public void updateConceptFromAuthorityValue(Context context, Concept concept) throws SQLException,AuthorizeException {
 
-        super.updateConceptFromAuthorityValue(concept);
+        super.updateConceptFromAuthorityValue(context, concept);
         if(orcid_id!=null)  {
             concept.addMetadata(PERSON,"orcid","id",null,orcid_id,null,-1);
         }

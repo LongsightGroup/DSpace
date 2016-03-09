@@ -16,6 +16,7 @@ import org.dspace.authority.model.*;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Metadatum;
 import org.dspace.content.Item;
+import org.dspace.core.Context;
 import org.dspace.utils.DSpace;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -268,11 +269,74 @@ public class AuthorityValue {
     /**
      * Replace an item's Metadatum with this authority
      */
-    public void updateItem(Item currentItem, Metadatum value) {
+    public void updateItem(Context context, Item currentItem, Metadatum value) {
         Metadatum newValue = value.copy();
+
+
+        String authID = createConcept(context, getId());
+
         newValue.value = getValue();
-        newValue.authority = getId();
+        newValue.authority = authID;
         currentItem.replaceMetadataValue(value,newValue);
+    }
+
+    private String createConcept(Context context, String authId) {
+        String field = this.getField(); // ChoiceAuthorityManager.makeFieldKey(dcValue.schema,dcValue.element,dcValue.qualifier)
+        /// Find concept and reindex it or make new concept and index it........
+
+        AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
+        AuthoritySource source = types.getExternalSources().get(field);
+        String schemeId = source.getSchemeId();
+
+        if (schemeId != null) {
+            try {
+                context.turnOffAuthorisationSystem();
+
+                Scheme scheme = Scheme.findByIdentifier(context, schemeId);
+                Concept newConcept = null;
+
+                if (scheme!=null) {
+
+                    if (this.getId() != null) {
+                        List<Concept> newConcepts = Concept.findByIdentifier(context, this.getId());
+                        if (newConcepts != null && newConcepts.size() > 0 && newConcepts.get(0).getPreferredLabel().equals(this.getValue())) {
+                            newConcept = newConcepts.get(0);
+                        }
+                    } else {
+                        log.info("AuthorityValue:"+this.getId() +" has a unsaved concept :"+ this.getValue());
+                    }
+
+                    if (newConcept == null) {
+                        Concept newConcepts[] = Concept.findByPreferredLabel(context, this.getValue(), scheme.getID());
+                        if (newConcepts!=null && newConcepts.length>0) {
+                            newConcept = newConcepts[0];
+                        }
+                    }
+
+                    if(newConcept==null) {
+                        newConcept = scheme.createConcept(authId);
+                        newConcept.setStatus(Concept.Status.ACCEPTED);
+                        newConcept.setSource(this.getAuthorityType());
+                        this.updateConceptFromAuthorityValue(context, newConcept);
+                        Term term = newConcept.createTerm(this.getValue(), Term.prefer_term);
+                        term.update();
+                    }
+                }
+                context.commit();
+                if (newConcept != null) {
+                    return newConcept.getIdentifier();
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+
+                if(context != null) {
+                    context.abort();
+                }
+            } finally {
+                context.restoreAuthSystemState();
+            }
+        }
+        return authId;
     }
 
     /**
@@ -460,7 +524,7 @@ public class AuthorityValue {
         }
     }
 
-    public void updateConceptFromAuthorityValue(Concept concept) throws SQLException,AuthorizeException {
+    public void updateConceptFromAuthorityValue(Context context, Concept concept) throws SQLException,AuthorizeException {
 
         for(String name : otherMetadata.keySet())
         {
