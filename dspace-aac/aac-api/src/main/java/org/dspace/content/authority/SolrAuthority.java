@@ -108,39 +108,29 @@ public class SolrAuthority implements ChoiceAuthority {
             SolrDocumentList authDocs = searchResponse.getResults();
             ArrayList<Choice> choices = new ArrayList<Choice>();
 
-            List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
-            if (externalResults &&
-                    types.getExternalSources().containsKey(field)  &&
-                    StringUtils.isNotBlank(text)) {
+            if (authDocs != null) {
+                max = (int) searchResponse.getResults().getNumFound();
+                int maxDocs = authDocs.size();
+                if (limit < maxDocs)
+                    maxDocs = limit;
+                List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
+                for (int i = 0; i < maxDocs; i++) {
+                    SolrDocument solrDocument = authDocs.get(i);
+                    if (solrDocument != null) {
+                        AuthorityValue val = AuthorityValue.fromSolr(solrDocument);
 
-                int sizeFromSolr = alreadyPresent.size();
-                int maxExternalResults = limit <= 10 ? Math.max(limit - sizeFromSolr, 2) : Math.max(limit - 10 - sizeFromSolr, 2) + limit - 10;
-                addExternalResults(field, text, choices, alreadyPresent, maxExternalResults);
-            }
-
-            else
-            {
-                if (authDocs != null) {
-                    max = (int) searchResponse.getResults().getNumFound();
-                    int maxDocs = authDocs.size();
-                    if (limit < maxDocs)
-                        maxDocs = limit;
-                    //List<AuthorityValue> alreadyPresent = new ArrayList<AuthorityValue>();
-                    for (int i = 0; i < maxDocs; i++) {
-                        SolrDocument solrDocument = authDocs.get(i);
-                        if (solrDocument != null) {
-                            AuthorityValue val = AuthorityValue.fromSolr(solrDocument);
-
-                            Map<String, String> extras = val.choiceSelectMap();
-                            extras.put("insolr", val.getId());
-                            choices.add(new Choice(val.getId(), val.getValue(), val.getValue(), extras));
-                            alreadyPresent.add(val);
-                        }
+                        Map<String, String> extras = val.choiceSelectMap();
+                        extras.put("insolr", val.getId());
+                        choices.add(new Choice(val.getId(), val.getValue(), val.getValue(), extras));
+                        alreadyPresent.add(val);
                     }
                 }
 
-
-
+                if (externalResults && StringUtils.isNotBlank(text) && types.getExternalSources().containsKey(field)) {
+                    int sizeFromSolr = alreadyPresent.size();
+                    int maxExternalResults = limit <= 10 ? Math.max(limit - sizeFromSolr, 2) : Math.max(limit - 10 - sizeFromSolr, 2) + limit - 10;
+                    addExternalResults(field, text, choices, alreadyPresent, maxExternalResults);
+                }
 
                 // hasMore = (authDocs.size() == (limit + 1));
                 hasMore = true;
