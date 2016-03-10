@@ -90,7 +90,7 @@ function AuthorLookup(url, authorityInput, collectionID) {
             } else {   // submission
                 var lastName = $('input[name=' + authorityInput + '_last]');
                 if (lastName.size()) { // author input type
-                    initialInput = (lastName.val() + " " + $('input[name=' + authorityInput + '_first]').val()).trim();
+                    initialInput = ($('input[name=' + authorityInput + '_first]').val() + " " + lastName.val()).trim();
                 } else { // other input types
                     initialInput = $('input[name=' + authorityInput + ']').val();
                 }
