@@ -82,7 +82,7 @@ public class SolrAuthority implements ChoiceAuthority {
         }
         //TODO: check if this is right ! could always be this.field
 
-        queryArgs.addFilterQuery("scheme:" + scheme);
+        queryArgs.addFilterQuery("field:" + scheme);
         queryArgs.set(CommonParams.START, start);
         //We add one to our facet limit so that we know if there are more matches
         int maxNumberOfSolrResults = limit + 1;
