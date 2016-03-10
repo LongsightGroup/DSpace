@@ -10,15 +10,13 @@ package org.dspace.authority.indexer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dspace.authority.AuthorityValue;
-import org.dspace.authority.AuthorityValueFinder;
-import org.dspace.authority.AuthorityValueGenerator;
-import org.dspace.authority.indexer.AuthorityIndexerInterface;
+import org.dspace.authority.*;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
+import org.dspace.utils.DSpace;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,7 +33,7 @@ import java.util.Map;
  * This can be one item or all items too depending on the init() method.
  * <p/>
  * DSpaceAuthorityIndexer lets you iterate over each metadata value
- * for each metadata field defined in dspace.cfg with 'authority.author.indexer.field'
+ * for each metadata field defined in orcid-authority-services.xml in externalSources
  * for each item in the list.
  * <p/>
  * <p/>
@@ -69,11 +67,11 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
     @Override
     public void afterPropertiesSet() throws Exception {
         int counter = 1;
-        String field;
         metadataFields = new ArrayList<String>();
-        while ((field = configurationService.getProperty("authority.author.indexer.field." + counter)) != null) {
-            metadataFields.add(field);
-            counter++;
+        AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
+        Map<String, AuthoritySource> externalSources = types.getExternalSources();
+        for (String field : externalSources.keySet()) {
+            metadataFields.add(field.replaceAll("_", "."));
         }
     }
 
@@ -223,7 +221,7 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
     public boolean isConfiguredProperly() {
         boolean isConfiguredProperly = true;
         if(CollectionUtils.isEmpty(metadataFields)){
-            log.warn("Authority indexer not properly configured, no metadata fields configured for indexing. Check the \"authority.author.indexer.field\" properties.");
+            log.warn("Authority indexer not properly configured, no metadata fields configured for indexing. Check the \"externalSources\" bean.");
             isConfiguredProperly = false;
         }
         return isConfiguredProperly;
