@@ -315,8 +315,6 @@
 
      <!-- Authority Metadata ( meta_{schema}_{element}_{qualifier} -->
      <dynamicField name="*" type="text" multiValued="true" indexed="true" stored="true" required="false"/>
-
-
  </fields>
 
  <!-- Field to use to determine and enforce document uniqueness.

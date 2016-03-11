@@ -18,10 +18,6 @@
        default-autowire-candidates="*Service,*DAO,javax.sql.DataSource">
 
     <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
-    <!-- NOTE: I am not convinced this is a good idea, it is really slow and I think possibly dangerous -AZ -->
-    <!--
-    <context:component-scan base-package="org.dspace" name-generator="org.dspace.servicemanager.spring.FullPathBeanNameGenerator" />
-    -->
 
     <!-- the bean processor interceptor -->
     <bean class="org.dspace.servicemanager.spring.DSpaceBeanPostProcessor" />
@@ -34,7 +30,6 @@
     <bean id="dspace.DSpaceAuthorityIndexer" class="org.dspace.authority.indexer.DSpaceAuthorityIndexer" scope="prototype"/>
 
     <bean name="AuthorityTypes" class="org.dspace.authority.AuthorityTypes">
-
         <property name="config">
             <list>
                 <bean class="org.dspace.authority.config.AuthorityTypeConfiguration">
@@ -57,14 +52,16 @@
                             <entry key="first-name" value="person.givenName"/>
                             <entry key="last-name" value="person.familyName"/>
                             <entry key="email" value="person.email"/>
-                            <entry key="institution" value="related.institution"/>
+                            <entry key="institution" value="person.institution"/>
                         </map>
                     </property>
 
+                    <!-- Solr field used for search -->
                     <property name="searchFieldType">
                         <value>full-text</value>
                     </property>
 
+                    <!--- Solr field used for sort -->
                     <property name="sortFieldType">
                         <value>value</value>
                     </property>
@@ -111,7 +108,6 @@
     <alias name="OrcidSource" alias="AuthoritySource"/>
     <bean name="OrcidSource" class="org.dspace.authority.orcid.Orcid">
         <constructor-arg value="http://pub.orcid.org"/>
-        <!--<constructor-arg value="http://api.sandbox.orcid.org/v1.1"/>  -->
         <property name="schemeId" value="${authority.scheme.orcid}"/>
     </bean>
 

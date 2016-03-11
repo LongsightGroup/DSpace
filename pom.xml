@@ -875,12 +875,6 @@
          </dependency>
          <dependency>
             <groupId>com.atmire</groupId>
-            <artifactId>atmire-authority-api</artifactId>
-            <version>4.3-SNAPSHOT</version>
-            <type>jar</type>
-         </dependency>
-         <dependency>
-            <groupId>com.atmire</groupId>
             <artifactId>aac-xmlui</artifactId>
             <version>5.5-SNAPSHOT</version>
             <type>jar</type>
@@ -1228,11 +1222,6 @@
             <groupId>org.dspace</groupId>
             <artifactId>oclc-harvester2</artifactId>
             <version>0.1.12</version>
-         </dependency>
-         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
          </dependency>
          <dependency>
             <groupId>org.apache.httpcomponents</groupId>
