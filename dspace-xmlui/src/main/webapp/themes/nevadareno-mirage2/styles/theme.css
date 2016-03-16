@@ -105,6 +105,26 @@ header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-n
     color: #003366;
 }
 
+header .navbar-default .navbar-toggle .icon-bar, header .navbar-default .navbar-nav .icon-bar {
+    background-color: #777;
+}
+
+/* hover Nav hamburger */
+header .navbar-default .navbar-toggle:hover .icon-bar {
+    background-color: #eee;
+}
+
+
+
+header .navbar-default .navbar-toggle, header .navbar-default .navbar-nav {
+    border-color: transparent;
+    color: #777;
+}
+
+.navbar-default .navbar-link {
+    color: #777;
+}
+
 /** Blue row to hold app name */
 .scholarWorks {
     background-color: #003366;
