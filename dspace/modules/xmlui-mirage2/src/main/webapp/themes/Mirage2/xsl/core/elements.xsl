@@ -340,7 +340,7 @@
             <xsl:if test="name(preceding-sibling::*[position()=1]) = 'label'">
                 <xsl:apply-templates select="preceding-sibling::*[position()=1]" mode="labeled"/>
             </xsl:if>
-            <td>
+            <td class="flex">
                 <xsl:apply-templates />
             </td>
         </tr>

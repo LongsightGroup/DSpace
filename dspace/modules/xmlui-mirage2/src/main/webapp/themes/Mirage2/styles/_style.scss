@@ -21,3 +21,45 @@
     color: white;
     background: hotpink;
 }
+
+#aspect_authority_scheme_ManageSchemeMain_list_actions td.flex{
+    display: flex;
+
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
+
+#aspect_authority_concept_ManageConceptMain_list_actions td.flex{
+    display: flex;
+
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
+
+#aspect_authority_term_ManageTermMain_list_actions td.flex{
+    display: flex;
+
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
