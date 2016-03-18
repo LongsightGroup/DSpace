@@ -580,6 +580,7 @@
 	<message key="org.dspace.eperson.LDAPAuthentication.title">LDAP Authentication</message>
 	<message key="org.dspace.eperson.PasswordAuthentication.title">Password Authentication</message>
 	<message key="org.dspace.eperson.X509Authentication.title">Web Certificate Authentication</message>
+	<message key="org.dspace.eperson.ADFSAuthentication.title">ADFS SSO Authentication</message>
 
 	<!-- org.dspace.app.xmlui.eperson.FailedAuthentication -->
 	<message key="xmlui.EPerson.FailedAuthentication.BadCreds">The credentials provided are invalid.</message>
