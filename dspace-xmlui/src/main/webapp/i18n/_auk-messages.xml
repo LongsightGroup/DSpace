@@ -2260,6 +2260,7 @@
     <!-- Mirage 2 - Use schema.element.qualifer -->
     <!-- dc - Dublin Core -->
     <message key="xmlui.metadata.dc.abstract">Abstract</message>
+	<message key="xmlui.metadata.dc.article.pages">Page No.</message>
     <message key="xmlui.metadata.dc.author">Author</message>
     <message key="xmlui.metadata.dc.author-corporate">Corporate Author</message>
     <message key="xmlui.metadata.dc.author-of-text">Author of Text</message>
@@ -2289,6 +2290,7 @@
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
     <message key="xmlui.metadata.dc.relation.ispartof">Digital Collection</message>
     <message key="xmlui.metadata.dc.relation.ispartofseries">Part of Series</message>
+	<message key="xmlui.metadata.dc.relation.journal">Publication Title</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
