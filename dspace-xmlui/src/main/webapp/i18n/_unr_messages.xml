@@ -2285,7 +2285,7 @@
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
     <message key="xmlui.metadata.dc.contributor.advisor">Thesis Advisor</message>
 	<message key="xmlui.metadata.dc.contributor.editor">Editor</message>
-	<message key="xmlui.metadata.dc.contributor.publication">Publisher</message>
+	<message key="xmlui.metadata.dc.contributor.publisher">Publisher</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
