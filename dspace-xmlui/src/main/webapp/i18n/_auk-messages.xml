@@ -2284,8 +2284,11 @@
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
     <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Identifier (Citation)</message>
+	<message key="xmlui.metadata.dc.identifier.doi">DOI</message>
     <message key="xmlui.metadata.dc.identifier.other">Identifier (Other)</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier (URI)</message>
+	<message key="xmlui.metadata.dc.journal.issue">Issue</message>
+	<message key="xmlui.metadata.dc.journal.volume">Volume</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
     <message key="xmlui.metadata.dc.language.iso">Language</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
