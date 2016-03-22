@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2002-2010, DuraSpace.  All rights reserved
+    Licensed under the DuraSpace License.
+
+    A copy of the DuraSpace License has been included in this
+    distribution and is available at: http://www.dspace.org/license
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire-candidates="*Service,*DAO,javax.sql.DataSource">
+
+    <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
+
+    <!-- the bean processor interceptor -->
+    <bean class="org.dspace.servicemanager.spring.DSpaceBeanPostProcessor" />
+
+    <!-- Authority control -->
+    <bean class="org.dspace.content.authority.SolrAuthorityServiceImpl" id="org.dspace.authority.AuthoritySearchService"/>
+    <alias name="org.dspace.authority.AuthoritySearchService"  alias="org.dspace.content.authority.EditableAuthorityIndexingService"/>
+    <alias name="org.dspace.authority.AuthoritySearchService" alias="org.dspace.authority.indexer.AuthorityIndexingService"/>
+
+    <bean id="dspace.DSpaceAuthorityIndexer" class="org.dspace.authority.indexer.DSpaceAuthorityIndexer" scope="prototype"/>
+
+    <bean name="AuthorityTypes" class="org.dspace.authority.AuthorityTypes">
+        <property name="config">
+            <list>
+                <bean class="org.dspace.authority.config.AuthorityTypeConfiguration">
+                    <!--
+                    AuthorityType that this configuration applies to
+                     -->
+                    <property name="type">
+                        <bean class="org.dspace.authority.AuthorityValue"/>
+                    </property>
+                    <!--
+                    choice select fields that should be exposed by default for any AuthorityValue
+                         These map to Concept metadata stored in "otherMetadata" in the AuthorityValue.
+                    -->
+                    <property name="choiceSelectFields">
+                        <map>
+                            <!--
+                           choice meta to show for authors from Concept meta. Mapped to
+                            simple i18n keys for Labeling
+                            -->
+                            <entry key="first-name" value="person.givenName"/>
+                            <entry key="last-name" value="person.familyName"/>
+                            <entry key="email" value="person.email"/>
+                            <entry key="institution" value="person.institution"/>
+                        </map>
+                    </property>
+
+                    <!-- Solr field used for search -->
+                    <property name="searchFieldType">
+                        <value>full-text</value>
+                    </property>
+
+                    <!--- Solr field used for sort -->
+                    <property name="sortFieldType">
+                        <value>value</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="types">
+            <list>
+                <bean class="org.dspace.authority.orcid.OrcidAuthorityValue"/>
+                <bean class="org.dspace.authority.PersonAuthorityValue"/>
+                <bean class="org.dspace.authority.sparql.SPARQLAuthorityValue"/>
+                <bean class="org.dspace.authority.mock.MockAuthorityValue"/>
+            </list>
+        </property>
+        <property name="fieldDefaults">
+            <map>
+                <entry key="dc_contributor_author">
+                    <bean class="org.dspace.authority.PersonAuthorityValue"/>
+                </entry>
+                <entry key="dc_subject_vessel">
+                    <bean class="org.dspace.authority.AuthorityValue"/>
+                </entry>
+            </map>
+        </property>
+        <property name="externalSources">
+            <map>
+                <entry key="dc_contributor_author">
+                    <ref bean="OrcidSource"/>
+                </entry>
+                <entry key="dc_subject_vessel">
+                    <ref bean="sparqlVessel"/>
+                </entry>
+                <entry key="dc_subject_cruise">
+                    <ref bean="sparqlCruise"/>
+                </entry>
+                <entry key="dc_subject_vessel1">
+                    <ref bean="org.dspace.authority.mock.MockSource"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <alias name="OrcidSource" alias="AuthoritySource"/>
+    <bean name="OrcidSource" class="org.dspace.authority.orcid.Orcid">
+        <constructor-arg value="http://pub.orcid.org"/>
+        <property name="schemeId" value="${authority.scheme.orcid}"/>
+    </bean>
+
+    <bean name="sparqlCruise" class="org.dspace.authority.sparql.SPARQLSource">
+        <property name="endpointUrl" value="http://linked.rvdata.us/sparql"/>
+        <property name="termCompletionQuery">
+            <value>
+                PREFIX dcterms: &lt;http://purl.org/dc/terms/>
+                SELECT DISTINCT ?s ?value WHERE {
+                ?s a &lt;http://linked.rvdata.us/vocab/resource/class/Cruise> .
+                ?s dcterms:title ?value FILTER regex(?value,'^AC_USER_INPUT')  .
+                }
+                ORDER BY ?value
+                LIMIT 100
+            </value>
+        </property>
+        <property name="recordQuery">
+            <value>
+                PREFIX db: &lt;http://linked.rvdata.us/resource/>
+                PREFIX geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#>
+                PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/>
+                PREFIX r2rmodel: &lt;http://voc.rvdata.us/>
+                PREFIX sf: &lt;http://www.opengis.net/ont/sf#>
+                PREFIX r2r: &lt;http://linked.rvdata.us/vocab/resource/class/>
+                PREFIX vcard: &lt;http://www.w3.org/2001/vcard-rdf/3.0#>
+                PREFIX dcterms: &lt;http://purl.org/dc/terms/>
+                PREFIX gn: &lt;http://www.geonames.org/ontology#>
+                PREFIX geosparql: &lt;http://www.opengis.net/ont/geosparql#>
+                PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX d2r: &lt;http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#>
+                PREFIX map: &lt;http://linked.rvdata.us/resource/#>
+                PREFIX owl: &lt;http://www.w3.org/2002/07/owl#>
+                PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#>
+                PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#>
+                SELECT DISTINCT ?s ?p ?o WHERE {
+                BIND(&lt;AC_RESOURCE> as ?s)
+                &lt;AC_RESOURCE> ?p ?o
+                }
+            </value>
+        </property>
+        <property name="schemeId" value="${authority.scheme.cruise}"/>
+    </bean>
+
+    <bean name="sparqlVessel" class="org.dspace.authority.sparql.SPARQLSource">
+        <property name="endpointUrl" value="http://linked.rvdata.us/sparql"/>
+        <property name="termCompletionQuery">
+            <value>
+                PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+                SELECT DISTINCT ?s ?value WHERE {
+                ?s a &lt;http://linked.rvdata.us/vocab/resource/class/Vessel> .
+                ?s rdfs:label ?value FILTER regex(?value,'^AC_USER_INPUT')  .
+                }
+                ORDER BY ?value
+                LIMIT 100
+            </value>
+        </property>
+        <property name="recordQuery">
+            <value>
+                PREFIX db: &lt;http://linked.rvdata.us/resource/>
+                PREFIX geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#>
+                PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/>
+                PREFIX r2rmodel: &lt;http://voc.rvdata.us/>
+                PREFIX sf: &lt;http://www.opengis.net/ont/sf#>
+                PREFIX r2r: &lt;http://linked.rvdata.us/vocab/resource/class/>
+                PREFIX vcard: &lt;http://www.w3.org/2001/vcard-rdf/3.0#>
+                PREFIX dcterms: &lt;http://purl.org/dc/terms/>
+                PREFIX gn: &lt;http://www.geonames.org/ontology#>
+                PREFIX geosparql: &lt;http://www.opengis.net/ont/geosparql#>
+                PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX d2r: &lt;http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#>
+                PREFIX map: &lt;http://linked.rvdata.us/resource/#>
+                PREFIX owl: &lt;http://www.w3.org/2002/07/owl#>
+                PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#>
+                PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#>
+                SELECT DISTINCT ?s ?p ?o WHERE {
+                BIND(&lt;AC_USER_INPUT> as ?s)
+                &lt;AC_USER_INPUT> ?p ?o
+                }
+            </value>
+        </property>
+        <property name="schemeId" value="${authority.scheme.vessel}"/>
+    </bean>
+
+
+    <bean name="org.dspace.authority.mock.MockSource" class="org.dspace.authority.mock.MockSource"/>
+
+</beans>
