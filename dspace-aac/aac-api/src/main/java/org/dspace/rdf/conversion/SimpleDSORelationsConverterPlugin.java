@@ -530,7 +530,7 @@ implements ConverterPlugin
             // TODO: Discuss if LICENSEs, THUMBNAILs and/or extracted TEXTs
             // should be linked/exported as well (and if sutch a feature should 
             // be configurable).
-            if (bundle.getName().equals("ORIGINAL"))
+            if (bundle.getName() != null && bundle.getName().equals("ORIGINAL"))
             {
                 for (Bitstream bs : bundle.getBitstreams())
                 {
