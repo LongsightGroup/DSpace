@@ -318,7 +318,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                 {
                     Row item = table.addRow();
                     item.addCell().addXref("/term/"+term.getID(),term.getLiteralForm());
-                    item.addCell().addContent(concept.getIdentifier());
+                    item.addCell().addContent(term.getIdentifier());
                 }
             }
 

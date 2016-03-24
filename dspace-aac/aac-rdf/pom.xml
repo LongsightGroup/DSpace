@@ -73,6 +73,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.atmire</groupId>
+            <artifactId>aac-api</artifactId>
+            <version>${version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>dspace-rdf</artifactId>
             <type>war</type>

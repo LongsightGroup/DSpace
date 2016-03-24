@@ -150,6 +150,26 @@
       <filter-name>rdf-content-negotiation</filter-name>
       <url-pattern>/handle/*</url-pattern>
   </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>rdf-content-negotiation</filter-name>
+        <url-pattern>/bitstream/handle/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>rdf-content-negotiation</filter-name>
+        <url-pattern>/scheme/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>rdf-content-negotiation</filter-name>
+        <url-pattern>/concept/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>rdf-content-negotiation</filter-name>
+        <url-pattern>/term/*</url-pattern>
+    </filter-mapping>
   
   <!--
     - Use the Cocoon debug filter together with the Cocoon demo webapp

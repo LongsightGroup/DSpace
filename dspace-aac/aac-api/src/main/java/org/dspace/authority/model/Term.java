@@ -420,6 +420,28 @@ public class Term extends AuthorityObject {
         }
     }
 
+    public static ArrayList<Term> findByIdentifier(Context context, String identifier)
+            throws SQLException
+    {
+        ArrayList<Term> terms = new ArrayList<Term>();
+        TableRowIterator row = DatabaseManager.query(context, "select * from term where LOWER(identifier) like LOWER('" + identifier + "')");
+
+        if (row == null)
+        {
+            return null;
+        }
+        else
+        {
+
+            while(row.hasNext())
+            {
+                terms.add(new Term(context,row.next()));
+
+            }
+        }
+        return terms;
+    }
+
 
     public static int searchResultCount(Context context, String query,String conceptId)
             throws SQLException

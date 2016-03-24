@@ -9,12 +9,20 @@ package org.dspace.rdf.negotiation;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dspace.content.Site;
+import org.dspace.authority.model.AuthorityObject;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
+import org.dspace.authority.model.Term;
+import org.dspace.content.*;
+import org.dspace.core.Context;
+import org.dspace.handle.HandleManager;
 import org.dspace.rdf.RDFConfiguration;
 import org.dspace.utils.DSpace;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +43,7 @@ public class Negotiator {
     public static final int N3 = 4;
     
     public static final String DEFAULT_LANG="html";
+    public static final String ACCEPT_HEADER_NAME = "Accept";
     
     private static final Logger log = Logger.getLogger(Negotiator.class);
     
@@ -172,7 +181,6 @@ public class Negotiator {
      * equals! Caution should be exercised when using it to order a sorted set
      * or a sorted map. Take a look at the java.util.Comparator for further 
      * information.</p>
-     * @param mediaRangeRegex
      * @return A comparator that imposes orderings that are inconsistent with equals!
      */
     public static Comparator<MediaRange> getMediaRangeComparator() {
@@ -199,12 +207,13 @@ public class Negotiator {
         };
     }
 
-    public static boolean sendRedirect(HttpServletResponse response, String handle,
-            String extraPathInfo, int serialization, boolean redirectHTML)
+    public static boolean sendRedirect(HttpServletResponse response, HttpServletRequest request, boolean redirectHTML)
             throws IOException
     {
-        if (extraPathInfo == null) extraPathInfo = "";
-        
+        // Determined language based on Accept header
+        String acceptHeader = request.getHeader(ACCEPT_HEADER_NAME);
+        int serialization = Negotiator.negotiate(acceptHeader);
+
         StringBuilder urlBuilder = new StringBuilder();
         String lang = null;
         switch (serialization)
@@ -243,12 +252,6 @@ public class Negotiator {
         }
         assert (lang != null);
         
-        if (StringUtils.isEmpty(handle))
-        {
-            log.warn("Handle is empty, set it to Site Handle.");
-            handle = Site.getSiteHandle();
-        }
-        
         // don't redirect if HTML is requested and content negotiation is done
         // in a ServletFilter, as the ServletFilter should just let the request
         // pass.
@@ -261,30 +264,112 @@ public class Negotiator {
         // should send a vary caching so browsers can adopt their caching strategy
         response.setHeader("Vary", "Accept");
 
+        // Parse the requested path
+        String pathInfo = request.getPathInfo();
+        if (StringUtils.isEmpty(pathInfo) || StringUtils.countMatches(pathInfo, "/") < 2)
+        {
+            log.debug("Path does not contain the expected number of slashes.");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return false;
+        }
+
+        // remove extra parts of the path info and split it.
+        String[] path;
+        if (request.getPathInfo().startsWith("/handle/")) {
+            path = request.getPathInfo().substring(8).split("/");
+        } else {
+            path = request.getPathInfo().substring(1).split("/");
+        }
+
+
+        int sequenceID = -1;
+        String filename = null;
+        Context context = null;
+        DSpaceObject dso = null;
+        try {
+            context = new Context(Context.READ_ONLY);
+            if (request.getPathInfo().contains("bitstream/handle")) {
+                // For Bitstream
+                dso = HandleManager.resolveToObject(context, path[2] + "/" + path[3]);
+                if (redirectHTML) { // This contains the sequenceID
+                    sequenceID = Integer.parseInt(path[4]);
+                    filename = path[5];
+                } else { // Get sequence ID as parameter
+                    sequenceID = Integer.parseInt(request.getParameter("sequence"));
+                    filename = path[4];
+                }
+            } else if (request.getPathInfo().contains("scheme") || request.getPathInfo().contains("concept") || request.getPathInfo().contains("term")) {
+                // For Authority Object
+                String uuid = null;
+                int id = -1;
+                if (redirectHTML) { // Is UUID
+                    uuid = path[1].replace("uuid:","");
+                } else { // Is ID
+                    id = Integer.parseInt(path[1]);
+                }
+                switch (path[0]) {
+                    case "scheme":
+                        if (redirectHTML) {
+                            dso = Scheme.findByIdentifier(context, uuid);
+                        } else {
+                            dso = Scheme.find(context, id);
+                        }
+                        break;
+                    case "concept":
+                        if (redirectHTML) {
+                            // This method should only ever find 1 concept per uuid
+                            dso = Concept.findByIdentifier(context, uuid).get(0);
+                        } else {
+                            dso = Concept.find(context, id);
+                        }
+                        break;
+                    case "term":
+                        if (redirectHTML) {
+                            // This method should only ever find 1 term per uuid
+                            dso = Term.findByIdentifier(context, uuid).get(0);
+                        } else {
+                            dso = Term.find(context, id);
+                        }
+                        break;
+                }
+            } else {
+                // For Community, Collection, Item
+                dso = HandleManager.resolveToObject(context, path[0] + "/" + path[1]);
+            }
+        } catch (SQLException ex) {
+            log.error("SQLException: " + ex.getMessage(), ex);
+            // probably a problem with the db connection => send Service Unavailable
+            response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return false;
+        } finally {
+            if (context != null)
+                context.abort();
+        }
+
+        if (dso == null)
+        {
+            log.info("Cannot resolve handle identifier to dso. => 404");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return false;
+        }
+
         // if html is requested we have to forward to the repositories webui.
         if ("html".equals(lang))
         {
             urlBuilder.append((new DSpace()).getConfigurationService()
                     .getProperty("dspace.url"));
-            if (!handle.equals(Site.getSiteHandle()))
-            {
-                urlBuilder.append("/handle/");
-                urlBuilder.append(handle).append("/").append(extraPathInfo);
+            if (filename != null && sequenceID != -1) {
+                urlBuilder.append("/bitstream/handle/" + dso.getHandle() +"/" + filename + "?sequence=" + sequenceID + "&isAllowed=y");
+            }else if (dso instanceof Community || dso instanceof Collection || dso instanceof Item) {
+                urlBuilder.append("/handle/" + dso.getHandle() + "/");
+            } else if (dso instanceof Scheme || dso instanceof Concept || dso instanceof Term){
+                urlBuilder.append("/" + dso.getClass().toString().toLowerCase().split("\\.")[4] + "/" + dso.getID());
             }
             String url = urlBuilder.toString();
 
             log.debug("Will forward to '" + url + "'.");
             response.setStatus(HttpServletResponse.SC_SEE_OTHER);
             response.setHeader("Location", url);
-            response.flushBuffer();
-            return true;
-        }
-        
-        // currently we cannot serve statistics as rdf
-        if("statistics".equals(extraPathInfo))
-        {
-            log.info("Cannot send statistics as RDF yet. => 406 Not Acceptable.");
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
             response.flushBuffer();
             return true;
         }
@@ -300,8 +385,17 @@ public class Negotiator {
             return true;
         }
         // and build the uri to the DataProviderServlet
-        urlBuilder.append("/handle/").append(handle);
-        urlBuilder.append("/").append(lang);
+
+        if (filename != null && sequenceID != -1) {
+            // /bitstream/handle/[handle]/[sequence-id]/filename.ext for Bitstreams
+            urlBuilder.append("/data/bitstream/handle/" + dso.getHandle() + "/" + sequenceID + "/" + filename + "/" + lang);
+        }else if (dso instanceof Community || dso instanceof Collection || dso instanceof Item) {
+            // /[handle] for Items, Collections, and Communities
+            urlBuilder.append("/data/" + dso.getHandle() + "/" + lang);
+        } else if (dso instanceof Scheme || dso instanceof Concept || dso instanceof Term){
+            // /scheme|concept|term/uuid:[UUID] for Schemes, Concepts, and Terms
+            urlBuilder.append("/data/" + dso.getClass().toString().toLowerCase().split("\\.")[4] + "/uuid:" + ((AuthorityObject) dso).getIdentifier() + "/" + lang);
+        }
         String url = urlBuilder.toString();
         log.debug("Will forward to '" + url + "'.");
         response.setStatus(HttpServletResponse.SC_SEE_OTHER);

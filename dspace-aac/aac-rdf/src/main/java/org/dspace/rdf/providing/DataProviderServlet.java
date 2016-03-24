@@ -11,6 +11,9 @@ package org.dspace.rdf.providing;
 import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.Concept;
+import org.dspace.authority.model.Scheme;
+import org.dspace.authority.model.Term;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import org.dspace.handle.HandleManager;
@@ -62,7 +65,7 @@ public class DataProviderServlet extends HttpServlet {
         {
             String dspaceURI = 
                     (new DSpace()).getConfigurationService().getProperty("dspace.url");
-            this.serveNamedGraph(dspaceURI, lang, cType, response);
+            this.serveNamedGraph(dspaceURI, lang, cType, response, null);
             return;
         }
         
@@ -70,84 +73,82 @@ public class DataProviderServlet extends HttpServlet {
         String[] path = request.getPathInfo().substring(1).split("/");
         // if we have 2 slashes or less, we sent repository information (see above)
         assert path.length >= 2;
-        
-        String handle = path[0] + "/" + path[1];
-        
-        log.debug("Handle: " + handle + ".");
-        
-        // As we offer a public sparql endpoint, all information that we stored
-        // in the triplestore is public. It is important to check whether a
-        // DSpaceObject is readable for a anonym user before storing it in the
-        // triplestore. It is important to remove DSpaceObjects from the
-        // triplestore, that gets revoked or become restricted. As this is done
-        // by RDFizer and RDFUtil we do not have to take care for permissions here!
+
+        // Parse the requested path
+        String bitstreamURI = null;
         Context context = null;
         DSpaceObject dso = null;
-        try
-        {
+        String identifier = null;
+        try {
             context = new Context(Context.READ_ONLY);
-            dso = HandleManager.resolveToObject(context, handle);
-        }
-        catch (SQLException ex)
-        {
-            log.error("SQLException: " + ex.getMessage(), ex);
-            context.abort();
+            if (request.getPathInfo().contains("bitstream/handle")) {
+                // For Bitstream
+                dso = HandleManager.resolveToObject(context, path[2] + "/" + path[3]);
+                bitstreamURI = new DSpace().getConfigurationService().getProperty("dspace.url") + "/rdf/resource/" +
+                        path[2] + "/" + path[3] + "/" + path[4] + "/" + path[5];
+            } else if (request.getPathInfo().contains("scheme") || request.getPathInfo().contains("concept") || request.getPathInfo().contains("term")) {
+                // For AuthorityObject
+                String uuid = path[1].replace("uuid:", "");
+                switch (path[0]) {
+                    case "scheme":
+                        dso = Scheme.findByIdentifier(context, uuid);
+                        break;
+                    case "concept":
+                        // This method should only ever find 1 concept per uuid
+                        dso = Concept.findByIdentifier(context, uuid).get(0);
+                        break;
+                    case "term":
+                        // This method should only ever find 1 term per uuid
+                        // There should only ever be 1 concept parent
+                        dso = Term.findByIdentifier(context, uuid).get(0).getConcepts()[0];
+                        break;
+                }
+            } else {
+                // For Community, Collection, Item
+                dso = HandleManager.resolveToObject(context, path[0] + "/" + path[1]);
+            }
+
+            identifier = RDFUtil.generateIdentifier(context, dso);
+        } catch (Exception ex) {
+            // This covers SQLException NullPointerException
+
+            log.error("Exception: " + ex.getMessage(), ex);
             // probably a problem with the db connection => send Service Unavailable
             response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return;
+        } finally {
+            if (context != null)
+                context.abort();
         }
-        catch (IllegalStateException ex)
-        {
-            log.error("Cannot resolve handle " + handle 
-                    + ". IllegalStateException:" + ex.getMessage(), ex);
-            context.abort();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+
         if (dso == null)
         {
-            log.info("Cannot resolve handle '" + handle + "' to dso. => 404");
-            context.abort();
+            log.info("Cannot resolve identifier to dso. => 404");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        
-        String identifier = null;
-        try
-        {
-            identifier = RDFUtil.generateIdentifier(context, dso);
-        }
-        catch (SQLException ex)
-        {
-            log.error("SQLException: " + ex.getMessage(), ex);
-            context.abort();
-            // probably a problem with the db connection => send Service Unavailable
-            response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return;
-        }
+
         if (identifier == null)
         {
             // cannot generate identifier for dso?!
             log.error("Cannot generate identifier for " + dso.getTypeText() 
                     + " " + dso.getID() + "!");
-            context.abort();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
         log.debug("Loading and sending named graph " + identifier + ".");
-        context.abort();
-        this.serveNamedGraph(identifier, lang, cType, response);
-        
+        this.serveNamedGraph(identifier, lang, cType, response, bitstreamURI);
     }
-    
+
     protected void serveNamedGraph(String uri, String lang, String contentType, 
-            HttpServletResponse response)
+            HttpServletResponse response, String bitstreamURI)
             throws ServletException, IOException
     {
         Model result = null;
         result = RDFUtil.loadModel(uri);
 
-        if (result == null || result.isEmpty())
+        // Instead of checking if bitstream exists during parsing, check results
+        if (result == null || result.isEmpty() || (bitstreamURI != null && !result.containsResource(result.createResource(bitstreamURI))))
         {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             if (result != null) result.close();
@@ -158,15 +159,12 @@ public class DataProviderServlet extends HttpServlet {
         }
         
         response.setContentType(contentType);
-        PrintWriter out = response.getWriter();
         log.debug("Set content-type to " + contentType + ".");
-        try {
+        try (PrintWriter out = response.getWriter()) {
             result.write(out, lang);
-        }
-        finally
-        {
+        } finally {
             result.close();
-            out.close();
+
         }
     }
     

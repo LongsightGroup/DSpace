@@ -14,8 +14,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -23,8 +21,6 @@ import java.util.regex.Pattern;
  */
 public class NegotiationFilter implements Filter
 {
-    public static final String ACCEPT_HEADER_NAME = "Accept";
-    
     private static final Logger log = Logger.getLogger(NegotiationFilter.class);
     
     @Override
@@ -62,48 +58,14 @@ public class NegotiationFilter implements Filter
             chain.doFilter(request, response);
             return;
         }
-        // cast HttpServletRequest and HttpServletResponse
-        HttpServletRequest hrequest = (HttpServletRequest) request;
-        HttpServletResponse hresponse = (HttpServletResponse) response;
-        
-        String acceptHeader = hrequest.getHeader(ACCEPT_HEADER_NAME);
-        
-        String handle = null;
-        String extraPathInfo = null;
-        String path = hrequest.getPathInfo();
-        // in JSPUI the pathInfo starts after /handle, in XMLUI it starts with /handle
-        Pattern handleCheckPattern = Pattern.compile("^/*handle/(.*)$");
-        Matcher handleCheckMatcher = handleCheckPattern.matcher(path);
-        if (handleCheckMatcher.matches())
-        {
-            // remove trailing /handle
-            path = handleCheckMatcher.group(1);
-        }
-        // we expect the path to be in the form <prefix>/<suffix>/[<stuff>],
-        // where <prefix> is a handle prefix, <suffix> is the handle suffix
-        // and <stuff> may be further information.
-        log.debug("PathInfo: " + path);
-        if (path == null) path = "";
-        Pattern pathPattern = 
-                Pattern.compile("^/*([^/]+)/+([^/]+)(?:/*||/+(.*))?$");
-        Matcher pathMatcher = pathPattern.matcher(path);
-        if (pathMatcher.matches())
-        {
-            handle = pathMatcher.group(1) + "/" + pathMatcher.group(2);
-            extraPathInfo = pathMatcher.group(3);
-        }
-        log.debug("handle: " + handle + "\n" + "extraPathInfo: " + extraPathInfo);
-        
-        int requestedContent = Negotiator.negotiate(acceptHeader);
-        
-        if (!Negotiator.sendRedirect(hresponse, handle, extraPathInfo, 
-                requestedContent, false))
+
+        if (!Negotiator.sendRedirect((HttpServletResponse) response, (HttpServletRequest) request, false))
         {
             // as we do content negotiation, we should send a vary caching so
             // browsers can adopt their caching strategy
             // the method Negotiator.sendRedirect does this only if it actually
             // does the redirection itself.
-            hresponse.setHeader("Vary", "Accept");
+            ((HttpServletResponse) response).setHeader("Vary", "Accept");
 
             // send html as default => no forwarding necessary
             chain.doFilter(request, response);
