@@ -108,7 +108,9 @@ public class DataProviderServlet extends HttpServlet {
                 dso = HandleManager.resolveToObject(context, path[0] + "/" + path[1]);
             }
 
-            identifier = RDFUtil.generateIdentifier(context, dso);
+            if (dso != null) {
+                identifier = RDFUtil.generateIdentifier(context, dso);
+            }
         } catch (Exception ex) {
             // This covers SQLException NullPointerException
 
