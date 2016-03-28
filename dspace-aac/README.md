@@ -25,6 +25,7 @@ the required customizations.
 * [Mirage2/xsl/core/elements.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/elements.xsl)
 * [Mirage2/xsl/core/page-structure.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/page-structure.xsl)
 * [Mirage2/xsl/core/forms.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/forms.xsl)
+* [Mirage2/xsl/aspect/artifactbrowser/item-view.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/aspect/artifactbrowser/item-view.xsl)
 * [Mirage2/styles/_style.scss](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/styles/_style.scss)
 
 ### [person-lookup.js](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/scripts/person-lookup.js) Changes
@@ -64,6 +65,26 @@ with
 +       </xsl:otherwise>
 +   </xsl:choose>
     ...
+</xsl:template>
+```
+
+In the `match="dri:list[not(@type)]/dri:item"` template, add the `flex` class attribute to the `<td>` node:
+```xml
+<xsl:template match="dri:list[not(@type)]/dri:item" priority="2" mode="labeled">
+    <tr>
+        <xsl:attribute name="class">
+            <xsl:text>ds-table-row </xsl:text>
+            <xsl:if test="(position() mod 2 = 0)">even </xsl:if>
+            <xsl:if test="(position() mod 2 = 1)">odd </xsl:if>
+            <xsl:value-of select="@rend"/>
+        </xsl:attribute>
+        <xsl:if test="name(preceding-sibling::*[position()=1]) = 'label'">
+            <xsl:apply-templates select="preceding-sibling::*[position()=1]" mode="labeled"/>
+        </xsl:if>
++       <td class="flex">
+            <xsl:apply-templates />
+        </td>
+    </tr>
 </xsl:template>
 ```
 
@@ -111,6 +132,113 @@ block as follows:
     </button>
     ...
 </xsl:template>
+```
+
+### [item-view.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/aspect/artifactbrowser/item-view.xsl) Changes
+
+In order to add links from authority values to associated concepts, we need to modify `item-view` templates.
+
+In the `itemSummaryView-DIM-authors-entry` template, add the following below the author node
+```xml
+<xsl:template name="itemSummaryView-DIM-authors-entry">
+    <div>
+        <xsl:if test="@authority">
+            <xsl:attribute name="class"><xsl:text>ds-dc_contributor_author-authority</xsl:text></xsl:attribute>
+        </xsl:if>
+        <xsl:copy-of select="node()"/>
++       <xsl:choose>
++           <xsl:when test="@authority and @confidence">
++               <td>
++                   <xsl:call-template name="authorityConfidenceIcon">
++                       <xsl:with-param name="confidence" select="./@confidence"/>
++                   </xsl:call-template>
++               </td>
++               <xsl:if test="@confidence='ACCEPTED'">
++                   <td>
++                       <a>
++                           <xsl:attribute name="href">
++                               <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
++                           </xsl:attribute>
++                           Concept link
++                       </a>
++                   </td>
++               </xsl:if>
++           </xsl:when>
++               <td></td>
++               <td></td>
++           </xsl:otherwise>
++       </xsl:choose>
+    </div>
+</xsl:template>
+```
+
+In the `match="dim:field" mode="itemDetailView-DIM"` template add the following at the bottom, inside the table row (`<tr>`) element:
+```xml
+<xsl:template match="dim:field" mode="itemDetailView-DIM">
+    <tr>
+        ...
++       <xsl:choose>
++           <xsl:when test="./@authority and ./@confidence">
++               <td>
++                   <xsl:call-template name="authorityConfidenceIcon">
++                      <xsl:with-param name="confidence" select="./@confidence"/>
++                   </xsl:call-template>
++               </td>
++               <td>
++                   <a>
++                       <xsl:attribute name="href">
++                           <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
++                       </xsl:attribute>
++                       Concept link
++                   </a>
++               </td>
++           </xsl:when>
++           <xsl:otherwise>
++               <td></td>
++               <td></td>
++           </xsl:otherwise>
++       </xsl:choose>
+    </tr>
+</xsl:template>
+```
+
+### [_style.scss](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/styles/_style.scss)
+
+Add the following CSS to `_style.scss` to fix EAC forms
+```scss
+#aspect_authority_scheme_ManageSchemeMain_list_actions td.flex{
+    display: flex;
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
+#aspect_authority_concept_ManageConceptMain_list_actions td.flex{
+    display: flex;
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
+#aspect_authority_term_ManageTermMain_list_actions td.flex{
+    display: flex;
+    p{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    a{
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+}
 ```
 
 ## Build Configuration
