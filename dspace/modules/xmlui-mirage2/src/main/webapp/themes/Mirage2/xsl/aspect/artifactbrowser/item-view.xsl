@@ -260,6 +260,29 @@
                 <xsl:attribute name="class"><xsl:text>ds-dc_contributor_author-authority</xsl:text></xsl:attribute>
             </xsl:if>
             <xsl:copy-of select="node()"/>
+            <xsl:choose>
+                <xsl:when test="@authority and @confidence">
+                    <td>
+                        <xsl:call-template name="authorityConfidenceIcon">
+                            <xsl:with-param name="confidence" select="./@confidence"/>
+                        </xsl:call-template>
+                    </td>
+                    <xsl:if test="@confidence='ACCEPTED'">
+                        <td>
+                            <a>
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
+                                </xsl:attribute>
+                                Concept link
+                            </a>
+                        </td>
+                    </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                    <td></td>
+                    <td></td>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
     </xsl:template>
 
@@ -484,6 +507,27 @@
               <xsl:copy-of select="./node()"/>
             </td>
                 <td><xsl:value-of select="./@language"/></td>
+            <xsl:choose>
+                <xsl:when test="./@authority and ./@confidence">
+                    <td>
+                        <xsl:call-template name="authorityConfidenceIcon">
+                            <xsl:with-param name="confidence" select="./@confidence"/>
+                        </xsl:call-template>
+                    </td>
+                    <td>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
+                            </xsl:attribute>
+                            Concept link
+                        </a>
+                    </td>
+                </xsl:when>
+                <xsl:otherwise>
+                    <td></td>
+                    <td></td>
+                </xsl:otherwise>
+            </xsl:choose>
             </tr>
     </xsl:template>
 
