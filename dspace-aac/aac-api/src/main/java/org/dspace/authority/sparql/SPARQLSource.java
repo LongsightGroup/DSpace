@@ -92,8 +92,9 @@ public class SPARQLSource implements AuthoritySource {
      */
     @Override
     public List<AuthorityValue> queryAuthorities(String filter, int max) {
+        Context context = null;
         try {
-            Context context = new Context();
+            context = new Context();
             Scheme scheme = Scheme.findByIdentifier(context, schemeId);
             String query = scheme.getMetadata("authority.source.querytemplate");
 
@@ -128,6 +129,10 @@ public class SPARQLSource implements AuthoritySource {
             return authorities;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+        } finally {
+            if (context != null) {
+                context.abort();
+            }
         }
         return new ArrayList<AuthorityValue>();
     }
@@ -141,9 +146,9 @@ public class SPARQLSource implements AuthoritySource {
      */
     @Override
     public AuthorityValue queryAuthorityID(String id) {
-
+        Context context = null;
         try {
-            Context context = new Context();
+            context = new Context();
             Scheme scheme = Scheme.findByIdentifier(context, schemeId);
             String query = scheme.getMetadata("authority.source.querytemplateonerecord");
 
@@ -191,6 +196,10 @@ public class SPARQLSource implements AuthoritySource {
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+        } finally {
+            if (context != null) {
+                context.abort();
+            }
         }
 
         return null;
