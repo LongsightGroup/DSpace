@@ -25,6 +25,7 @@ the required customizations.
 * [Mirage2/xsl/core/elements.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/elements.xsl)
 * [Mirage2/xsl/core/page-structure.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/page-structure.xsl)
 * [Mirage2/xsl/core/forms.xsl](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/core/forms.xsl)
+* [Mirage2/styles/_style.scss](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/xsl/styles/_style.scss)
 
 ### [person-lookup.js](../dspace-5_x-sesame/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2/scripts/person-lookup.js) Changes
 
@@ -259,7 +260,10 @@ Changes are necessary to the following files:
 * [dspace/config/input-forms.xml](../dspace-5_x-sesame/dspace/config/input-forms.xml)
 
 ### [dspace.cfg](../dspace-5_x-sesame/dspace/config/dspace.cfg) Changes
-
+Turn on RDF content negotiation
+```
+rdf.contentNegotiation.enable = true
+```
 Add `authority` and `thesaurus` to the list of consumers if they are not already present:
 ```
 e.g. event.dispatcher.default.consumers = authority, thesaurus, versioning, discovery, eperson, harvester
