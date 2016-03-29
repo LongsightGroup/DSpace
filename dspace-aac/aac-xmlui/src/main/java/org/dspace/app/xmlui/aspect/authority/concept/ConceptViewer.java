@@ -10,6 +10,7 @@ package org.dspace.app.xmlui.aspect.authority.concept;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.util.HashUtil;
@@ -178,18 +179,23 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             AuthorizeException
     {
         Concept concept=null;
-        String conceptId = this.parameters.getParameter("concept","-1");
-        if (conceptId.equals("-1"))
+        String conceptId = this.parameters.getParameter("concept",null);
+        if (conceptId == null)
         {
             return;
         }
-        else
-        {
-            concept = Concept.find(context,Integer.parseInt(conceptId));
-            if(concept==null)
-            {
-                return;
+        if (conceptId.contains("uuid:")) {
+            // This should only ever return 1 concept, if any
+            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
+            if (concepts.size() > 0) {
+                concept = concepts.get(0);
             }
+        } else {
+            concept = Concept.find(context, Integer.parseInt(conceptId));
+        }
+        if(concept==null)
+        {
+            return;
         }
         // Set the page title
         String name = concept.getLabel();
@@ -225,13 +231,21 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             UIException, SQLException, IOException, AuthorizeException
     {
 
-        String conceptId = this.parameters.getParameter("concept","-1");
+        String conceptId = this.parameters.getParameter("concept",null);
         if(conceptId==null)
         {
             return;
         }
-        Integer conceptID = Integer.parseInt(conceptId);
-        Concept concept = Concept.find(context, conceptID);
+        Concept concept = null;
+        if (conceptId.contains("uuid:")) {
+            // This should only ever return 1 concept, if any
+            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
+            if (concepts.size() > 0) {
+                concept = concepts.get(0);
+            }
+        } else {
+            concept = Concept.find(context, Integer.parseInt(conceptId));
+        }
         if(concept==null)
         {
             return;
@@ -408,14 +422,24 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
     {
 
 
-        String conceptId = this.parameters.getParameter("concept","-1");
+        String conceptId = this.parameters.getParameter("concept",null);
         if(conceptId==null)
         {
             return;
         }
-        Integer conceptID = Integer.parseInt(conceptId);
-        Concept concept = Concept.find(context, conceptID);
-
+        Concept concept = null;
+        if (conceptId.contains("uuid:")) {
+            // This should only ever return 1 concept, if any
+            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
+            if (concepts.size() > 0) {
+                concept = concepts.get(0);
+            }
+        } else {
+            concept = Concept.find(context, Integer.parseInt(conceptId));
+        }
+        if (concept == null) {
+            return;
+        }
         options.addList("browse");
         options.addList("account");
         List authority = options.addList("context");
