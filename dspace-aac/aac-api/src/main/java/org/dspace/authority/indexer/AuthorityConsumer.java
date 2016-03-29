@@ -48,16 +48,8 @@ public class AuthorityConsumer implements Consumer {
 
         DSpaceObject dso = event.getSubject(ctx);
         if(dso instanceof Item){
-            Item item = (Item) dso;
-            if(item.isArchived()){
-                if(!itemsToReindex.contains(item.getID()))
-                    itemsToReindex.add(item.getID());
-            }
-
-            if(("ARCHIVED: " + true).equals(event.getDetail())){
-                itemsToUpdateAuthority.add(item.getID());
-            }
-
+            itemsToReindex.add(dso.getID());
+            itemsToUpdateAuthority.add(dso.getID());
         }
     }
 
