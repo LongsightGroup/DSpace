@@ -310,5 +310,8 @@ public class PersonAuthorityValue extends AuthorityValue {
         for(String email:emails) {
             concept.addMetadata(PERSON,"email",null,"",email,null,-1);
         }
+        if (!concept.getSource().equals("orcid")) {
+            concept.update();
+        }
     }
 }

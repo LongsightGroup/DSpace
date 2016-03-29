@@ -542,6 +542,13 @@
                             <xsl:call-template name="authorityConfidenceIcon">
                                 <xsl:with-param name="confidence" select="substring-after(./@rend, 'cf-')"/>
                             </xsl:call-template>
+                            <a>
+                                <xsl:attribute name="href">
+                                    <xsl:text>/concept/uuid:</xsl:text>
+                                    <xsl:value-of select=".//dri:value"/>
+                                </xsl:attribute>
+                                <xsl:text>Concept Link</xsl:text>
+                            </a>
                         </xsl:if>
                     </div>
                 </xsl:otherwise>
@@ -917,6 +924,13 @@
                             <xsl:with-param name="confidence"
                                             select="dri:instance[position()=$position]/dri:value[@type='authority']/@confidence"/>
                         </xsl:call-template>
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:text>/concept/uuid:</xsl:text>
+                                <xsl:value-of select="dri:instance[position()=$position]/dri:value[@type='authority']/text()"/>
+                            </xsl:attribute>
+                            <xsl:text>Concept Link</xsl:text>
+                        </a>
                     </label>
                 </div>
 
@@ -1161,6 +1175,13 @@
                                             select="dri:instance[position()=$position]/dri:value[@type='authority']/@confidence"/>
                         </xsl:call-template>
                     </xsl:if>
+                    <a>
+                            <xsl:attribute name="href">
+                                <xsl:text>/concept/uuid:</xsl:text>
+                                <xsl:value-of select="dri:instance[position()=$position]/dri:value[@type='authority']/text()"/>
+                            </xsl:attribute>
+                            <xsl:text>Concept Link</xsl:text>
+                        </a>
                 </label>
             </div>
 

@@ -377,6 +377,7 @@ public class DescribeStep extends AbstractSubmissionStep
                             org.dspace.app.xmlui.wing.element.Item authItem =
                                 describeSection.addItem("submit-review-field-with-authority", "ds-authority-confidence cf-"+confidence);
                             authItem.addContent(displayValue);
+                            authItem.addHidden("authority").setValue(value.authority);
                         }
                         else
                         {

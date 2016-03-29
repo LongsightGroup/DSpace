@@ -550,6 +550,10 @@ public class AuthorityValue {
             Term term = concept.createTerm(name, Term.alternate_term);
             term.update();
         }
+
+        if (concept.getSource().equals("Internal")) {
+            concept.update();
+        }
     }
 
     protected void setAuthorityType(String source) {
