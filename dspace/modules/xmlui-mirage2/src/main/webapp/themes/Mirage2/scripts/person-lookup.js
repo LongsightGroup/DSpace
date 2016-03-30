@@ -121,6 +121,9 @@ function AuthorLookup(url, authorityInput, collectionID) {
             if(aData['insolr']=="false"){
                 $row.addClass("notinsolr");
             }
+            if(aData['status']=='CANDIDATE') {
+                $row.addClass('gray');
+            }
 
             $row.click(function() {
                 var $this = $(this);
