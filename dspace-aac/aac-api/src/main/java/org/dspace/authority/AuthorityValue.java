@@ -272,15 +272,19 @@ public class AuthorityValue {
     public void updateItem(Context context, Item currentItem, Metadatum value) {
         Metadatum newValue = value.copy();
 
-
-        String authID = createConcept(context, getId());
+        String authID;
+        if (currentItem.isArchived()) {
+            authID = createConcept(context, getId(), true);
+        } else {
+            authID = createConcept(context, getId(), false);
+        }
 
         newValue.value = getValue();
         newValue.authority = authID;
         currentItem.replaceMetadataValue(value,newValue);
     }
 
-    private String createConcept(Context context, String authId) {
+    private String createConcept(Context context, String authId, boolean accepted) {
         String field = this.getField(); // ChoiceAuthorityManager.makeFieldKey(dcValue.schema,dcValue.element,dcValue.qualifier)
         /// Find concept and reindex it or make new concept and index it........
 
@@ -315,7 +319,11 @@ public class AuthorityValue {
 
                     if(newConcept==null) {
                         newConcept = scheme.createConcept(authId);
+                        if (accepted) {
                         newConcept.setStatus(Concept.Status.ACCEPTED);
+                        } else {
+                            newConcept.setStatus(Concept.Status.CANDIDATE);
+                        }
                         newConcept.setSource(this.getAuthorityType());
                         this.updateConceptFromAuthorityValue(context, newConcept);
                         Term term = newConcept.createTerm(this.getValue(), Term.prefer_term);
