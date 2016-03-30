@@ -99,15 +99,15 @@ public class AuthorityConceptEventConsumer implements Consumer {
                                 + ", perhaps it has been deleted.");
                     }
                     else if(subject instanceof Concept) {
-                        if(Concept.Status.ACCEPTED.name().equals(((Concept) subject).getStatus()))
+                        if(!Concept.Status.WITHDRAWN.name().equals(((Concept) subject).getStatus()))
                         {
                             log.debug("consume() adding event to update queue: " + event.toString());
-                            /** Index Accepted Concepts */
+                            /** Index Accepted/Candidate Concepts */
                             conceptsToUpdate.add((Concept) subject);
                         }
                         else
                         {
-                            /** Don't index Candidate or withdrawn Concepts */
+                            /** Don't index withdrawn Concepts */
                             identifiersToDelete.add(((Concept) subject).getIdentifier());
                         }
                     }

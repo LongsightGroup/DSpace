@@ -199,16 +199,16 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
         }
         if (nextValue == null) {
             nextValue = AuthorityValueGenerator.generate(context, authorityKey, content, metadataField.replaceAll("\\.", "_"));
-            try {
-                Concept c = null;
-                c = Concept.findByIdentifier(context, authorityKey);
-                if (currentItem.isArchived() && c != null && c.getStatus().equals(Concept.Status.CANDIDATE.name())) {
-                    c.setStatus(Concept.Status.ACCEPTED);
-                    c.update();
-                }
-            } catch (Exception e) { // If SQLE or NPE just ignore and continue
-                log.error(e);
+        }
+        try {
+            Concept c = null;
+            c = Concept.findByIdentifier(context, authorityKey);
+            if (currentItem.isArchived() && c != null && c.getStatus().equals(Concept.Status.CANDIDATE.name())) {
+                c.setStatus(Concept.Status.ACCEPTED);
+                c.update();
             }
+        } catch (Exception e) { // If SQLE or NPE just ignore and continue
+            log.error(e);
         }
         if (nextValue != null && requiresItemUpdate) {
             nextValue.updateItem(context, currentItem, value);

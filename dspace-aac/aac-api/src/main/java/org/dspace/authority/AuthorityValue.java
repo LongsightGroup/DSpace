@@ -71,6 +71,8 @@ public class AuthorityValue {
 
     private String fullText;
 
+    private String status;
+
     /** Alternate Terms */
     private List<String> nameVariants = new ArrayList<String>();
 
@@ -83,6 +85,14 @@ public class AuthorityValue {
 
     public AuthorityValue(SolrDocument document) {
         setValues(document);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getId() {
@@ -205,6 +215,7 @@ public class AuthorityValue {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("id", getId());
         doc.addField("field", getField());
+        doc.addField("status", getStatus());
         doc.addField("value", getValue());
         doc.addField("display-value", getValue());
         doc.addField("full-text", getFullText());
@@ -240,6 +251,7 @@ public class AuthorityValue {
         this.creationDate = (Date) document.getFieldValue("creation_date");
         this.lastModified = (Date) document.getFieldValue("last_modified_date");
         this.fullText = String.valueOf(document.getFieldValue("full-text"));
+        this.status = String.valueOf(document.getFieldValue("status"));
 
         clearNameVariants();
 
@@ -320,9 +332,7 @@ public class AuthorityValue {
                     if(newConcept==null) {
                         newConcept = scheme.createConcept(authId);
                         if (accepted) {
-                        newConcept.setStatus(Concept.Status.ACCEPTED);
-                        } else {
-                            newConcept.setStatus(Concept.Status.CANDIDATE);
+                            newConcept.setStatus(Concept.Status.ACCEPTED);
                         }
                         newConcept.setSource(this.getAuthorityType());
                         this.updateConceptFromAuthorityValue(context, newConcept);
@@ -332,6 +342,7 @@ public class AuthorityValue {
                 }
                 context.commit();
                 if (newConcept != null) {
+                    status = newConcept.getStatus();
                     return newConcept.getIdentifier();
                 }
             } catch (Exception e) {
@@ -497,6 +508,7 @@ public class AuthorityValue {
         this.setLastModified(concept.getLastModified());
         this.setDeleted(false);
         this.setValue(concept.getPreferredLabel());
+        this.setStatus(concept.getStatus());
 
         // Will be the same as hardcoded value in ORCIDAuthorityValue and PersonAuthorityValue
         this.setAuthorityType(concept.getSource());

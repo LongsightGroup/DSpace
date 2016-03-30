@@ -121,6 +121,7 @@ public class SolrAuthority implements ChoiceAuthority {
 
                         Map<String, String> extras = val.choiceSelectMap();
                         extras.put("insolr", val.getId());
+                        extras.put("status", val.getStatus().substring(1, val.getStatus().length()-1));
                         choices.add(new Choice(val.getId(), val.getValue(), val.getValue(), extras));
                         alreadyPresent.add(val);
                     }

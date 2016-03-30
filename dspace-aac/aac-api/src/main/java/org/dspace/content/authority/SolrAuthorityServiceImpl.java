@@ -85,7 +85,7 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
     @Override
     /* this method is called from Consumer that update off concept changes. */
     public void indexContent(Context context, Concept concept, boolean force) throws SQLException {
-        if(Concept.Status.ACCEPTED.name().equals(concept.getStatus()))
+        if(!Concept.Status.WITHDRAWN.name().equals(concept.getStatus()))
             internalIndexContent(AuthorityValue.fromConcept(concept), force);
         //TODO:INDEX ALL THE OUTOGING CONCEPT
 
