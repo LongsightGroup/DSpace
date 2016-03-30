@@ -94,13 +94,11 @@ public class DataProviderServlet extends HttpServlet {
                         dso = Scheme.findByIdentifier(context, uuid);
                         break;
                     case "concept":
-                        // This method should only ever find 1 concept per uuid
-                        dso = Concept.findByIdentifier(context, uuid).get(0);
+                        dso = Concept.findByIdentifier(context, uuid);
                         break;
                     case "term":
-                        // This method should only ever find 1 term per uuid
                         // There should only ever be 1 concept parent
-                        dso = Term.findByIdentifier(context, uuid).get(0).getConcepts()[0];
+                        dso = Term.findByIdentifier(context, uuid).getConcepts()[0];
                         break;
                 }
             } else {

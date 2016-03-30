@@ -317,16 +317,14 @@ public class Negotiator {
                         break;
                     case "concept":
                         if (redirectHTML) {
-                            // This method should only ever find 1 concept per uuid
-                            dso = Concept.findByIdentifier(context, uuid).get(0);
+                            dso = Concept.findByIdentifier(context, uuid);
                         } else {
                             dso = Concept.find(context, id);
                         }
                         break;
                     case "term":
                         if (redirectHTML) {
-                            // This method should only ever find 1 term per uuid
-                            dso = Term.findByIdentifier(context, uuid).get(0);
+                            dso = Term.findByIdentifier(context, uuid);
                         } else {
                             dso = Term.find(context, id);
                         }

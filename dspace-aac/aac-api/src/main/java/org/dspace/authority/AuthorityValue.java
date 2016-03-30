@@ -298,9 +298,9 @@ public class AuthorityValue {
                 if (scheme!=null) {
 
                     if (this.getId() != null) {
-                        List<Concept> newConcepts = Concept.findByIdentifier(context, this.getId());
-                        if (newConcepts != null && newConcepts.size() > 0 && newConcepts.get(0).getPreferredLabel().equals(this.getValue())) {
-                            newConcept = newConcepts.get(0);
+                        Concept c = Concept.findByIdentifier(context, this.getId());
+                        if (c != null && c.getPreferredLabel().equals(this.getValue())) {
+                            newConcept = c;
                         }
                     } else {
                         log.info("AuthorityValue:"+this.getId() +" has a unsaved concept :"+ this.getValue());

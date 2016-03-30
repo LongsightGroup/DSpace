@@ -412,26 +412,21 @@ public class Concept extends AuthorityObject
      * @return the named Concept, or null if not found
      */
 
-    public static ArrayList<Concept> findByIdentifier(Context context, String identifier)
+    public static Concept findByIdentifier(Context context, String identifier)
             throws SQLException
     {
-        ArrayList<Concept> concepts = new ArrayList<Concept>();
         TableRowIterator row = DatabaseManager.query(context, "select * from concept where LOWER(identifier) like LOWER('" + identifier + "')");
 
-        if (row == null)
+        if (row != null)
         {
-            return null;
-        }
-        else
-        {
-
             while(row.hasNext())
             {
-                concepts.add(new Concept(context,row.next()));
-
+                TableRow myRow = row.next();
+                myRow.setTable("concept");
+                return new Concept(context,myRow);
             }
         }
-        return concepts;
+        return null;
     }
     /**
      * Finds all concepts in the site

@@ -185,11 +185,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
             return;
         }
         if (conceptId.contains("uuid:")) {
-            // This should only ever return 1 concept, if any
-            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
-            if (concepts.size() > 0) {
-                concept = concepts.get(0);
-            }
+            concept = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
         } else {
             concept = Concept.find(context, Integer.parseInt(conceptId));
         }
@@ -238,11 +234,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
         }
         Concept concept = null;
         if (conceptId.contains("uuid:")) {
-            // This should only ever return 1 concept, if any
-            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
-            if (concepts.size() > 0) {
-                concept = concepts.get(0);
-            }
+            concept = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
         } else {
             concept = Concept.find(context, Integer.parseInt(conceptId));
         }
@@ -429,11 +421,7 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
         }
         Concept concept = null;
         if (conceptId.contains("uuid:")) {
-            // This should only ever return 1 concept, if any
-            ArrayList<Concept> concepts = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
-            if (concepts.size() > 0) {
-                concept = concepts.get(0);
-            }
+            concept = Concept.findByIdentifier(context, conceptId.replace("uuid:", ""));
         } else {
             concept = Concept.find(context, Integer.parseInt(conceptId));
         }

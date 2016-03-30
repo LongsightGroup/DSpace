@@ -153,11 +153,7 @@ public class MetadataConverterPlugin implements ConverterPlugin
             Concept concept = null;
 
             if (value.authority != null && !value.authority.trim().equals("")) {
-                List<Concept> concepts = Concept.findByIdentifier(context, value.authority);
-                if(concepts != null && concepts.size() > 0)
-                {
-                    concept = concepts.get(0);
-                }
+                concept = Concept.findByIdentifier(context, value.authority);
             }
 
 
