@@ -373,7 +373,7 @@ public class Term extends AuthorityObject {
                 getID());
         if (trow.getLongColumn("num") > 0)
         {
-            log.error("can't remove term :"+getID()+", concept refered");
+            log.error("Can't remove term :"+getID()+", concept referred");
         }
 
         // Remove from cache
@@ -382,8 +382,8 @@ public class Term extends AuthorityObject {
 
         // Remove metadata
         DatabaseManager.updateQuery(ourContext,
-                "DELETE FROM MetadataValue WHERE resource_id= ? ",
-                getID());
+                "DELETE FROM metadatavalue WHERE resource_id=? AND resource_type_id=?",
+                getID(), Constants.TERM);
 
         // Remove any concept memberships first
         DatabaseManager.updateQuery(ourContext,

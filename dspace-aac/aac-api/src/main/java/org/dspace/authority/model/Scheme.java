@@ -504,8 +504,8 @@ public class Scheme extends AuthorityObject
         ourContext.removeCached(this, getID());
         // Remove metadata
         DatabaseManager.updateQuery(ourContext,
-                "DELETE FROM MetadataValue WHERE resource_id= ? ",
-                getID());
+                "DELETE FROM metadatavalue WHERE resource_id=? AND resource_type_id=?",
+                getID(), Constants.SCHEME);
         Concept[] concepts = getConcepts();
         for(Concept concept : concepts)
         {

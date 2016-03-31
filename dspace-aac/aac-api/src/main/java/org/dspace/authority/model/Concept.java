@@ -720,8 +720,11 @@ public class Concept extends AuthorityObject
 
         // Remove all metadata
         DatabaseManager.updateQuery(ourContext,
-                "DELETE FROM MetadataValue WHERE resource_id= ? ",
-                getID());
+                "DELETE FROM metadatavalue WHERE resource_id=? AND resource_type_id=?",
+                getID(), Constants.CONCEPT);
+        DatabaseManager.updateQuery(ourContext,
+                "UPDATE metadatavalue SET authority=NULL WHERE authority=?",
+                getIdentifier());
 
         //delete term
         Term[] terms = getTerms();
