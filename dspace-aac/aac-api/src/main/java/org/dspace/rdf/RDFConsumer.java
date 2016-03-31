@@ -10,6 +10,7 @@ package org.dspace.rdf;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.log4j.Logger;
+import org.dspace.authority.model.Concept;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.*;
 import org.dspace.core.Constants;
@@ -53,6 +54,14 @@ public class RDFConsumer implements Consumer
                 + event.getSubjectTypeAsString() + ":" + event.getSubjectID());
         switch (sType)
         {
+            case (Constants.CONCEPT) :
+            {
+                this.consumeConceptScheme(ctx, event);
+            }
+            case (Constants.SCHEME) :
+            {
+                this.consumeConceptScheme(ctx, event);
+            }
             case (Constants.BITSTREAM) :
             {
                 this.consumeBitstream(ctx, event);
@@ -285,6 +294,88 @@ public class RDFConsumer implements Consumer
         }
         log.warn("Got an unexpected Event for the SITE. Event type is " 
                 + event.getEventTypeAsString() + ", ignoring.");
+    }
+
+
+    public void consumeConceptScheme(Context ctx, Event event) throws SQLException
+    {
+        if (event.getSubjectType() != Constants.CONCEPT
+                && event.getSubjectType() != Constants.SCHEME)
+        {
+            log.error("Called on an unexpected Event with subject type "
+                    + event.getSubjectTypeAsString() + " and event type "
+                    + event.getEventTypeAsString() + ", ignoring.");
+            return;
+        }
+
+        if (event.getEventType() == Event.DELETE)
+        {
+            DSOIdentifier id = new DSOIdentifier(event.getSubjectType(),
+                    event.getSubjectID(), event.getDetail(), event.getIdentifiers());
+
+            if (this.toConvert.contains(id))
+            {
+                this.toConvert.remove(id);
+            }
+
+            if (!this.toDelete.contains(id))
+            {
+                this.toDelete.addLast(id);
+            }
+            return;
+        }
+
+        if (event.getEventType() == Event.MODIFY
+                || event.getEventType() == Event.MODIFY_METADATA
+                || event.getEventType() == Event.ADD
+                || event.getEventType() == Event.REMOVE
+                || event.getEventType() == Event.CREATE)
+        {
+            // we have to find the dso as the handle is set as detail only
+            // if the event type is delete.
+            DSpaceObject dso = event.getSubject(ctx);
+            if (dso == null)
+            {
+                log.debug("Cannot find " + event.getSubjectTypeAsString() + " "
+                        + event.getSubjectID() + "! " + "Ignoring, as it is "
+                        + "likely it was deleted and we'll cover it by another "
+                        + "event with the type REMOVE.");
+                return;
+            }
+
+            // ignore candidate Concepts here.
+            if (dso instanceof Concept
+                    && !((Concept)dso).getStatus().equals(Concept.Status.CANDIDATE.name()))
+            {
+                log.debug("Ignoring Concept " + dso.getID() + " as candidate.");
+                return;
+            }
+
+            DSOIdentifier id = new DSOIdentifier(dso, ctx);
+            // If an item gets withdrawn, a MODIFIY event is fired. We have to
+            // delete the item from the triple store instead of converting it.
+            // we don't have to take care for reinstantions of items as they can
+            // be processed as normal modify events.
+            if (dso instanceof Concept
+                    && !((Concept)dso).getStatus().equals(Concept.Status.WITHDRAWN.name()))
+            {
+                if (this.toConvert.contains(id))
+                {
+                    this.toConvert.remove(id);
+                }
+                if (!this.toDelete.contains(id))
+                {
+                    this.toDelete.add(id);
+                    return;
+                }
+            }
+
+            if (!this.toDelete.contains(id)
+                    && !this.toConvert.contains(id))
+            {
+                this.toConvert.addLast(id);
+            }
+        }
     }
 
     @Override
