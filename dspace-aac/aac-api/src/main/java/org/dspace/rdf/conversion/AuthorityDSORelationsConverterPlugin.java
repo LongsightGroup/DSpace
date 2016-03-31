@@ -7,15 +7,10 @@
  */
 package org.dspace.rdf.conversion;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
-import com.hp.hpl.jena.datatypes.xsd.impl.XSDDateTimeType;
-import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.vocabulary.DCTerms;
-import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 import org.apache.log4j.Logger;
 import org.dspace.authority.model.*;
@@ -52,12 +47,16 @@ implements ConverterPlugin
     /**
      * @return A model containing the PREFIXES
      */
-    protected Model getPrefixes()
-    {
+    protected Model getPrefixes(Context context) throws SQLException {
         Model m = ModelFactory.createDefaultModel();
         m.setNsPrefix("skos","http://www.w3.org/2004/02/skos/core#");
         m.setNsPrefix("skosxl","http://www.w3.org/2008/05/skos-xl#");
         m.setNsPrefix("rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+
+        for(MetadataSchema schema : MetadataSchema.findAll(context))
+        {
+            m.setNsPrefix(schema.getName(), schema.getNamespace());
+        }
         return m;
     }
 
@@ -94,7 +93,7 @@ implements ConverterPlugin
             throws SQLException
     {
         Model m = ModelFactory.createDefaultModel();
-        Model prefixes = this.getPrefixes();
+        Model prefixes = this.getPrefixes(context);
         m.setNsPrefixes(prefixes);
         prefixes.close();
 
@@ -166,7 +165,7 @@ implements ConverterPlugin
     {
 
         Model m = ModelFactory.createDefaultModel();
-        Model prefixes = this.getPrefixes();
+        Model prefixes = this.getPrefixes(context);
         m.setNsPrefixes(prefixes);
         prefixes.close();
 
@@ -285,7 +284,7 @@ implements ConverterPlugin
     public Model convertTerm(Context context, Term term)
             throws SQLException {
         Model m = ModelFactory.createDefaultModel();
-        Model prefixes = this.getPrefixes();
+        Model prefixes = this.getPrefixes(context);
         m.setNsPrefixes(prefixes);
         prefixes.close();
 
@@ -393,13 +392,8 @@ implements ConverterPlugin
     public Model convertMetadata(Context ctx, String myId, DSpaceObject obj) throws SQLException {
 
         Model m = ModelFactory.createDefaultModel();
-        Model prefixes = this.getPrefixes();
+        Model prefixes = this.getPrefixes(ctx);
         m.setNsPrefixes(prefixes);
-
-        for(Metadatum metadatum : obj.getMetadata()) {
-            MetadataSchema schema = MetadataSchema.find(ctx, metadatum.schema);
-            m.setNsPrefix(schema.getName(), schema.getNamespace());
-        }
 
         prefixes.close();
 
