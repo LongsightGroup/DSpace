@@ -1,7 +1,7 @@
 <dspace-dc-types>
     <dc-schema>
         <name>person</name>
-        <namespace>http://dspace.org/person</namespace>
+        <namespace>http://dspace.org/person/</namespace>
     </dc-schema>
 
     <dc-type>
