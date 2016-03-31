@@ -7,6 +7,7 @@
  */
 package org.dspace.rdf.conversion;
 
+import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.util.FileManager;
@@ -611,13 +612,13 @@ implements ConverterPlugin
                 m.add(m.createResource(myId), RDF.type, REPO.Bitstream );
                 m.add(m.createResource(myId), OWL.sameAs, m.createResource(bitstreamURI(bitstream)));
                 m.add(m.createResource(myId), DC.title, bitstream.getName());
-                if(bitstream.getDescription() != null) {
+                if(bitstream.getDescription() != null && bitstream.getDescription().trim().length() > 0) {
                     m.add(m.createResource(myId), DC.description, bitstream.getDescription());
                 }
                 m.add(m.createResource(myId), REPO.checksum, bitstream.getChecksum());
                 m.add(m.createResource(myId), REPO.checksumAlgorithm, bitstream.getChecksumAlgorithm());
                 m.add(m.createResource(myId), REPO.mimeType, bitstream.getFormat().getMIMEType());
-                m.add(m.createResource(myId), REPO.size, bitstream.getSize() + "");
+                m.add(m.createResource(myId), REPO.size, m.createTypedLiteral(new Long(bitstream.getSize())));
 
             }
 
