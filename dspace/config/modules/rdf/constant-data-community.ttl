@@ -1,6 +1,5 @@
 @prefix bibo:   <http://purl.org/ontology/bibo/> .
 @prefix dspace:     <http://digital-repositories.org/ontologies/dspace/0.1.0#> .
 
-<> a   bibo:Collection;
-    a   dspace:Community;
+<> a   dspace:Community;
     .
