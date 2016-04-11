@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
+import org.dspace.app.util.MetadataExposure;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.DSpaceValidity;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -328,39 +329,34 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                 }
             }
 
-            if(AuthorizeManager.isAdmin(context)){
-                //only admin can see metadata
-                java.util.List<Metadatum> values = concept.getMetadata();
-                int i = 0;
+            java.util.List<Metadatum> values = concept.getMetadata();
+            int i = 0;
 
-                if(values!=null&&values.size()>0)
+            if(values!=null&&values.size()>0)
+            {
+                Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
+                metadataSection.setHead(T_metadata_values);
+                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
+
+                Row header = metadataTable.addRow(Row.ROLE_HEADER);
+                header.addCell().addContent(T_field_name);
+                header.addCell().addContent(T_value);
+                while (i<values.size()&&values.get(i)!=null)
                 {
-                    Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
-                    metadataSection.setHead(T_metadata_values);
-                    Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
-
-                    Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                    header.addCell().addContent(T_field_name);
-                    header.addCell().addContent(T_value);
-                    while (i<values.size()&&values.get(i)!=null)
-                    {
-
-                        Metadatum value = (Metadatum)values.get(i);
+                    Metadatum value = (Metadatum)values.get(i);
+                    if (!MetadataExposure.isHidden(context, value.schema, value.element, value.qualifier)) {
                         Row mRow = metadataTable.addRow();
 
-                        if(value.qualifier!=null&&value.qualifier.length()>0)
-                        {
+                        if (value.qualifier != null && value.qualifier.length() > 0) {
                             mRow.addCell().addContent(value.schema + "." + value.element + "." + value.qualifier);
-                        }
-                        else
-                        {
+                        } else {
                             mRow.addCell().addContent(value.schema + "." + value.element);
                         }
                         mRow.addCell().addContent(value.value);
-                        i++;
                     }
-
+                    i++;
                 }
+
             }
 
             for (Concept2ConceptRole role : Concept2ConceptRole.findAll(context)) {

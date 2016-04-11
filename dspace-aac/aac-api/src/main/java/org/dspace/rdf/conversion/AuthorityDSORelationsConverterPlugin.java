@@ -13,6 +13,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.RDF;
 import org.apache.log4j.Logger;
+import org.dspace.app.util.MetadataExposure;
 import org.dspace.authority.model.*;
 import org.dspace.content.*;
 import org.dspace.core.Constants;
@@ -398,14 +399,16 @@ implements ConverterPlugin
         prefixes.close();
 
         for(Metadatum metadatum : obj.getMetadata()) {
-            MetadataSchema schema = MetadataSchema.find(ctx, metadatum.schema);
+            if (!MetadataExposure.isHidden(ctx, metadatum.schema, metadatum.element, metadatum.qualifier)) {
+                MetadataSchema schema = MetadataSchema.find(ctx, metadatum.schema);
 
-            m.add(
-                    m.createResource(myId),
-                    m.createProperty(schema.getNamespace(),metadatum.element),
-                    metadatum.value.startsWith("http") ?
-                            m.createResource(metadatum.value) :
-                            m.createLiteral(metadatum.value));
+                m.add(
+                        m.createResource(myId),
+                        m.createProperty(schema.getNamespace(), metadatum.element),
+                        metadatum.value.startsWith("http") ?
+                                m.createResource(metadatum.value) :
+                                m.createLiteral(metadatum.value));
+            }
         }
 
         if (m.isEmpty())

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
+import org.dspace.app.util.MetadataExposure;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.DSpaceValidity;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -252,30 +253,26 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
         aRow.addCell().addContent(T_creation_date);
         aRow.addCell().addContent(scheme.getCreated().toString());
 
-        if(AuthorizeManager.isAdmin(context))
-        {
-            ArrayList<Metadatum> values = new ArrayList(scheme.getMetadata());
-            Iterator i = values.iterator();
-            if(values!=null&&values.size()>0) {
-                Division metadataSection = viewer.addDivision("metadata-section","thesaurus-section");
-                metadataSection.setHead(T_metadata_values);
-                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
+        ArrayList<Metadatum> values = new ArrayList(scheme.getMetadata());
+        Iterator i = values.iterator();
+        if(values!=null&&values.size()>0) {
+            Division metadataSection = viewer.addDivision("metadata-section","thesaurus-section");
+            metadataSection.setHead(T_metadata_values);
+            Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 2,"detailtable thesaurus-table");
 
-                Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                header.addCell().addContent(T_field_name);
-                header.addCell().addContent(T_value);
-                while (i.hasNext())
-                {
-                    Metadatum value = (Metadatum)i.next();
+            Row header = metadataTable.addRow(Row.ROLE_HEADER);
+            header.addCell().addContent(T_field_name);
+            header.addCell().addContent(T_value);
+            while (i.hasNext())
+            {
+                Metadatum value = (Metadatum)i.next();
+                if (!MetadataExposure.isHidden(context, value.schema, value.element, value.qualifier)) {
                     Row mRow = metadataTable.addRow();
 
-                    if(value.qualifier!=null&&value.qualifier.length()>0)
-                    {
-                        mRow.addCell().addContent(value.schema+"."+value.element+"."+value.qualifier);
-                    }
-                    else
-                    {
-                        mRow.addCell().addContent(value.schema+"."+value.element);
+                    if (value.qualifier != null && value.qualifier.length() > 0) {
+                        mRow.addCell().addContent(value.schema + "." + value.element + "." + value.qualifier);
+                    } else {
+                        mRow.addCell().addContent(value.schema + "." + value.element);
                     }
                     mRow.addCell().addContent(value.value);
                 }

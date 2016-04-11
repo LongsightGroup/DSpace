@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
+import org.dspace.app.util.MetadataExposure;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.DSpaceValidity;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -264,20 +265,19 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
             aRow.addCell().addContent("Status");
             aRow.addCell().addContent(term.getStatus());
 
-            if(AuthorizeManager.isAdmin(context)){
-                //only admin can see metadata
-                ArrayList<Metadatum> values = new ArrayList(term.getMetadata());
-                if (!values.isEmpty()) {
-                    Iterator i = values.iterator();
-                    Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
-                    metadataSection.setHead("Metadata Values");
-                    Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 3, "detailtable thesaurus-table");
+            ArrayList<Metadatum> values = new ArrayList(term.getMetadata());
+            if (!values.isEmpty()) {
+                Iterator i = values.iterator();
+                Division metadataSection = viewer.addDivision("metadata-section", "thesaurus-section");
+                metadataSection.setHead("Metadata Values");
+                Table metadataTable = metadataSection.addTable("metadata", values.size() + 1, 3, "detailtable thesaurus-table");
 
-                    Row header = metadataTable.addRow(Row.ROLE_HEADER);
-                    header.addCell().addContent("Field Name");
-                    header.addCell().addContent("Value");
-                    while (i.hasNext()) {
-                        Metadatum value = (Metadatum) i.next();
+                Row header = metadataTable.addRow(Row.ROLE_HEADER);
+                header.addCell().addContent("Field Name");
+                header.addCell().addContent("Value");
+                while (i.hasNext()) {
+                    Metadatum value = (Metadatum) i.next();
+                    if (!MetadataExposure.isHidden(context, value.schema, value.element, value.qualifier)) {
                         Row mRow = metadataTable.addRow();
 
                         if (value.qualifier != null && value.qualifier.length() > 0) {
