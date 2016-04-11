@@ -2268,6 +2268,8 @@
     <message key="xmlui.metadata.dc.composer">Composer</message>
     <message key="xmlui.metadata.dc.contributor">Contributor</message>
     <message key="xmlui.metadata.dc.contributor.author">Author</message>
+	<message key="xmlui.metadata.dc.contributor.editor">Editor</message>
+	<message key="xmlui.metadata.dc.contributor.publication">Publisher</message>
     <message key="xmlui.metadata.dc.creator">Creator</message>
     <message key="xmlui.metadata.dc.date">Date</message>
     <message key="xmlui.metadata.dc.date.accessioned">Date Accessioned</message>
@@ -2285,6 +2287,7 @@
     <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Identifier (Citation)</message>
 	<message key="xmlui.metadata.dc.identifier.doi">DOI</message>
+	<message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
     <message key="xmlui.metadata.dc.identifier.other">Identifier (Other)</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier (URI)</message>
 	<message key="xmlui.metadata.dc.journal.issue">Issue</message>
@@ -2296,12 +2299,15 @@
     <message key="xmlui.metadata.dc.relation.ispartofseries">Part of Series</message>
 	<message key="xmlui.metadata.dc.relation.journal">Publication Title</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
+	<message key="xmlui.metadata.dc.rights.holder">Rights Holder</message>
+	<message key="xmlui.metadata.dc.rights.uri">Rights URL</message>
     <message key="xmlui.metadata.dc.source">Source</message>
     <message key="xmlui.metadata.dc.subject">Subject</message>
     <message key="xmlui.metadata.dc.title">Title</message>
     <message key="xmlui.metadata.dc.title.alternative">Alternative Title</message>
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
+	<message key="xmlui.metadata.dcterms.bibliographicCitation">Citation</message>
 
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
