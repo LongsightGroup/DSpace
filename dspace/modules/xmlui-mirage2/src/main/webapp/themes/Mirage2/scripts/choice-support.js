@@ -280,6 +280,9 @@ function DSpaceChoicesLoad(form) {
 
                 var newOption = $('<option value="' + current.attr('value') + '">' + current.text() + '</option>');
                 newOption.data('authority', current.attr('authority'));
+                if (current.attr('status')=='CANDIDATE') {
+                    newOption.addClass('gray');
+                }
 
                 if (lastOption.length > 0)
                     lastOption.before(newOption);
