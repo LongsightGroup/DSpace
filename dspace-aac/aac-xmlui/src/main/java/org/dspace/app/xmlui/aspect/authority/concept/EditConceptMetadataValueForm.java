@@ -62,7 +62,7 @@ public class EditConceptMetadataValueForm extends AbstractDSpaceTransformer {
     private static final Message T_option_view = message("xmlui.administrative.item.general.option_view");
     private static final Message T_option_curate = message("xmlui.administrative.item.general.option_curate");
 
-    private static final Message T_title = message("xmlui.administrative.EditConceptMetadataForm.title");
+    private static final Message T_title = message("xmlui.administrative.EditConceptMetadataValueForm.title");
     private static final Message T_trail = message("xmlui.administrative.EditConceptMetadataValueForm.trail");
     private static final Message T_head1 = message("xmlui.administrative.item.EditItemMetadataForm.head1");
     private static final Message T_name_label = message("xmlui.administrative.item.EditItemMetadataForm.name_label");
