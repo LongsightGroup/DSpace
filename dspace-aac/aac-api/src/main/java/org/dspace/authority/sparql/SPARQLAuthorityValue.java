@@ -3,6 +3,7 @@ package org.dspace.authority.sparql;
 import com.hp.hpl.jena.rdf.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.authority.AuthoritySource;
 import org.dspace.authority.AuthorityTypes;
@@ -11,18 +12,14 @@ import org.dspace.authority.AuthorityValueGenerator;
 import org.dspace.authority.model.Concept;
 import org.dspace.authority.model.Term;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.content.MetadataField;
-import org.dspace.content.MetadataSchema;
-import org.dspace.content.Metadatum;
-import org.dspace.content.NonUniqueMetadataException;
+import org.dspace.content.*;
+import org.dspace.content.Collection;
 import org.dspace.core.Context;
 import org.dspace.utils.DSpace;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * User: mini @ atmire . com
@@ -279,5 +276,19 @@ public class SPARQLAuthorityValue extends AuthorityValue {
 
     public Model getModel() {
         return model;
+    }
+
+    @Override
+    public void setValues(Concept concept) throws SQLException {
+        super.setValues(concept);
+        if(concept.getMetadata("dcterms","identifier",null, Item.ANY)!=null){
+            this.sparql_id = concept.getMetadata("dcterms","identifier",null, Item.ANY)[0].value;
+        }
+    }
+
+    @Override
+    public void setValues(SolrDocument document) {
+        super.setValues(document);
+        this.sparql_id = String.valueOf(document.getFieldValue("sparql_id"));
     }
 }
