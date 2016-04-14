@@ -250,7 +250,7 @@ public class ManageSchemeMain extends AbstractDSpaceTransformer
             //row.addCellContent(schemeID);
             if(isSystemAdmin){
                 Cell identifierCell = row.addCell();
-                identifierCell.addXref("/scheme/"+scheme.getID(), scheme.getName());
+                identifierCell.addXref(contextPath + "/scheme/"+scheme.getID(), scheme.getName());
                 identifierCell.addContent(" (" + scheme.getIdentifier().substring(0,8) + ")");
                 row.addCell().addContent(scheme.getCreated().toString());
                 Cell actionCell = row.addCell() ;
