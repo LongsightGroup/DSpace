@@ -538,14 +538,6 @@ public class RDFConsumer implements Consumer
         
         DSOIdentifier(DSpaceObject dso, Context ctx)
         {
-            if (dso.getType() != Constants.SITE 
-                    && dso.getType() != Constants.COMMUNITY
-                    && dso.getType() != Constants.COLLECTION
-                    && dso.getType() != Constants.ITEM)
-            {
-                throw new IllegalArgumentException("Provided DSpaceObject does"
-                        + " not have a handle!");
-            }
             this.type = dso.getType();
             this.id = dso.getID();
             this.handle = dso.getHandle();
