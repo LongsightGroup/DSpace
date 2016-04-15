@@ -414,6 +414,7 @@
 
     <message key="xmlui.administrative.concept.AddConceptForm.top_concept">Top Level</message>
     <message key="xmlui.administrative.FlowConceptUtils.add_Concept_success_notice">Concept Successfully Added</message>
+    <message key="xmlui.administrative.term.EditTermForm.title">Edit Term</message>
     <message key="xmlui.administrative.term.EditTermForm.head1">Edit Term</message>
     <message key="xmlui.administrative.term.EditTermForm.trail">Edit Attributes</message>
     <message key="xmlui.administrative.term.general.epeople_trail">Term</message>
