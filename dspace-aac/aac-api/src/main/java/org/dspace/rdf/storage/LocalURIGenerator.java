@@ -34,7 +34,7 @@ public class LocalURIGenerator implements URIGenerator {
 
     @Override
     public String generateIdentifier(Context context, int type, int id, 
-            String handle, String[] identifiers)
+            String identifier, String[] identifiers)
             throws SQLException
     {
         String urlPrefix = RDFConfiguration.getDSpaceRDFModuleURI() + "/resource/";
@@ -46,17 +46,29 @@ public class LocalURIGenerator implements URIGenerator {
 
         if (type == Constants.SCHEME)
         {
-            return urlPrefix + "scheme/uuid:" + Scheme.find(context, id).getIdentifier();
+            if (identifier != null) {
+                return urlPrefix + "scheme/uuid:" + identifier;
+            } else {
+                return urlPrefix + "scheme/uuid:" + Scheme.find(context, id).getIdentifier();
+            }
         }
 
         if (type == Constants.CONCEPT)
         {
-            return urlPrefix + "concept/uuid:" + Concept.find(context, id).getIdentifier();
+            if (identifier != null) {
+                return urlPrefix + "concept/uuid:" + identifier;
+            } else {
+                return urlPrefix + "concept/uuid:" + Concept.find(context, id).getIdentifier();
+            }
         }
 
         if (type == Constants.TERM)
         {
-            return urlPrefix + "term/uuid:" + Term.find(context, id).getIdentifier();
+            if (identifier != null) {
+                return urlPrefix + "term/uuid:" + identifier;
+            } else {
+                return urlPrefix + "term/uuid:" + Term.find(context, id).getIdentifier();
+            }
         }
 
         if (type == Constants.BITSTREAM)
@@ -88,11 +100,11 @@ public class LocalURIGenerator implements URIGenerator {
                 || type == Constants.COLLECTION 
                 || type == Constants.ITEM)
         {
-            if (StringUtils.isEmpty(handle))
+            if (StringUtils.isEmpty(identifier))
             {
                 throw new IllegalArgumentException("Handle is null");
             }
-            return urlPrefix + handle;
+            return urlPrefix + identifier;
         }
 
         return null;
