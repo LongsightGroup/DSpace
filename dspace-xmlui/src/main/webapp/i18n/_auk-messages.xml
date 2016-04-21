@@ -127,6 +127,7 @@
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_identifier">Identifier</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_language">Language (ISO)</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_keyword">Keyword</message>
+	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_type">Type</message>
 
    <!--  some common other possibilities for Advanced Search Fields -->
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_advisor">Advisor</message>
