@@ -210,6 +210,9 @@
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.firstLineOfChorus">Browsing {0} by First Line of Chorus {1}</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.firstLineOfChorus">Browsing {0} by First Line of Chorus</message>
 
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.type">Browsing {0} by Type {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.type">Browsing {0} by Type</message>
+
 	<!-- org.dspace.app.xmlui.administrative.WithdrawnItems.java -->
 	<message key="xmlui.Administrative.WithdrawnItems.title.item.title">Withdrawn Items by Title</message>
 	<message key="xmlui.Administrative.WithdrawnItems.trail.item.title">Withdrawn Items by Title</message>
@@ -308,6 +311,7 @@
     <message key="xmlui.ArtifactBrowser.Navigation.browse_publisher">Publisher</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfText">First Line of Text</message>
     <message key="xmlui.ArtifactBrowser.Navigation.browse_firstLineOfChorus">First Line of Chorus</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_type">Type</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
 	<message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
 
@@ -317,6 +321,7 @@
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.search_scope">Search Scope</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.full_text_search">Full Text Search</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.type">Type</message>
 
 	<!-- org.dspace.app.xmlui.artifactbrowser.RestrictedItem.java -->
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.title">This resource is restricted</message>
@@ -343,7 +348,7 @@
         <message key="xmlui.ArtifactBrowser.RestrictedItem.para_item_withdrawn">The selected item is withdrawn and is no longer available.</message>
         <message key="xmlui.ArtifactBrowser.RestrictedItem.para_item_restricted_auth">The selected item is access restricted and requires credentials to view. Please login to access the item.</message>
         <message key="xmlui.ArtifactBrowser.RestrictedItem.para_item_restricted">Your user account does not have the credentials to view this item. Please contact the system administrator if you have any questions.</message>
-        
+
 	<!-- Authentication messages used at the top of the login page:  -->
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.auth_header">The item is restricted</message>
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.auth_message">The item you are attempting to access is a restricted item and requires credentials to view. Please login below to access the item.</message>
@@ -421,7 +426,7 @@
     <message key="xmlui.ArtifactBrowser.ItemRequestResponseTrueForm.toEmail">To</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestResponseTrueForm.mail">Send</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestResponseTrueForm.back">Back</message>
-	
+
 	 <!-- org.dspace.app.xmlui.artifactbrowser.ItemRequestChangeStatusForm.java -->
 	<message key="xmlui.ArtifactBrowser.ItemRequestChangeStatusForm.title">Change permissions request</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestChangeStatusForm.trail">Change permissions request</message>
@@ -432,7 +437,7 @@
     <message key="xmlui.ArtifactBrowser.ItemRequestChangeStatusForm.name.error">The name is required</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestChangeStatusForm.email.error">The e-mail address is required</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestChangeStatusForm.changeToOpen">Change to open access</message>
-	        
+
 	<!-- org.dspace.app.xmlui.artifactbrowser.ItemRequestResponseFalseForm.java -->
 	<message key="xmlui.ArtifactBrowser.ItemRequestStatusChanged.title">Request sent</message>
 	<message key="xmlui.ArtifactBrowser.ItemRequestStatusChanged.trail">Request sent</message>
@@ -469,7 +474,7 @@
     <message key="xmlui.ArtifactBrowser.ItemRequestResponseSent.para1">Your response has been sent.</message>
 
 
-	
+
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		                EPerson Aspect
@@ -2087,7 +2092,7 @@
 	<message key="xmlui.administrative.NotAuthorized.para1b">system administrators</message>
 	<message key="xmlui.administrative.NotAuthorized.para1c">.</message>
 	<message key="xmlui.administrative.NotAuthorized.para2">Login as another user</message>
-        
+
         <!-- System-wide Curation Tasks form (org.dspace.app.xmlui.aspect.administrative.CurateForm) -->
         <message key="xmlui.administrative.CurateForm.title">System Curation Tasks</message>
         <message key="xmlui.administrative.CurateForm.trail">Curation Tasks</message>
