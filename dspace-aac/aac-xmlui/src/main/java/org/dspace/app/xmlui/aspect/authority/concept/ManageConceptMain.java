@@ -281,14 +281,6 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
         for (Concept concept : concepts)
         {
             String conceptID = String.valueOf(concept.getID());
-            String url = "";
-            if(scheme!=null){
-                url = conceptURL+"/"+conceptID;
-            }
-            else
-            {
-                url = "/concept/"+conceptID;
-            }
 
             //java.util.List<String> deleteConstraints = concept.getDeleteConstraints();
 
@@ -312,7 +304,7 @@ public class ManageConceptMain extends AbstractDSpaceTransformer
 //            }
 
             row.addCell().addContent(concept.getCreated().toString());
-            row.addCell().addXref("/concept/"+concept.getID(), concept.getLabel());
+            row.addCell().addXref(contextPath + "/concept/"+concept.getID(), concept.getLabel());
             Cell actionCell = row.addCell() ;
             actionCell.addXref(contextPath+"/admin/concept?conceptID="+conceptID+"&edit", T_actions_edit_attribute);
             actionCell.addContent(" | ");

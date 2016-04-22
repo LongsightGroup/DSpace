@@ -390,14 +390,14 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
                         Concept incomingConcept = Concept.find(context,parentRelation.getOutgoingId());
                         Row acRow = table.addRow();
                         acRow.addCell().addContent(outgoingLabel);
-                        acRow.addCell().addXref("/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
+                        acRow.addCell().addXref(contextPath + "/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
                     }
                     for(Concept2Concept childRelation : child)
                     {
                         Concept incomingConcept = Concept.find(context,childRelation.getIncomingId());
                         Row acRow = table.addRow();
                         acRow.addCell().addContent(incomingLabel);
-                        acRow.addCell().addXref("/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
+                        acRow.addCell().addXref(contextPath + "/concept/"+incomingConcept.getID(),incomingConcept.getLabel());
                     }
                 }
             }

@@ -544,6 +544,7 @@
                             </xsl:call-template>
                             <a>
                                 <xsl:attribute name="href">
+                                    <xsl:value-of select="//dri:pageMeta/dri:metadata[@element='contextPath']"/>
                                     <xsl:text>/concept/uuid:</xsl:text>
                                     <xsl:value-of select=".//dri:value"/>
                                 </xsl:attribute>
@@ -926,6 +927,7 @@
                         </xsl:call-template>
                         <a>
                             <xsl:attribute name="href">
+                                <xsl:value-of select="//dri:pageMeta/dri:metadata[@element='contextPath']"/>
                                 <xsl:text>/concept/uuid:</xsl:text>
                                 <xsl:value-of select="dri:instance[position()=$position]/dri:value[@type='authority']/text()"/>
                             </xsl:attribute>
@@ -1177,6 +1179,7 @@
                     </xsl:if>
                     <a>
                             <xsl:attribute name="href">
+                                <xsl:value-of select="//dri:pageMeta/dri:metadata[@element='contextPath']"/>
                                 <xsl:text>/concept/uuid:</xsl:text>
                                 <xsl:value-of select="dri:instance[position()=$position]/dri:value[@type='authority']/text()"/>
                             </xsl:attribute>

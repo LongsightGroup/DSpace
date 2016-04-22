@@ -215,7 +215,7 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         actions.setHead(T_actions_head);
 
         List actionsList = actions.addList("actions");
-        actionsList.addItemXref(termURL + "&submit_add", T_actions_create_link);
+        actionsList.addItemXref(contextPath + termURL + "&submit_add", T_actions_create_link);
 
         actionsList.addLabel(T_actions_search);
         org.dspace.app.xmlui.wing.element.Item actionItem = actionsList.addItem();
@@ -227,7 +227,7 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         }
         queryField.setHelp(T_search_help);
         actionItem.addButton("submit_search").setValue(T_go);
-        actionItem.addXref(termURL + "&query&submit_search", T_clear);
+        actionItem.addXref(contextPath + termURL + "&query&submit_search", T_clear);
 
         // DIVISION: term-search
         Division search = main.addDivision("term-search");
@@ -243,11 +243,11 @@ public class ManageTermMain extends AbstractDSpaceTransformer
             String nextURL = null, prevURL = null;
             if (page < (resultCount / PAGE_SIZE))
             {
-                nextURL = termURL + "&page=" + (page + 1);
+                nextURL = contextPath + termURL + "&page=" + (page + 1);
             }
             if (page > 0)
             {
-                prevURL = termURL + "&page=" + (page - 1);
+                prevURL = contextPath + termURL + "&page=" + (page - 1);
             }
 
             search.setSimplePagination(resultCount,firstIndex,lastIndex,prevURL, nextURL);
@@ -264,7 +264,6 @@ public class ManageTermMain extends AbstractDSpaceTransformer
         for (Term term : terms)
         {
             String termID = String.valueOf(term.getID());
-            String url = termURL+"&submit_edit&termID="+termID;
             //java.util.List<String> deleteConstraints = term.getDeleteConstraints();
 
             Row row;

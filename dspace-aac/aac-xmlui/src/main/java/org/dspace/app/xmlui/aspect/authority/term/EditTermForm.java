@@ -197,7 +197,7 @@ public class EditTermForm extends AbstractDSpaceTransformer
 
 
         // DIVISION: term-edit
-        Division edit = body.addInteractiveDivision("term-edit",formUrl,Division.METHOD_POST,"primary administrative term");
+        Division edit = body.addInteractiveDivision("term-edit",contextPath + formUrl,Division.METHOD_POST,"primary administrative term");
         edit.setHead(T_head1);
 
 

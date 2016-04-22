@@ -271,6 +271,7 @@
                         <td>
                             <a>
                                 <xsl:attribute name="href">
+                                    <xsl:value-of select="//dri:pageMeta/dri:metadata[@element='contextPath']"/>
                                     <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
                                 </xsl:attribute>
                                 Concept link
@@ -517,6 +518,7 @@
                     <td>
                         <a>
                             <xsl:attribute name="href">
+                                <xsl:value-of select="//dri:pageMeta/dri:metadata[@element='contextPath']"/>
                                 <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
                             </xsl:attribute>
                             Concept link

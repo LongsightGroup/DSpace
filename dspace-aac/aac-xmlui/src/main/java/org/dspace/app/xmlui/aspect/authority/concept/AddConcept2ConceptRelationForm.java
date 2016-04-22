@@ -224,8 +224,6 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
                 continue;
             }
             String conceptID = String.valueOf(concept.getID());
-            String url = "/concept/"+conceptID;
-
 
             //java.util.List<String> deleteConstraints = concept.getDeleteConstraints();
 
@@ -241,7 +239,7 @@ public class AddConcept2ConceptRelationForm extends AbstractDSpaceTransformer
             }
 
             row.addCell().addContent(concept.getCreated().toString());
-            row.addCell().addXref("/concept/"+concept.getID(), concept.getLabel());
+            row.addCell().addXref(contextPath + "/concept/"+concept.getID(), concept.getLabel());
             selectConcept = row.addCell().addCheckBox("select_concepts");
             selectConcept.setLabel(conceptID);
             selectConcept.addOption(conceptID);
