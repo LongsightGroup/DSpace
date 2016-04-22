@@ -180,6 +180,7 @@
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.publisher.column_heading">Publisher</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstLineOfText.column_heading">First Line of Text</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.firstLineOfChorus.column_heading">First Line of Chorus</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.type.column_heading">Type</message>
 
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing {0} by Author {1}</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing {0} by Author</message>
