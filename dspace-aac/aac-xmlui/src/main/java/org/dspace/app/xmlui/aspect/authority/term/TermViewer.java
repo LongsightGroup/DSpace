@@ -194,7 +194,6 @@ public class TermViewer extends AbstractDSpaceTransformer implements CacheablePr
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         Concept concept = term.getConcepts()[0];
         Scheme owner = concept.getScheme();
         if(owner!=null)

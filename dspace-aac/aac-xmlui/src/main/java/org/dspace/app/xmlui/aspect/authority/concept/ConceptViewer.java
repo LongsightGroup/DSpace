@@ -207,7 +207,6 @@ public class ConceptViewer extends AbstractDSpaceTransformer implements Cacheabl
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         Scheme owner = concept.getScheme();
         if(owner!=null)
         {

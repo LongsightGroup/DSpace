@@ -205,7 +205,6 @@ public class SchemeViewer extends AbstractDSpaceTransformer implements Cacheable
 
         // Add the trail back to the repository root.
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
-        pageMeta.addTrailLink(contextPath + "/admin/scheme",T_authorities);
         pageMeta.addTrail().addContent(scheme.getName());
         HandleUtil.buildHandleTrail(scheme, pageMeta,contextPath);
         pageMeta.addMetadata("title").addContent(scheme.getName());
