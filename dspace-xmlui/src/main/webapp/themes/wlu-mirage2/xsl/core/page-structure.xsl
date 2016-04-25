@@ -772,6 +772,9 @@
         <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
         <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
 
+        <script src="{concat($theme-path, 'scripts/linkify.min.js')}"></script>
+        <script src="{concat($theme-path, 'scripts/linkify-jquery.min.js')}"></script>
+
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
             <script type="text/javascript">
@@ -857,6 +860,16 @@
                 </ul>
             </li>
         </xsl:if>
+
+        <!-- Linkify metadata field values -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                if( $(".metadata-field").length > 0 ) {
+                    $(".metadata-field").linkify();
+                }
+            });
+        </script>
+
     </xsl:template>
 
 </xsl:stylesheet>
