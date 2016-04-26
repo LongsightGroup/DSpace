@@ -2247,12 +2247,16 @@
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
     <message key="xmlui.metadata.dc.description.statementofresponsibility">Statement of Responsibility</message>
     <message key="xmlui.metadata.dc.description.tableofcontents">Table of Contents</message>
+	<message key="xmlui.metadata.dc.description.version">Version</message>
     <message key="xmlui.metadata.dc.first-line-of-chorus">First Line of Chorus</message>
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Format</message>
     <message key="xmlui.metadata.dc.format.extent">Extent</message>
     <message key="xmlui.metadata.dc.format.medium">Medium</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
+	<message key="xmlui.metadata.dc.identifier.citation">Citation</message>
+	<message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
+	<message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
     <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
     <message key="xmlui.metadata.dc.language.iso">Language</message>
