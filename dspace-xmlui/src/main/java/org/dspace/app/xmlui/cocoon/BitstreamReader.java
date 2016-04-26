@@ -40,7 +40,7 @@ import org.dspace.content.Item;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.disseminate.CitationDocument;
+import org.dspace.disseminate.CitationDocumentIText;
 import org.dspace.handle.HandleManager;
 import org.dspace.usage.UsageEvent;
 import org.dspace.utils.DSpace;
@@ -331,12 +331,13 @@ public class BitstreamReader extends AbstractReader implements Recyclable
             // 1) Intercepting Enabled
             // 2) This User is not an admin
             // 3) This object is citation-able
-            if (CitationDocument.isCitationEnabledForBitstream(bitstream, context)) {
+            //CitationDocument for PDFBox, CitationDocumentIText
+            if (CitationDocumentIText.isCitationEnabledForBitstream(bitstream, context)) {
                 // on-the-fly citation generator
                 log.info(item.getHandle() + " - " + bitstream.getName() + " is citable.");
 
                 FileInputStream fileInputStream = null;
-                CitationDocument citationDocument = new CitationDocument();
+                CitationDocumentIText citationDocument = new CitationDocumentIText();
 
                 try {
                     //Create the cited document
