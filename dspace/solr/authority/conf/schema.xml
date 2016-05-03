@@ -312,6 +312,16 @@
      <field name="last_modified_date" type="date" indexed="true" stored="true" required="true" />
      <field name="creation_date" type="date" indexed="true" stored="true" required="true" />
      <field name="authority_type" type="string" multiValued="false" indexed="true" stored="true" required="false"/>
+
+   <!-- Pingry People -->
+   <field name="constituent_id" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="middle_name" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="suffix_1" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="suffix_2" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="maiden_name" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="nickname" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+   <field name="primary_education_class_of_year" type="string" multiValued="true" indexed="true" stored="true" required="false"/>
+
  </fields>
 
  <!-- Field to use to determine and enforce document uniqueness.
