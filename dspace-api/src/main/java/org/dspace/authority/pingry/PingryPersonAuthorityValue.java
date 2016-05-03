@@ -77,7 +77,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
     @Override
     public void setValue(String value) {
-        log.info("Value: " + value);
         super.setValue(value);
         setName(value);
     }
@@ -188,7 +187,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
     }
 
     public static PingryPersonAuthorityValue create() {
-        log.info("create()");
         PingryPersonAuthorityValue pingryAuthorityValue = new PingryPersonAuthorityValue();
         pingryAuthorityValue.setId(UUID.randomUUID().toString());
         pingryAuthorityValue.updateLastModifiedDate();
@@ -200,7 +198,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
      * Create an authority based on a given orcid bio
      */
     public static PingryPersonAuthorityValue create(PingryPerson person) {
-        log.info("create(person: " + person.getLastName() + ")");
         PingryPersonAuthorityValue personAuthorityValue = PingryPersonAuthorityValue.create();
         personAuthorityValue.setValues(person);
         return personAuthorityValue;
@@ -208,7 +205,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
     @Override
     public void setValues(SolrDocument document) {
-        log.info("setValues(document: " + document.toString() + ")");
         super.setValues(document);
         this.constituentID = ObjectUtils.toString(document.getFieldValue("constituent_id"));
         this.firstName = ObjectUtils.toString(document.getFieldValue("first_name"));
@@ -222,7 +218,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
     }
 
     public boolean setValues(PingryPerson person) {
-        log.info("setValues(person: " + person.getLastName() + ")");
         if (updateValue(person.getConstituentID(), getConstituentID())) {
             setConstituentID(person.getConstituentID());
         }
@@ -280,8 +275,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
     @Override
     public Map<String, String> choiceSelectMap() {
-        log.info("choiceSelectMap() -- " + getLastName());
-
         Map<String, String> map = super.choiceSelectMap();
 
         if (StringUtils.isNotBlank(getConstituentID())) {
@@ -304,7 +297,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
         if (StringUtils.isNotBlank(getLastName())) {
             map.put("last-name", getLastName());
-            log.info("PingryPersonAuthorityValue: " + getLastName());
         } else {
             map.put("last-name", "/");
         }
@@ -339,6 +331,7 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
             map.put("primary_education_class_of_year", "/");
         }
 
+        //Extra?
         map.put("pingry", getConstituentID());
 
         return map;
@@ -362,11 +355,9 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
     public AuthorityValue newInstance(String info) {
         AuthorityValue authorityValue = null;
         if(StringUtils.isNotBlank(info)) {
-            log.info("newInstance(info: " + info + ")");
             PingrySource pingrySource = PingrySource.getPingrySource();
             authorityValue = pingrySource.queryAuthorityID(info);
         } else {
-            log.info("newInstance(info: emPty)");
             authorityValue = PingryPersonAuthorityValue.create();
         }
         return authorityValue;
@@ -397,8 +388,6 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
     @Override
     public String toString() {
-        //TODO more text
-        log.info("toString: " + lastName);
         return "PingryPersonAuthorityValue{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

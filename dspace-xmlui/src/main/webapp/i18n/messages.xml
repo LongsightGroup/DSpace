@@ -2477,6 +2477,36 @@
 	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_teamMember.title">Team Member lookup</message>
 	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_teamMember.nonauthority">Local value "@1@" (not in Naming Authority)</message>
 
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_notPictured.help">Name in "Last, First" format</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_notPictured.help.last">Last name, e.g. "Smith"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_notPictured.help.first">First name(s) e.g. "Fred"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_notPictured.title">Team Member lookup</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_notPictured.nonauthority">Local value "@1@" (not in Naming Authority)</message>
+
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_coach.help">Name in "Last, First" format</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_coach.help.last">Last name, e.g. "Smith"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_coach.help.first">First name(s) e.g. "Fred"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_coach.title">Team Member lookup</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_coach.nonauthority">Local value "@1@" (not in Naming Authority)</message>
+
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_captain.help">Name in "Last, First" format</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_captain.help.last">Last name, e.g. "Smith"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_captain.help.first">First name(s) e.g. "Fred"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_captain.title">Team Member lookup</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_captain.nonauthority">Local value "@1@" (not in Naming Authority)</message>
+
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_manager.help">Name in "Last, First" format</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_manager.help.last">Last name, e.g. "Smith"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_manager.help.first">First name(s) e.g. "Fred"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_manager.title">Team Member lookup</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_manager.nonauthority">Local value "@1@" (not in Naming Authority)</message>
+
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_assistantManager.help">Name in "Last, First" format</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_assistantManager.help.last">Last name, e.g. "Smith"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_assistantManager.help.first">First name(s) e.g. "Fred"</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_assistantManager.title">Team Member lookup</message>
+	<message key="xmlui.ChoiceLookupTransformer.field.dc_subject_assistantManager.nonauthority">Local value "@1@" (not in Naming Authority)</message>
+
   <!-- mobile theme -->
   <message key="xmlui.mobile.home_mobile">DSpace Mobile</message>
   <message key="xmlui.mobile.search_all">Search ALL</message>
