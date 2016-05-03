@@ -44,23 +44,17 @@ public class PingrySource extends RestSource {
     }
 
     public PingryPerson getPerson(String id) {
-        log.info("Pingry getPerson: " + id);
         String queryString = "/person?q=" + id;
-        log.info("getPerson queryString: " + queryString);
         Document personDocument = restConnector.get(queryString);
         XMLtoPingryPerson converter = new XMLtoPingryPerson();
         PingryPerson pingryPerson = converter.convert(personDocument).get(0);
-        //pingryPerson.setID(id);
         return pingryPerson;
     }
 
     public List<PingryPerson> queryPerson(String name, int start, int rows) {
-        log.info("Pingry queryPerson: " + name);
-        String queryString = "/people?q=" + URLEncoder.encode("\"" + name + "\"");
-        log.info("queryPerson queryString: " + queryString);
+        String queryString = "/people?q=" + URLEncoder.encode(name);
         Document personDocument = restConnector.get(queryString);
         XMLtoPingryPerson converter = new XMLtoPingryPerson();
-        log.info("queryPerson: " + personDocument.toString());
         return converter.convert(personDocument);
     }
 
@@ -70,14 +64,12 @@ public class PingrySource extends RestSource {
         List<AuthorityValue> authorities = new ArrayList<AuthorityValue>();
         for (PingryPerson person : personList) {
             authorities.add(PingryPersonAuthorityValue.create(person));
-            log.info("queryAuthorities(text: " + text + ", max) -- person:" + person.getLastName() + " " + person.getFirstName());
         }
         return authorities;
     }
 
     @Override
     public AuthorityValue queryAuthorityID(String id) {
-        log.info("getPerson(id: " + id + ")");
         PingryPerson pingryPerson = getPerson(id);
         return PingryPersonAuthorityValue.create(pingryPerson);
     }
