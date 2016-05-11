@@ -99,7 +99,7 @@ header .navbar-default .navbar-nav > li:hover {
     border: 1px solid #8b9eb2;
 }
 .btn-success[disabled], .btn-success.disabled {
-    background-color: #ffffff;
+    background-color: #00537B;
     border: 1px solid #8b9eb2;
 }
 .btn-success:hover {
