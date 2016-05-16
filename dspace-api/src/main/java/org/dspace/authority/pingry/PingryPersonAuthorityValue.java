@@ -14,6 +14,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.AuthorityValueGenerator;
+import org.dspace.authority.PersonAuthorityValue;
 import org.dspace.authority.pingry.model.PingryPerson;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ import java.util.UUID;
  *
  * @author Peter Dietz (Longsight)
  */
-public class PingryPersonAuthorityValue extends AuthorityValue {
+public class PingryPersonAuthorityValue extends PersonAuthorityValue {
     private static Logger log = Logger.getLogger(PingryPersonAuthorityValue.class);
 
     private String constituentID;
@@ -46,39 +47,46 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
         super(document);
     }
 
+    /**
+     * Formatting of Pingry names:
+     * Last (Maiden), First Middle, Suffix, (Nickname), Graduation
+     * @return
+     */
     public String getName() {
         String name = "";
         if (StringUtils.isNotBlank(lastName)) {
-            name = lastName;
-            if (StringUtils.isNotBlank(firstName)) {
-                name += ", ";
-            }
+            name = lastName + " ";
         }
+
+        if(StringUtils.isNotBlank(maidenName)) {
+            name += "(" + maidenName + ")";
+        }
+
         if (StringUtils.isNotBlank(firstName)) {
-            name += firstName;
+            name += ", " + firstName + " ";
+        }
+
+        if (StringUtils.isNotBlank(middleName)) {
+            name += middleName;
+        }
+
+        if (StringUtils.isNotBlank(suffix1)) {
+            name += ", " + suffix1;
+        }
+
+        if (StringUtils.isNotBlank(nickname)) {
+            name += ", (" + nickname + ")";
+        }
+
+        if (StringUtils.isNotBlank(primaryEducationClassOfYear)) {
+            name += ", " + primaryEducationClassOfYear;
         }
         return name;
-    }
-
-    public void setName(String name) {
-        if (StringUtils.isNotBlank(name)) {
-            String[] split = name.split(",");
-            if (split.length > 0) {
-                setLastName(split[0].trim());
-                if (split.length > 1) {
-                    setFirstName(split[1].trim());
-                }
-            }
-        }
-        if (!StringUtils.equals(getValue(), name)) {
-            setValue(name);
-        }
     }
 
     @Override
     public void setValue(String value) {
         super.setValue(value);
-        setName(value);
     }
 
     public String getFirstName() {
@@ -195,7 +203,7 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
     }
 
     /**
-     * Create an authority based on a given orcid bio
+     * Create an authority based on a PingryPerson data
      */
     public static PingryPersonAuthorityValue create(PingryPerson person) {
         PingryPersonAuthorityValue personAuthorityValue = PingryPersonAuthorityValue.create();
@@ -388,10 +396,7 @@ public class PingryPersonAuthorityValue extends AuthorityValue {
 
     @Override
     public String toString() {
-        return "PingryPersonAuthorityValue{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                "} " + super.toString();
+        return "PingryPersonAuthorityValue{ id:" + constituentID + ", name:" + getName() + "} " + super.toString();
     }
 
     public boolean hasTheSameInformationAs(Object o) {
