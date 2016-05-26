@@ -7,6 +7,7 @@
  */
 package org.dspace.authority;
 
+import com.google.common.base.Throwables;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
@@ -302,6 +303,10 @@ public class AuthorityValue {
 
         AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
         AuthoritySource source = types.getExternalSources().get(field);
+        if (source == null) {
+            log.error("External source not defined for " + field + " in aac-authority-services.xml");
+            Throwables.propagate(new Exception("External source not defined for " + field + " in aac-authority-services.xml"));
+        }
         String schemeId = source.getSchemeId();
 
         if (schemeId != null) {
