@@ -402,12 +402,14 @@ implements ConverterPlugin
             if (!MetadataExposure.isHidden(ctx, metadatum.schema, metadatum.element, metadatum.qualifier)) {
                 MetadataSchema schema = MetadataSchema.find(ctx, metadatum.schema);
 
-                m.add(
-                        m.createResource(myId),
-                        m.createProperty(schema.getNamespace(), metadatum.element),
-                        metadatum.value.startsWith("http") ?
-                                m.createResource(metadatum.value) :
-                                m.createLiteral(metadatum.value));
+                if (metadatum.value != null) {
+                    m.add(
+                            m.createResource(myId),
+                            m.createProperty(schema.getNamespace(), metadatum.element),
+                            metadatum.value.startsWith("http") ?
+                                    m.createResource(metadatum.value) :
+                                    m.createLiteral(metadatum.value));
+                }
             }
         }
 
