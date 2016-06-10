@@ -86,7 +86,13 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
 
     @Override
     public void setValue(String value) {
+        //super does things, but too much, so we have to re-set the firstname/lastname...
+        String firstName = getFirstName();
+        String lastName = getLastName();
         super.setValue(value);
+
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
     public String getFirstName() {
