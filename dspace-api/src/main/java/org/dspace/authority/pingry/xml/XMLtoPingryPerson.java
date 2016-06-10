@@ -38,6 +38,15 @@ public class XMLtoPingryPerson extends Converter {
 
     public List<PingryPerson> convert(Document xml) {
         List<PingryPerson> result = new ArrayList<>();
+
+        if(xml == null) {
+            log.info("XML is null");
+        }
+
+        if(xml.getDocumentElement() == null) {
+            log.info("XML.document is null");
+        }
+
         xml.getDocumentElement().normalize();
 
         NodeList nodeList = xml.getElementsByTagName(PINGRY_PERSON);
