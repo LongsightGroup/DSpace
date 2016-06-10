@@ -55,19 +55,19 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
     public String getName() {
         String name = "";
         if (StringUtils.isNotBlank(lastName)) {
-            name = lastName + " ";
+            name = lastName;
         }
 
         if(StringUtils.isNotBlank(maidenName)) {
-            name += "(" + maidenName + ")";
+            name += " (" + maidenName + ")";
         }
 
         if (StringUtils.isNotBlank(firstName)) {
-            name += ", " + firstName + " ";
+            name += ", " + firstName;
         }
 
         if (StringUtils.isNotBlank(middleName)) {
-            name += middleName;
+            name += " " + middleName;
         }
 
         if (StringUtils.isNotBlank(suffix1)) {
