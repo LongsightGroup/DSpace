@@ -577,6 +577,12 @@ footer {
     margin-top:0px;
 }
 
+@media screen and (max-width: 765px) {
+    .header-seperator {
+        margin-top: 0px;
+    }
+}
+
 
 #ds-options .ds-option-set-head {
     color: #003366;
