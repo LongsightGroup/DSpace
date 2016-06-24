@@ -302,9 +302,21 @@ public class AuthorityValue {
         /// Find concept and reindex it or make new concept and index it........
 
         AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
+
         AuthoritySource source = types.getExternalSources().get(field);
         if (source == null) {
             log.error("External source not defined for " + field + " in aac-authority-services.xml");
+            log.info("authId:" + authId + ", context" + context.getExtraLogInfo() + ", accepted:" + accepted);
+
+            //Print the sources we do have
+            Map<String, AuthoritySource> externalSources = types.getExternalSources();
+            for(Map.Entry<String, AuthoritySource> entry  : externalSources.entrySet()) {
+                log.info("externalSource - key: " + entry.getKey());
+                AuthoritySource authoritySource = entry.getValue();
+                log.info("externalSource - value: schemeID: " + entry.getValue().getSchemeId() + " class: " + authoritySource.getClass().getCanonicalName());
+                log.info(" - - - - - - - - - ");
+            }
+
             Throwables.propagate(new Exception("External source not defined for " + field + " in aac-authority-services.xml"));
         }
         String schemeId = source.getSchemeId();
