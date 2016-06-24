@@ -304,9 +304,13 @@ public class AuthorityValue {
         AuthorityTypes types = new DSpace().getServiceManager().getServiceByName("AuthorityTypes", AuthorityTypes.class);
 
         AuthoritySource source = types.getExternalSources().get(field);
+
+
         if (source == null) {
             log.error("External source not defined for " + field + " in aac-authority-services.xml");
             log.info("authId:" + authId + ", context" + context.getExtraLogInfo() + ", accepted:" + accepted);
+
+            boolean found =false;
 
             //Print the sources we do have
             Map<String, AuthoritySource> externalSources = types.getExternalSources();
@@ -315,9 +319,20 @@ public class AuthorityValue {
                 AuthoritySource authoritySource = entry.getValue();
                 log.info("externalSource - value: schemeID: " + entry.getValue().getSchemeId() + " class: " + authoritySource.getClass().getCanonicalName());
                 log.info(" - - - - - - - - - ");
+
+                if(field == entry.getValue().getSchemeId()) {
+                    log.info("Found external source!");
+                    source = entry.getValue();
+                    found = true;
+                    break;
+                }
             }
 
-            Throwables.propagate(new Exception("External source not defined for " + field + " in aac-authority-services.xml"));
+            if(source == null && !found) {
+                Throwables.propagate(new Exception("External source not defined for " + field + " in aac-authority-services.xml"));
+            } else {
+                log.info("Found externalsource through second chance");
+            }
         }
         String schemeId = source.getSchemeId();
 
