@@ -315,10 +315,14 @@ public class AuthorityValue {
             //Print the sources we do have
             Map<String, AuthoritySource> externalSources = types.getExternalSources();
             for(Map.Entry<String, AuthoritySource> entry  : externalSources.entrySet()) {
+                log.info("field: [" + field + "]");
                 log.info("externalSource - key: " + entry.getKey());
                 AuthoritySource authoritySource = entry.getValue();
-                log.info("externalSource - value: schemeID: " + entry.getValue().getSchemeId() + " class: " + authoritySource.getClass().getCanonicalName());
+                log.info("externalSource - value: schemeID: [" + entry.getValue().getSchemeId() + "] class: " + authoritySource.getClass().getCanonicalName());
                 log.info(" - - - - - - - - - ");
+
+                log.info("distance between field and schemeID is: " + StringUtils.getLevenshteinDistance(field, entry.getValue().getSchemeId()));
+                log.info("difference between field and schemeID is: " + StringUtils.difference(field, entry.getValue().getSchemeId()));
 
                 if(field == entry.getValue().getSchemeId()) {
                     log.info("Found external source!");
