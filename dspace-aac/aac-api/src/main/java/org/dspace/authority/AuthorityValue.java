@@ -318,18 +318,28 @@ public class AuthorityValue {
                 log.info("field: [" + field + "]");
                 log.info("externalSource - key: " + entry.getKey());
                 AuthoritySource authoritySource = entry.getValue();
-                log.info("externalSource - value: schemeID: [" + entry.getValue().getSchemeId() + "] class: " + authoritySource.getClass().getCanonicalName());
+                String schemeID = authoritySource.getSchemeId();
+                log.info("externalSource - value: schemeID: [" + schemeID + "] class: " + authoritySource.getClass().getCanonicalName());
+
+                if(field != null && schemeID != null) {
+                    log.info("distance between field and schemeID is: " + StringUtils.getLevenshteinDistance(field, schemeID));
+                    log.info("difference between field and schemeID is: " + StringUtils.difference(field, schemeID));
+                }
                 log.info(" - - - - - - - - - ");
 
-                log.info("distance between field and schemeID is: " + StringUtils.getLevenshteinDistance(field, entry.getValue().getSchemeId()));
-                log.info("difference between field and schemeID is: " + StringUtils.difference(field, entry.getValue().getSchemeId()));
-
-                if(field == entry.getValue().getSchemeId()) {
+                if(field.equals(entry.getValue().getSchemeId())) {
                     log.info("Found external source!");
                     source = entry.getValue();
                     found = true;
                     break;
+                } else if(StringUtils.getLevenshteinDistance(field, schemeID) == 0){
+                    log.info("Levenshtein equals, so the same.");
+                    source = entry.getValue();
+                    found = true;
+                    break;
                 }
+
+
             }
 
             if(source == null && !found) {
