@@ -7,6 +7,7 @@
  */
 package org.dspace.authority.indexer;
 
+import org.apache.commons.cli.*;
 import org.dspace.authority.AuthorityValue;
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
@@ -37,6 +38,38 @@ public class AuthorityIndexClient {
         Context context = new ContextNoCaching();
         //Ensure that we can update items if we are altering our authority control
         context.turnOffAuthorisationSystem();
+
+        String usage = "org.dspace.authority.indexer.AuthorityIndexClient [-s <item handle>] or nothing to update/clean an existing index.";
+        Options options = new Options();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine line = null;
+
+        options
+                .addOption(OptionBuilder
+                        .withArgName("item handle")
+                        .hasArg(true)
+                        .withDescription(
+                                "skip an Item, Collection or Community from index based on its handle")
+                        .create("s"));
+
+        options.addOption(OptionBuilder.isRequired(false).withDescription(
+                "print this help message").create("h"));
+
+        try {
+            line = new PosixParser().parse(options, args);
+        } catch (Exception e) {
+            // automatically generate the help statement
+            formatter.printHelp(usage, e.getMessage(), options, "");
+            System.exit(1);
+        }
+
+        if (line.hasOption("h")) {
+            // automatically generate the help statement
+            formatter.printHelp(usage, options);
+            System.exit(1);
+        }
+
+
         ServiceManager serviceManager = getServiceManager();
 
 
@@ -50,6 +83,13 @@ public class AuthorityIndexClient {
             return;
         }
 
+        if (line.hasOption("s")) {
+            log.info("Skipping " + line.getOptionValue("s") + " from Index");
+            String skips = line.getOptionValue("s");
+        }
+
+
+
         System.out.println("Retrieving all data");
         log.info("Retrieving all data");
 
@@ -59,13 +99,19 @@ public class AuthorityIndexClient {
             log.info("Initialize " + indexerInterface.getClass().getName());
             System.out.println("Initialize " + indexerInterface.getClass().getName());
             indexerInterface.init(context, true);
+            System.out.println("After Init");
+
             while (indexerInterface.hasMore()) {
+                System.out.println("hasMore");
                 AuthorityValue authorityValue = indexerInterface.nextValue();
+                System.out.println("nextValue: field:" + authorityValue.getField() + " id:" + authorityValue.getId() + " status:" + authorityValue.getStatus() + " value:" + authorityValue.getValue());
                 if(authorityValue != null){
                     toIndexValues.put(authorityValue.getId(), authorityValue);
+                    System.out.println("put value");
                 }
             }
             //Close up
+            System.out.println("closing");
             indexerInterface.close();
         }
 
