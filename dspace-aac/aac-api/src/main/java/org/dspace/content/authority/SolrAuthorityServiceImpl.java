@@ -73,7 +73,6 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
 
     private void internalIndexContent(AuthorityValue value, boolean force) {
         SolrInputDocument doc = value.getSolrInputDocument();
-        //TODO STILL NEED LOGIC TO ONLY UPDATE SOLR IF CONCEPT IS OLDER
         try{
             writeDocument(doc);
         }catch (Exception e){
@@ -87,7 +86,6 @@ public class SolrAuthorityServiceImpl implements EditableAuthorityIndexingServic
     public void indexContent(Context context, Concept concept, boolean force) throws SQLException {
         if(!Concept.Status.WITHDRAWN.name().equals(concept.getStatus()))
             internalIndexContent(AuthorityValue.fromConcept(concept), force);
-        //TODO:INDEX ALL THE OUTOGING CONCEPT
 
 
     }
