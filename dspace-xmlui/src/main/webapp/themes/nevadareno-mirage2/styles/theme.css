@@ -644,3 +644,16 @@ li.community h4.artifact-title, li.collection h4.artifact-title {
     padding: 0;
     line-height: 1.8em;
 }
+
+ul.snazy li.file-entry .file-item.full-text {
+    height: 12px;
+}
+
+ul.snazy li.file-entry .file-item.full-text .label {
+    margin-left: 25px;
+    padding-left: 20px;
+}
+
+ul.snazy li.file-entry .file-item.full-text .display {
+    margin-left: 46px;
+}
