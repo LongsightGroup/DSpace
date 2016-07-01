@@ -537,28 +537,24 @@
                 <xsl:choose>
                     <xsl:when test="dim:field[@element='contributor'][@qualifier='author']">
                         <xsl:for-each select="dim:field[@element='contributor'][@qualifier='author']">
-                            <div>
+                            <a>
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="$context-path"/>
+                                    <xsl:text>/browse?value=</xsl:text>
+                                    <xsl:value-of select="encoder:encode(string(.))"/>
+                                    <xsl:text>&amp;type=author</xsl:text>
+                                </xsl:attribute>
+
                                 <xsl:if test="@authority">
                                     <xsl:attribute name="class"><xsl:text>ds-dc_contributor_author-authority</xsl:text></xsl:attribute>
                                 </xsl:if>
-                                <xsl:copy-of select="node()"/>
-                            </div>
-                        </xsl:for-each>
-                    </xsl:when>
-                    <xsl:when test="dim:field[@element='creator']">
-                        <xsl:for-each select="dim:field[@element='creator']">
-                            <xsl:copy-of select="node()"/>
-                            <xsl:if test="count(following-sibling::dim:field[@element='creator']) != 0">
-                                <xsl:text>; </xsl:text>
-                            </xsl:if>
-                        </xsl:for-each>
-                    </xsl:when>
-                    <xsl:when test="dim:field[@element='contributor']">
-                        <xsl:for-each select="dim:field[@element='contributor']">
-                            <div>
-                                <xsl:copy-of select="node()"/>
-                            </div>
 
+                                <xsl:copy-of select="node()"/>
+                            </a>
+
+                            <xsl:if test="count(following-sibling::dim:field[@element='contributor' and @qualifier='author']) != 0">
+                                <span class="spacer">; </span>
+                            </xsl:if>
                         </xsl:for-each>
                     </xsl:when>
                     <xsl:otherwise>
