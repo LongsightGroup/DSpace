@@ -657,3 +657,10 @@ ul.snazy li.file-entry .file-item.full-text .label {
 ul.snazy li.file-entry .file-item.full-text .display {
     margin-left: 46px;
 }
+
+.border-bottom {
+    border-bottom: 1px solid;
+}
+
+table.additional-fields tr:nth-child(even) {background: #CCC}
+table.additional-fields tr:nth-child(odd) {background: #FFF}
