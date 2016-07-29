@@ -2254,10 +2254,11 @@
     <message key="xmlui.metadata.dc.format.extent">Extent</message>
     <message key="xmlui.metadata.dc.format.medium">Medium</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
+	<message key="xmlui.metadata.dc.identifier">Content URL</message>
 	<message key="xmlui.metadata.dc.identifier.citation">Citation</message>
 	<message key="xmlui.metadata.dc.identifier.isbn">ISBN</message>
 	<message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
-    <message key="xmlui.metadata.dc.identifier.uri">Identifier</message>
+    <message key="xmlui.metadata.dc.identifier.uri">Record Identifier</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
     <message key="xmlui.metadata.dc.language.iso">Language</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
