@@ -259,7 +259,7 @@ function AuthorLookup(url, authorityInput, collectionID) {
             }
 
             if (button == lessButton) {
-                limit = '250';
+                limit = '5000';
             }
             if (button == moreButton) {
                 limit = '10';
