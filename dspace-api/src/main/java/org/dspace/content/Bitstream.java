@@ -194,7 +194,7 @@ public class Bitstream extends DSpaceObject
     public static Bitstream[] findAllInStoreNumber(Context context, Integer storeNumber) throws SQLException
     {
         TableRowIterator tri = DatabaseManager.queryTable(context, "bitstream",
-                "SELECT * FROM bitstream where store_number = ?", storeNumber);
+                "SELECT * FROM bitstream where deleted = false and store_number = ?", storeNumber);
 
         List<Bitstream> bitstreams = new ArrayList<Bitstream>();
 
