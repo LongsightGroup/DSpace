@@ -173,7 +173,7 @@ public class S3BitStore implements BitStore
                     tempFile.deleteOnExit();
                     FileOutputStream out = new FileOutputStream(tempFile);
                     IOUtils.copy(object.getObjectContent(), out);
-                    log.info("copied to temp file");
+                    log.debug("copied to temp file");
                     out.close();
                     object.close();
 
@@ -183,7 +183,8 @@ public class S3BitStore implements BitStore
                     //small, bytearray
                     org.apache.commons.io.output.ByteArrayOutputStream boas = new ByteArrayOutputStream();
                     IOUtils.copy(object.getObjectContent(), boas);
-                    log.info("copied to memory array");
+                    log.debug("copied to memory array");
+                    object.close();
 
                     return new ByteArrayInputStream(boas.toByteArray());
                 }
