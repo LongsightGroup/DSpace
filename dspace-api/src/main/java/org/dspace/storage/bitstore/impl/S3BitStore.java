@@ -7,10 +7,7 @@
  */
 package org.dspace.storage.bitstore.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -21,6 +18,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
@@ -161,10 +160,35 @@ public class S3BitStore implements BitStore
 	public InputStream get(String id) throws IOException
 	{
         String key = getFullKey(id);
-		try
-		{
-            S3Object object = s3Service.getObject(new GetObjectRequest(bucketName, key));
-			return (object != null) ? object.getObjectContent() : null;
+        S3Object object;
+        try
+        {
+		    object = s3Service.getObject(new GetObjectRequest(bucketName, key));
+            if(object != null) {
+                //copy aws inputstream to temp file, then serve that, to reduce exhausting http pool
+
+                if(object.getObjectMetadata().getContentLength() > (1048576)) {
+                    //large, tempfile
+                    File tempFile = File.createTempFile("s3", "temp");
+                    tempFile.deleteOnExit();
+                    FileOutputStream out = new FileOutputStream(tempFile);
+                    IOUtils.copy(object.getObjectContent(), out);
+                    log.info("copied to temp file");
+                    out.close();
+                    object.close();
+
+                    return new FileInputStream(tempFile);
+                } else {
+                    //small, bytearray
+                    org.apache.commons.io.output.ByteArrayOutputStream boas = new ByteArrayOutputStream();
+                    IOUtils.copy(object.getObjectContent(), boas);
+                    log.info("copied to memory array");
+
+                    return new ByteArrayInputStream(boas.toByteArray());
+                }
+            } else {
+                return null;
+            }
 		}
         catch (Exception e)
 		{

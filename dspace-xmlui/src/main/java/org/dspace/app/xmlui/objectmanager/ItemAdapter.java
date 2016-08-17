@@ -440,14 +440,19 @@ public class ItemAdapter extends AbstractAdapter
                         XMLReader reader = XMLReaderFactory.createXMLReader();
                         reader.setContentHandler(filter);
                         reader.setProperty("http://xml.org/sax/properties/lexical-handler", filter);
+                        InputStream is = null;
                         try {
-                                InputStream is = bitstream.retrieve();
+                                is = bitstream.retrieve();
                                 reader.parse(new InputSource(is));
                         }
                         catch (AuthorizeException ae)
                         {
                                 // just ignore the authorize exception and continue on
                                 // without parsing the xml document.
+                        } finally {
+                            if(is != null) {
+                                is.close();
+                            }
                         }
                         
                         // ////////////////////////////////

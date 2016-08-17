@@ -729,9 +729,11 @@ public class MediaFilterManager
         }
 
         InputStream destStream;
+        InputStream inputStream = null;
         try {
             System.out.println("File: " + newName);
-            destStream = formatFilter.getDestinationStream(source.retrieve());
+            inputStream = source.retrieve();
+            destStream = formatFilter.getDestinationStream(inputStream);
             if (destStream == null)
             {
                 if (!isQuiet)
@@ -747,6 +749,8 @@ public class MediaFilterManager
         {
             System.out.println("!!! OutOfMemoryError !!!");
             return false;
+        } finally {
+            inputStream.close();
         }
 
         // create new bundle if needed
