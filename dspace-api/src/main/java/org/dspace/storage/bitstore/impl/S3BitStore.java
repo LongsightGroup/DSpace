@@ -177,7 +177,8 @@ public class S3BitStore implements BitStore
                     out.close();
                     object.close();
 
-                    return new FileInputStream(tempFile);
+                    //use special inputstream that deletes file when closedß
+                    return new DeleteOnCloseFileInputStream(tempFile);
                 } else {
                     //small, bytearray
                     org.apache.commons.io.output.ByteArrayOutputStream boas = new ByteArrayOutputStream();
