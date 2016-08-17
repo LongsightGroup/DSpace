@@ -169,7 +169,7 @@ public class S3BitStore implements BitStore
 
                 if(object.getObjectMetadata().getContentLength() > (1048576)) {
                     //large, tempfile
-                    File tempFile = File.createTempFile("s3", "temp");
+                    File tempFile = File.createTempFile("s3-disk-copy", "temp");
                     tempFile.deleteOnExit();
                     FileOutputStream out = new FileOutputStream(tempFile);
                     IOUtils.copy(object.getObjectContent(), out);
