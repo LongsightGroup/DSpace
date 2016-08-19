@@ -235,7 +235,7 @@ public class CommunityFiliator
                 + "'");
     }
 
-    private Community resolveCommunity(Context c, String communityID)
+    public static Community resolveCommunity(Context c, String communityID)
             throws SQLException
     {
         Community community = null;

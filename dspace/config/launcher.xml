@@ -34,6 +34,13 @@
         </step>
     </command>
     <command>
+        <name>collection-filiator</name>
+        <description>Tool to change parent community of a collection</description>
+        <step>
+            <class>org.dspace.administer.CollectionFiliator</class>
+        </step>
+    </command>
+    <command>
         <name>community-filiator</name>
         <description>Tool to manage community and sub-community relationships</description>
         <step>
