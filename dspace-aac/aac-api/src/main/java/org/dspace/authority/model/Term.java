@@ -183,7 +183,7 @@ public class Term extends AuthorityObject {
 
         // All email addresses are stored as lowercase, so ensure that the email address is lowercased for the lookup
         TableRow row = DatabaseManager.findByUnique(context, "term",
-                "literalForm", literalForm.toLowerCase());
+                "literalForm", literalForm);
 
         if (row == null)
         {
