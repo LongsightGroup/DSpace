@@ -2305,6 +2305,7 @@
     <message key="xmlui.metadata.dc.date.available">Date Available</message>
     <message key="xmlui.metadata.dc.date.created">Date Created</message>
     <message key="xmlui.metadata.dc.date.issued">Date of Issue</message>
+	<message key="xmlui.metadata.dc.date.original">Approximate Date</message>
     <message key="xmlui.metadata.dc.description">Description</message>
     <message key="xmlui.metadata.dc.description.abstract">Description</message>
     <message key="xmlui.metadata.dc.description.provenance">Provenance</message>
