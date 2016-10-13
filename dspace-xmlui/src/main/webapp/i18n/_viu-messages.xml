@@ -143,6 +143,7 @@
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_relation">Relation</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subject">Subject</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_type">Type</message>
+   <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_format">File Format</message>
 
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_ANY">Full Text</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.and">AND</message>
@@ -473,6 +474,10 @@
     <message key="xmlui.ArtifactBrowser.ItemRequestResponseSent.trail">Your response has been sent.</message>
     <message key="xmlui.ArtifactBrowser.ItemRequestResponseSent.head">Your response has been sent.</message>
     <message key="xmlui.ArtifactBrowser.ItemRequestResponseSent.para1">Your response has been sent.</message>
+
+
+
+	<message key="xmlui.Discovery.AbstractSearch.type_format">File Format</message>
 
 
 	
