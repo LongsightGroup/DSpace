@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dspace.modules</groupId>
     <artifactId>sesame</artifactId>
-    <version>5.5-SNAPSHOT</version>
+    <version>5.6</version>
     <name>DSpace Sesame RDF Triplestore Local Customizations</name>
     <packaging>war</packaging>
 

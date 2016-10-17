@@ -876,14 +876,14 @@
          <dependency>
             <groupId>com.atmire</groupId>
             <artifactId>aac-xmlui</artifactId>
-            <version>5.5-SNAPSHOT</version>
+            <version>5.6</version>
             <type>jar</type>
             <classifier>classes</classifier>
          </dependency>
          <dependency>
             <groupId>com.atmire</groupId>
             <artifactId>aac-xmlui</artifactId>
-            <version>5.5-SNAPSHOT</version>
+            <version>5.6</version>
             <type>war</type>
          </dependency>
 
