@@ -838,6 +838,9 @@
 
         <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
 
+        <!-- Custom WHOI -->
+        <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js">&#160;</script>
+
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
         <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
 
