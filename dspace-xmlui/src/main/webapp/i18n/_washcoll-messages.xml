@@ -142,6 +142,7 @@
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_publisher">Publisher</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_relation">Relation</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subject">Subject</message>
+   <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_type">Type</message>
 
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_ANY">Full Text</message>
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.and">AND</message>
@@ -317,6 +318,7 @@
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.search_scope">Search Scope</message>
 	<message key="xmlui.ArtifactBrowser.SimpleSearch.full_text_search">Full Text Search</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.type">Type</message>
 
 	<!-- org.dspace.app.xmlui.artifactbrowser.RestrictedItem.java -->
 	<message key="xmlui.ArtifactBrowser.RestrictedItem.title">This resource is restricted</message>
@@ -569,6 +571,7 @@
 	<message key="xmlui.EPerson.LDAPLogin.error_bad_login">The user name and/or password supplied were not valid.</message>
 	<message key="xmlui.EPerson.LDAPLogin.password">Password</message>
 	<message key="xmlui.EPerson.LDAPLogin.submit">Sign in</message>
+    <message key="xmlui.EPerson.LDAPLogin.link_to_password_login">Not an LDAP User? Use password login.</message>
 
 	<!-- org.dspace.app.xmlui.eperson.LoginChooser.java -->
 	<message key="xmlui.EPerson.LoginChooser.title">Choose a Login Method</message>
@@ -2000,7 +2003,7 @@
 	<message key="xmlui.administrative.ControlPanel.trail">Control panel</message>
 	<message key="xmlui.administrative.ControlPanel.head">Control Panel</message>
 	<message key="xmlui.administrative.ControlPanel.option_java">Java Information</message>
-	<message key="xmlui.administrative.ControlPanel.option_dspace">Digital Archives Configuration</message>
+	<message key="xmlui.administrative.ControlPanel.option_dspace">DSpace Configuration</message>
 	<message key="xmlui.administrative.ControlPanel.option_alerts">System-wide Alerts</message>
 	<message key="xmlui.administrative.ControlPanel.hours">{0} h</message>
 	<message key="xmlui.administrative.ControlPanel.minutes">{0} m</message>
@@ -2025,11 +2028,11 @@
         <message key="xmlui.administrative.ControlPanel.cocoon_cache_clear">(Clear Cache Immediately)</message>
         <message key="xmlui.administrative.ControlPanel.cocoon_persistent_cache_size">Persistent Cache Size ({0})</message>
         <message key="xmlui.administrative.ControlPanel.cocoon_transient_cache_size">Transient Cache Size ({0})</message>
-	<message key="xmlui.administrative.ControlPanel.dspace_head">Digital Archives Settings</message>
-        <message key="xmlui.administrative.ControlPanel.dspace_version">Digital Archives Version</message>
-	<message key="xmlui.administrative.ControlPanel.dspace_dir">Digital Archives Installation Directory</message>
-	<message key="xmlui.administrative.ControlPanel.dspace_url">Digital Archives Base URL</message>
-	<message key="xmlui.administrative.ControlPanel.dspace_hostname">Digital Archives Host Name</message>
+	<message key="xmlui.administrative.ControlPanel.dspace_head">DSpace Settings</message>
+        <message key="xmlui.administrative.ControlPanel.dspace_version">DSpace Version</message>
+	<message key="xmlui.administrative.ControlPanel.dspace_dir">DSpace Installation Directory</message>
+	<message key="xmlui.administrative.ControlPanel.dspace_url">DSpace Base URL</message>
+	<message key="xmlui.administrative.ControlPanel.dspace_hostname">DSpace Host Name</message>
 	<message key="xmlui.administrative.ControlPanel.dspace_name">Name of the Site</message>
 	<message key="xmlui.administrative.ControlPanel.db_name">Database Name</message>
 	<message key="xmlui.administrative.ControlPanel.db_url">Database URL</message>
@@ -2089,7 +2092,7 @@
         <!-- System-wide Curation Tasks form (org.dspace.app.xmlui.aspect.administrative.CurateForm) -->
         <message key="xmlui.administrative.CurateForm.title">System Curation Tasks</message>
         <message key="xmlui.administrative.CurateForm.trail">Curation Tasks</message>
-        <message key="xmlui.administrative.CurateForm.object_label_name">Handle of Digital Archives Object</message>
+        <message key="xmlui.administrative.CurateForm.object_label_name">Handle of DSpace Object</message>
         <message key="xmlui.administrative.CurateForm.object_hint">Hint: Enter [your-handle-prefix]/0 to run a task across entire site (not all tasks may support this capability)</message>
         <message key="xmlui.administrative.CurateForm.task_label_name">Task</message>
     <!-- Used by Curate<DSO>Form classes also -->
@@ -2551,6 +2554,7 @@
     <message key="xmlui.aspect.sherpa.submission.blue">blue</message>
     <message key="xmlui.aspect.sherpa.submission.white">white</message>
     <message key="xmlui.aspect.sherpa.submission.yellow">yellow</message>
+    <message key="xmlui.aspect.sherpa.submission.gray">gray</message>
     <!-- End Versioning -->
 
 
