@@ -1,0 +1,1203 @@
+/*
+  style.css
+
+  Version: $Revision: 1.0 $
+ 
+  Date: $Date: 2006/07/27 22:54:53 $
+ 
+  Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
+  Institute of Technology.  All rights reserved.
+ 
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+ 
+  - Redistributions of source code must retain the above copyright
+  notice, this list of conditions and the following disclaimer.
+ 
+  - Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+ 
+  - Neither the name of the Hewlett-Packard Company nor the name of the
+  Massachusetts Institute of Technology nor the names of their
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+ 
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+*/
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {	
+	margin: 0 0 10px 0;
+	padding: 0;
+	text-align: center;
+	min-width: 1001px;
+	background-color: #FFFFFF;
+	background-image:url(/docs/themes/RRULibrary/images/background.jpg);
+	/*background-image:url(/docs/themes/RRULibrary/images/background-inner-pages.jpg);*/
+	background-position:left top;
+	background-repeat:repeat-x;
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+    font-style: normal;
+}
+
+body a {
+	color: #4A7994;
+	text-decoration: none;
+}
+
+body a:hover {
+	color: #F77529;
+	text-decoration: none;
+}
+
+body a:visited {
+	color: #4A7994;
+	text-decoration: none;
+}
+
+#page
+{
+	text-align:left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	background: #FFFFFF;
+	margin-left: auto; /* this centres the page on the background body colour*/
+	margin-right: auto;
+	height: auto !important;
+	min-width:1001px;
+	max-width:1001px;
+}
+
+#container 
+{ 
+	text-align: left;
+	width: 1001px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #FFFFFF;
+	color: #000000;
+	padding: 0;
+	background-repeat: no-repeat;
+}
+
+.divMainBody
+{
+	display:block;
+	}
+
+.divNavigation {
+	background-color: #7B96A5;
+	height: 40px;
+	margin-top: 0px; /*-10px*/
+	padding-top: 0px;
+}	
+
+/*--- RRU Navigation ---*/
+
+.divNavigation ul#nav {
+	margin-top: 0px;
+	padding-top: 6px;
+	margin-bottom: 0px;
+}
+
+#nav{
+	list-style: none;
+	font: 13px Helvetica, Verdena, Arial;
+	width: 100%;
+	margin-left: 0px; /*-7px*/
+}
+
+#nav li{
+	float: left;
+	position: relative;
+	margin-left: 0px;
+}
+
+#nav a{
+	display: block;
+	padding: 6px 12px 6px 12px;
+	color: #FFFFFF;
+	background: #7B96A5;
+	text-decoration: none;
+	margin-right: 0px; /* -24px */
+}
+#nav a:hover{
+	color:#FFFFFF;
+	background-color: #ADBABD;
+	text-decoration: none;
+}
+
+/*--- DROPDOWN ---*/
+
+#nav ul{
+	background:#FFFFFF; /* adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(255,255,255,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* hide off-screen when not needed (this is more accessible than display:none;) */
+	margin-left: 0px; /* -25px */
+	margin-top: 0;
+}
+
+#nav ul li{
+	float:none;
+}
+
+#nav ul a{
+	white-space:nowrap; /* stop text wrapping  */
+}
+
+#nav li:hover ul{ 
+	left:0;
+}
+
+#nav li:hover a{ /* these create persistent hover states, meaning the top-most link stays hovered even when your cursor has moved down the list */
+	background:#ADBABD;
+	text-decoration: none;
+}
+
+#nav li:hover ul a{ /* the persistent hover state does however create a global style for links even before they're hovered, here we undo these effects */
+	text-decoration:none;
+        background-color: #7B96A5;
+}
+
+#nav li:hover ul li a:hover{ /* --what happens when you hover each individual link. */
+	background:#ADBABD;
+}
+
+
+#askLibrarianSection {
+	width: 190px;
+	float:right;
+	padding: 0;
+	margin: 0;
+	text-align:right;
+}
+
+#askLibrarianLink {
+	margin: 10px 10px 0 0;
+	padding: 0;
+}
+
+#askLibrarianLink a {
+	text-decoration: none;
+	color: #4A7994;
+}
+
+#askLibrarianLink a:hover {
+	text-decoration: underline;
+	color: #F77529;
+}
+
+#askLibrarianLink a:visited {
+	text-decoration: none;
+	color: #4A7994;
+}
+
+.breadCrumbNavigation {
+	background-color: #FFFFFF;
+	padding:0 0 0 20px;
+	margin:0;
+	width: 790px;
+	float:left;
+}
+
+.breadCrumbNavigation a:active {
+	color: #4A7994;
+	text-decoration: none;
+}
+
+.breadCrumbNavigation a:visited {
+	color: #4A7994;
+	text-decoration: none;
+}
+
+.breadCrumbDecoration a:hover {
+	color: #F77529;
+	text-decoration: underline;
+}
+
+#ds-body
+{
+	min-height: 100px;
+	width:800px;
+	max-width:800px;
+	overflow:hidden;
+	display:inline;
+	float:right;
+	padding-left:1px;
+	padding-right:5px;
+}
+#ds-options
+{
+	width:185px;
+	max-width:185px;
+	display:inline;
+	float:left;
+	padding:0;
+	margin:0;
+	}
+
+div.myRRUNavLinks
+{
+	/* background: #d8d2ba; */
+	text-align: right;
+	padding-right: 5px;
+}
+
+div.menu #secondary{
+  width: 100%;
+  float: right;
+  margin-right:0px;
+  /* background-color: #d8d2ba; */
+  position: relative;
+  display: block;
+  z-index: 55;
+  padding-top: 6px;
+  padding-right: 11px;
+}
+
+#secondary {
+  margin-top: 0px;
+  padding-left:0px;
+  border-bottom: none #6791B4 4px;
+}
+#secondary ul 
+{
+  margin:0pt;
+  padding:0pt;
+  list-style:none;
+}
+#secondary li {
+	display: inline;
+	background-color: transparent;
+	color: #FFFFFF;
+	font: 11px Helvetica, Verdana, Arial;
+	list-style-type: none;
+	padding-top: 8px;
+	padding-right: 16px;
+}
+
+#secondary ul a, #secondary ul a, #secondary ul a:link, #secondary ul a:active, #secondary ul a:visited
+ {
+  	text-decoration: none;
+	background-color: transparent;
+	color: #FFFFFF;
+	font: 11px Helvetica, Verdana, Arial;
+	color: #ffffff;
+}
+
+#secondary ul a:hover {
+	text-decoration: none;
+	background-color: transparent;
+	color: #F77529;
+	font: 11px Helvetica, Verdana, Arial;
+}
+
+/*
+** Tab navigation
+*/
+ul.secondary {
+  border-bottom: 1px solid #bbb;
+  padding: 0.5em 1em;
+  margin: 5px;
+}
+ul.secondary li {
+  display: inline;
+  padding: 0 1em;
+  border-right: 1px solid #ccc;
+}
+ul.secondary a {
+  padding: 0;
+  text-decoration: none;
+}
+ul.secondary a.active {
+  border-bottom: 4px solid #999;
+}
+
+/*******************************
+ *****  General elements  ******
+ *******************************/
+a {
+	color: rgb(51, 102, 153);
+}
+
+ul {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+li {
+	margin-left: 25px;
+}
+
+p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h1, h2, h3, h4, h5 {
+	color: #336699;
+}
+
+span.bold {
+	font-weight: bolder;
+}
+
+span.italics,span.italic {
+	font-style: italic;
+}
+
+span.underline {
+	text-decoration: underline;
+}
+
+span.fade {
+    color: gray;
+    font-size: 90%;
+}
+
+span.fade a {
+    color: gray;
+    text-decoration: none;
+}
+
+span.fade a:hover {
+    color: blue;
+    text-decoration: underline;
+}    
+
+span.warn {
+    color: red;
+    font-weight: bolder;
+}
+
+p.hidden, span.hidden {
+    display: none;
+}
+
+
+/*******************************
+**********  Header  ***********
+*******************************/
+
+.clickablelogo {
+	width:370px;
+	height:60px;
+	background-color:Transparent;
+	border:0px;
+}  	
+	
+.logowrapper 
+{
+	margin: -5pt 0pt 0pt 15pt;
+	display:inline;
+	float:left;
+	padding:0px;
+	background-color:Transparent;
+	background-image:url(/docs/themes/RRULibrary/images/basic_logo.png);
+	background-position:left top;
+	background-repeat:no-repeat;
+}
+
+.HomeHeader 
+{
+	height:99px;
+	background-position: top right;
+	background-image:url(/docs/themes/RRULibrary/images/header.jpg);
+	background-repeat: no-repeat;
+	color:White;
+}
+
+.header a, .header a:hover, .HomeHeader a:active
+{
+	font-size: 11px;
+    color:White;
+}
+
+.headerImage
+{
+	display:inline-block;
+	float:left;
+}
+
+.headerLinks
+{
+	padding:5px;
+	display:inline-block;
+	float:right;
+	clear:right;
+}
+
+#logoWithinBanner {
+	padding-left: 40px;
+    padding-top: 21px;
+}
+
+/* User box (login / profile) */
+div#ds-user-box {
+		position: absolute;
+		top: 70px;
+		text-align: right;
+		width: 100%;
+		min-width: 1055px; /*865px;*/
+}
+div#ds-user-box p {
+		color: white;
+		text-align: right;
+		padding-right: 20px;
+}
+
+div#ds-user-box a, div#ds-user-box a:link, div#ds-user-box a:visited, div#ds-user-box a:active {
+		text-decoration: none;
+		color: white;
+}
+
+div#ds-user-box a:hover {
+		text-decoration: underline;
+}
+
+/* Trail */
+
+ul#ds-trail li.ds-trail-link {
+		list-style: none;
+		margin-left:0px;
+		display: inline;
+}
+
+ul#ds-trail li.ds-trail-link a:hover {
+		text-decoration: underline;
+		color: #F77529
+}
+
+ul#ds-trail li.ds-trail-link:after {
+		content: " > ";
+}
+
+
+
+
+/*******************************
+*******  Options list  ********
+*******************************/
+
+div#ds-options h3 {
+		color: black;
+		font-size: 1em;
+}
+
+div#ds-options h4 {
+		color: black;
+		font-size: 10pt;
+		margin-top: 10px;
+		
+}
+
+div#ds-options li {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-size: 10pt;
+		margin-left: 25px;
+}
+
+div#ds-options li ul.ds-simple-list li {
+		list-style-image: url(../images/arrow.gif);
+}
+
+div#ds-options div#artifactbrowser_Navigation_list_browse li {
+		list-style: none;
+		margin-left: 0px;
+}
+
+div#ds-options div#artifactbrowser_Navigation_list_browse ul ul li {
+		list-style-image: url(../images/arrow.gif);
+		margin-left: 25px;
+}
+
+div#ds-options div#artifactbrowser_Navigation_list_account ul li {
+		list-style-image: url(../images/arrow.gif);
+		margin-left: 25px;
+}
+
+div#ds-options div#artifactbrowser_Navigation_list_context ul li {
+		list-style-image: url(../images/arrow.gif);
+		margin-left: 25px;
+}
+
+div.ds-option-set {
+		margin-bottom: 30px;
+}
+
+/* search box, in the option list */
+#ds-search-option-head {
+		background-color: #e9efee;
+		padding-left: 2px;
+}
+
+div#ds-search-option {
+		background-color: #e9efee;
+		padding-top: 2px;
+		padding-bottom: 10px;
+		padding-left: 2px;
+}
+
+form#ds-search-form fieldset {
+		border: none;
+}
+
+div#ds-search-option input.ds-text-field {
+		width: 79px;
+		font-size: 1em;
+}
+
+div#ds-search-option label {
+		display: none;
+}
+
+div#ds-search-option a {
+		font-weight: bold;
+		font-size: .9em;
+}
+
+/*******************************
+**********  Footer  ***********
+*******************************/
+
+#upperFooterBox {
+	background-color: #736963;
+	height: 45px;
+	margin-top: 25px;
+}
+
+#textUpperFooter {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-top: 12px;
+}
+
+#textUpperFooter a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#textUpperFooter a:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#textUpperFooter a:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.FooterShell
+{
+	font-size:.9em;
+	text-align:center;
+	margin:0 auto;
+	bottom:0px;
+	width:100%;
+	background-color:#736963;
+}
+
+.footer  {
+	padding-top: 7px;
+	padding-bottom: 28px;
+	background-color: #DED3B5;
+	color: #736963;
+	width: 100%;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	font: 10px Helvetica, Verdana, Arial;
+	line-height: normal;
+}
+
+.footer a, .footer a:active, .footer a:link, .footer a:visited {
+	color: #736963;
+	text-decoration: none;
+}
+
+.footer a:hover {
+	color: #736963;
+	text-decoration: underline;
+}
+
+div.clearone {
+	clear: both;/* use after multiple columns */
+	height: 1px;
+}
+
+div.clearnone {
+	clear: both;/* use after multiple columns */
+	height: 0px;
+}
+
+div.BreadCrumbContainer {
+	clear: both;
+	display: block;
+	line-height: 1.42em;
+	letter-spacing: 0.02em;
+	color: #231f20;
+	margin:0 0 0 20px;
+	padding:0;
+	position: relative;
+	color: #bcbcbc;
+	height: auto;
+	text-align: left;
+}
+div.BreadCrumbContainer ul#ds-trail {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Verdana, Helvetica, Sans-Serif;
+	font-weight : normal;
+	padding: 0.75em 1em 0.75em 1em;
+	color: #ffffff;
+	font-size: 10pt;
+	
+	}
+div.BreadCrumbContainer ul#ds-trail a, div.BreadCrumbContainer ul#ds-trail a:link, div.BreadCrumbContainer ul#ds-trail a:active, div.BreadCrumbContainer ul#ds-trail a:visited{
+	text-decoration: none;
+	font-family: Arial, Verdana, Helvetica, Sans-Serif;
+	font-weight : normal;
+	padding: 0.75em 1em 0.75em 1em;
+	color: #ffffff;
+	font-size: 10pt;
+}
+
+div.BreadCrumbContainer ul#ds-trail a:hover {
+	text-decoration: underline;
+	font-family: Arial, Verdana, Helvetica, Sans-Serif;
+	font-weight : normal;
+	padding: 0.75em 1em 0.75em 1em;
+	color: #ffffff;
+	font-size: 10pt;
+	background-color: #ADBABD;
+}
+
+div.BreadCrumbContainer img, .BreadCrumbImage
+{
+	padding: 0px;
+	border: 0px;
+	margin: 0px 5px 0px 5px;
+}
+
+
+/*******************************
+********  pagination  *********
+*******************************/
+
+div.pagination {
+		position: relative;
+		margin: 10px 20px 2px 20px;
+}
+
+div.pagination-masked {
+		position: relative;
+		margin: 10px 20px 10px 20px;
+}
+
+a.previous-page-link {
+		position: absolute;
+		left: 50px;
+		bottom: 5px;
+}
+
+a.next-page-link {
+		position: absolute;
+		right: 50px;
+		bottom: 5px;
+}
+
+p.pagination-info {
+		position: relative;
+		text-align: center;
+		width: 50%;
+		margin: 0 auto 5px auto;
+}
+
+ul.pagination-links {
+		position: relative;
+		text-align: center;
+		width: 50%;
+		margin: 0 auto 5px auto;
+		padding: 0 0 0 0;
+}
+
+*.pagination-links li {
+		list-style: none;
+		display: inline;
+		margin-right: 5px;
+		font-weight: bolder;
+		font-size: 90%;
+}
+
+
+/*******************************
+******  Alphabet Lists  *******
+*******************************/
+
+ul.alphabet {
+		text-align: center;
+}
+
+ul.alphabet li {
+		list-style: none;
+		display: inline;
+		margin: 0 5px 0 5px;
+		font-weight: bolder;
+}
+
+ul.alphabet a:hover {
+		color: black;
+}
+
+/*******************************
+******  Progress Lists  *******
+*******************************/
+
+ul.ds-progress-list {
+		margin: 0px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		text-align: center;
+}
+
+ul.ds-progress-list li {
+		font-family: Arial, Helvetica, sans-serif;
+		font-weight: bold;
+		color: gray;
+		overflow: hidden;
+		display: inline;
+		line-height: 20px;
+}
+
+ul.ds-progress-list li.current {
+		color: black;
+}
+
+ul.ds-progress-list li.arrow {
+		font-size: 200%;
+		font-weight: bold;
+		position: relative;
+		top: 6px;
+}
+
+
+/*******************************
+*******  Artifact List  *******
+*******************************/
+
+ul.ds-artifact-list {
+		border: 1px solid gray;
+		list-style-type: none;
+		width: 95%;
+}
+
+ul.ds-artifact-list li.odd {
+		background-color: rgb(238, 238, 238);
+}
+
+ul.ds-artifact-list li.even {
+		background-color: rgb(255, 255, 255);
+}
+
+ul.ds-artifact-list li {
+		position: relative;
+		padding-bottom: 3px;
+		padding-top: 3px;
+		margin: 0 0 0 0;
+		padding: 2px 5px 2px 5px;
+	
+}
+
+ul.ds-artifact-list li div.artifact-description {
+		width: 80%;
+		display:inline;
+}
+
+ul.ds-artifact-list li div.artifact-preview {
+		margin: -30px 0px 0 auto;
+		width: 15%;
+		display:inline;
+}
+ul.ds-artifact-list li div.artifact-preview img {
+        border:0px;
+}
+
+ul.ds-artifact-list li div.artifact-info {
+		font-size: 110%;
+		padding-left: 25px;
+}
+
+ul.ds-artifact-list li div.artifact-title {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 130%;
+		font-weight: bolder;
+}
+
+span.date {
+		font-style: italic;
+}
+
+/*******************************
+*********  Tables  ************
+*******************************/
+
+table {
+		clear: both;
+		border-spacing: 0px;
+		border: 1px solid gray;
+		width: 100%; /* 95% */
+}
+
+tr.ds-table-header-row {
+		color: inherit;
+		background-color: rgb(218, 218, 218);
+}
+
+tr.ds-table-header-row.subheader {
+		background-color: rgb(250, 250, 214);
+}
+
+th {
+		padding: 4px 10px;
+}
+
+.subheader th {
+		padding-left: 5px;
+		font-weight: 100;
+}
+
+tr.ds-table-row.odd {
+		color: inherit;
+		background-color: rgb(238, 238, 238);
+}
+
+tr.ds-table-row.even {
+		color: inherit;
+		background-color: rgb(255, 255, 255);
+}
+
+td {
+		padding: 3px 10px 5px 10px;
+		border: none;
+		font-size: inherit;
+		background-color: inherit;
+		color: inherit;
+}
+
+*.first-cell {
+		vertical-align: middle;
+		text-align: center;
+}
+
+.indent {
+		padding-left: 35px;
+		padding-right: 0;
+}
+.doubleIndent {
+		padding-left: 55px;
+		padding-right: 0;
+}
+
+th.indent {
+		padding-left: 30px;
+		padding-right: 0;
+}
+th.doubleIndent {
+		padding-left: 50px;
+		padding-right: 0;
+}
+
+
+
+
+/*******************************
+***********  forms  ***********
+*******************************/
+
+form.ds-interactive-div {
+
+		width: 95%;
+}
+
+form.ds-interactive-div li.ds-form-item {
+		/*display: block; */
+		padding: 2px 0;
+		width: 100%;
+}
+
+form.ds-interactive-div li {
+		margin: 0;
+}
+
+form.ds-interactive-div li.odd {
+		background-color: rgb(238, 238, 238);
+}
+
+form.ds-interactive-div li.even {
+		background-color: rgb(255, 255, 255);
+}
+
+form.ds-interactive-div li.last {
+		border-top: 2px solid gray;
+		background-color: rgb(215, 215, 215);
+}
+
+li.ds-form-item {
+		float: left;
+		clear: both;
+		width: 100%;
+}
+
+div.ds-form-content {
+		float: left;
+		clear: right;
+		display: block;
+		padding: 7px;
+		width: 400px;
+}
+
+span.ds-form-label,label.ds-form-label {
+		display: block;
+		float: left;
+		clear: left;
+		padding: 5px 20px 5px 10px;
+		width: 115px;
+		font-weight: bold;
+		vertical-align: middle;
+		overflow: hidden;
+}
+
+/* Help, error, & in-line labels */
+label.ds-composite-component {
+		display: block;
+		float: left;
+		padding: 0px 5px 0 0px;
+		font-size: 80%;
+		color: black;
+		background-color: inherit;
+		text-align: left;
+}
+
+span.error {
+		display: block;
+		font-size: 100%;
+		color: red;
+		background-color: inherit;
+		margin: 0;
+}
+
+span.field-help {
+		display: block;
+		margin-left: 5px;
+		font-size: 90%;
+		color: gray;
+		background-color: inherit;
+}
+
+input.error,textarea.error,select.error {
+		color: inherit;
+		background-color: rgb(255, 245, 245);
+		border-color: red;
+}
+
+span.composite-help {
+		display: block;
+		font-size: 90%;
+		color: gray;
+		background-color: inherit;
+		text-align: left;
+}
+
+span.composite-help {
+		display: block;
+		font-size: 80%;
+		color: black;
+		background-color: inherit;
+		text-align: left;
+}
+
+div.spacer {
+		margin: 0;
+		padding: 0;
+		line-height: 0px;
+		clear: both;
+}
+
+
+/* The composite field  */
+span.ds-composite-field {
+		display: table-row;
+		padding: 2px;
+}
+
+*.ds-composite-field.ds-composite-component {
+		display: table-cell;
+		text-align: left;
+		width: auto;
+		padding-right: 10px;
+}
+
+*.ds-composite-field input,*.ds-composite-field textarea,*.ds-composite-field select {
+		margin-right: 5px;
+		margin-bottom: -2px;
+}
+
+
+/* Checkboxes and Radio buttons */
+fieldset.ds-checkbox-field,fieldset.ds-radio-field {
+		border: none;
+		margin: 0;
+		padding: 0;
+}
+
+fieldset.ds-checkbox-field legend,fieldset.ds-radio-field legend {
+		display: none;
+}
+
+fieldset.ds-checkbox-field label,fieldset.ds-radio-field label {
+		display: block;
+}
+
+
+/* Sub sections within a form */
+
+fieldset.ds-form-list {
+		border: 2px solid gray;
+		padding: 0;
+		margin-left: 0;
+		margin-right: 0;
+}
+
+fieldset.ds-form-list ol {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+}
+
+fieldset.ds-form-list legend {
+		color: #336699;
+		background-color: inherit;
+		font-size: 115%;
+		font-weight: bolder;
+		margin-left: 10px;
+}
+
+fieldset.thick legend {
+		color: #336699;
+		padding-left: 10px;
+		padding-right: 30px;
+}
+
+fieldset.ds-form-sublist {
+		border: 1px solid rgb(238, 238, 238);
+		padding: 0;
+		margin: 5px;
+}
+
+fieldset.ds-form-list ol {
+		list-style-type: none;
+}
+
+
+
+/*******************************
+*   Rules for specific pages  *
+*******************************/
+
+/** Navigation bar for browse-by pages */
+form.navigation {
+		max-width: 750px;
+		margin: 0 auto 0 auto;
+		border: 1px solid gray;
+		background-color: rgb(238, 238, 238);
+}
+
+form.navigation p {
+		text-align: center;
+}
+
+/* System wide alerts */
+div#ds-system-wide-alert {
+		background-color: rgb(255,240,220);
+		border: 2px solid rgb(213,80,40);
+		padding: 6px;
+		margin: 10px 30px 10px 30px;
+		color: rgb(213, 80, 40);
+}
+
+/* License text, used during submission to show a license */
+div.license-text {
+		border: 1px solid #666;
+		background-color: #EEE;
+		padding: 20px;
+		margin: 20px;
+		margin-top: 5px;
+		font-family: monospace;
+		font-size: 125%;
+}
+
+/** System generated notices, typicaly these follow any action in the administrative section. */
+div.notice {
+		background-color: rgb(238, 238, 238);
+		border: 2px solid gray;
+		padding: 6px;
+		text-align: center;
+		margin: 10px 30px 10px 30px;
+}
+
+
+/** Community & Collection homepage */
+
+div.search-browse {
+		border: 2px solid gray;
+		background-color: rgb(238,238,238);
+		padding: 0px 5px 0px 10px;
+		width: 350px;
+}
+
+div.detail-view div.ds-logo-wrapper {
+		text-align: right;
+		margin-right: 30px;
+		margin: -150px 30px 0px auto;
+}
+
+div.detail-view p {
+		clear: both;
+}
+
+p.copyright-text {
+		margin-top: 30px;
+		width: 90%;
+		font-style: italic;
+		text-align: center;
+		margin: 30px auto 0px auto;
+}
+
+
+
