@@ -342,6 +342,7 @@ div.browse {
 }
 
 div.pagination {
+clear:both;
 	position: relative;
 	padding: 0px;
 	color: inherit;
