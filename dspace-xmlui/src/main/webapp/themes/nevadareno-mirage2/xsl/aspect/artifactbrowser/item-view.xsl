@@ -1506,145 +1506,7 @@
                         </span>
                     </div>
 
-                    <!-- Display file based on MIME type -->
-                    <div class="file-view">
-                        <div class="file-view-container">
-                            <xsl:choose>
-                                <xsl:when test="$mview='googleplayer'">
-                                    <embed class="googleplayer" type="application/x-shockwave-flash" wmode="transparent" height="27" width="320">
-                                        <xsl:attribute name="src">
-                                            <xsl:text>http://www.google.com/reader/ui/3523697345-audio-player.swf?audioUrl=</xsl:text>
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                        </xsl:attribute>
-                                        <xsl:attribute name="mime">
-                                            <xsl:value-of select="@MIMETYPE" />
-                                        </xsl:attribute>
-                                    </embed>
-                                </xsl:when>
-                                <xsl:when test="$mview='html5video'">
-                                    <video class="html5video" preload="none" controls="controls">
-                                        <xsl:attribute name="src">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
-                                        </xsl:attribute>
-                                        <a>
-                                            <xsl:attribute name="href">
-                                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                            </xsl:attribute>
-                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-                                        </a>
-                                    </video>
-                                </xsl:when>
-                                <xsl:when test="$mview='videoplayer'">
-                                    <div>
-                                        <xsl:attribute name="id">
-                                            <xsl:text>videoplayer_</xsl:text>
-                                            <xsl:value-of select="@ID"/>
-                                        </xsl:attribute>
-                                        Loading the player...
-                                    </div>
-                                    <script type="text/javascript">
-                                        jwplayer("<xsl:text>videoplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
-                                        file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
-                                        image: "",
-                                        width: "100%",
-                                        aspectratio: "16:9"
-                                        });
-                                    </script>
-                                </xsl:when>
-                                <xsl:when test="$mview='audioplayer'">
-                                    <div>
-                                        <xsl:attribute name="id">
-                                            <xsl:text>audioplayer_</xsl:text>
-                                            <xsl:value-of select="@ID"/>
-                                        </xsl:attribute>
-                                        Loading the player...
-                                    </div>
-                                    <script type="text/javascript">
-                                        jwplayer("<xsl:text>audioplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
-                                        file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
-                                        width: "100%",
-                                        height: "30px"
-                                        });
-                                    </script>
-                                </xsl:when>
-                                <xsl:when test="$mview='googledocsviewer'">
-                                    <iframe class="googledocsviewer">
-                                        <xsl:attribute name="src">
-                                            <xsl:text>http://docs.google.com/viewer?url=</xsl:text>
-                                            <!--<xsl:text>http://labs.google.com/papers/bigtable-osdi06.pdf</xsl:text>-->
-                                            <xsl:value-of select="$baseurl" />
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
-                                            <xsl:text>&#38;embedded=true</xsl:text>
-                                        </xsl:attribute>
-                                    </iframe>
-                                </xsl:when>
-                                <xsl:when test="$mview='embedwithfallback'">
-                                    <!-- Modal -->
-                                    <div class="modal modal-lg fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <xsl:attribute name="id">
-                                            <xsl:text>myModal_</xsl:text>
-                                            <xsl:value-of select="@ID"/>
-                                        </xsl:attribute>
-                                        <xsl:attribute name="aria-labelledby">
-                                            <xsl:text>myModalLabel_</xsl:text>
-                                            <xsl:value-of select="@ID"/>
-                                        </xsl:attribute>
 
-
-                                        <div class="modal-dialog modal-dialog-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span><span class="sr-only">Close</span></button>
-                                                    <h4 class="modal-title">
-                                                        <xsl:attribute name="id">
-                                                            <xsl:text>myModalLabel_</xsl:text>
-                                                            <xsl:value-of select="@ID"/>
-                                                        </xsl:attribute>
-
-                                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                                    </h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <object class="embedwithfallback">
-                                                        <xsl:attribute name="data">
-                                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                                        </xsl:attribute>
-                                                        <xsl:attribute name="type">
-                                                            <xsl:value-of select="@MIMETYPE" />
-                                                        </xsl:attribute>
-                                                        <a>
-                                                            <xsl:attribute name="href">
-                                                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                                            </xsl:attribute>
-                                                            <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-                                                        </a>
-                                                    </object>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </xsl:when>
-                                <xsl:when test="$mview='image'">
-                                    <img class="lazy smalldisplay" src="{concat($theme-path,'../mirage2/images/loading-lg.gif')}">
-                                        <xsl:attribute name="data-original">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                        </xsl:attribute>
-                                    </img>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <a>
-                                        <xsl:attribute name="href">
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                                        </xsl:attribute>
-                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
-                                    </a>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </div></div>
                 </div>
 
                 <!-- Show File / Download -->
@@ -1674,6 +1536,147 @@
 
 
                 </div>
+            </div>
+            <div class="row">
+                <!-- Display file based on MIME type -->
+                <div class="file-view">
+                    <div class="file-view-container">
+                        <xsl:choose>
+                            <xsl:when test="$mview='googleplayer'">
+                                <embed class="googleplayer" type="application/x-shockwave-flash" wmode="transparent" height="27" width="320">
+                                    <xsl:attribute name="src">
+                                        <xsl:text>http://www.google.com/reader/ui/3523697345-audio-player.swf?audioUrl=</xsl:text>
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="mime">
+                                        <xsl:value-of select="@MIMETYPE" />
+                                    </xsl:attribute>
+                                </embed>
+                            </xsl:when>
+                            <xsl:when test="$mview='html5video'">
+                                <video class="html5video" preload="none" controls="controls">
+                                    <xsl:attribute name="src">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
+                                    </xsl:attribute>
+                                    <a>
+                                        <xsl:attribute name="href">
+                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                        </xsl:attribute>
+                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                                    </a>
+                                </video>
+                            </xsl:when>
+                            <xsl:when test="$mview='videoplayer'">
+                                <div>
+                                    <xsl:attribute name="id">
+                                        <xsl:text>videoplayer_</xsl:text>
+                                        <xsl:value-of select="@ID"/>
+                                    </xsl:attribute>
+                                    Loading the player...
+                                </div>
+                                <script type="text/javascript">
+                                    jwplayer("<xsl:text>videoplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
+                                    file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                    image: "",
+                                    width: "100%",
+                                    aspectratio: "16:9"
+                                    });
+                                </script>
+                            </xsl:when>
+                            <xsl:when test="$mview='audioplayer'">
+                                <div>
+                                    <xsl:attribute name="id">
+                                        <xsl:text>audioplayer_</xsl:text>
+                                        <xsl:value-of select="@ID"/>
+                                    </xsl:attribute>
+                                    Loading the player...
+                                </div>
+                                <script type="text/javascript">
+                                    jwplayer("<xsl:text>audioplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
+                                    file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                    width: "100%",
+                                    height: "30px"
+                                    });
+                                </script>
+                            </xsl:when>
+                            <xsl:when test="$mview='googledocsviewer'">
+                                <iframe class="googledocsviewer">
+                                    <xsl:attribute name="src">
+                                        <xsl:text>http://docs.google.com/viewer?url=</xsl:text>
+                                        <!--<xsl:text>http://labs.google.com/papers/bigtable-osdi06.pdf</xsl:text>-->
+                                        <xsl:value-of select="$baseurl" />
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
+                                        <xsl:text>&#38;embedded=true</xsl:text>
+                                    </xsl:attribute>
+                                </iframe>
+                            </xsl:when>
+                            <xsl:when test="$mview='embedwithfallback'">
+                                <!-- Modal -->
+                                <div class="modal modal-lg fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <xsl:attribute name="id">
+                                        <xsl:text>myModal_</xsl:text>
+                                        <xsl:value-of select="@ID"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="aria-labelledby">
+                                        <xsl:text>myModalLabel_</xsl:text>
+                                        <xsl:value-of select="@ID"/>
+                                    </xsl:attribute>
+
+
+                                    <div class="modal-dialog modal-dialog-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span><span class="sr-only">Close</span></button>
+                                                <h4 class="modal-title">
+                                                    <xsl:attribute name="id">
+                                                        <xsl:text>myModalLabel_</xsl:text>
+                                                        <xsl:value-of select="@ID"/>
+                                                    </xsl:attribute>
+
+                                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <object class="embedwithfallback">
+                                                    <xsl:attribute name="data">
+                                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                                    </xsl:attribute>
+                                                    <xsl:attribute name="type">
+                                                        <xsl:value-of select="@MIMETYPE" />
+                                                    </xsl:attribute>
+                                                    <a>
+                                                        <xsl:attribute name="href">
+                                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                                        </xsl:attribute>
+                                                        <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                                                    </a>
+                                                </object>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </xsl:when>
+                            <xsl:when test="$mview='image'">
+                                <img class="lazy smalldisplay" src="{concat($theme-path,'../mirage2/images/loading-lg.gif')}">
+                                    <xsl:attribute name="data-original">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                    </xsl:attribute>
+                                </img>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                    </xsl:attribute>
+                                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </div></div>
             </div>
         </li>
     </xsl:template>
