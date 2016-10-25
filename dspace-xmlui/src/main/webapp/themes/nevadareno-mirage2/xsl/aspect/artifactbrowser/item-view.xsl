@@ -1505,32 +1505,6 @@
                             </xsl:call-template>
                         </span>
                     </div>
-                </div>
-
-                <!-- Show File / Download -->
-                <div class="col-md-2">
-                    <p>
-                        <button class="btn btn-default showhide" data-toggle="modal">
-                            <xsl:attribute name="data-target">
-                                <xsl:text>#myModal_</xsl:text>
-                                <xsl:value-of select="@ID"/>
-                            </xsl:attribute>
-                            Show File
-                        </button>
-                        <xsl:attribute name="id">
-                            <xsl:text>myModal_</xsl:text>
-                            <xsl:value-of select="@ID"/>
-                        </xsl:attribute>
-                    </p>
-
-                    <p>
-                        <a class="btn btn-default">
-                            <xsl:attribute name="href">
-                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                            </xsl:attribute>
-                            Download
-                        </a>
-                    </p>
 
                     <!-- Display file based on MIME type -->
                     <div class="file-view">
@@ -1670,8 +1644,34 @@
                                     </a>
                                 </xsl:otherwise>
                             </xsl:choose>
-                        </div>
-                    </div>
+                        </div></div>
+                </div>
+
+                <!-- Show File / Download -->
+                <div class="col-md-2">
+                    <p>
+                        <button class="btn btn-default showhide" data-toggle="modal">
+                            <xsl:attribute name="data-target">
+                                <xsl:text>#myModal_</xsl:text>
+                                <xsl:value-of select="@ID"/>
+                            </xsl:attribute>
+                            Show File
+                        </button>
+                        <xsl:attribute name="id">
+                            <xsl:text>myModal_</xsl:text>
+                            <xsl:value-of select="@ID"/>
+                        </xsl:attribute>
+                    </p>
+
+                    <p>
+                        <a class="btn btn-default">
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                            </xsl:attribute>
+                            Download
+                        </a>
+                    </p>
+
 
                 </div>
             </div>
