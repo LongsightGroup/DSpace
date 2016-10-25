@@ -1594,8 +1594,8 @@
                                 <script type="text/javascript">
                                     jwplayer("<xsl:text>audioplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
                                     file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
-                                    width: "100%",
-                                    height: "30px"
+                                    width: "500",
+                                    height: "40"
                                     });
                                 </script>
                             </xsl:when>
