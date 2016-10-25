@@ -1430,7 +1430,7 @@
             <div class="row">
 
                 <!-- Thumbnail -->
-                <div class="col-md-2">
+                <div class="col-md-3">
 
                     <xsl:variable name="context" select="."/>
 
@@ -1460,7 +1460,7 @@
                 </div>
 
                 <!-- File, Desc, MIME, Size -->
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <!--<xsl:text>Filename: </xsl:text>-->
                     <div class="file-item file-link file-name">
                         <span class="label">File:</span>
@@ -1537,7 +1537,7 @@
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-top:20px">
                 <!-- Display file based on MIME type -->
                 <div class="file-view">
                     <div class="file-view-container">
