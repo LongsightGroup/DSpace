@@ -94,8 +94,8 @@
         <xsl:param name="mimetype"/>
 
         <img class="mimeicon">
-            <xsl:attribute name="width"><xsl:value-of select="$thumbnail.maxwidth"/></xsl:attribute>
-            <xsl:attribute name="height"><xsl:value-of select="$thumbnail.maxheight"/></xsl:attribute>
+            <xsl:attribute name="width">128px</xsl:attribute>
+            <xsl:attribute name="height">128px</xsl:attribute>
             <xsl:attribute name="alt"><xsl:value-of select="$mimetype"/></xsl:attribute>
             <xsl:attribute name="src">
                 <xsl:value-of select="$theme-path"/>
@@ -161,6 +161,9 @@
                     </xsl:when>
                     <xsl:when test="$mimetype='video/quicktime'">
                         <xsl:text>/images/mimeicons/mov.png</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="$mimetype='audio/mpeg'">
+                        <xsl:text>/images/mimeicons/mp3.png</xsl:text>
                     </xsl:when>
                     <xsl:when test="$mimetype='audio/x-mpeg'">
                         <xsl:text>/images/mimeicons/mpeg.png</xsl:text>
