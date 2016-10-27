@@ -35,6 +35,7 @@
     xmlns:jstring="java.lang.String"
     xmlns:rights="http://cosimo.stanford.edu/sdr/metsrights/"
     xmlns:confman="org.dspace.core.ConfigurationManager"
+    xmlns:url="http://whatever/java/java.net.URLEncoder"
     exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util jstring rights confman">
 
     <xsl:output indent="yes"/>
@@ -540,9 +541,64 @@
 
     <xsl:template match="dim:dim" mode="itemDetailView-DIM">
         <xsl:call-template name="itemSummaryView-DIM-title"/>
+        <p>Details</p>
         <div class="ds-table-responsive">
+            <!-- Title			dc.title
+Filename		dc.identifier
+Summary		dc.description.abstract
+Content type		dc.type
+Extent			dc.format.extent
+Language		dc.language
+Rights			dc.rights
+-->
+
             <table class="ds-includeSet-table detailtable table table-striped table-hover">
-                <xsl:apply-templates mode="itemDetailView-DIM"/>
+                <!-- Pingry: Call metadata in order -->
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">title</xsl:with-param>
+                    <xsl:with-param name="qualifier"></xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">identifier</xsl:with-param>
+                    <xsl:with-param name="qualifier"></xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">description</xsl:with-param>
+                    <xsl:with-param name="qualifier">abstract</xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">type</xsl:with-param>
+                    <xsl:with-param name="qualifier"></xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">format</xsl:with-param>
+                    <xsl:with-param name="qualifier">extent</xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">language</xsl:with-param>
+                    <xsl:with-param name="qualifier"></xsl:with-param>
+                </xsl:call-template>
+
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">rights</xsl:with-param>
+                    <xsl:with-param name="qualifier"></xsl:with-param>
+                </xsl:call-template>
+
+
+
+                <!--<xsl:apply-templates mode="itemDetailView-DIM"/>-->
             </table>
         </div>
 
@@ -556,27 +612,191 @@
     </xsl:template>
 
     <xsl:template match="dim:field" mode="itemDetailView-DIM">
-            <tr>
-                <xsl:attribute name="class">
-                    <xsl:text>ds-table-row </xsl:text>
-                    <xsl:if test="(position() div 2 mod 2 = 0)">even </xsl:if>
-                    <xsl:if test="(position() div 2 mod 2 = 1)">odd </xsl:if>
-                </xsl:attribute>
-                <td class="label-cell">
-                    <xsl:value-of select="./@mdschema"/>
+        <tr>
+            <xsl:attribute name="class">
+                <xsl:text>ds-table-row </xsl:text>
+                <xsl:if test="(position() div 2 mod 2 = 0)">even </xsl:if>
+                <xsl:if test="(position() div 2 mod 2 = 1)">odd </xsl:if>
+            </xsl:attribute>
+            <xsl:variable name="metadata-field">
+                <xsl:value-of select="./@mdschema"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="./@element"/>
+                <xsl:if test="./@qualifier">
                     <xsl:text>.</xsl:text>
-                    <xsl:value-of select="./@element"/>
-                    <xsl:if test="./@qualifier">
-                        <xsl:text>.</xsl:text>
-                        <xsl:value-of select="./@qualifier"/>
+                    <xsl:value-of select="./@qualifier"/>
+                </xsl:if>
+            </xsl:variable>
+            <td class="metadata-key label-cell">
+                <!-- title for hover over -->
+                <xsl:attribute name="title">
+                    <xsl:value-of select="$metadata-field"/>
+                    <xsl:if test="./@language and @language!=''">
+                        <xsl:text>[</xsl:text>
+                        <xsl:value-of select="./@language"/>
+                        <xsl:text>]</xsl:text>
                     </xsl:if>
-                </td>
-            <td class="word-break">
-              <xsl:copy-of select="./node()"/>
+                </xsl:attribute>
+                <!-- i18n for translating metadata key to human readable -->
+                <i18n:text>
+                    <xsl:text>xmlui.metadata.</xsl:text>
+                    <xsl:value-of select="$metadata-field"/>
+                </i18n:text>
+
             </td>
-                <td><xsl:value-of select="./@language"/></td>
-            </tr>
+            <td class="metadata-field word-break">
+                <!-- Linkify certain fields-->
+                <xsl:choose>
+                    <xsl:when test="@element='subject' and not(@qualifier)">
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="$context-path"/>
+                                <xsl:text>/browse?value=</xsl:text>
+                                <xsl:value-of select="url:encode(./node())" />
+                                <xsl:text>&amp;type=subject</xsl:text>
+                            </xsl:attribute>
+                            <xsl:copy-of select="./node()"/>
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="./node()"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+
+                <xsl:if test="./@authority and ./@confidence">
+                <xsl:call-template name="authorityConfidenceIcon">
+                <xsl:with-param name="confidence" select="./@confidence"/>
+                </xsl:call-template>
+                </xsl:if>
+            </td>
+            <!-- want to maybe be able to hide the language column -->
+            <td class="metadata-language">
+                <xsl:value-of select="./@language"/>
+            </td>
+        </tr>
     </xsl:template>
+
+    <xsl:template name="itemDetailView-field">
+        <xsl:param name="schema"/>
+        <xsl:param name="element"/>
+        <xsl:param name="qualifier"/>
+        <xsl:choose>
+            <xsl:when test="$qualifier">
+                <!-- schema.element.qualifier -->
+                <xsl:if test="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
+                    <tr>
+                        <xsl:attribute name="class">
+                            <xsl:text>ds-table-row </xsl:text>
+                            <xsl:if test="(position() div 2 mod 2 = 0)">even </xsl:if>
+                            <xsl:if test="(position() div 2 mod 2 = 1)">odd </xsl:if>
+                        </xsl:attribute>
+                        <xsl:variable name="metadata-field">
+                            <xsl:copy-of select="$schema"/>.<xsl:copy-of select="$element"/>.<xsl:copy-of select="$qualifier"/>
+                        </xsl:variable>
+                        <td class="metadata-key label-cell">
+                            <!-- title for hover over -->
+                            <xsl:attribute name="title">
+                                <xsl:value-of select="$metadata-field"/>
+                            </xsl:attribute>
+                            <!-- i18n for translating metadata key to human readable -->
+                            <i18n:text>
+                                <xsl:text>xmlui.metadata.</xsl:text>
+                                <xsl:value-of select="$metadata-field"/>
+                            </i18n:text>
+                        </td>
+                        <td class="metadata-field word-break">
+                            <!-- Linkify certain fields-->
+                            <xsl:choose>
+                                <xsl:when test="@element='subject' and not(@qualifier)">
+                                    <a>
+                                        <xsl:attribute name="href">
+                                            <xsl:value-of select="$context-path"/>
+                                            <xsl:text>/browse?value=</xsl:text>
+                                            <xsl:value-of select="url:encode(./node())" />
+                                            <xsl:text>&amp;type=subject</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:copy-of select="./node()"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
+                                        <xsl:copy-of select="./node()"/>
+                                        <xsl:if test="count(following-sibling::dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]) != 0">
+                                            <br/>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
+                            <xsl:if test="./@authority and ./@confidence">
+                                <xsl:call-template name="authorityConfidenceIcon">
+                                    <xsl:with-param name="confidence" select="./@confidence"/>
+                                </xsl:call-template>
+                            </xsl:if>
+                        </td>
+                    </tr>
+                </xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- schema.element  no qualifier -->
+                <xsl:if test="dim:field[@mdschema=$schema and @element=$element and not(@qualifier) and descendant::text()]">
+                    <tr>
+                        <xsl:attribute name="class">
+                            <xsl:text>ds-table-row </xsl:text>
+                            <xsl:if test="(position() div 2 mod 2 = 0)">even </xsl:if>
+                            <xsl:if test="(position() div 2 mod 2 = 1)">odd </xsl:if>
+                        </xsl:attribute>
+                        <xsl:variable name="metadata-field">
+                            <xsl:copy-of select="$schema"/>.<xsl:copy-of select="$element"/>
+                        </xsl:variable>
+                        <td class="metadata-key label-cell">
+                            <!-- title for hover over -->
+                            <xsl:attribute name="title">
+                                <xsl:value-of select="$metadata-field"/>
+                            </xsl:attribute>
+                            <!-- i18n for translating metadata key to human readable -->
+                            <i18n:text>
+                                <xsl:text>xmlui.metadata.</xsl:text>
+                                <xsl:value-of select="$metadata-field"/>
+                            </i18n:text>
+                        </td>
+                        <td class="metadata-field word-break">
+                            <!-- Linkify certain fields-->
+                            <xsl:choose>
+                                <xsl:when test="@element='subject' and not(@qualifier)">
+                                    <a>
+                                        <xsl:attribute name="href">
+                                            <xsl:value-of select="$context-path"/>
+                                            <xsl:text>/browse?value=</xsl:text>
+                                            <xsl:value-of select="url:encode(./node())" />
+                                            <xsl:text>&amp;type=subject</xsl:text>
+                                        </xsl:attribute>
+                                        NOT IMPLEMENTED
+                                        <xsl:copy-of select="./node()"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and not(@qualifier) and descendant::text()]">
+                                        <xsl:copy-of select="./node()"/>
+                                        <xsl:if test="count(following-sibling::dim:field[@mdschema=$schema and @element=$element and not(@qualifier) and descendant::text()]) != 0">
+                                            <br/>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
+                            <xsl:if test="./@authority and ./@confidence">
+                                <xsl:call-template name="authorityConfidenceIcon">
+                                    <xsl:with-param name="confidence" select="./@confidence"/>
+                                </xsl:call-template>
+                            </xsl:if>
+                        </td>
+                    </tr>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
 
     <!-- don't render the item-view-toggle automatically in the summary view, only when it gets called -->
     <xsl:template match="dri:p[contains(@rend , 'item-view-toggle') and
