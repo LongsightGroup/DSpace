@@ -118,7 +118,7 @@
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.conjunction">Conjunction</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.search_type">Search type</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.search_for">Search for</message>
-	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_author">Author</message>
+	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_author">Person</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_title">Title</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_subject">Subject</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_abstract">Abstract</message>
@@ -127,6 +127,11 @@
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_identifier">Identifier</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_language">Language (ISO)</message>
 	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_keyword">Keyword</message>
+	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_sport">Sport</message>
+	<message key="xmlui.ArtifactBrowser.AdvancedSearch.type_schoolYear">School Year</message>
+
+	<message key="xmlui.Discovery.AbstractSearch.type_schoolYear">School Year</message>
+	<message key="xmlui.Discovery.AbstractSearch.type_sport">Sport</message>
 
    <!--  some common other possibilities for Advanced Search Fields -->
    <message key="xmlui.ArtifactBrowser.AdvancedSearch.type_advisor">Advisor</message>
