@@ -541,233 +541,29 @@
         </div>
     </xsl:template>
 
+    <!-- Pingry custom detail metadata page, groups the metadata -->
     <xsl:template match="dim:dim" mode="itemDetailView-DIM">
         <xsl:call-template name="itemSummaryView-DIM-title"/>
 
         <div class="ds-table-responsive">
             <!-- Pingry: Call metadata in order -->
             <table class="ds-includeSet-table detailtable table table-striped table-hover">
-                <tr class="info">
-                    <th colspan="2">Item</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">title</xsl:with-param>
-                    <xsl:with-param name="qualifier"></xsl:with-param>
-                </xsl:call-template>
+                <xsl:call-template name="itemDetailView-Item"/>
 
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">identifier</xsl:with-param>
-                    <xsl:with-param name="qualifier"></xsl:with-param>
-                </xsl:call-template>
+                <!-- HOF (Inductee) vs rest-of-site (Team) (People) -->
+                <xsl:choose>
+                    <xsl:when test="dim:field[@mdschema='dc' and @element='note' and @qualifier='inducteeType' and descendant::text()]">
+                        <xsl:call-template name="itemDetailView-Inductee"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="itemDetailView-Team"/>
+                        <xsl:call-template name="itemDetailView-People"/>
+                    </xsl:otherwise>
+                </xsl:choose>
 
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">description</xsl:with-param>
-                    <xsl:with-param name="qualifier">abstract</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">type</xsl:with-param>
-                    <xsl:with-param name="qualifier"></xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">format</xsl:with-param>
-                    <xsl:with-param name="qualifier">extent</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">language</xsl:with-param>
-                    <xsl:with-param name="qualifier"></xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">rights</xsl:with-param>
-                    <xsl:with-param name="qualifier"></xsl:with-param>
-                </xsl:call-template>
-
-                <tr class="info">
-                    <th colspan="2">Team</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">sport</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">gender</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">coverage</xsl:with-param>
-                    <xsl:with-param name="qualifier">temporal</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">record</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">championships</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">hallOfFame</xsl:with-param>
-                </xsl:call-template>
-
-                <tr class="info">
-                    <th colspan="2">People</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">teamMember</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">notPictured</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">coach</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">captain</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">manager</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">order</xsl:with-param>
-                </xsl:call-template>
-
-                <tr class="info">
-                    <th colspan="2">Source</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">creator</xsl:with-param>
-                    <xsl:with-param name="qualifier">photographer</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">date</xsl:with-param>
-                    <xsl:with-param name="qualifier">created</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">source</xsl:with-param>
-                    <xsl:with-param name="qualifier">genre</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">source</xsl:with-param>
-                    <xsl:with-param name="qualifier">notes</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">source</xsl:with-param>
-                    <xsl:with-param name="qualifier">location</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">subject</xsl:with-param>
-                    <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
-                </xsl:call-template>
-
-                <tr class="info">
-                    <th colspan="2">Technical</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">dSpecs</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">operatingSystem</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">software</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">hardware</xsl:with-param>
-                </xsl:call-template>
-
-                <tr class="info">
-                    <th colspan="2">System</th>
-                </tr>
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">identifier</xsl:with-param>
-                    <xsl:with-param name="qualifier">uri</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">description</xsl:with-param>
-                    <xsl:with-param name="qualifier">provenance</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">date</xsl:with-param>
-                    <xsl:with-param name="qualifier">accessioned</xsl:with-param>
-                </xsl:call-template>
-
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">date</xsl:with-param>
-                    <xsl:with-param name="qualifier">available</xsl:with-param>
-                </xsl:call-template>
+                <xsl:call-template name="itemDetailView-Source"/>
+                <xsl:call-template name="itemDetailView-Technical"/>
+                <xsl:call-template name="itemDetailView-System"/>
             </table>
         </div>
 
@@ -779,6 +575,331 @@
         </span>
         <xsl:copy-of select="$SFXLink" />
     </xsl:template>
+
+    <xsl:template name="itemDetailView-Item">
+        <tr class="info">
+            <th style="min-width:150px">Item</th>
+            <th></th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">title</xsl:with-param>
+            <xsl:with-param name="qualifier"></xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">identifier</xsl:with-param>
+            <xsl:with-param name="qualifier"></xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">description</xsl:with-param>
+            <xsl:with-param name="qualifier">abstract</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">type</xsl:with-param>
+            <xsl:with-param name="qualifier"></xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">format</xsl:with-param>
+            <xsl:with-param name="qualifier">extent</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">language</xsl:with-param>
+            <xsl:with-param name="qualifier"></xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">rights</xsl:with-param>
+            <xsl:with-param name="qualifier"></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-Inductee">
+        <tr class="info">
+            <th colspan="2">Inductee</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">inducteeType</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">person</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">coverage</xsl:with-param>
+            <xsl:with-param name="qualifier">temporal</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">sport</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">gender</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">record</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">championships</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">teamMember</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">notPictured</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">coach</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">captain</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">manager</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">order</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-Team">
+        <tr class="info">
+            <th colspan="2">Team</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">sport</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">gender</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">coverage</xsl:with-param>
+            <xsl:with-param name="qualifier">temporal</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">record</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">championships</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">hallOfFame</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-People">
+        <tr class="info">
+            <th colspan="2">People</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">teamMember</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">notPictured</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">coach</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">captain</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">manager</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">order</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-Source">
+        <tr class="info">
+            <th colspan="2">Source</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">creator</xsl:with-param>
+            <xsl:with-param name="qualifier">photographer</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">date</xsl:with-param>
+            <xsl:with-param name="qualifier">created</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">source</xsl:with-param>
+            <xsl:with-param name="qualifier">genre</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">source</xsl:with-param>
+            <xsl:with-param name="qualifier">notes</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">source</xsl:with-param>
+            <xsl:with-param name="qualifier">location</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">subject</xsl:with-param>
+            <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-Technical">
+        <tr class="info">
+            <th colspan="2">Technical</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">dSpecs</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">operatingSystem</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">software</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">hardware</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="itemDetailView-System">
+        <tr class="info">
+            <th colspan="2">System</th>
+        </tr>
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">identifier</xsl:with-param>
+            <xsl:with-param name="qualifier">uri</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">description</xsl:with-param>
+            <xsl:with-param name="qualifier">provenance</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">date</xsl:with-param>
+            <xsl:with-param name="qualifier">accessioned</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">date</xsl:with-param>
+            <xsl:with-param name="qualifier">available</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
 
     <xsl:template match="dim:field" mode="itemDetailView-DIM">
         <tr>
@@ -911,7 +1032,8 @@
                                                                         $qualifier='coach' or
                                                                         $qualifier='captain' or
                                                                         $qualifier='manager' or
-                                                                        $qualifier='assistantManager')">
+                                                                        $qualifier='assistantManager' or
+                                                                        $qualifier='person')">
                                     <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
                                         <a>
                                             <xsl:attribute name="href">
