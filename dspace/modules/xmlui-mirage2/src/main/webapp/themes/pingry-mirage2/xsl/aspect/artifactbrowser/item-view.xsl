@@ -446,6 +446,7 @@
                     </xsl:variable>
 
                     <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
+                        <xsl:if test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 'presentation')">
                         <xsl:call-template name="itemSummaryView-DIM-file-section-entry">
                             <xsl:with-param name="href" select="mets:FLocat[@LOCTYPE='URL']/@xlink:href" />
                             <xsl:with-param name="mimetype" select="@MIMETYPE" />
@@ -455,6 +456,7 @@
                             <xsl:with-param name="label" select="mets:FLocat[@LOCTYPE='URL']/@xlink:label" />
                             <xsl:with-param name="size" select="@SIZE" />
                         </xsl:call-template>
+                        </xsl:if>
                     </xsl:for-each>
                 </div>
             </xsl:when>
@@ -541,7 +543,7 @@
 
     <xsl:template match="dim:dim" mode="itemDetailView-DIM">
         <xsl:call-template name="itemSummaryView-DIM-title"/>
-        <p>Details</p>
+
         <div class="ds-table-responsive">
             <!-- Pingry: Call metadata in order -->
             <h3>General</h3>
@@ -1138,7 +1140,16 @@
             <xsl:attribute name="href">
                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
             </xsl:attribute>
-            <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+
+            <xsl:choose>
+                <xsl:when test="contains(mets:FLocat[@LOCTYPE='URL']/@xlink:label, 'presentation')">
+                    <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>Download</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+
         </a>
     </xsl:template>
 
