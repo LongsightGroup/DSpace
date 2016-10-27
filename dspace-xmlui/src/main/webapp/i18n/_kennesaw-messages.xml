@@ -2298,10 +2298,12 @@
     <message key="xmlui.metadata.dc.format.mimetype">Format</message>
     <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Citation</message>
+	<message key="xmlui.metadata.dc.identifier.other">Additional Identifier</message>
     <message key="xmlui.metadata.dc.identifier.uri">Handle</message>
     <message key="xmlui.metadata.dc.language">Item Language</message>
     <message key="xmlui.metadata.dc.language.iso">Language</message>
     <message key="xmlui.metadata.dc.publisher">Publisher</message>
+	<message key="xmlui.metadata.dc.relation.isformatof">Format of</message>
     <message key="xmlui.metadata.dc.relation.ispartof">Collection Description</message>
     <message key="xmlui.metadata.dc.rights">Rights</message>
     <message key="xmlui.metadata.dc.rights.holder">Copyright Holder</message>

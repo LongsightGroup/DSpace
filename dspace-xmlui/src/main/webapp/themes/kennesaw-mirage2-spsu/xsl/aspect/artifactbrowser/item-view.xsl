@@ -661,8 +661,16 @@
                             <xsl:copy-of select="./node()"/>
                         </a>
                     </xsl:when>
+                    <xsl:when test="@element='identifier' and @qualifier='uri'">
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="./node()"/>
+                            </xsl:attribute>
+                            <xsl:copy-of select="./node()"/>
+                        </a>
+                    </xsl:when>
                     <xsl:otherwise>
-                        <xsl:copy-of select="./node()"/>
+                        <xsl:value-of select="./node()" disable-output-escaping="yes"/>
                     </xsl:otherwise>
                 </xsl:choose>
 
