@@ -1040,6 +1040,7 @@
                                                 <xsl:value-of select="$context-path"/>
                                                 <xsl:text>/discover?filtertype=author&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
                                                 <xsl:value-of select="url:encode(./node())" />
+                                                <xsl:text>&amp;sort_by=dc.title_sort&amp;order=asc</xsl:text>
                                             </xsl:attribute>
                                             <xsl:copy-of select="./node()"/>
                                         </a>
