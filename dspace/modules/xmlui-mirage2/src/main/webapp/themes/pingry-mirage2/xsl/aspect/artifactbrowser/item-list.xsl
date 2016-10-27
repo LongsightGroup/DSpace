@@ -110,7 +110,7 @@
                 </span>
             </h4>
             <div class="artifact-info">
-                <span class="author h4">
+<!--                <span class="author h4">
                     <small>
                     <xsl:choose>
                         <xsl:when test="dim:field[@element='contributor'][@qualifier='author']">
@@ -149,6 +149,8 @@
                     </small>
                 </span>
                 <xsl:text> </xsl:text>
+                -->
+
                 <xsl:if test="dim:field[@element='date' and @qualifier='issued']">
 	                <span class="publisher-date h4">  <small>
 	                    <xsl:text>(</xsl:text>
