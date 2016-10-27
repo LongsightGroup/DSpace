@@ -882,16 +882,20 @@
                         <td class="metadata-field word-break">
                             <!-- Linkify certain fields-->
                             <xsl:choose>
-                                <xsl:when test="@element='subject' and not(@qualifier)">
-                                    <a>
-                                        <xsl:attribute name="href">
-                                            <xsl:value-of select="$context-path"/>
-                                            <xsl:text>/browse?value=</xsl:text>
-                                            <xsl:value-of select="url:encode(./node())" />
-                                            <xsl:text>&amp;type=subject</xsl:text>
-                                        </xsl:attribute>
-                                        <xsl:copy-of select="./node()"/>
-                                    </a>
+                                <xsl:when test="$element='subject' and $qualifier='sport'">
+                                    <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
+                                        <a>
+                                            <xsl:attribute name="href">
+                                                <xsl:value-of select="$context-path"/>
+                                                <xsl:text>/discover?filtertype=subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                                                <xsl:value-of select="url:encode(./node())" />
+                                            </xsl:attribute>
+                                            <xsl:copy-of select="./node()"/>
+                                        </a>
+                                        <xsl:if test="count(following-sibling::dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]) != 0">
+                                            <br/>
+                                        </xsl:if>
+                                    </xsl:for-each>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
