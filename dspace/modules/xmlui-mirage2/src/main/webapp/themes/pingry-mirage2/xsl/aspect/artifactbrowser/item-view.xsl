@@ -897,6 +897,21 @@
                                         </xsl:if>
                                     </xsl:for-each>
                                 </xsl:when>
+                                <xsl:when test="$element='coverage' and $qualifier='temporal'">
+                                    <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
+                                        <a>
+                                            <xsl:attribute name="href">
+                                                <xsl:value-of select="$context-path"/>
+                                                <xsl:text>/discover?filtertype=schoolYear&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                                                <xsl:value-of select="url:encode(./node())" />
+                                            </xsl:attribute>
+                                            <xsl:copy-of select="./node()"/>
+                                        </a>
+                                        <xsl:if test="count(following-sibling::dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]) != 0">
+                                            <br/>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:for-each select="dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]">
                                         <xsl:copy-of select="./node()"/>
