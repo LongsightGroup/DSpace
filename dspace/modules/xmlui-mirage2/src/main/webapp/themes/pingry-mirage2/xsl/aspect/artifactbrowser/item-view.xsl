@@ -546,8 +546,10 @@
 
         <div class="ds-table-responsive">
             <!-- Pingry: Call metadata in order -->
-            <h3>General</h3>
             <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">Item</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">title</xsl:with-param>
@@ -589,10 +591,10 @@
                     <xsl:with-param name="element">rights</xsl:with-param>
                     <xsl:with-param name="qualifier"></xsl:with-param>
                 </xsl:call-template>
-            </table>
 
-            <h3>Sport</h3>
-            <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">Team</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">subject</xsl:with-param>
@@ -628,10 +630,10 @@
                     <xsl:with-param name="element">note</xsl:with-param>
                     <xsl:with-param name="qualifier">hallOfFame</xsl:with-param>
                 </xsl:call-template>
-            </table>
 
-            <h3>Team Members</h3>
-            <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">People</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">subject</xsl:with-param>
@@ -673,10 +675,10 @@
                     <xsl:with-param name="element">note</xsl:with-param>
                     <xsl:with-param name="qualifier">order</xsl:with-param>
                 </xsl:call-template>
-            </table>
 
-            <h3>Photograph</h3>
-            <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">Source</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">creator</xsl:with-param>
@@ -713,15 +715,9 @@
                     <xsl:with-param name="qualifier">assistantManager</xsl:with-param>
                 </xsl:call-template>
 
-                <xsl:call-template name="itemDetailView-field">
-                    <xsl:with-param name="schema">dc</xsl:with-param>
-                    <xsl:with-param name="element">note</xsl:with-param>
-                    <xsl:with-param name="qualifier">order</xsl:with-param>
-                </xsl:call-template>
-            </table>
-
-            <h3>Digitization</h3>
-            <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">Technical</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">note</xsl:with-param>
@@ -745,10 +741,10 @@
                     <xsl:with-param name="element">note</xsl:with-param>
                     <xsl:with-param name="qualifier">hardware</xsl:with-param>
                 </xsl:call-template>
-            </table>
 
-            <h3>System</h3>
-            <table class="ds-includeSet-table detailtable table table-striped table-hover">
+                <tr class="info">
+                    <th colspan="2">System</th>
+                </tr>
                 <xsl:call-template name="itemDetailView-field">
                     <xsl:with-param name="schema">dc</xsl:with-param>
                     <xsl:with-param name="element">identifier</xsl:with-param>
@@ -773,8 +769,6 @@
                     <xsl:with-param name="qualifier">available</xsl:with-param>
                 </xsl:call-template>
             </table>
-
-
         </div>
 
         <span class="Z3988">
@@ -887,7 +881,7 @@
                                         <a>
                                             <xsl:attribute name="href">
                                                 <xsl:value-of select="$context-path"/>
-                                                <xsl:text>/discover?filtertype=subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                                                <xsl:text>/discover?filtertype=sport&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
                                                 <xsl:value-of select="url:encode(./node())" />
                                             </xsl:attribute>
                                             <xsl:copy-of select="./node()"/>
