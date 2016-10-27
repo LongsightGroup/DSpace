@@ -2281,6 +2281,7 @@
     <message key="xmlui.metadata.dc.first-line-of-chorus">First Line of Chorus</message>
     <message key="xmlui.metadata.dc.first-line-of-text">First Line of Text</message>
     <message key="xmlui.metadata.dc.format">Item Format</message>
+	<message key="xmlui.metadata.dc.format.extent">Extent</message>
     <message key="xmlui.metadata.dc.format.mimetype">Mimetype</message>
     <message key="xmlui.metadata.dc.identifier">Identifier</message>
     <message key="xmlui.metadata.dc.identifier.citation">Identifier (Citation)</message>
@@ -2298,6 +2299,30 @@
     <message key="xmlui.metadata.dc.title.alternative">Alternative Title</message>
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
+
+	<message key="xmlui.metadata.dc.subject.sport">Sport</message>
+	<message key="xmlui.metadata.dc.note.gender">Gender</message>
+	<message key="xmlui.metadata.dc.coverage.temporal">School year</message>
+	<message key="xmlui.metadata.dc.note.record">Record</message>
+	<message key="xmlui.metadata.dc.note.championships">Championships</message>
+	<message key="xmlui.metadata.dc.note.hallOfFame">Hall of fame</message>
+	<message key="xmlui.metadata.dc.subject.teamMember">Team Member</message>
+	<message key="xmlui.metadata.dc.subject.notPictured">Not pictured</message>
+	<message key="xmlui.metadata.dc.subject.coach">Coach</message>
+	<message key="xmlui.metadata.dc.subject.captain">Captain</message>
+	<message key="xmlui.metadata.dc.subject.manager">Manager</message>
+	<message key="xmlui.metadata.dc.subject.assistantManager">Assistant manager</message>
+	<message key="xmlui.metadata.dc.note.order">Order</message>
+	<message key="xmlui.metadata.dc.creator.photographer">Photographer</message>
+	<message key="xmlui.metadata.dc.date.created">Date</message>
+	<message key="xmlui.metadata.dc.source.genre">Genre</message>
+	<message key="xmlui.metadata.dc.source.notes">Notes</message>
+	<message key="xmlui.metadata.dc.source.location">Location</message>
+	<message key="xmlui.metadata.dc.note.dSpecs">Digitization specifications</message>
+	<message key="xmlui.metadata.dc.note.operatingSystem">Operating system</message>
+	<message key="xmlui.metadata.dc.note.software">Creating software</message>
+	<message key="xmlui.metadata.dc.note.hardware">Creating hardware</message>
+	
 
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
