@@ -21,13 +21,13 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
                 exclude-result-prefixes="xsl dri i18n">
 
-    <xsl:import href="../../mirage2/xsl/preprocess/general.xsl"/>
-    <xsl:import href="../../mirage2/xsl/preprocess/admin.xsl"/>
-    <xsl:import href="../../mirage2/xsl/preprocess/discovery.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/general.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/admin.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/discovery.xsl"/>
     <xsl:import href="preprocess/browse.xsl"/>
-    <xsl:import href="../../mirage2/xsl/preprocess/communitylist.xsl"/>
-    <xsl:import href="../../mirage2/xsl/preprocess/itemview.xsl"/>
-    <xsl:import href="../../mirage2/xsl/preprocess/navigation.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/communitylist.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/itemview.xsl"/>
+    <xsl:import href="../../_precompiled-mirage2/xsl/preprocess/navigation.xsl"/>
     <xsl:output indent="yes"/>
 
 </xsl:stylesheet>

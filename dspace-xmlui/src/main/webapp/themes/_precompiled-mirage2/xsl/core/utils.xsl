@@ -99,7 +99,7 @@
             <xsl:attribute name="alt"><xsl:value-of select="$mimetype"/></xsl:attribute>
             <xsl:attribute name="src">
                 <xsl:value-of select="$theme-path"/>
-                <xsl:text>../mirage2</xsl:text>
+                <xsl:text>../_precompiled-mirage2</xsl:text>
 
                 <xsl:choose>
                     <xsl:when test="$mimetype='application/pdf'">

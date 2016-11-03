@@ -100,7 +100,7 @@ function BookReaderJSSimple() {
 
 // Override the path used to find UI images
     if(window.DSpace) {
-        br.imagesBaseURL = window.DSpace.theme_path + '../mirage2/vendor/BookReader/images/';
+        br.imagesBaseURL = window.DSpace.theme_path + '../_precompiled-mirage2/vendor/BookReader/images/';
 
     } else {
         br.imagesBaseURL = "/vendor/BookReader/images/";

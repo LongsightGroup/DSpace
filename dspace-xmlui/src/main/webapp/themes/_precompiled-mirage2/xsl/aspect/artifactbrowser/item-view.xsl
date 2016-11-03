@@ -1271,7 +1271,7 @@
 
                         </xsl:when>
                         <xsl:when test="$mview='image'">
-                            <img class="lazy smalldisplay" src="{concat($theme-path,'../mirage2/images/loading-lg.gif')}">
+                            <img class="lazy smalldisplay" src="{concat($theme-path,'../_precompiled-mirage2/images/loading-lg.gif')}">
                                 <xsl:attribute name="data-original">
                                     <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                                 </xsl:attribute>

@@ -180,19 +180,19 @@
             </xsl:for-each>
 
             <!--### CLASSIC MIRAGE COLOR SCHEME START ###-->
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/bootstrap-classic-mirage-colors-min.css')}"/>
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/classic-mirage-style.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/bootstrap-classic-mirage-colors-min.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/classic-mirage-style.css')}"/>
             <!--### CLASSIC MIRAGE COLOR SCHEME END ###-->
 
             <!--### BOOTSTRAP COLOR SCHEME START ###-->
             <!--<link rel="stylesheet" href="{concat($theme-path, 'styles/bootstrap-min.css')}"/>-->
             <!--### BOOTSTRAP COLOR SCHEME END ###-->
 
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/dspace-bootstrap-tweaks.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/jquery-ui-1.10.3.custom.css')}"/>
 
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/vendor/BookReader/BookReader.css')}"/>
-            <link rel="stylesheet" href="{concat($theme-path, '../mirage2/styles/snazy.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/vendor/BookReader/BookReader.css')}"/>
+            <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/snazy.css')}"/>
 
             <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
@@ -264,12 +264,12 @@
             </script>
 
             <xsl:text disable-output-escaping="yes">&lt;!--[if lt IE 9]&gt;
-                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../mirage2/vendor/html5shiv/dist/html5shiv.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
-                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../mirage2/vendor/respond/respond.min.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
+                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../_precompiled-mirage2/vendor/html5shiv/dist/html5shiv.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
+                &lt;script src="</xsl:text><xsl:value-of select="concat($theme-path, '../_precompiled-mirage2/vendor/respond/respond.min.js')"/><xsl:text disable-output-escaping="yes">"&gt;&#160;&lt;/script&gt;
                 &lt;![endif]--&gt;</xsl:text>
 
             <!-- Modernizr enables HTML5 elements & feature detects -->
-            <script src="{concat($theme-path, '../mirage2/vendor/modernizr/modernizr.js')}">&#160;</script>
+            <script src="{concat($theme-path, '../_precompiled-mirage2/vendor/modernizr/modernizr.js')}">&#160;</script>
 
             <!-- Add the title in -->
             <xsl:variable name="page_title" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title'][last()]" />
@@ -618,7 +618,7 @@
                         >
                     <img class="img-responsive">
                         <xsl:attribute name="src">
-                            <xsl:value-of select="concat($theme-path,'../mirage2/images/cc-ship.gif')"/>
+                            <xsl:value-of select="concat($theme-path,'../_precompiled-mirage2/images/cc-ship.gif')"/>
                         </xsl:attribute>
                         <xsl:attribute name="alt">
                             <xsl:value-of select="$ccLicenseName"/>
@@ -783,22 +783,22 @@
             <xsl:text>if(!window.DSpace){window.DSpace={};}window.DSpace.context_path='</xsl:text><xsl:value-of select="$context-path"/><xsl:text>';window.DSpace.theme_path='</xsl:text><xsl:value-of select="$theme-path"/><xsl:text>';</xsl:text>
         </script>
 
-        <script src="{$theme-path}../mirage2/scripts/theme.js">&#160;</script>
+        <script src="{$theme-path}../_precompiled-mirage2/scripts/theme.js">&#160;</script>
 
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.js"></script>
-        <script src="{$theme-path}../mirage2/scripts/holder.js">&#160;</script>
+        <script src="{$theme-path}../_precompiled-mirage2/scripts/holder.js">&#160;</script>
 
-        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/dragscrollable.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.colorbox-min.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.ui.ipad.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/jquery.bt.min.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReader.js"></script>
-        <script src="{$theme-path}../mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/dragscrollable.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/jquery.colorbox-min.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/jquery.ui.ipad.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/jquery.bt.min.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/BookReader.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/vendor/BookReader/BookReaderJSSimple.js"></script>
 
         <!-- Snazy -->
-        <script src="{$theme-path}../mirage2/scripts/jquery.lazyload.min.js"></script>
-        <script src="{$theme-path}../mirage2/scripts/snazy.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/scripts/jquery.lazyload.min.js"></script>
+        <script src="{$theme-path}../_precompiled-mirage2/scripts/snazy.js"></script>
 
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
@@ -828,7 +828,7 @@
                     <script>
                         <xsl:attribute name="src">
                             <xsl:value-of select="$theme-path"/>
-                            <xsl:text>../mirage2/js/choice-support.js</xsl:text>
+                            <xsl:text>../_precompiled-mirage2/js/choice-support.js</xsl:text>
                         </xsl:attribute>&#160;</script>
                 </xsl:when>
                 <xsl:when test="not(starts-with(text(), 'static/js/scriptaculous'))">
