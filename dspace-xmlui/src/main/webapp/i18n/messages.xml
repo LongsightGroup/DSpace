@@ -2329,6 +2329,7 @@
 	<message key="xmlui.metadata.dc.note.software">Creating software</message>
 	<message key="xmlui.metadata.dc.note.hardware">Creating hardware</message>
 	<message key="xmlui.metadata.dc.note.decade">Decade(s) Active</message>
+	<message key="xmlui.metadata.dc.date.teamYear">Team Year</message>
 	<message key="xmlui.metadata.dc.note.inducteeType">Inductee Type</message>
 
 
