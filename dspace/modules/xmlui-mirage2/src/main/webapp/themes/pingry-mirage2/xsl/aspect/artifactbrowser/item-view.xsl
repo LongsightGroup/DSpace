@@ -636,6 +636,12 @@
 
         <xsl:call-template name="itemDetailView-field">
             <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">note</xsl:with-param>
+            <xsl:with-param name="qualifier">decade</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
             <xsl:with-param name="element">subject</xsl:with-param>
             <xsl:with-param name="qualifier">person</xsl:with-param>
         </xsl:call-template>
@@ -644,6 +650,12 @@
             <xsl:with-param name="schema">dc</xsl:with-param>
             <xsl:with-param name="element">coverage</xsl:with-param>
             <xsl:with-param name="qualifier">temporal</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="itemDetailView-field">
+            <xsl:with-param name="schema">dc</xsl:with-param>
+            <xsl:with-param name="element">date</xsl:with-param>
+            <xsl:with-param name="qualifier">teamYear</xsl:with-param>
         </xsl:call-template>
 
         <xsl:call-template name="itemDetailView-field">
@@ -723,11 +735,11 @@
             <xsl:with-param name="qualifier">sport</xsl:with-param>
         </xsl:call-template>
 
-        <xsl:call-template name="itemDetailView-field">
-            <xsl:with-param name="schema">dc</xsl:with-param>
-            <xsl:with-param name="element">note</xsl:with-param>
-            <xsl:with-param name="qualifier">gender</xsl:with-param>
-        </xsl:call-template>
+                <xsl:call-template name="itemDetailView-field">
+                    <xsl:with-param name="schema">dc</xsl:with-param>
+                    <xsl:with-param name="element">note</xsl:with-param>
+                    <xsl:with-param name="qualifier">gender</xsl:with-param>
+                </xsl:call-template>
 
         <xsl:call-template name="itemDetailView-field">
             <xsl:with-param name="schema">dc</xsl:with-param>
