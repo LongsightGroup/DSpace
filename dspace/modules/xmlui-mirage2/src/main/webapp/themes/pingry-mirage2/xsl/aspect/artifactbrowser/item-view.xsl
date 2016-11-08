@@ -1054,8 +1054,25 @@
                                                 <xsl:value-of select="url:encode(./node())" />
                                                 <xsl:text>&amp;sort_by=dc.title_sort&amp;order=asc</xsl:text>
                                             </xsl:attribute>
+
+                                            <!-- tag this person's authority in the page -->
+                                            <xsl:if test="@authority">
+                                                <xsl:attribute name="data-pingryperson">
+                                                    <xsl:value-of select="@authority"/>
+                                                </xsl:attribute>
+                                            </xsl:if>
                                             <xsl:copy-of select="./node()"/>
                                         </a>
+
+                                        <!-- Extra field that has a pingry authorityID on the page -->
+                                        <xsl:if test="@authority">
+                                            <meta name="pingryperson">
+                                                <xsl:attribute name="content">
+                                                    <xsl:value-of select="@authority"/>
+                                                </xsl:attribute>
+                                            </meta>
+                                        </xsl:if>
+                                        
                                         <xsl:if test="count(following-sibling::dim:field[@mdschema=$schema and @element=$element and @qualifier=$qualifier and descendant::text()]) != 0">
                                             <br/>
                                         </xsl:if>
