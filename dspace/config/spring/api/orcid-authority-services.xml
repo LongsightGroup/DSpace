@@ -34,7 +34,7 @@
         </property>
         <property name="fieldDefaults">
             <map>
-                <entry key="dc_contributor_author">
+                <entry key="pingryperson">
                     <bean class="org.dspace.authority.pingry.PingryPersonAuthorityValue"/>
                 </entry>
                 <entry key="dc_subject_teamMember">
@@ -53,6 +53,9 @@
                     <bean class="org.dspace.authority.pingry.PingryPersonAuthorityValue"/>
                 </entry>
                 <entry key="dc_subject_assistantManager">
+                    <bean class="org.dspace.authority.pingry.PingryPersonAuthorityValue"/>
+                </entry>
+                <entry key="dc_subject_person">
                     <bean class="org.dspace.authority.pingry.PingryPersonAuthorityValue"/>
                 </entry>
             </map>

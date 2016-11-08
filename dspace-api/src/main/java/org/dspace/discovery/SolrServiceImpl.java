@@ -1021,6 +1021,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 String authority = null;
                 String preferedLabel = null;
                 List<String> variants = null;
+                /*
                 boolean isAuthorityControlled = MetadataAuthorityManager
                         .getManager().isAuthorityControlled(meta.schema,
                                 meta.element,
@@ -1035,6 +1036,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 if (isAuthorityControlled && meta.authority != null
                         && meta.confidence >= minConfidence)
                 {
+                    log.info("Looking for config: " + "discovery.index.authority.ignore." + field);
                     boolean ignoreAuthority = new DSpace()
                             .getConfigurationService()
                             .getPropertyAsType(
@@ -1088,7 +1090,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                         }
 
                     }
-                }
+                }*/
 
                 if ((searchFilters.get(field) != null || searchFilters.get(unqualifiedField + "." + Item.ANY) != null))
                 {

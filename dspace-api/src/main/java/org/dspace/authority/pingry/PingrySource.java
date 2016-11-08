@@ -64,6 +64,10 @@ public class PingrySource extends RestSource {
         List<AuthorityValue> authorities = new ArrayList<AuthorityValue>();
         for (PingryPerson person : personList) {
             authorities.add(PingryPersonAuthorityValue.create(person));
+
+            if(authorities.size() >= max) {
+                break;
+            }
         }
         return authorities;
     }
