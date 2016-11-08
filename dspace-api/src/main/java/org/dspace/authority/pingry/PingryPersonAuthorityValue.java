@@ -174,28 +174,28 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
             doc.addField("constituent_id", getConstituentID());
         }
         if (StringUtils.isNotBlank(getFirstName())) {
-            doc.addField("first_name", getFirstName());
+            doc.setField("first_name", getFirstName());
         }
         if(StringUtils.isNotBlank(getMiddleName())) {
-            doc.addField("middle_name", getMiddleName());
+            doc.setField("middle_name", getMiddleName());
         }
         if (StringUtils.isNotBlank(getLastName())) {
-            doc.addField("last_name", getLastName());
+            doc.setField("last_name", getLastName());
         }
         if (StringUtils.isNotBlank(getSuffix1())) {
-            doc.addField("suffix_1", getSuffix1());
+            doc.setField("suffix_1", getSuffix1());
         }
         if (StringUtils.isNotBlank(getSuffix2())) {
-            doc.addField("suffix_2", getSuffix2());
+            doc.setField("suffix_2", getSuffix2());
         }
         if (StringUtils.isNotBlank(getMaidenName())) {
-            doc.addField("maiden_name", getMaidenName());
+            doc.setField("maiden_name", getMaidenName());
         }
         if (StringUtils.isNotBlank(getNickname())) {
-            doc.addField("nickname", getNickname());
+            doc.setField("nickname", getNickname());
         }
         if (StringUtils.isNotBlank(getPrimaryEducationClassOfYear())) {
-            doc.addField("primary_education_class_of_year", getPrimaryEducationClassOfYear());
+            doc.setField("primary_education_class_of_year", getPrimaryEducationClassOfYear());
         }
         return doc;
     }
@@ -220,6 +220,7 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
     @Override
     public void setValues(SolrDocument document) {
         super.setValues(document);
+
         this.constituentID = ObjectUtils.toString(document.getFieldValue("constituent_id"));
         this.firstName = ObjectUtils.toString(document.getFieldValue("first_name"));
         this.middleName = ObjectUtils.toString(document.getFieldValue("middle_name"));
@@ -232,6 +233,9 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
     }
 
     public boolean setValues(PingryPerson person) {
+        setId(person.getConstituentID());
+        setField("pingryperson");
+
         if (updateValue(person.getConstituentID(), getConstituentID())) {
             setConstituentID(person.getConstituentID());
         }
@@ -368,7 +372,7 @@ public class PingryPersonAuthorityValue extends PersonAuthorityValue {
     @Override
     public AuthorityValue newInstance(String info) {
         AuthorityValue authorityValue = null;
-        if(StringUtils.isNotBlank(info)) {
+        if(StringUtils.isNotBlank(info) && !info.equals("UNKNOWN")) {
             PingrySource pingrySource = PingrySource.getPingrySource();
             authorityValue = pingrySource.queryAuthorityID(info);
         } else {

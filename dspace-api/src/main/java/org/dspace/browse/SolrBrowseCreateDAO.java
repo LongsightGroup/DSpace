@@ -134,6 +134,7 @@ public class SolrBrowseCreateDAO implements BrowseCreateDAO,
                         // if we have values to index on, then do so
                         if (values != null && values.length > 0)
                         {
+                            /*
                             int minConfidence = MetadataAuthorityManager
                                     .getManager().getMinConfidence(
                                             values[0].schema,
@@ -151,6 +152,7 @@ public class SolrBrowseCreateDAO implements BrowseCreateDAO,
                                                             "discovery.browse.authority.ignore",
                                                             new Boolean(false)),
                                             true);
+                            */
                             for (int x = 0; x < values.length; x++)
                             {
                                 // Ensure that there is a value to index before
@@ -168,6 +170,8 @@ public class SolrBrowseCreateDAO implements BrowseCreateDAO,
                                 }
                                 else
                                 {
+                                    log.info("skipping some authority work in SolrBrowseCreateDAO");
+                                    /*
                                     if (bi.isAuthorityIndex()
                                             && (values[x].authority == null || values[x].confidence < minConfidence))
                                     {
@@ -186,7 +190,9 @@ public class SolrBrowseCreateDAO implements BrowseCreateDAO,
                                                 + " (BAD AUTHORITY)");
                                         continue;
                                     }
+                                    */
 
+                                    /*
                                     // is there any valid (with appropriate
                                     // confidence) authority key?
                                     if ((ignoreAuthority && !bi.isAuthorityIndex())
@@ -279,9 +285,11 @@ public class SolrBrowseCreateDAO implements BrowseCreateDAO,
                                                                 + values[x].authority);
                                                 distValuesForAC.add(var);
                                             }
-                                        }
-                                    }
-                                    else
+                                            */
+                                       // }
+
+                                    //}
+                                    //else
                                     // put it in the browse index as if it
                                     // hasn't have an authority key
                                     {

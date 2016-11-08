@@ -208,6 +208,15 @@ public class Item extends DSpaceObject
 
         return new ItemIterator(context, rows);
     }
+
+    public static ItemIterator findAllOldestFirst(Context context) throws SQLException
+    {
+        String myQuery = "SELECT * FROM item WHERE in_archive='1' order by last_modified asc";
+
+        TableRowIterator rows = DatabaseManager.queryTable(context, "item", myQuery);
+
+        return new ItemIterator(context, rows);
+    }
     
     /**
      * Get all "final" items in the archive, both archived ("in archive" flag) or
