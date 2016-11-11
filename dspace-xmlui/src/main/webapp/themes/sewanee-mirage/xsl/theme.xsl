@@ -18,9 +18,10 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
 
-    <xsl:import href="../../_precompiled-mirage2/xsl/theme.xsl"/>
-    <xsl:import href="core/page-structure.xsl"/>
-    <xsl:output indent="yes"/>
+	<xsl:import href="../../_precompiled-mirage2/xsl/theme.xsl"/>
+	<xsl:import href="core/page-structure.xsl"/>
+	<xsl:import href="aspect/artifactbrowser/item-view.xsl"/>
+	<xsl:output indent="yes"/>
 
 
 </xsl:stylesheet>
