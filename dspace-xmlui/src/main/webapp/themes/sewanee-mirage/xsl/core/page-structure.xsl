@@ -298,7 +298,10 @@
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
 
-            <script src="//jwpsrv.com/library/tdG5srbdEeSqzQp+lcGdIw.js"></script>
+
+            <script src="https://content.jwplatform.com/libraries/Mwc9cvOE.js"></script>
+            <script>jwplayer.key="F7Td2hmovfrxbWIergGEzAXNhulweqVFc11v+w==";</script>
+
 	    <link rel="sitemap">
                 <xsl:attribute name="href">
                     <xsl:value-of
