@@ -50,7 +50,7 @@ body {
 	text-align: center;
 	min-width: 1001px;
 	background-color: #FFFFFF;
-	background-image:url(/docs/themes/RRULibrary/images/background.jpg);
+	background-image:url(/themes/RRULibrary/images/background.jpg);
 	/*background-image:url(/docs/themes/RRULibrary/images/background-inner-pages.jpg);*/
 	background-position:left top;
 	background-repeat:repeat-x;
@@ -415,7 +415,7 @@ p.hidden, span.hidden {
 	float:left;
 	padding:0px;
 	background-color:Transparent;
-	background-image:url(/docs/themes/RRULibrary/images/basic_logo.png);
+	background-image:url(/themes/RRULibrary/images/basic_logo.png);
 	background-position:left top;
 	background-repeat:no-repeat;
 }
@@ -424,7 +424,7 @@ p.hidden, span.hidden {
 {
 	height:99px;
 	background-position: top right;
-	background-image:url(/docs/themes/RRULibrary/images/header.jpg);
+	background-image:url(/themes/RRULibrary/images/header.jpg);
 	background-repeat: no-repeat;
 	color:White;
 }
