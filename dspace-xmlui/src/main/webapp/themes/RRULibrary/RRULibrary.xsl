@@ -285,7 +285,7 @@
                 </div>
             </div>  
 			<div id="logoWithinBanner">
-				<a href="http://www.royalroads.ca/"><img src="/docs/themes/RRULibrary/images/basic_logo.png" border="0" /></a>
+				<a href="http://www.royalroads.ca/"><img src="/themes/RRULibrary/images/basic_logo.png" border="0" /></a>
 			</div>
         </div>
 		
@@ -302,7 +302,7 @@
 						<li><a href="http://libguides.royalroads.ca/ebooks">eBooks</a></li>
 						<li><a href="http://library.royalroads.ca/theses-and-projects">Theses and Projects</a></li>
 						<li><a href="http://libguides.royalroads.ca/content.php?pid=96875">Statistics and Data</a></li>
-						<li><a href="http://dspace.royalroads.ca/docs/">DSpace @ RRU</a></li>
+						<li><a href="http://dspace.royalroads.ca/">DSpace @ RRU</a></li>
 						<li><a href="http://library.royalroads.ca/archives">About the RRU Archives</a></li>
 					</ul>
 				</li>
