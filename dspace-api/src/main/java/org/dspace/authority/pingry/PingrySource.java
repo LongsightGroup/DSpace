@@ -7,6 +7,7 @@
  */
 package org.dspace.authority.pingry;
 
+import org.apache.commons.lang.StringUtils;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.pingry.model.PingryPerson;
 import org.dspace.authority.pingry.xml.XMLtoPingryPerson;
@@ -58,6 +59,65 @@ public class PingrySource extends RestSource {
         return converter.convert(personDocument);
     }
 
+    /**
+     * Find a best match from an input string that could contain encoded information that could be search in PPDB
+     *
+     * Last (Maiden), First Middle, Suffix, (Nickname), Graduation
+     * "Budd, Alexandra Ulrika, (Alex), 2006"
+     * "Pounder, Lindsay Caroline, 2006"
+     * "Simon, Scott, 2003"
+     * "Cozin, Mark"
+     *
+     * @param name
+     * @return
+     */
+    public PingryPerson getBestMatch(String name) {
+        if(name.contains(",")) {
+            String[] namePieces = name.split(",");
+            String first = null;
+            String last = null;
+            String year = null;
+            //0 = last, 1 = first middle, 2 = suffix, 3 = nickname, 4 = year
+            //0 = last, 1 = first middle, 3 = year
+            //0 = last, 1 = first
+            if(namePieces.length > 1) {
+                last = namePieces[0].trim();
+
+                //Alexandra Ulrika
+                //Lindsay Caroline
+                //John Van R.
+                String[] firstMiddlePieces = StringUtils.split(namePieces[1].trim());
+                first = firstMiddlePieces[0];
+            }
+
+            if(namePieces.length > 2) {
+                String possibleYear = namePieces[namePieces.length-1].trim();
+                if(isInteger(possibleYear)) {
+                    year = possibleYear;
+                }
+            }
+
+            String queryString = "/people2?f=" + URLEncoder.encode(first) + "&l=" + URLEncoder.encode(last);
+            if(StringUtils.isNotBlank(year)) {
+                queryString += "&y=" + URLEncoder.encode(year);
+            }
+            Document personDocument = restConnector.get(queryString);
+            XMLtoPingryPerson converter = new XMLtoPingryPerson();
+            List<PingryPerson> peopleList = converter.convert(personDocument);
+            if(peopleList.size() > 0) {
+                return peopleList.get(0);
+            } else {
+                log.info("no hit");
+            }
+
+
+        } else {
+            log.info("No commas");
+        }
+
+        return null;
+    }
+
     @Override
     public List<AuthorityValue> queryAuthorities(String text, int max) {
         List<PingryPerson> personList = queryPerson(text, 0, max);
@@ -76,5 +136,14 @@ public class PingrySource extends RestSource {
     public AuthorityValue queryAuthorityID(String id) {
         PingryPerson pingryPerson = getPerson(id);
         return PingryPersonAuthorityValue.create(pingryPerson);
+    }
+
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
     }
 }
