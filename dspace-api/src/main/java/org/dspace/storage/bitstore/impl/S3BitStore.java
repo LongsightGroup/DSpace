@@ -51,6 +51,8 @@ public class S3BitStore implements BitStore
 
     /** (Optional) subfolder within bucket where objects are stored */
     private String subfolder = null;
+
+    private Integer memoryBufferLimitBytes = null;
 	
 	/** S3 service */
 	private AmazonS3 s3Service = null;
@@ -133,6 +135,9 @@ public class S3BitStore implements BitStore
         //subfolder within bucket
         subfolder = props.getProperty("subfolder");
 
+        Integer defaultBuffer = 256 * 1024 * 1024; //256MB
+        memoryBufferLimitBytes = Integer.parseInt(props.getProperty("memory_buffer_limit_bytes", defaultBuffer.toString()));
+
         log.debug("AWS S3 Assetstore ready to go!");
 	}
 	
@@ -167,7 +172,7 @@ public class S3BitStore implements BitStore
             if(object != null) {
                 //copy aws inputstream to temp file, then serve that, to reduce exhausting http pool
 
-                if(object.getObjectMetadata().getContentLength() > (1048576)) {
+                if(object.getObjectMetadata().getContentLength() > memoryBufferLimitBytes) {
                     //large, tempfile
                     File tempFile = File.createTempFile("s3-disk-copy", "temp");
                     tempFile.deleteOnExit();
@@ -177,7 +182,7 @@ public class S3BitStore implements BitStore
                     out.close();
                     object.close();
 
-                    //use special inputstream that deletes file when closedß
+                    //use special inputstream that deletes file when closed
                     return new DeleteOnCloseFileInputStream(tempFile);
                 } else {
                     //small, bytearray
