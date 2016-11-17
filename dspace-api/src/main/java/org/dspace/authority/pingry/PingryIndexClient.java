@@ -9,6 +9,7 @@ package org.dspace.authority.pingry;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.AuthorityValueFinder;
@@ -188,30 +189,46 @@ public class PingryIndexClient {
     }
 
     public static PingryPerson lookupPingryPersonFromName(String name) {
-        //Search this solr authority record in the PPDB
-        List<AuthorityValue> searchResults = pingrySource.queryAuthorities(name, 5);
+        //First try to use the bestMatch lookup
+        PingryPerson person = pingrySource.getBestMatch(name);
+        if(person != null) {
+            return person;
+        } else {
+            //Fallback to open search
+            //Search this solr authority record in the PPDB
+            List<AuthorityValue> searchResults = pingrySource.queryAuthorities(name, 5);
 
-        //TODO safety check, one-and-only-one match
-        if(!searchResults.isEmpty()) {
-            PingryPersonAuthorityValue pingrySearchAuthorityValue = (PingryPersonAuthorityValue) searchResults.get(0);
-            log.debug("Search Result: constituentID: " + pingrySearchAuthorityValue.getConstituentID() + " name: " + pingrySearchAuthorityValue.getName());
+            //TODO safety check, one-and-only-one match
+            if (!searchResults.isEmpty()) {
+                PingryPersonAuthorityValue pingrySearchAuthorityValue = (PingryPersonAuthorityValue) searchResults.get(0);
+                log.debug("Search Result: constituentID: " + pingrySearchAuthorityValue.getConstituentID() + " name: " + pingrySearchAuthorityValue.getName());
 
-            if(pingrySearchAuthorityValue.getName().equals(name)) {
-                String pingryID = pingrySearchAuthorityValue.getConstituentID();
-                log.debug("WE HAVE A MATCH!!! " + "UUID:" + pingrySearchAuthorityValue.getId() + " NAME: " + pingrySearchAuthorityValue.getName() + " PingryID: " + pingryID);
+                if (pingrySearchAuthorityValue.getName().equals(name)) {
+                    String pingryID = pingrySearchAuthorityValue.getConstituentID();
+                    log.debug("WE HAVE A MATCH!!! " + "UUID:" + pingrySearchAuthorityValue.getId() + " NAME: " + pingrySearchAuthorityValue.getName() + " PingryID: " + pingryID);
 
-                //Look this entry up by Pingry ID
-                PingryPerson pingryPerson = pingrySource.getPerson(pingryID);
-                log.debug(pingryPerson.toString());
-                return pingryPerson;
+                    //Look this entry up by Pingry ID
+                    PingryPerson pingryPerson = pingrySource.getPerson(pingryID);
+                    log.debug(pingryPerson.toString());
+                    return pingryPerson;
 
-            } else {
-                log.info("Miss: " + name);
+                } else {
+                    log.info("Miss: " + name  + "difference is [" + StringUtils.difference(pingrySearchAuthorityValue.getName(), name) +"]");
+                }
             }
-        }
 
-        log.info("No search result");
-        return null;
+            log.info("No search result");
+            return null;
+        }
+    }
+
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
     }
 
     public static PingryPerson lookupPingryPersonFromPingryID(String id) {
