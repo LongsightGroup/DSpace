@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.authority.pingry.PingryIndexClient;
 import org.dspace.authority.pingry.PingryPersonAuthorityValue;
+import org.dspace.authority.pingry.PingrySource;
 import org.dspace.authority.pingry.model.PingryPerson;
 import org.dspace.content.Metadatum;
 import org.dspace.content.Item;
@@ -194,10 +195,10 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
         String content = value.value;
         String authorityKey = value.authority;
 
-        log.info("prepareNextValue(" + content + ", " + authorityKey + ") -- " + metadataField);
-
         //We only want to update our item IF our UUID is not present or if we need to generate one.
         boolean requiresItemUpdate = StringUtils.isBlank(authorityKey) || StringUtils.startsWith(authorityKey, AuthorityValueGenerator.GENERATE);
+
+        log.info("prepareNextValue(" + content + ", " + authorityKey + ") -- " + metadataField + " requiresItemUpdate: " + requiresItemUpdate);
 
         if (StringUtils.isNotBlank(authorityKey) && !authorityKey.startsWith(AuthorityValueGenerator.GENERATE)) {
             // !uid.startsWith(AuthorityValueGenerator.GENERATE) is not strictly necessary here but it prevents exceptions in solr
@@ -227,16 +228,39 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
             }
         }
 
+        //prepareNextValue(Balmir, Jordan, will be generated::pingry::20271480) -- dc.subject.teamMember requiresItemUpdate: true
+        if(StringUtils.isNotBlank(authorityKey) && authorityKey.startsWith(AuthorityValueGenerator.GENERATE) && !authorityKey.contains("UNKNOWN") && nextValue == null) {
+            //completing submission, where there is an authority record, "will be generated::pingry::810019"
+            String[] split = StringUtils.split(authorityKey, AuthorityValueGenerator.SPLIT);
+            String type = null, authorityID = null;
+            if (split.length > 0) {
+                type = split[1];
+                if (split.length > 1) {
+                    authorityID = split[2];
+                }
+            }
+
+            if(StringUtils.isNotBlank(authorityID)) {
+                PingrySource pingrySource = PingrySource.getPingrySource();
+                PingryPerson pingryPerson = pingrySource.getPerson(authorityID);
+
+                if(pingryPerson != null) {
+                    PingryPersonAuthorityValue pingryPersonAuthorityValue = PingryPersonAuthorityValue.create(pingryPerson);
+                    nextValue = pingryPersonAuthorityValue;
+                }
+            }
+        }
+
+
         if (nextValue == null) {
-            log.debug("generate new");
+            log.info("generate new for: " + authorityKey);
             nextValue = AuthorityValueGenerator.generate(context, authorityKey, content, "pingryperson");
             if(nextValue instanceof PingryPersonAuthorityValue) {
                 log.debug("FirstName: " + ((PingryPersonAuthorityValue) nextValue).getFirstName());
             }
         }
 
-        //BLANK or "will be generated::pingry::20020036"
-        //"will be generated::pingry::UNKNOWN"
+        //Update the item
         if (nextValue != null && requiresItemUpdate) {
             if(StringUtils.isNotBlank(nextValue.getValue())) {
                 nextValue.updateItem(currentItem, value);
@@ -262,9 +286,6 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
             itemIterator = null;
         }
         cache.clear();
-
-        //nextValue = null;
-        //currentItem = null;
     }
 
     public boolean isConfiguredProperly() {

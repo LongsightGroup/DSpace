@@ -48,8 +48,7 @@ public class PingrySource extends RestSource {
         String queryString = "/person?q=" + id;
         Document personDocument = restConnector.get(queryString);
         XMLtoPingryPerson converter = new XMLtoPingryPerson();
-        PingryPerson pingryPerson = converter.convert(personDocument).get(0);
-        return pingryPerson;
+        return converter.convert(personDocument).get(0);
     }
 
     public List<PingryPerson> queryPerson(String name, int start, int rows) {
