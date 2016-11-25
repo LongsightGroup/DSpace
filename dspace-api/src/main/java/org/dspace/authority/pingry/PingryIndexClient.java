@@ -237,9 +237,11 @@ public class PingryIndexClient {
             if(ObjectUtils.equals(pingryPerson.getConstituentID(), id)) {
                 log.info("lookup from PingryID matches: " + id);
                 return pingryPerson;
+            } else {
+                log.info("not match: " + pingryPerson.getConstituentID() + " id:" + id + " difference:" + StringUtils.difference(pingryPerson.getConstituentID(), id));
             }
         }
-
+        
         return null;
     }
 
