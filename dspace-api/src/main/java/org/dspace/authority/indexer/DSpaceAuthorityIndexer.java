@@ -8,28 +8,28 @@
 package org.dspace.authority.indexer;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.dspace.authority.AuthorityValue;
 import org.dspace.authority.AuthorityValueFinder;
 import org.dspace.authority.AuthorityValueGenerator;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.dspace.authority.pingry.PingryIndexClient;
 import org.dspace.authority.pingry.PingryPersonAuthorityValue;
 import org.dspace.authority.pingry.PingrySource;
 import org.dspace.authority.pingry.model.PingryPerson;
-import org.dspace.content.Metadatum;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
-import org.dspace.core.ConfigurationManager;
+import org.dspace.content.Metadatum;
 import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.net.MalformedURLException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DSpaceAuthorityIndexer is used in IndexClient, which is called by the AuthorityConsumer and the indexing-script.
@@ -105,7 +105,7 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
         touchedItems = 0;
 
         try {
-            this.itemIterator = Item.findAllOldestFirst(context);
+            this.itemIterator = Item.findAll(context);
             currentItem = this.itemIterator.next();
         } catch (SQLException e) {
             log.error("Error while retrieving all items in the metadata indexer");
@@ -200,57 +200,56 @@ public class DSpaceAuthorityIndexer implements AuthorityIndexerInterface, Initia
 
         log.info("prepareNextValue(" + content + ", " + authorityKey + ") -- " + metadataField + " requiresItemUpdate: " + requiresItemUpdate);
 
-        if (StringUtils.isNotBlank(authorityKey) && !authorityKey.startsWith(AuthorityValueGenerator.GENERATE)) {
-            // !uid.startsWith(AuthorityValueGenerator.GENERATE) is not strictly necessary here but it prevents exceptions in solr
-            // "fffd4b8d-f7cd-4120-a3aa-b5e4ed3edfcd"
-            nextValue = authorityValueFinder.findByUID(context, authorityKey);
-            log.info("got value from UID(" + authorityKey + ")");
-        }
-        if (nextValue == null && StringUtils.isBlank(authorityKey) && useCache) {
-            // A metadata without authority is being indexed
-            // If there is an exact match in the cache, reuse it rather than adding a new one.
-            AuthorityValue cachedAuthorityValue = cache.get(content);
-            if (cachedAuthorityValue != null) {
-                nextValue = cachedAuthorityValue;
-            }
-            log.info("got value from cache");
-        }
+        if(StringUtils.isNotBlank(authorityKey)) {
+            if(authorityKey.startsWith(AuthorityValueGenerator.GENERATE)){
+                //will be generated::pingry::UNKNOWN
+                if(authorityKey.contains("UNKNOWN")) {
+                    //lookup from name
+                    log.debug("lookup person: " + content);
+                    PingryPerson pingryPerson = PingryIndexClient.lookupPingryPersonFromName(content);
+                    if(pingryPerson != null) {
+                        PingryPersonAuthorityValue pingryPersonAuthorityValue = PingryPersonAuthorityValue.create(pingryPerson);
+                        nextValue = pingryPersonAuthorityValue;
+                    } else {
+                        log.info("Person not found from name");
+                    }
+                } else {
+                    //will be generated::pingry::20271480
+                    String[] split = StringUtils.split(authorityKey, AuthorityValueGenerator.SPLIT);
+                    String type = null, authorityID = null;
+                    if (split.length > 0) {
+                        type = split[1];
+                        if (split.length > 1) {
+                            authorityID = split[2];
+                        }
+                    }
 
-        if(authorityKey.contains("UNKNOWN")) {
-            //lookup from name
-            log.debug("lookup person: " + content);
-            PingryPerson pingryPerson = PingryIndexClient.lookupPingryPersonFromName(content);
-            if(pingryPerson != null) {
-                PingryPersonAuthorityValue pingryPersonAuthorityValue = PingryPersonAuthorityValue.create(pingryPerson);
-                nextValue = pingryPersonAuthorityValue;
+                    if(StringUtils.isNotBlank(authorityID)) {
+                        PingrySource pingrySource = PingrySource.getPingrySource();
+                        PingryPerson pingryPerson = pingrySource.getPerson(authorityID);
+
+                        if(pingryPerson != null) {
+                            PingryPersonAuthorityValue pingryPersonAuthorityValue = PingryPersonAuthorityValue.create(pingryPerson);
+                            nextValue = pingryPersonAuthorityValue;
+                        }
+                    }
+                }
             } else {
-                log.info("Person not found from name");
-            }
-        }
-
-        //prepareNextValue(Balmir, Jordan, will be generated::pingry::20271480) -- dc.subject.teamMember requiresItemUpdate: true
-        if(StringUtils.isNotBlank(authorityKey) && authorityKey.startsWith(AuthorityValueGenerator.GENERATE) && !authorityKey.contains("UNKNOWN") && nextValue == null) {
-            //completing submission, where there is an authority record, "will be generated::pingry::810019"
-            String[] split = StringUtils.split(authorityKey, AuthorityValueGenerator.SPLIT);
-            String type = null, authorityID = null;
-            if (split.length > 0) {
-                type = split[1];
-                if (split.length > 1) {
-                    authorityID = split[2];
-                }
+                // "fffd4b8d-f7cd-4120-a3aa-b5e4ed3edfcd"
+                nextValue = authorityValueFinder.findByUID(context, authorityKey);
+                log.info("got value from UID(" + authorityKey + ")");
             }
 
-            if(StringUtils.isNotBlank(authorityID)) {
-                PingrySource pingrySource = PingrySource.getPingrySource();
-                PingryPerson pingryPerson = pingrySource.getPerson(authorityID);
-
-                if(pingryPerson != null) {
-                    PingryPersonAuthorityValue pingryPersonAuthorityValue = PingryPersonAuthorityValue.create(pingryPerson);
-                    nextValue = pingryPersonAuthorityValue;
+            if(nextValue == null && useCache) {
+                // A metadata without authority is being indexed
+                // If there is an exact match in the cache, reuse it rather than adding a new one.
+                AuthorityValue cachedAuthorityValue = cache.get(content);
+                if (cachedAuthorityValue != null) {
+                    nextValue = cachedAuthorityValue;
+                    log.info("got value from cache");
                 }
             }
         }
-
 
         if (nextValue == null) {
             log.info("generate new for: " + authorityKey);
