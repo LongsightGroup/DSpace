@@ -33,6 +33,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
@@ -942,7 +943,7 @@ public class ItemsResource extends Resource
     {
 
         log.info("Looking for item with metadata(key=" + metadataEntry.getKey() + ",value=" + metadataEntry.getValue()
-                + ", language=" + metadataEntry.getLanguage() + ").");
+                + ", language=" + metadataEntry.getLanguage() + ", authority=" + metadataEntry.getAuthority() + ").");
         org.dspace.core.Context context = null;
 
         List<Item> items = new ArrayList<Item>();
@@ -980,39 +981,32 @@ public class ItemsResource extends Resource
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
 
-            List<Object> parameterList = new LinkedList<>();
             String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, SHORT_ID, ELEMENT, QUALIFIER " +
                     "FROM METADATAVALUE " +
                     "JOIN METADATAFIELDREGISTRY ON METADATAVALUE.METADATA_FIELD_ID = METADATAFIELDREGISTRY.METADATA_FIELD_ID " +
                     "JOIN METADATASCHEMAREGISTRY ON METADATAFIELDREGISTRY.METADATA_SCHEMA_ID = METADATASCHEMAREGISTRY.METADATA_SCHEMA_ID " +
                     "WHERE " +
-                    "SHORT_ID= ?  AND " +
-                    "ELEMENT= ? AND ";
-                    parameterList.add(metadata[0]);
-                    parameterList.add(metadata[1]);
+                    "SHORT_ID='" + metadata[0] + "'  AND " +
+                    "ELEMENT='" + metadata[1] + "' AND ";
             if (metadata.length > 3)
             {
-                sql += "QUALIFIER= ? AND ";
-                parameterList.add(metadata[2]);
+                sql += "QUALIFIER='" + metadata[2] + "' AND ";
             }
             if (org.dspace.storage.rdbms.DatabaseManager.isOracle())
             {
-                sql += "dbms_lob.compare(TEXT_VALUE, ?) = 0 AND ";
-                parameterList.add(metadataEntry.getValue());
+                sql += "dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0 AND ";
             }
             else
             {
-                sql += "TEXT_VALUE=? AND ";
-                parameterList.add(metadataEntry.getValue());
+                sql += "TEXT_VALUE='" + metadataEntry.getValue() + "' AND ";
             }
             if (metadataEntry.getLanguage() != null)
             {
-                sql += "TEXT_LANG=?";
-                parameterList.add(metadataEntry.getLanguage());
+                sql += "TEXT_LANG='" + metadataEntry.getLanguage() + "'";
             }
-            else
-            {
-                sql += "TEXT_LANG is null";
+
+            if(StringUtils.isNotBlank(metadataEntry.getAuthority())){
+                sql += " AND AUTHORITY='" + metadataEntry.getAuthority() + "'";
             }
 
             Object[] parameters = parameterList.toArray();
