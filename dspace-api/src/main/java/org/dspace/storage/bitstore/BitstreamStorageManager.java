@@ -395,6 +395,8 @@ public class BitstreamStorageManager
                 bitstream.setStoreNumber(assetstoreDestination);
                 bitstream.update();
 
+                inputStream.close();
+
                 if(deleteOld) {
                     log.info("Removing bitstream:" + bitstream.getID() + " from assetstore[" + assetstoreSource + "]");
                     stores[assetstoreSource].remove(bitstream.getInternalId());

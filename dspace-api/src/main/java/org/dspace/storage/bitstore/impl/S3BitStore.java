@@ -7,28 +7,36 @@
  */
 package org.dspace.storage.bitstore.impl;
 
-import java.io.*;
-import java.util.*;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.transfer.Download;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.Upload;
+import com.amazonaws.services.s3.transfer.model.UploadResult;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
-
 import org.dspace.content.Bitstream;
-
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Utils;
 import org.dspace.storage.bitstore.BitStore;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Asset store using Amazon's Simple Storage Service (S3).
@@ -44,7 +52,8 @@ public class S3BitStore implements BitStore
     private static Logger log = Logger.getLogger(S3BitStore.class);
     
     /** Checksum algorithm */
-    private static final String CSA = "MD5";
+    private static final String CSA_MD5 = "MD5";
+    private static final String CSA_ETAG = "etag";
     
     /** container for all the assets */
 	private String bucketName = null;
@@ -52,7 +61,7 @@ public class S3BitStore implements BitStore
     /** (Optional) subfolder within bucket where objects are stored */
     private String subfolder = null;
 
-    private Integer memoryBufferLimitBytes = null;
+    private static AWSCredentials awsCredentials;
 	
 	/** S3 service */
 	private AmazonS3 s3Service = null;
@@ -95,7 +104,7 @@ public class S3BitStore implements BitStore
         }
 
         // init client
-        AWSCredentials awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+        awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
         s3Service = new AmazonS3Client(awsCredentials);
 
         // bucket name
@@ -135,9 +144,6 @@ public class S3BitStore implements BitStore
         //subfolder within bucket
         subfolder = props.getProperty("subfolder");
 
-        Integer defaultBuffer = 256 * 1024 * 1024; //256MB
-        memoryBufferLimitBytes = Integer.parseInt(props.getProperty("memory_buffer_limit_bytes", defaultBuffer.toString()));
-
         log.debug("AWS S3 Assetstore ready to go!");
 	}
 	
@@ -165,44 +171,26 @@ public class S3BitStore implements BitStore
 	public InputStream get(String id) throws IOException
 	{
         String key = getFullKey(id);
-        S3Object object;
+
         try
         {
-		    object = s3Service.getObject(new GetObjectRequest(bucketName, key));
-            if(object != null) {
-                //copy aws inputstream to temp file, then serve that, to reduce exhausting http pool
+            GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
+            File tempFile = File.createTempFile("s3-disk-copy", "temp");
+            tempFile.deleteOnExit();
 
-                if(object.getObjectMetadata().getContentLength() > memoryBufferLimitBytes) {
-                    //large, tempfile
-                    File tempFile = File.createTempFile("s3-disk-copy", "temp");
-                    tempFile.deleteOnExit();
-                    FileOutputStream out = new FileOutputStream(tempFile);
-                    IOUtils.copy(object.getObjectContent(), out);
-                    log.debug("copied to temp file");
-                    out.close();
-                    object.close();
+            TransferManager transferManager = new TransferManager(awsCredentials);
+            Download download = transferManager.download(getObjectRequest, tempFile);
+            download.waitForCompletion();
 
-                    //use special inputstream that deletes file when closed
-                    return new DeleteOnCloseFileInputStream(tempFile);
-                } else {
-                    //small, bytearray
-                    org.apache.commons.io.output.ByteArrayOutputStream boas = new ByteArrayOutputStream();
-                    IOUtils.copy(object.getObjectContent(), boas);
-                    log.debug("copied to memory array");
-                    object.close();
-
-                    return new ByteArrayInputStream(boas.toByteArray());
-                }
-            } else {
-                return null;
-            }
+            return new DeleteOnCloseFileInputStream(tempFile);
 		}
-        catch (Exception e)
-		{
-            log.error("get("+key+")", e);
-        	throw new IOException(e);
-		}
-	}
+        catch (Exception e) {
+            log.error("get(" + key + ")", e);
+            throw new IOException(e);
+        } finally {
+
+        }
+    }
 	
     /**
      * Store a stream of bits.
@@ -227,16 +215,19 @@ public class S3BitStore implements BitStore
         try {
             FileUtils.copyInputStreamToFile(in, scratchFile);
             Long contentLength = Long.valueOf(scratchFile.length());
-
+            TransferManager transferManager = new TransferManager(awsCredentials);
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, scratchFile);
-            PutObjectResult putObjectResult = s3Service.putObject(putObjectRequest);
 
+            // begin async
+            Upload upload = transferManager.upload(putObjectRequest);
+            UploadResult uploadResult = upload.waitForUploadResult();
+
+            //Use ETAG, md5 not available
             Map attrs = new HashMap();
             attrs.put(Bitstream.SIZE_BYTES, contentLength);
-            attrs.put(Bitstream.CHECKSUM, putObjectResult.getContentMd5());
-            attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA);
-            //attrs.put("modified",
-            //	      String.valueOf(object.getLastModifiedDate().getTime()));
+            attrs.put(Bitstream.CHECKSUM, uploadResult.getETag());
+            attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA_ETAG);
+            log.debug("Upload complete.");
 
             scratchFile.delete();
             return attrs;
@@ -276,8 +267,8 @@ public class S3BitStore implements BitStore
                     attrs.put(Bitstream.SIZE_BYTES, objectMetadata.getContentLength());
                 }
                 if (attrs.containsKey(Bitstream.CHECKSUM)) {
-                    attrs.put(Bitstream.CHECKSUM, objectMetadata.getContentMD5());
-                    attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA);
+                    attrs.put(Bitstream.CHECKSUM, objectMetadata.getETag());
+                    attrs.put(Bitstream.CHECKSUM_ALGORITHM, CSA_ETAG);
                 }
                 if (attrs.containsKey("modified")) {
                     attrs.put("modified", String.valueOf(objectMetadata.getLastModified().getTime()));
@@ -326,106 +317,4 @@ public class S3BitStore implements BitStore
             return id;
         }
     }
-	
-	/**
-	 * Contains a command-line testing tool. Expects arguments:
-	 *  -a accessKey -s secretKey -f assetFileName
-	 * 
-	 * @param args
-	 *        Command line arguments
-	 */
-	public static void main(String[] args) throws Exception
-	{
-        //TODO use proper CLI, or refactor to be a unit test. Can't mock this without keys though.
-
-		// parse command line
-		String assetFile = null;
-		String accessKey = null;
-		String secretKey = null;
-		
-		for (int i = 0; i < args.length; i+= 2)
-		{
-			if (args[i].startsWith("-a"))
-			{
-				accessKey = args[i+1];
-			}
-			else if (args[i].startsWith("-s"))
-			{
-				secretKey = args[i+1];
-			}
-			else if (args[i].startsWith("-f"))
-			{
-				assetFile = args[i+1];
-			}
-		}
-		
-		if (accessKey == null || secretKey == null ||assetFile == null)
-		{
-			System.out.println("Missing arguments - exiting");
-			return;
-		}
-		S3BitStore store = new S3BitStore();
-
-        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-
-        store.s3Service = new AmazonS3Client(awsCredentials);
-
-        //Todo configurable region
-        Region usEast1 = Region.getRegion(Regions.US_EAST_1);
-        store.s3Service.setRegion(usEast1);
-
-        //Bucketname should be lowercase
-        store.bucketName = "dspace-asset-" + ConfigurationManager.getProperty("dspace.hostname") + ".s3test";
-        store.s3Service.createBucket(store.bucketName);
-
-        // time everything, todo, swtich to caliper
-        long start = System.currentTimeMillis();
-        // Case 1: store a file
-        String id = store.generateId();
-        System.out.print("put() file " + assetFile + " under ID " + id + ": ");
-        FileInputStream fis = new FileInputStream(assetFile);
-        Map attrs = store.put(fis, id);
-        long now =  System.currentTimeMillis();
-        System.out.println((now - start) + " msecs");
-        start = now;
-        // examine the metadata returned
-        java.util.Iterator iter = attrs.keySet().iterator();
-        System.out.println("Metadata after put():");
-        while (iter.hasNext())
-        {
-        	String key = (String)iter.next();
-        	System.out.println( key + ": " + (String)attrs.get(key) );
-        }
-        // Case 2: get metadata and compare
-        System.out.print("about() file with ID " + id + ": ");
-        Map attrs2 = store.about(id, attrs);
-        now =  System.currentTimeMillis();
-        System.out.println((now - start) + " msecs");
-        start = now;
-        iter = attrs2.keySet().iterator();
-        System.out.println("Metadata after about():");
-        while (iter.hasNext())
-        {
-        	String key = (String)iter.next();
-        	System.out.println( key + ": " + (String)attrs.get(key) );
-        }
-        // Case 3: retrieve asset and compare bits
-        System.out.print("get() file with ID " + id + ": ");
-        java.io.FileOutputStream fos = new java.io.FileOutputStream(assetFile+".echo");
-        InputStream in = store.get(id);
-        Utils.bufferedCopy(in, fos);
-        fos.close();
-        in.close();
-        now =  System.currentTimeMillis();
-        System.out.println((now - start) + " msecs");
-        start = now;
-        // Case 4: remove asset
-        System.out.print("remove() file with ID: " + id + ": ");
-        store.remove(id);
-        now =  System.currentTimeMillis();
-        System.out.println((now - start) + " msecs");
-        System.out.flush();
-        // should get nothing back now - will throw exception
-        store.get(id);
-	}
 }
