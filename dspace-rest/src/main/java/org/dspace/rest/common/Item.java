@@ -63,7 +63,7 @@ public class Item extends DSpaceObject {
             Metadatum[] dcvs = item.getMetadata(org.dspace.content.Item.ANY, org.dspace.content.Item.ANY, org.dspace.content.Item.ANY, org.dspace.content.Item.ANY);
             for (Metadatum dcv : dcvs) {
                 if (!MetadataExposure.isHidden(context, dcv.schema, dcv.element, dcv.qualifier)) {
-                    metadata.add(new MetadataEntry(dcv.getField(), dcv.value, dcv.language));
+                    metadata.add(new MetadataEntry(dcv.getField(), dcv.value, dcv.language, dcv.authority));
                 }
             }
         } else {

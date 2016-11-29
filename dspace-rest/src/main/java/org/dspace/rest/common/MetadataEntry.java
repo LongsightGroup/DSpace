@@ -23,15 +23,18 @@ public class MetadataEntry
 
     String language;
 
+    String authority;
+
     public MetadataEntry()
     {
     }
 
-    public MetadataEntry(String key, String value, String language)
+    public MetadataEntry(String key, String value, String language, String authority)
     {
         this.key = key;
         this.value = value;
         this.language = language;
+        this.authority = authority;
     }
 
     public String getValue()
@@ -62,6 +65,14 @@ public class MetadataEntry
     public void setLanguage(String language)
     {
         this.language = language;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
 }

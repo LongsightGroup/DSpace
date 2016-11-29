@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
@@ -941,7 +942,7 @@ public class ItemsResource extends Resource
     {
 
         log.info("Looking for item with metadata(key=" + metadataEntry.getKey() + ",value=" + metadataEntry.getValue()
-                + ", language=" + metadataEntry.getLanguage() + ").");
+                + ", language=" + metadataEntry.getLanguage() + ", authority=" + metadataEntry.getAuthority() + ").");
         org.dspace.core.Context context = null;
 
         List<Item> items = new ArrayList<Item>();
@@ -979,32 +980,32 @@ public class ItemsResource extends Resource
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
 
-            String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, SHORT_ID, ELEMENT, QUALIFIER " +
+            String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, AUTHORITY, SHORT_ID, ELEMENT, QUALIFIER " +
                     "FROM METADATAVALUE " +
                     "JOIN METADATAFIELDREGISTRY ON METADATAVALUE.METADATA_FIELD_ID = METADATAFIELDREGISTRY.METADATA_FIELD_ID " +
                     "JOIN METADATASCHEMAREGISTRY ON METADATAFIELDREGISTRY.METADATA_SCHEMA_ID = METADATASCHEMAREGISTRY.METADATA_SCHEMA_ID " +
                     "WHERE " +
                     "SHORT_ID='" + metadata[0] + "'  AND " +
-                    "ELEMENT='" + metadata[1] + "' AND ";
+                    "ELEMENT='" + metadata[1] + "'";
             if (metadata.length > 3)
             {
-                sql += "QUALIFIER='" + metadata[2] + "' AND ";
+                sql += " AND QUALIFIER='" + metadata[2] + "'";
             }
-            if (org.dspace.storage.rdbms.DatabaseManager.isOracle())
-            {
-                sql += "dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0 AND ";
+
+            if(StringUtils.isNotBlank(metadataEntry.getValue())) {
+                if (org.dspace.storage.rdbms.DatabaseManager.isOracle()) {
+                    sql += " AND dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0";
+                } else {
+                    sql += " AND TEXT_VALUE='" + metadataEntry.getValue() + "'";
+                }
             }
-            else
-            {
-                sql += "TEXT_VALUE='" + metadataEntry.getValue() + "' AND ";
+
+            if(StringUtils.isNotBlank(metadataEntry.getLanguage())) {
+                sql += " AND TEXT_LANG='" + metadataEntry.getLanguage() + "'";
             }
-            if (metadataEntry.getLanguage() != null)
-            {
-                sql += "TEXT_LANG='" + metadataEntry.getLanguage() + "'";
-            }
-            else
-            {
-                sql += "TEXT_LANG is null";
+
+            if(StringUtils.isNotBlank(metadataEntry.getAuthority())){
+                sql += " AND AUTHORITY='" + metadataEntry.getAuthority() + "'";
             }
 
             TableRowIterator iterator = org.dspace.storage.rdbms.DatabaseManager.query(context, sql);
