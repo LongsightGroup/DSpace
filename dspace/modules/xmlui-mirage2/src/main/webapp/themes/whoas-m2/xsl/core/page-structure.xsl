@@ -314,6 +314,8 @@
                 <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
             </xsl:if>
 
+            <xsl:call-template name="extraHead-bottom"/>
+
         </head>
     </xsl:template>
 
@@ -920,5 +922,7 @@
             </li>
         </xsl:if>
     </xsl:template>
+
+    <xsl:template name="extraHead-bottom"></xsl:template>
 
 </xsl:stylesheet>

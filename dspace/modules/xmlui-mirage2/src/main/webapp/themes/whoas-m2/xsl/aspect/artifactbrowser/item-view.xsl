@@ -1097,5 +1097,20 @@
         <i18n:text i18n:key="{$mimetype-key}"><xsl:value-of select="$mimetype"/></i18n:text>
     </xsl:template>
 
+    <!-- WHOAS Add JS to item html -->
+    <xsl:template name="extraHead-bottom">
+        <script type="text/javascript" src="http://dlaweb.whoi.edu/component/js/geoLink.js">
+            &#160;
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous">
+            &#160;
+        </script>
+        <script src="http://glcomponents.tech/components/glperson-element/bower_components/webcomponentsjs/webcomponents-lite.js">
+            &#160;
+        </script>
+        <link rel="import" href="http://dlaweb.whoi.edu/component/templates/glCruiseSearch.html">
+            &#160;
+        </link>
+    </xsl:template>
 
 </xsl:stylesheet>
