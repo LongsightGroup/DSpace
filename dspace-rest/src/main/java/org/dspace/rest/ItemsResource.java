@@ -981,28 +981,28 @@ public class ItemsResource extends Resource
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
 
-            String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, SHORT_ID, ELEMENT, QUALIFIER " +
+            String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, AUTHORITY, SHORT_ID, ELEMENT, QUALIFIER " +
                     "FROM METADATAVALUE " +
                     "JOIN METADATAFIELDREGISTRY ON METADATAVALUE.METADATA_FIELD_ID = METADATAFIELDREGISTRY.METADATA_FIELD_ID " +
                     "JOIN METADATASCHEMAREGISTRY ON METADATAFIELDREGISTRY.METADATA_SCHEMA_ID = METADATASCHEMAREGISTRY.METADATA_SCHEMA_ID " +
                     "WHERE " +
                     "SHORT_ID='" + metadata[0] + "'  AND " +
-                    "ELEMENT='" + metadata[1] + "' AND ";
-            if (metadata.length > 3)
+                    "ELEMENT='" + metadata[1] + "'";
+            if (metadata.length == 3)
             {
-                sql += "QUALIFIER='" + metadata[2] + "' AND ";
+                sql += " AND QUALIFIER='" + metadata[2] + "'";
             }
-            if (org.dspace.storage.rdbms.DatabaseManager.isOracle())
-            {
-                sql += "dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0 AND ";
+
+            if(StringUtils.isNotBlank(metadataEntry.getValue())) {
+                if (org.dspace.storage.rdbms.DatabaseManager.isOracle()) {
+                    sql += " AND dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0";
+                } else {
+                    sql += " AND TEXT_VALUE='" + metadataEntry.getValue() + "'";
+                }
             }
-            else
-            {
-                sql += "TEXT_VALUE='" + metadataEntry.getValue() + "' AND ";
-            }
-            if (metadataEntry.getLanguage() != null)
-            {
-                sql += "TEXT_LANG='" + metadataEntry.getLanguage() + "'";
+
+            if(StringUtils.isNotBlank(metadataEntry.getLanguage())) {
+                sql += " AND TEXT_LANG='" + metadataEntry.getLanguage() + "'";
             }
 
             if(StringUtils.isNotBlank(metadataEntry.getAuthority())){
