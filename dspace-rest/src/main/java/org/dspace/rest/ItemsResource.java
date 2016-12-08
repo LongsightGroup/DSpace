@@ -981,32 +981,40 @@ public class ItemsResource extends Resource
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
 
+            List<Object> parameterList = new LinkedList<>();
             String sql = "SELECT RESOURCE_ID, TEXT_VALUE, TEXT_LANG, AUTHORITY, SHORT_ID, ELEMENT, QUALIFIER " +
                     "FROM METADATAVALUE " +
                     "JOIN METADATAFIELDREGISTRY ON METADATAVALUE.METADATA_FIELD_ID = METADATAFIELDREGISTRY.METADATA_FIELD_ID " +
                     "JOIN METADATASCHEMAREGISTRY ON METADATAFIELDREGISTRY.METADATA_SCHEMA_ID = METADATASCHEMAREGISTRY.METADATA_SCHEMA_ID " +
                     "WHERE " +
-                    "SHORT_ID='" + metadata[0] + "'  AND " +
-                    "ELEMENT='" + metadata[1] + "'";
+                    " SHORT_ID= ? " +
+                    " AND ELEMENT= ? ";
+            parameterList.add(metadata[0]);
+            parameterList.add(metadata[1]);
             if (metadata.length == 3)
             {
-                sql += " AND QUALIFIER='" + metadata[2] + "'";
+                sql += " AND QUALIFIER=? ";
+                parameterList.add(metadata[2]);
             }
 
             if(StringUtils.isNotBlank(metadataEntry.getValue())) {
                 if (org.dspace.storage.rdbms.DatabaseManager.isOracle()) {
-                    sql += " AND dbms_lob.compare(TEXT_VALUE, '" + metadataEntry.getValue() + "') = 0";
+                    sql += " AND dbms_lob.compare(TEXT_VALUE, ?) = 0 ";
+                    parameterList.add(metadataEntry.getValue());
                 } else {
-                    sql += " AND TEXT_VALUE='" + metadataEntry.getValue() + "'";
+                    sql += " AND TEXT_VALUE=? ";
+                    parameterList.add(metadataEntry.getValue());
                 }
             }
 
             if(StringUtils.isNotBlank(metadataEntry.getLanguage())) {
-                sql += " AND TEXT_LANG='" + metadataEntry.getLanguage() + "'";
+                sql += " AND TEXT_LANG=? ";
+                parameterList.add(metadataEntry.getLanguage());
             }
 
             if(StringUtils.isNotBlank(metadataEntry.getAuthority())){
-                sql += " AND AUTHORITY='" + metadataEntry.getAuthority() + "'";
+                sql += " AND AUTHORITY=? ";
+                parameterList.add(metadataEntry.getAuthority());
             }
 
             Object[] parameters = parameterList.toArray();
