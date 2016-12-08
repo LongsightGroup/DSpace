@@ -987,7 +987,7 @@ public class ItemsResource extends Resource
                     "WHERE " +
                     "SHORT_ID='" + metadata[0] + "'  AND " +
                     "ELEMENT='" + metadata[1] + "'";
-            if (metadata.length > 3)
+            if (metadata.length == 3)
             {
                 sql += " AND QUALIFIER='" + metadata[2] + "'";
             }
