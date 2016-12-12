@@ -535,7 +535,7 @@
                             <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
                         </a>
                         <xsl:text> | </xsl:text>
-                        <a href="http://www.unibz.it/en/library/tools/bia-about.html">About</a>
+                        <a href="https://www.unibz.it/en/services/library/bia-bozen-bolzano-institutional-archive/">About</a>
                     </div>
                     <div class="pull-right">
                         <span class="TxtFooter"><a href="http://www.unibz.it/">© UniBz</a></span>
