@@ -395,7 +395,7 @@
                     </td>
                     <xsl:if test="@confidence='ACCEPTED'">
                         <td>
-                            <a>
+                            <a class="hidden">
                                 <xsl:attribute name="href">
                                     <xsl:copy-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
                                     <xsl:value-of select="concat('/concept/uuid:',./@authority)"/>
