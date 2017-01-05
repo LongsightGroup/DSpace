@@ -360,357 +360,368 @@
         </head>
     </xsl:template>
 
+    <xsl:template name="viu-very-top">
+        <div class="header-viu">
 
-    <!-- The header (distinct from the HTML head element) contains the title, subtitle, login box and various
-        placeholders for header images -->
-    <xsl:template name="buildHeader">
-        <header>
-            <!-- 1-->
-            <div class="header-viu">
+            <!-- Topbar -->
+            <div class="topbar-v1">
+                <div class="container">
+                    <div class="row">
+                        <!--      <div class="col-md-2">-->
+                        <!--        <ul class="list-inline top-list top-v1-contacts">-->
+                        <!--          --><!--        </ul>-->
+                        <!--      </div>-->
+                        <button type="button" class="topbar-toggle" data-toggle="collapse" data-target=".topbar-responsive-collapse">
+                            <span class="topbar-toggle-text">VIU</span>
+                            <i class="fa fa-bars"></i>
+                        </button>
 
-                <!-- Topbar -->
-                <div class="topbar-v1">
-                    <div class="container">
-                        <div class="row">
-                            <!--      <div class="col-md-2">-->
-                            <!--        <ul class="list-inline top-list top-v1-contacts">-->
-                            <!--          --><!--        </ul>-->
-                            <!--      </div>-->
-                            <button type="button" class="topbar-toggle" data-toggle="collapse" data-target=".topbar-responsive-collapse">
-                                <span class="topbar-toggle-text">VIU</span>
-                                <i class="fa fa-bars"></i>
-                            </button>
+                        <div class="col-md-12 top-v1-data-container collapse topbar-collapse topbar-responsive-collapse">
+                            <ul class="top-list top-v1-data mega-menu">
 
-                            <div class="col-md-12 top-v1-data-container collapse topbar-collapse topbar-responsive-collapse">
-                                <ul class="top-list top-v1-data mega-menu">
+                                <li><a href="https://www.viu.ca/"><i class="fa fa-home"></i> <span class="mobile-extra">VIU.ca</span></a></li>
 
-                                    <li><a href="https://www.viu.ca/"><i class="fa fa-home"></i> <span class="mobile-extra">VIU.ca</span></a></li>
+                                <li><a href="https://www.viu.ca/healthandsafety/emergency-information/" class="top-emergency-link">Emergency Info</a></li>
 
-                                    <li><a href="https://www.viu.ca/healthandsafety/emergency-information/" class="top-emergency-link">Emergency Info</a></li>
+                                <li><a href="https://www.viu.ca/library/">Library</a></li>
 
-                                    <li><a href="https://www.viu.ca/library/">Library</a></li>
+                                <li class="click-dropdown"><a href="#" data-toggle="dropdown">Campuses <i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="https://www.viu.ca">Nanaimo</a></li>
+                                        <li><a href="https://www.viu.ca/parksville">Parksville-Qualicum</a></li>
+                                        <li><a href="http://www.cc.viu.ca/">Cowichan</a></li>
+                                        <li><a href="http://www.pr.viu.ca/">Powell River</a></li>
+                                    </ul>
+                                </li>
 
-                                    <li class="click-dropdown"><a href="#" data-toggle="dropdown">Campuses <i class="fa fa-angle-down"></i></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="https://www.viu.ca">Nanaimo</a></li>
-                                            <li><a href="https://www.viu.ca/parksville">Parksville-Qualicum</a></li>
-                                            <li><a href="http://www.cc.viu.ca/">Cowichan</a></li>
-                                            <li><a href="http://www.pr.viu.ca/">Powell River</a></li>
-                                        </ul>
-                                    </li>
+                                <li><a href="https://www.viu.ca/calendar/">Programs and Courses</a></li>
 
-                                    <li><a href="https://www.viu.ca/calendar/">Programs and Courses</a></li>
+                                <li class="click-dropdown"><a href="#" data-toggle="dropdown">Directories <i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="https://www.viu.ca/directory">Employee Directory</a></li>
+                                        <li><a href="https://www.viu.ca/calendar/instructional.asp">Instructional Departments</a></li>
+                                        <li><a href="https://www.viu.ca/services">Service Departments</a></li>
+                                    </ul>
+                                </li>
 
-                                    <li class="click-dropdown"><a href="#" data-toggle="dropdown">Directories <i class="fa fa-angle-down"></i></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="https://www.viu.ca/directory">Employee Directory</a></li>
-                                            <li><a href="https://www.viu.ca/calendar/instructional.asp">Instructional Departments</a></li>
-                                            <li><a href="https://www.viu.ca/services">Service Departments</a></li>
-                                        </ul>
-                                    </li>
+                                <li class="click-dropdown mega-menu-fullwidth"><a href="#" data-toggle="dropdown">Quick Links <i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="mega-menu-content">
+                                                <div class="container">
+                                                    <div class="row equal-height">
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Contact Info</h3></li>
 
-                                    <li class="click-dropdown mega-menu-fullwidth"><a href="#" data-toggle="dropdown">Quick Links <i class="fa fa-angle-down"></i></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <div class="mega-menu-content">
-                                                    <div class="container">
-                                                        <div class="row equal-height">
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Contact Info</h3></li>
+                                                                <li class="first">
+                                                                    <p>Vancouver Island University<br/>
+                                                                        Nanaimo Campus<br/>900 Fifth Street<br/>
+                                                                        Nanaimo, BC<br/>Canada V9R 5S5<br/>
+                                                                        Toll-free 1.888.920.2221<br/>
+                                                                        Switchboard 250.753.3245<br/>
+                                                                        Email <a href="mailto:info@viu.ca">info@viu.ca</a>
+                                                                        <br/><br/>
+                                                                        Copyright ©<br/>Vancouver Island University
+                                                                    </p>
+                                                                </li>
 
-                                                                    <li class="first">
-                                                                        <p>Vancouver Island University<br/>
-                                                                            Nanaimo Campus<br/>900 Fifth Street<br/>
-                                                                            Nanaimo, BC<br/>Canada V9R 5S5<br/>
-                                                                            Toll-free 1.888.920.2221<br/>
-                                                                            Switchboard 250.753.3245<br/>
-                                                                            Email <a href="mailto:info@viu.ca">info@viu.ca</a>
-                                                                            <br/><br/>
-                                                                            Copyright ©<br/>Vancouver Island University
-                                                                        </p>
-                                                                    </li>
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>About VIU</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/administration/">Administration</a></li>
-                                                                    <li><a href="http://www.viu.ca/giving/">Advancement</a></li>
-                                                                    <li><a href="http://www.viu.ca/alumni/">Alumni Association</a></li>
-                                                                    <li><a href="http://cc.viu.ca/">Cowichan Campus</a></li>
-                                                                    <li><a href="http://www.viu.ca/parksville/">Parksville-Qualicum Centre</a></li>
-                                                                    <li><a href="http://pr.viu.ca/">Powell River Campus</a></li>
-                                                                    <li><a href="http://www.viu.ca/gap/">Governance</a></li>
-                                                                    <li><a href="http://www.viu.ca/integratedplanning/">Integrated Planning</a></li>
-                                                                    <li><a href="http://www.viu.ca/HumanResources/postings/">Employment</a></li>
-                                                                    <li><a href="http://www.viu.ca/mission/">Mission</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/retrospective/">History</a></li>
-
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Academics</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/calendar/GeneralInformation/admissions.asp">Admissions</a></li>
-                                                                    <li><a href="http://www.viu.ca/calendar/GeneralInformation/registration.asp">Registration</a></li>
-                                                                    <li><a href="http://www.viu.ca/calendar/">Programs and Courses</a></li>
-                                                                    <li><a href="http://www.viu.ca/dualcredit/">Dual Credit</a></li>
-                                                                    <li><a href="http://www.viu.ca/financialaid/">Financial Aid and Awards</a></li>
-                                                                    <li><a href="http://www.viu.ca/calendar/credential/mastersdegrees.asp">Graduate Programs</a></li>
-                                                                    <li><a href="http://www.viu.ca/international/">International Education</a></li>
-                                                                    <li><a href="http://www.viu.ca/library/">Library</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/ciel/">Online Education</a></li>
-
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Athletics</h3></li>
-
-                                                                    <li class="first"><a href="http://mariners.viu.ca/">VIU Mariners</a></li>
-                                                                    <li><a href="http://mariners.viu.ca/teams/">Mariners Teams</a></li>
-                                                                    <li><a href="http://www.viu.ca/campusrec/">Campus Recreation</a></li>
-                                                                    <li class="last"><a href="http://mariners.viu.ca/community/summer-camps/">Summer Camps</a></li>
-
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Campus Life</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viubookstore.ca/">Bookstore</a></li>
-                                                                    <li><a href="http://www.viu.ca/counselling/">Counseling</a></li>
-                                                                    <li><a href="http://www.viu.ca/disabilityservices/">Disability Services</a></li>
-                                                                    <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
-                                                                    <li><a href="http://www.viu.ca/health/">Health and Wellness</a></li>
-                                                                    <li><a href="http://viuresidences.ca/">Housing</a></li>
-                                                                    <li><a href="http://u.viu.ca/">Join One</a></li>
-                                                                    <li><a href="http://www.viu.ca/sas/">Services for Aboriginal Students</a></li>
-                                                                    <li><a href="http://www.viu.ca/sustainability/">Sustainability</a></li>
-                                                                    <li><a href="http://www.viu.ca/parking/">Parking</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/events/">Events</a></li>
-
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Extension and Outreach</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/pdt/customizedtraining.asp">Contract Training</a></li>
-                                                                    <li><a href="http://www.viu.ca/pdt/courses-and-programs/index.asp">Professional Development and Training Courses</a></li>
-                                                                    <li><a href="http://www.viu.ca/summersession/">Summer Session</a></li>
-                                                                    <li><a href="http://www.viu.ca/eldercollege/">ElderCollege</a></li>
-                                                                    <li><a href="http://www.viu.ca/grandkids/">GrandKids University</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/summercamps/">Youth Summer Camps</a></li>
-
-
-                                                                </ul>
-                                                            </div>
+                                                            </ul>
                                                         </div>
-                                                        <div class="row equal-height">
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Social Media</h3></li>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>About VIU</h3></li>
 
-                                                                    <li class="first"><a href="http://www.facebook.com/LoveWhereYouLearn">Facebook</a></li>
-                                                                    <li><a href="http://instagram.com/viuniversity">Instagram</a></li>
-                                                                    <li><a href="http://www.linkedin.com/companies/vancouver-island-university">LinkedIn</a></li>
-                                                                    <li><a href="http://www.viu.ca/rss/">RSS</a></li>
-                                                                    <li><a href="http://twitter.com/VIUniversity">Twitter</a></li>
-                                                                    <li class="last"><a href="http://www.youtube.com/user/viuchannel">YouTube</a></li>
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Campus Services</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viubookstore.ca/">Bookstore</a></li>
-                                                                    <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
-                                                                    <li><a href="http://www.viu.ca/discoveryroom/">Discovery Room Restaurant</a></li>
-                                                                    <li><a href="http://www.viu.ca/directory">Employee Directory</a></li>
-                                                                    <li><a href="http://www.viu.ca/directory?select=expertise">Find VIU Experts</a></li>
-                                                                    <li><a href="http://www.viu.ca/eventservices/">Event Services</a></li>
-                                                                    <li><a href="http://www.viu.ca/catering/">Campus Caterers</a></li>
-                                                                    <li><a href="http://www.viu.ca/parking/">Parking and Security</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/about/services.asp">Service Departments</a></li>
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Public Engagement</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/giving/">Advancement and Alumni</a></li>
-                                                                    <li><a href="http://www.viu.ca/universityrelations/contact_comm.aspx">Communications and Public Engagement</a></li>
-                                                                    <li><a href="http://www.viu.ca/governmentrelations/">Government Relations</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
-
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Faculties</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/cap/">Academic &amp; Career Preparation</a></li>
-                                                                    <li><a href="http://www.viu.ca/artsandhumanities/">Arts &amp; Humanities</a></li>
-                                                                    <li><a href="http://www.viu.ca/education/">Education</a></li>
-                                                                    <li><a href="http://www.viu.ca/hhs/">Health &amp; Human Services</a></li>
-                                                                    <li><a href="http://www.viu.ca/international/">International Programs</a></li>
-                                                                    <li><a href="http://www.viu.ca/scienceandtechnology/">Science &amp; Technology</a></li>
-                                                                    <li><a href="http://www.viu.ca/socialsciences/">Social Sciences</a></li>
-                                                                    <li><a href="http://www.viu.ca/management/">Management</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/tat/">Trades &amp; Applied Technology</a></li>
-
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Organizational Structure</h3></li>
-
-                                                                    <li class="first"><a href="http://www.viu.ca/gap/">Governance, Administration, &amp; Planning</a></li>
-                                                                    <li><a href="http://www.viu.ca/calendar/instructional.asp">Instructional Departments</a></li>
-                                                                    <li><a href="http://www.viu.ca/pvpa/">Provost, and VP Academic</a></li>
-                                                                    <li><a href="http://www.viu.ca/policies/">Policies &amp; Procedures</a></li>
-                                                                    <li><a href="http://www.viu.ca/president/">President's Office</a></li>
-                                                                    <li><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
-                                                                    <li><a href="http://www.viu.ca/vpadmin/">VP Admin and Finance</a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/president/docs/InstitutionalGovernanceJanuary2013.pdf">VIU Organization Chart </a></li>
+                                                                <li class="first"><a href="http://www.viu.ca/administration/">Administration</a></li>
+                                                                <li><a href="http://www.viu.ca/giving/">Advancement</a></li>
+                                                                <li><a href="http://www.viu.ca/alumni/">Alumni Association</a></li>
+                                                                <li><a href="http://cc.viu.ca/">Cowichan Campus</a></li>
+                                                                <li><a href="http://www.viu.ca/parksville/">Parksville-Qualicum Centre</a></li>
+                                                                <li><a href="http://pr.viu.ca/">Powell River Campus</a></li>
+                                                                <li><a href="http://www.viu.ca/gap/">Governance</a></li>
+                                                                <li><a href="http://www.viu.ca/integratedplanning/">Integrated Planning</a></li>
+                                                                <li><a href="http://www.viu.ca/HumanResources/postings/">Employment</a></li>
+                                                                <li><a href="http://www.viu.ca/mission/">Mission</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/retrospective/">History</a></li>
 
 
-                                                                </ul>
-                                                            </div>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Academics</h3></li>
 
-                                                            <div class="col-md-2 equal-height-in">
-                                                                <ul class="list-unstyled equal-height-list">
-                                                                    <li><h3>Publications</h3></li>
+                                                                <li class="first"><a href="http://www.viu.ca/calendar/GeneralInformation/admissions.asp">Admissions</a></li>
+                                                                <li><a href="http://www.viu.ca/calendar/GeneralInformation/registration.asp">Registration</a></li>
+                                                                <li><a href="http://www.viu.ca/calendar/">Programs and Courses</a></li>
+                                                                <li><a href="http://www.viu.ca/dualcredit/">Dual Credit</a></li>
+                                                                <li><a href="http://www.viu.ca/financialaid/">Financial Aid and Awards</a></li>
+                                                                <li><a href="http://www.viu.ca/calendar/credential/mastersdegrees.asp">Graduate Programs</a></li>
+                                                                <li><a href="http://www.viu.ca/international/">International Education</a></li>
+                                                                <li><a href="http://www.viu.ca/library/">Library</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/ciel/">Online Education</a></li>
 
-                                                                    <li class="first"><a href="http://www.viu.ca/integratedplanning/RegionalStrategy.asp">Regional Strategy Plan</a></li>
-                                                                    <li><a href="http://www.viu.ca/impact/">VIU Impact Report</a></li>
-                                                                    <li><a href="http://www.viu.ca/docs/VIU-Report-to-the-Community.pdf">VIU Report to the Community </a></li>
-                                                                    <li class="last"><a href="http://www.viu.ca/docs/VIU-AddingValue.pdf">Adding Value to Your Community</a></li>
 
-                                                                </ul>
-                                                            </div>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Athletics</h3></li>
+
+                                                                <li class="first"><a href="http://mariners.viu.ca/">VIU Mariners</a></li>
+                                                                <li><a href="http://mariners.viu.ca/teams/">Mariners Teams</a></li>
+                                                                <li><a href="http://www.viu.ca/campusrec/">Campus Recreation</a></li>
+                                                                <li class="last"><a href="http://mariners.viu.ca/community/summer-camps/">Summer Camps</a></li>
+
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Campus Life</h3></li>
+
+                                                                <li class="first"><a href="http://www.viubookstore.ca/">Bookstore</a></li>
+                                                                <li><a href="http://www.viu.ca/counselling/">Counseling</a></li>
+                                                                <li><a href="http://www.viu.ca/disabilityservices/">Disability Services</a></li>
+                                                                <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
+                                                                <li><a href="http://www.viu.ca/health/">Health and Wellness</a></li>
+                                                                <li><a href="http://viuresidences.ca/">Housing</a></li>
+                                                                <li><a href="http://u.viu.ca/">Join One</a></li>
+                                                                <li><a href="http://www.viu.ca/sas/">Services for Aboriginal Students</a></li>
+                                                                <li><a href="http://www.viu.ca/sustainability/">Sustainability</a></li>
+                                                                <li><a href="http://www.viu.ca/parking/">Parking</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/events/">Events</a></li>
+
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Extension and Outreach</h3></li>
+
+                                                                <li class="first"><a href="http://www.viu.ca/pdt/customizedtraining.asp">Contract Training</a></li>
+                                                                <li><a href="http://www.viu.ca/pdt/courses-and-programs/index.asp">Professional Development and Training Courses</a></li>
+                                                                <li><a href="http://www.viu.ca/summersession/">Summer Session</a></li>
+                                                                <li><a href="http://www.viu.ca/eldercollege/">ElderCollege</a></li>
+                                                                <li><a href="http://www.viu.ca/grandkids/">GrandKids University</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/summercamps/">Youth Summer Camps</a></li>
+
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row equal-height">
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Social Media</h3></li>
+
+                                                                <li class="first"><a href="http://www.facebook.com/LoveWhereYouLearn">Facebook</a></li>
+                                                                <li><a href="http://instagram.com/viuniversity">Instagram</a></li>
+                                                                <li><a href="http://www.linkedin.com/companies/vancouver-island-university">LinkedIn</a></li>
+                                                                <li><a href="http://www.viu.ca/rss/">RSS</a></li>
+                                                                <li><a href="http://twitter.com/VIUniversity">Twitter</a></li>
+                                                                <li class="last"><a href="http://www.youtube.com/user/viuchannel">YouTube</a></li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Campus Services</h3></li>
+
+                                                                <li class="first"><a href="http://www.viubookstore.ca/">Bookstore</a></li>
+                                                                <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
+                                                                <li><a href="http://www.viu.ca/discoveryroom/">Discovery Room Restaurant</a></li>
+                                                                <li><a href="http://www.viu.ca/directory">Employee Directory</a></li>
+                                                                <li><a href="http://www.viu.ca/directory?select=expertise">Find VIU Experts</a></li>
+                                                                <li><a href="http://www.viu.ca/eventservices/">Event Services</a></li>
+                                                                <li><a href="http://www.viu.ca/catering/">Campus Caterers</a></li>
+                                                                <li><a href="http://www.viu.ca/parking/">Parking and Security</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/about/services.asp">Service Departments</a></li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Public Engagement</h3></li>
+
+                                                                <li class="first"><a href="http://www.viu.ca/giving/">Advancement and Alumni</a></li>
+                                                                <li><a href="http://www.viu.ca/universityrelations/contact_comm.aspx">Communications and Public Engagement</a></li>
+                                                                <li><a href="http://www.viu.ca/governmentrelations/">Government Relations</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Faculties</h3></li>
+
+                                                                <li class="first"><a href="http://www.viu.ca/cap/">Academic &amp; Career Preparation</a></li>
+                                                                <li><a href="http://www.viu.ca/artsandhumanities/">Arts &amp; Humanities</a></li>
+                                                                <li><a href="http://www.viu.ca/education/">Education</a></li>
+                                                                <li><a href="http://www.viu.ca/hhs/">Health &amp; Human Services</a></li>
+                                                                <li><a href="http://www.viu.ca/international/">International Programs</a></li>
+                                                                <li><a href="http://www.viu.ca/scienceandtechnology/">Science &amp; Technology</a></li>
+                                                                <li><a href="http://www.viu.ca/socialsciences/">Social Sciences</a></li>
+                                                                <li><a href="http://www.viu.ca/management/">Management</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/tat/">Trades &amp; Applied Technology</a></li>
+
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Organizational Structure</h3></li>
+
+                                                                <li class="first"><a href="http://www.viu.ca/gap/">Governance, Administration, &amp; Planning</a></li>
+                                                                <li><a href="http://www.viu.ca/calendar/instructional.asp">Instructional Departments</a></li>
+                                                                <li><a href="http://www.viu.ca/pvpa/">Provost, and VP Academic</a></li>
+                                                                <li><a href="http://www.viu.ca/policies/">Policies &amp; Procedures</a></li>
+                                                                <li><a href="http://www.viu.ca/president/">President's Office</a></li>
+                                                                <li><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
+                                                                <li><a href="http://www.viu.ca/vpadmin/">VP Admin and Finance</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/president/docs/InstitutionalGovernanceJanuary2013.pdf">VIU Organization Chart </a></li>
+
+
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-md-2 equal-height-in">
+                                                            <ul class="list-unstyled equal-height-list">
+                                                                <li><h3>Publications</h3></li>
+
+                                                                <li class="first"><a href="http://www.viu.ca/integratedplanning/RegionalStrategy.asp">Regional Strategy Plan</a></li>
+                                                                <li><a href="http://www.viu.ca/impact/">VIU Impact Report</a></li>
+                                                                <li><a href="http://www.viu.ca/docs/VIU-Report-to-the-Community.pdf">VIU Report to the Community </a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/docs/VIU-AddingValue.pdf">Adding Value to Your Community</a></li>
+
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li><a href="https://www.viu.ca/contact/">Contact Us</a></li>
-
-
-                                    <li class="click-dropdown"><a href="#" data-toggle="dropdown">Login</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="https://learn.viu.ca/">VIULearn(D2L)</a></li>
-                                            <li><a href="https://isweb.viu.ca/SRS/mystudentrecord.htm">Student Record</a></li>
-                                        </ul>
-                                    </li>
-
-
-                                    <li>
-                                        <a href="#" class="search">
-                                            <i class="fa fa-search search-btn"></i>
-                                        </a>
-
-                                        <form action="https://www.viu.ca/search/" method="get" name="search" id="search">
-
-                                            <div class="search-open">
-                                                <div class="input-group animated fadeInDown">
-
-                                                    <input type="text" name="_q" class="form-control" placeholder="Search" value=""/>
-                                                    <input type="hidden" name="site" value=""/>
-
-                                                    <span class="input-group-btn">
-                                                        <button type="submit" class="btn-u">Go</button>
-                                                    </span>
-
-                                                </div>
                                             </div>
-                                        </form>
-                                    </li>        </ul>
-                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li><a href="https://www.viu.ca/contact/">Contact Us</a></li>
+
+
+                                <li class="click-dropdown"><a href="#" data-toggle="dropdown">Login</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="https://learn.viu.ca/">VIULearn(D2L)</a></li>
+                                        <li><a href="https://isweb.viu.ca/SRS/mystudentrecord.htm">Student Record</a></li>
+                                    </ul>
+                                </li>
+
+
+                                <li>
+                                    <a href="#" class="search">
+                                        <i class="fa fa-search search-btn"></i>
+                                    </a>
+
+                                    <form action="https://www.viu.ca/search/" method="get" name="search" id="search">
+
+                                        <div class="search-open">
+                                            <div class="input-group animated fadeInDown">
+
+                                                <input type="text" name="_q" class="form-control" placeholder="Search" value=""/>
+                                                <input type="hidden" name="site" value=""/>
+
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn-u">Go</button>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>        </ul>
                         </div>
                     </div>
                 </div>
-                <!-- End Topbar -->
-
-
             </div>
-
-            <!-- 2 -->
-            <div class="wrapper">
-                <div class="header-viu">
+            <!-- End Topbar -->
 
 
-                <!-- Navbar -->
-                <div class="navbar navbar-default" role="navigation">
+        </div>
+    </xsl:template>
+
+    <xsl:template name="viu-logo">
+
+    </xsl:template>
 
 
-                    <!-- Brand and toggle get grouped for better mobile display -->
+    <!-- The header (distinct from the HTML head element) contains the title, subtitle, login box and various
+          placeholders for header images -->
+    <!-- The header (distinct from the HTML head element) contains the title, subtitle, login box and various
+      placeholders for header images -->
+    <xsl:template name="buildHeader">
+
+
+        <header>
+            <xsl:call-template name="viu-very-top"/>
+
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container header-banner-region">
                     <div class="navbar-header">
 
-                        <div class="header-banner-region container no-padding">
-                            <a class="navbar-brand" href="https://www.viu.ca">
-                                <img id="logo-header" src="{$theme-path}/images/viu-logo.png" alt="Logo"/>
-                            </a>
-                            <div class="header-banner">
-                                <a class="banner-title-link" href="/"><h1 class="header-banner-title bigtext" id="bigtext-id0"><em class="bigtext-line0">Library</em></h1></a>
-                            </div>
+                        <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a href="https://www.viu.ca" class="navbar-brand">
+                            <img src="{$theme-path}/images/viu-logo.png" />
+                        </a>
+
+                        <div class="header-banner">
+                            <a class="banner-title-link" href="/"><h1 class="header-banner-title bigtext" id="bigtext-id0"><em class="bigtext-line0">Library</em></h1></a>
                         </div>
 
-                    </div>
 
-                    <a role="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                        <span class="full-width-menu">Menu</span>
-                        <span class="icon-toggle">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </span>
-                    </a>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse navbar-responsive-collapse">
-                        <div class="container no-padding">
-                            <!--BEGIN DSPACE INSIDE NAV-->
-                            <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
+                        <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
+                            <ul class="nav nav-pills pull-left ">
 
-                            </div>
+                                <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
+                                    <li id="ds-language-selection-xs" class="dropdown">
+                                        <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
+                                        <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
+                                            <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
+                                            <xsl:for-each
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
+                                                <xsl:variable name="locale" select="."/>
+                                                <li role="presentation">
+                                                    <xsl:if test="$locale = $active-locale">
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>disabled</xsl:text>
+                                                        </xsl:attribute>
+                                                    </xsl:if>
+                                                    <a>
+                                                        <xsl:attribute name="href">
+                                                            <xsl:value-of select="$current-uri"/>
+                                                            <xsl:text>?locale-attribute=</xsl:text>
+                                                            <xsl:value-of select="$locale"/>
+                                                        </xsl:attribute>
+                                                        <xsl:value-of
+                                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
+                                                    </a>
+                                                </li>
+                                            </xsl:for-each>
+                                        </ul>
+                                    </li>
+                                </xsl:if>
 
-
-                            <div class="navbar-header pull-right hidden-xs">
-                            <ul class="nav navbar-nav pull-left">
-                                <xsl:call-template name="languageSelection"/>
-                            </ul>
-                            <ul class="nav navbar-nav pull-left">
                                 <xsl:choose>
                                     <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
                                         <li class="dropdown">
-                                            <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
-                                               data-toggle="dropdown">
-                                                <span class="hidden-xs">
-                                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
-                                                    <xsl:text> </xsl:text>
-                                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
-                                                    &#160;
-                                                    <b class="caret"/>
-                                                </span>
-                                            </a>
+                                            <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
+                                                <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                            </button>
                                             <ul class="dropdown-menu pull-right" role="menu"
-                                                aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
+                                                aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
                                                 <li>
                                                     <a href="{/dri:document/dri:meta/dri:userMeta/
                             dri:metadata[@element='identifier' and @qualifier='url']}">
@@ -728,99 +739,77 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <li>
-                                            <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
-                                                <span class="hidden-xs">
-                                                    <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
-                                                </span>
-                                            </a>
+                                            <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
+                                                <button class="navbar-toggle navbar-link">
+                                                    <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                                </button>
+                                            </form>
                                         </li>
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </ul>
-
-                            <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
                         </div>
+                    </div>
 
-                            <!--END DSPACE INSIDE NAV-->
+                    <div class="navbar-header pull-right hidden-xs">
+                        <ul class="nav navbar-nav pull-left">
+                            <xsl:call-template name="languageSelection"/>
+                        </ul>
+                        <ul class="nav navbar-nav pull-left">
+                            <xsl:choose>
+                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                    <li class="dropdown">
+                                        <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
+                                           data-toggle="dropdown">
+                                            <span class="hidden-xs">
+                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
+                                                <xsl:text> </xsl:text>
+                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
+                                                &#160;
+                                                <b class="caret"/>
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right" role="menu"
+                                            aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <li>
+                                        <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
+                                            <span class="hidden-xs">
+                                                <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </ul>
 
-
-
-
-                            <ul class="nav-viu main-nav-viu ready">
-                                <!-- Home -->
-                                <!--            <li class="dropdown">-->
-                                <!--              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">-->
-                                <!--                Home-->
-                                <!--              </a>-->
-                                <!--            </li>-->
-                                <li class="first leaf list-group-item menu-link-home"><a href="https://library.viu.ca" title="">Home</a></li>
-                                <li class="expanded list-group-item menu-link-find"><span title="" class="nolink">Find</span><button data-target="#collapse-find" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Find</span></button><div class="subnav collapse" id="collapse-find"><ul><li class="first leaf list-group-item menu-link-books"><a href="https://library.viu.ca/search-books">Books</a></li>
-                                    <li class="leaf list-group-item menu-link-articles"><a href="https://library.viu.ca/search-articles">Articles</a></li>
-                                    <li class="leaf list-group-item menu-link-databases"><a href="http://libguides.viu.ca/az.php" title="">Databases</a></li>
-                                    <li class="leaf list-group-item menu-link-journals"><a href="http://dd6db2vc8s.search.serialssolutions.com/" title="">Journals</a></li>
-                                    <li class="leaf list-group-item menu-link-course-reserves"><a href="https://marlin.viu.ca/malabin/door.pl/0/0/0/36/624/X" title="">Course Reserves</a></li>
-                                    <li class="leaf list-group-item menu-link-cds"><a href="https://marlin.viu.ca/malabin/door.pl/0/0/0/60/794/X" title="">CDs</a></li>
-                                    <li class="leaf list-group-item menu-link-video"><a href="https://library.viu.ca/search-video">Video</a></li>
-                                    <li class="leaf list-group-item menu-link-newspapers"><a href="http://libguides.viu.ca/Newspapers" title="">Newspapers</a></li>
-                                    <li class="leaf list-group-item menu-link-catalogue"><a href="https://marlin.viu.ca/malabin/door.pl/0/0/0/60/792/X" title="">Catalogue</a></li>
-                                    <li class="leaf list-group-item menu-link-viuspace"><a href="http://viuspace.viu.ca/" title="">VIUspace</a></li>
-                                    <li class="leaf list-group-item menu-link-special-collections"><a href="http://libguides.viu.ca/c.php?g=246946&amp;p=1645330" title="">Special Collections</a></li>
-                                    <li class="last leaf list-group-item menu-link-google-scholar-viu-access"><a href="http://ezproxy.viu.ca/login?url=https://scholar.google.ca" title="">Google Scholar (VIU access)</a></li>
-                                </ul></div></li>
-                                <li class="expanded list-group-item menu-link-help"><span title="" class="nolink">Help</span><button data-target="#collapse-help" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Help</span></button><div class="subnav collapse" id="collapse-help"><ul><li class="first leaf list-group-item menu-link-new-students"><a href="http://libguides.viu.ca/getstarted" title="">New Students</a></li>
-                                    <li class="leaf list-group-item menu-link-forgot-your-pin"><a href="https://marlin.viu.ca/malabin/door.pl/0/0/0/1/769/X" title="">Forgot your PIN?</a></li>
-                                    <li class="leaf list-group-item menu-link-guides--tutorials"><a href="http://libguides.viu.ca/" title="">Guides &amp; Tutorials</a></li>
-                                    <li class="leaf list-group-item menu-link-research-assistance"><a href="https://library.viu.ca/research-assistance">Research Assistance</a></li>
-                                    <li class="leaf list-group-item menu-link-contact-us"><a href="https://library.viu.ca/viu-library-contacts" title="">Contact Us</a></li>
-                                    <li class="last leaf list-group-item menu-link-workshops"><a href="http://libguides.viu.ca/workshops" title="">Workshops</a></li>
-                                </ul></div></li>
-                                <li class="expanded list-group-item menu-link-request"><span title="" class="nolink">Request</span><button data-target="#collapse-request" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Request</span></button><div class="subnav collapse" id="collapse-request"><ul><li class="first leaf list-group-item menu-link-library-accounts--pins"><a href="https://library.viu.ca/library-accounts-pins-cards" title="">Library accounts &amp; PINs</a></li>
-                                    <li class="leaf list-group-item menu-link-interlibrary-loans"><a href="https://library.viu.ca/interlibrary-loan-services" title="">Interlibrary loans</a></li>
-                                    <li class="leaf list-group-item menu-link-dvd-vhs"><a href="https://library.viu.ca/video-services">DVD/VHS</a></li>
-                                    <li class="expanded list-group-item menu-link-equipment"><a href="https://library.viu.ca/equipment-loan-nanaimo-campus">Equipment</a><button data-target="#collapse-equipment" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Equipment</span></button><div class="subnav collapse" id="collapse-equipment"><ul><li class="first leaf list-group-item menu-link-equipment-loan-request-form-for-employees"><a href="https://library.viu.ca/equipment-loan-request-form-employees">Equipment Loan Request Form for Employees</a></li>
-                                        <li class="leaf list-group-item menu-link-equipment-loan-request-form-for-students"><a href="https://library.viu.ca/equipment-loan-request-form-students">Equipment Loan Request Form for Students</a></li>
-                                        <li class="last leaf list-group-item menu-link-equipment-for-loan"><a href="https://library.viu.ca/equipment-loan">Equipment for loan</a></li>
-                                    </ul></div></li>
-                                    <li class="leaf list-group-item menu-link-library-instruction"><a href="https://library.viu.ca/library-instruction-request-form">Library Instruction</a></li>
-                                    <li class="last leaf list-group-item menu-link-course-reserves"><a href="https://library.viu.ca/course-reserves">Course Reserves</a></li>
-                                </ul></div></li>
-                                <li class="expanded list-group-item menu-link-book-a"><span title="" class="nolink">Book a...</span><button data-target="#collapse-book-a" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Book a...</span></button><div class="subnav collapse" id="collapse-book-a"><ul><li class="first leaf list-group-item menu-link-video-audio-editing-room-nanaimo"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/editing_suites" title="">Video/audio editing room (Nanaimo)</a></li>
-                                    <li class="leaf list-group-item menu-link-group-study-room-nanaimo"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/groupstudy" title="">Group study room (Nanaimo)</a></li>
-                                    <li class="leaf list-group-item menu-link-media-workstation"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/media_stations" title="">Media workstation</a></li>
-                                    <li class="leaf list-group-item menu-link-accessibility-workstation"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/accessibility" title="">Accessibility workstation</a></li>
-                                    <li class="leaf list-group-item menu-link-video-editing-room-cowichan"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/Cowichan_Video" title="">Video editing room (Cowichan)</a></li>
-                                    <li class="last leaf list-group-item menu-link-group-study-room-cowichan"><a href="http://ezproxy.viu.ca/login?url=http://viu-ca.libcal.com/booking/Cowichan_GroupStudy" title="">Group study room (Cowichan)</a></li>
-                                </ul></div></li>
-                                <li class="expanded list-group-item menu-link-tools"><span title="" class="nolink">Tools</span><button data-target="#collapse-tools" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">Tools</span></button><div class="subnav collapse" id="collapse-tools"><ul><li class="first leaf list-group-item menu-link-renew-loans"><a href="https://marlin.viu.ca/uhtbin/cgisirsi/0/0/0/1/762/X" title="">Renew Loans</a></li>
-                                    <li class="leaf list-group-item menu-link-your-library-record"><a href="https://marlin.viu.ca/uhtbin/cgisirsi/0/0/0/1/762/X" title="">Your Library Record</a></li>
-                                    <li class="leaf list-group-item menu-link-refworks"><a href="http://libguides.viu.ca/refworks" title="">RefWorks</a></li>
-                                    <li class="leaf list-group-item menu-link-citation-guides"><a href="http://libguides.viu.ca/citing" title="">Citation Guides</a></li>
-                                    <li class="leaf list-group-item menu-link-copyright"><a href="http://libguides.viu.ca/licenses" title="">Copyright</a></li>
-                                    <li class="leaf list-group-item menu-link-mobile"><a href="http://libguides.viu.ca/m" title="">Mobile</a></li>
-                                    <li class="last leaf list-group-item menu-link-stable-linking"><a href="http://libguides.viu.ca/stablelinks" title="">Stable Linking</a></li>
-                                </ul></div></li>
-                                <li class="last expanded list-group-item menu-link-about"><span title="" class="nolink">About</span><button data-target="#collapse-about" class="list-toggle menu-block-handle" data-parent="#sidebar-nav" data-toggle="collapse"><span class="action">Extend</span><span class="label">About</span></button><div class="subnav collapse" id="collapse-about"><ul><li class="first leaf list-group-item menu-link-hours"><a href="https://library.viu.ca/library-hours">Hours</a></li>
-                                    <li class="leaf list-group-item menu-link-loans"><a href="https://library.viu.ca/loan-information">Loans</a></li>
-                                    <li class="leaf list-group-item menu-link-photo-id"><a href="https://library.viu.ca/viu-student-id-card-smartcard">Photo ID</a></li>
-                                    <li class="leaf list-group-item menu-link-library-staff"><a href="https://library.viu.ca/viu-library-contacts">Library Staff</a></li>
-                                    <li class="last leaf list-group-item menu-link-send-feedback"><a href="https://library.viu.ca/send-feedback">Send feedback</a></li>
-                                </ul></div></li>
-                            </ul>
-                        </div>
-                    </div><!--/navbar-collapse-->
-
-
-                    <div class="clearfix"></div>
-
+                        <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
                 </div>
-                <!-- End Navbar -->
-            </div>
             </div>
 
         </header>

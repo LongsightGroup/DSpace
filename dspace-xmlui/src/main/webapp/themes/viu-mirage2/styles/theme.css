@@ -14,17 +14,133 @@ header .navbar-brand img {
 
 }
 
-.navbar {
-    min-height: 77px;
+body {
+    background: url(https://library.viu.ca/profiles/viu/themes/viu_radix/assets/img/patterns/15.png) repeat;
+}
+
+.navbar.navbar-default.navbar-static-top {
+    min-height: 139px;
 }
 
 /* Override classic-mirage-style */
 header .navbar-default {
-    background-color: #1f3f5e;
+    background-color: #FFFFFF;
+}
+
+header .navbar-default .navbar-toggle, header .navbar-default .navbar-nav, header .navbar-default .navbar-toggle > li > a, header .navbar-default .navbar-nav > li > a {
+    color: #003F5F;
+}
+
+.navbar-header a.navbar-brand {
+    padding: 0;
+}
+
+.navbar.navbar-default.navbar-static-top .container.header-banner-region {
+    width: 80%;
+}
+
+
+#bigtext-id0 .bigtext-line0 {
+    font-size: 60px;
+}
+.header-banner-region .header-banner-title em {
+    color: #003F5F;
+}
+.header-banner-region .header-banner-title em {
+    display: block;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 1em;
+    letter-spacing: -1px;
+}
+.header-banner-region .header-banner-title em {
+    display: block;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 1em;
+    letter-spacing: -1px;
+}
+
+.bigtext > * {
+  display: block;
+}
+
+.bigtext * {
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+    .header-banner-region .header-banner-title {
+        font-size: 28px;
+    }
+}
+@media (min-width: 768px) {
+    .header-banner-region .header-banner-title {
+        font-size: 28px;
+        font-size: 2.25vw;
+    }
+}
+
+.header-banner-region .header-banner-title {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-size: 3.5vw;
+    line-height: 1.2em;
+}
+@media (min-width: 1200px) {
+    .header-banner-region .header-banner-title {
+        font-size: 28px;
+    }
+}
+@media (min-width: 768px) {
+    .header-banner-region .header-banner-title {
+        font-size: 28px;
+        font-size: 2.25vw;
+    }
+}
+.header-banner-region .header-banner-title {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-size: 3.5vw;
+    line-height: 1.2em;
+}
+
+
+
+@media (min-width: 768px) {
+    .header-banner-region .header-banner {
+        padding-left: 190px;
+    }
+}
+
+.header-banner-region .header-banner {
+    padding: 0 50px 0 152px;
+    width: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+@media (min-width: 768px) {
+    .header-banner-region .header-banner {
+        padding-left: 190px;
+    }
+}
+
+.header-banner-region .header-banner {
+    padding: 0 50px 0 152px;
+    width: 100%;
+    position: relative;
+    top: 70px;
+    transform: translateY(-50%);
 }
 
 .trail-wrapper {
     background-color: #aab8c6;
+    height: 26px;
 }
 .trail-wrapper .breadcrumb > li + li:before {
     color: #eaf1f7;
