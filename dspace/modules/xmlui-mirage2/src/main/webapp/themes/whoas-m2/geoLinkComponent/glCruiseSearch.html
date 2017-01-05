@@ -1,0 +1,246 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <glperson-element></glperson-element>
+
+@demo
+-->
+<dom-module id="gldeployment-element">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/polymer/polymer.html">
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+    <!-- Material Design Light -->
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  <style is="custom-style">
+    iron-overlay-backdrop {
+      --iron-overlay-backdrop-opacity: 0.9;
+      --iron-overlay-backdrop-background-color: #222;
+    }
+
+    .geolink-section-collapsed {
+      background-image: url(/misc/menu-collapsed.png);
+      background-position: 0px;
+      background-repeat: no-repeat;
+      padding-left: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .geolink-section-expanded {
+      background-image: url(/misc/menu-expanded.png);
+      background-position: 0px;
+      background-repeat: no-repeat;
+      padding-left: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+
+    <template>
+        <iron-ajax id="cruise-info"
+                   auto
+                   url="http://geolink.bco-dmo.org/sparql"
+                   content-type="application/x-www-form-urlencoded"
+                   method="POST"
+                   body='{{getCruiseInformationQuery()}}'
+                   handle-as="json"
+                   headers='{"Accept": "application/sparql-results+json"}'
+                   debounce-duration="300"
+                   last-response="{{cruiseInfo}}"></iron-ajax>
+
+     <!-- set display false for a surrounding div if the ajax response is empty -->
+
+     <div class="container-fluid"  style="margin:10px;">
+       <div class="row" >
+         <div class="cols-md-6">
+           <template is="dom-if" if="{{showTemplate(cruiseInfo.results.bindings)}}">
+<link rel="stylesheet" type="text/css" href="css/geoLink.css" />
+<img style="margin:0 5px 5px 0;width:36px;float:left;" src="http://glcomponents.tech/components/glperson-element/images/eclogo.png">
+           <h4 style="margin:5px;padding:7px;"><a target="_blank" href="{{params.hosturl}}">{{params.host}}</a> Resource Information for {{params.label}}:
+             <!--<a target="_blank" href="{{params.url}}">{{params.label}}</a> -->
+           </h4>
+
+
+             <div id="geolink-deployment-info">
+               <h3 class="geolink-section-expanded" on-tap="handleTap">Cruise Information ([[cruiseInfo.results.bindings.length]])</h3>
+                 <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+
+                   <template is="dom-repeat" items="[[cruiseInfo.results.bindings]]">
+                    <tr><td inner-h-t-m-l="{{getCruiseInfo(item)}}"></td></tr>
+                   </template>
+                 </table>
+              </div>
+            </template>
+         </div>
+        </div>
+      </div>
+    </template>
+  <script>
+    Polymer({
+
+        is: 'gldeployment-element',
+
+        properties: {
+            cruise_info: {
+              type: String,
+              value: function() { return ''; },
+              notify: true
+            },
+            cruise_people: {
+              type: Array,
+              value: function() { return []; },
+              notify: true
+            },
+            /**
+             * `fancy` indicates that the element should don a monocle and tophat,
+             * while checking its pocket watch.
+             */
+            fancy: Boolean,
+
+            /**
+             * Describes the author of the element, but is really just an excuse to
+             * show off JSDoc annotations.
+             *
+             * @type {{name: string, image: string}}
+             */
+            params: {
+                type: Object,
+                // Use `value` to provides a default value for a property, by setting it
+                // on your element's prototype.
+                //
+                // If you provide a function, as we do here, Polymer will call that
+                // _per element instance_.
+                //
+                // We do that to ensure that each element gets its own copy of the
+                // value, rather than having it shared across all instances (via the
+                // prototype).
+                value: function() {
+                    return {
+                        label: 'Local Deployment Name',
+                        host: 'Example Hosting',
+                        hosturl: 'http://opencoredata.org',
+                        url: 'http://opencoredata.org/id/dataset/650f47bb-9715-4f58-be51-0fab02af1b68',
+                    };
+                }
+            },
+        },
+
+        // Element Lifecycle
+
+        ready: function() {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+        },
+
+        attached: function() {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+            this.cruise_people = [];
+            this.cruise_info = '';
+        },
+
+        detached: function() {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        // Element Behavior
+        handleTap: function(e, detail) {
+          $(e.target).parent().find('table').toggle();
+          if ($(e.target).hasClass('geolink-section-expanded')) {
+            $(e.target).removeClass('geolink-section-expanded');
+            $(e.target).addClass('geolink-section-collapsed');
+          }
+          else {
+            $(e.target).removeClass('geolink-section-collapsed');
+            $(e.target).addClass('geolink-section-expanded');
+          }
+        },
+
+        indexCounter: function(index) {
+          return index + 1;
+        },
+
+        getTargetURIFromParams: function() {
+          return $.parseJSON($(this).attr('params')).url;
+        },
+
+        getTargetLabelFromParams: function() {
+          return $.parseJSON($(this).attr('params')).label;
+        },
+
+         /**
+         * Get the SPARQL endpoint query string
+         */
+        getSPARQLRequestParams: function(query) {
+          var qs = "format=application%2Fsparql-results%2Bjson&timeout=0&query=" + encodeURIComponent(query);
+          return qs;
+        },
+
+        /**
+         * Should a template be shown (based on length of results)
+         */
+        showTemplate: function(results) {
+          return 0 < results.length;
+        },
+
+        getCruiseInfo: function (cruiseInfo) {
+
+          var url = cruiseInfo.cruise.value;
+          var name = cruiseInfo.cruise_label.value;
+
+          var link = '<a href=\"componentCruise.html?uri=' + url + '\" target="_blank">' + name + '</a>';
+
+          return link;
+
+          /**return this.cruise_info;**/
+        },
+
+        
+        getCruiseInformationQuery: function() {
+          var targetURI = this.getTargetURIFromParams();
+          var targetLabel = this.getTargetLabelFromParams();
+          var query = "PREFIX gl: <http://schema.geolink.org/1.0/base/main#> " +
+          "SELECT DISTINCT ?cruise ?cruise_title ?cruise_label " +
+          "WHERE { " +
+            "?cruise a gl:Cruise . " +
+            "?cruise rdfs:label ?y . " +
+            "FILTER regex(?y, \""+targetLabel+"\", \"i\") . " +
+            "OPTIONAL { ?cruise rdfs:label ?cruise_label . } " +
+            "OPTIONAL { ?cruise gl:hasTitle ?cruise_title . } " +
+          "} " +
+          "ORDER BY ASC(?cruise_label)";
+          return this.getSPARQLRequestParams(query);
+        },
+
+    });
+  </script>
+</dom-module>

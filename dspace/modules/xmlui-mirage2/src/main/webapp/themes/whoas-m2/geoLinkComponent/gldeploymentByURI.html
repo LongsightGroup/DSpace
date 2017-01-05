@@ -1,0 +1,601 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <glperson-element></glperson-element>
+
+@demo
+-->
+<dom-module id="gldeployment-element">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/polymer/polymer.html">
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+    <!-- Material Design Light -->
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  <style is="custom-style">
+    iron-overlay-backdrop {
+      --iron-overlay-backdrop-opacity: 0.9;
+      --iron-overlay-backdrop-background-color: #222;
+    }
+
+    .geolink-section-collapsed {
+      background-image: url(/misc/menu-collapsed.png);
+      background-position: 0px;
+      background-repeat: no-repeat;
+      padding-left: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .geolink-section-expanded {
+      background-image: url(/misc/menu-expanded.png);
+      background-position: 0px;
+      background-repeat: no-repeat;
+      padding-left: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+
+    <template>
+        <iron-ajax id="cruise-info"
+                   auto
+                   url="http://geolink.bco-dmo.org/sparql"
+                   content-type="application/x-www-form-urlencoded"
+                   method="POST"
+                   body='{{getCruiseInformationQuery()}}'
+                   handle-as="json"
+                   on-response="handleCruiseInfoResponse"
+                   headers='{"Accept": "application/sparql-results+json"}'
+                   debounce-duration="300"
+                   last-response="{{cruiseInfo}}"></iron-ajax>
+
+        <iron-ajax id="physical-samples"
+                   auto
+                   url="http://geolink.bco-dmo.org/sparql"
+                   content-type="application/x-www-form-urlencoded"
+                   method="POST"
+                   body='{{getPhysicalSampleQuery()}}'
+                   handle-as="json"
+                   headers='{"Accept": "application/sparql-results+json"}'
+                   debounce-duration="300"
+                   last-response="{{samples}}"></iron-ajax>
+        <iron-ajax id="people"
+                   auto
+                   url="http://geolink.bco-dmo.org/sparql"
+                   content-type="application/x-www-form-urlencoded"
+                   method="POST"
+                   body='{{getPersonQuery()}}'
+                   handle-as="json"
+                   on-response="handlePersonResponse"
+                   headers='{"Accept": "application/sparql-results+json"}'
+                   debounce-duration="300"
+                   last-response="{{people}}"></iron-ajax>
+
+
+     <!-- set display false for a surrounding div if the ajax response is empty -->
+
+     <div class="container-fluid"  style="margin:10px;">
+       <div class="row" >
+         <div class="cols-md-6">
+           <img style="margin:5px;width:75px" src="http://glcomponents.tech/components/glperson-element/images/eclogo.png">
+           <h4 style="margin:5px"><a target="_blank" href="{{params.hosturl}}">{{params.host}}</a> Resource Information:
+           </h4>
+           <template is="dom-if" if="{{showTemplate(cruiseInfo.results.bindings)}}">
+             <div id="geolink-deployment-info">
+               <h3 class="geolink-section-expanded" on-tap="handleTap">Cruise Information</h3>
+                 <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                   <tr><td inner-h-t-m-l="{{getCruiseInfo()}}"></td></tr>
+                 </table>
+              </div>
+            </template>
+           <template is="dom-if" if="{{showTemplate(samples.results.bindings)}}">
+             <div id="geolink-deployment-physical-samples">
+               <h3 class="geolink-section-expanded" on-tap="handleTap">Physical Samples ([[samples.results.bindings.length]])</h3>
+               <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                   <tr><th>Sample</th>
+                      <th>Description</th>
+                      <th>People</th>
+                      <th>Dataset</th>
+                      <th>Dates</th>
+                   </tr>
+                 <template is="dom-repeat" items="[[samples.results.bindings]]">
+                   <tr>
+                      <td style="vertical-align: baseline; padding-left: 5px; padding-right: 5px" inner-h-t-m-l="{{getSampleName(item, index)}}" nowrap></td>
+                      <td style="vertical-align: baseline; padding-left: 5px; padding-right: 5px" inner-h-t-m-l="{{getSampleDesc(item)}}" nowrap></td>
+                      <td style="vertical-align: baseline; padding-left: 5px; padding-right: 5px"><a href="[[item.person.value]]" target="_blank" nowrap>[[item.person_name.value]]</a><br/>{{formatPersonRole(item.role.value)}}</td>
+                      <td style="vertical-align: baseline; padding-left: 5px; padding-right: 5px"><a href="[[item.dataset.value]]" target="_blank">[[item.dataset_name.value]]</a></td>
+                      <td style="vertical-align: baseline; padding-left: 5px; padding-right: 5px" inner-h-t-m-l="{{getSampleDates(item)}}" nowrap></td>
+                   </tr>
+                 </template>
+               </table>
+             </div>
+           </template>
+           <template is="dom-if" if="{{showTemplate(people.results.bindings)}}">
+             <div id="geolink-deployment-people">
+               <h3 class="geolink-section-expanded" on-tap="handleTap">People  ([[cruise_people.length]])</h3>
+               <template is="dom-repeat" items="{{cruise_people}}">
+                 <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                   <tr><td>{{indexCounter(index)}}. <strong><a target="_blank" href="[[item.person.value]]">[[item.person_full_name.value]]</a></strong> ([[item.role.value]])</td></tr>
+                 </table>
+               </template>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+  <script>
+    Polymer({
+
+        is: 'gldeployment-element',
+
+        properties: {
+            cruise_info: {
+              type: String,
+              value: function() { return ''; },
+              notify: true
+            },
+            cruise_people: {
+              type: Array,
+              value: function() { return []; },
+              notify: true
+            },
+            /**
+             * `fancy` indicates that the element should don a monocle and tophat,
+             * while checking its pocket watch.
+             */
+            fancy: Boolean,
+
+            /**
+             * Describes the author of the element, but is really just an excuse to
+             * show off JSDoc annotations.
+             *
+             * @type {{name: string, image: string}}
+             */
+            params: {
+                type: Object,
+                // Use `value` to provides a default value for a property, by setting it
+                // on your element's prototype.
+                //
+                // If you provide a function, as we do here, Polymer will call that
+                // _per element instance_.
+                //
+                // We do that to ensure that each element gets its own copy of the
+                // value, rather than having it shared across all instances (via the
+                // prototype).
+                value: function() {
+                    return {
+                        label: 'Local Deployment Name',
+                        host: 'Example Hosting',
+                        hosturl: 'http://opencoredata.org',
+                        url: 'http://opencoredata.org/id/dataset/650f47bb-9715-4f58-be51-0fab02af1b68',
+                    };
+                }
+            },
+        },
+
+        // Element Lifecycle
+
+        ready: function() {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+        },
+
+        attached: function() {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+            this.cruise_people = [];
+            this.cruise_info = '';
+        },
+
+        detached: function() {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        // Element Behavior
+        handleTap: function(e, detail) {
+          $(e.target).parent().find('table').toggle();
+          if ($(e.target).hasClass('geolink-section-expanded')) {
+            $(e.target).removeClass('geolink-section-expanded');
+            $(e.target).addClass('geolink-section-collapsed');
+          }
+          else {
+            $(e.target).removeClass('geolink-section-collapsed');
+            $(e.target).addClass('geolink-section-expanded');
+          }
+        },
+
+        indexCounter: function(index) {
+          return index + 1;
+        },
+
+        getTargetURIFromParams: function() {
+          return $.parseJSON($(this).attr('params')).url;
+        },
+
+        /**
+         * Get the SPARQL endpoint query string
+         */
+        getSPARQLRequestParams: function(query) {
+          var qs = "format=application%2Fsparql-results%2Bjson&timeout=0&query=" + encodeURIComponent(query);
+          return qs;
+        },
+
+        /**
+         * Should a template be shown (based on length of results)
+         */
+        showTemplate: function(results) {
+          return 0 < results.length;
+        },
+
+        getCruiseInfo: function() {
+          return this.cruise_info;
+        },
+        handleCruiseInfoResponse: function(response) {
+          var data = response.detail.response.results.bindings[0];
+          var info = '';
+          var cruise_name = '';
+          if (data.cruise_title && data.cruise_title.value.trim()) {
+            info = '<strong>Cruise:</strong> ' + data.cruise_title.value + '<br/>';
+          }
+          else if (data.cruise_label && data.cruise_label.value.trim()) {
+            info = '<strong>Cruise:</strong> ' + data.cruise_label.value + '<br/>';
+          }
+          if (data.id_value && data.id_value.value.trim()) {
+            info += '<strong>Identifier:</strong> ';
+            var id_url = '';
+
+            if (data.id_uri && data.id_uri.value.trim()) {
+              id_url = data.id_uri.value;
+            }
+            else if (data.id_scheme && data.id_scheme.value.trim()) {
+              switch (data.id_scheme.value) {
+                case 'http://purl.org/spar/datacite/doi':
+                  id_url = 'http://doi.org/' + data.id_value.value;
+                  break;
+              }
+            }
+            if (id_url.trim()) {
+              info += '<a href="' + id_url + '" target="_blank">' + data.id_value.value + '</a><br/>';
+            }
+            else {
+              info += data.id_value.value + '</br>';
+            }
+          }
+          if (data.start_port && data.start_port.value.trim()) {
+            info += '<strong>Start Port:</strong> ';
+            if (data.start_port_name && data.start_port_name.value.trim()) {
+              info += data.start_port_name.value + ' ';
+            }
+            else {
+              //info += '<em style="font-size: small">unspecified port</em> ';
+            }
+            if (data.start_port_date && data.start_port_date.value.trim()) {
+              info += '(' + data.start_port_date.value + ')';
+            }
+            else {
+              //info += '<em style="font-size: smaller">(unspecified date)</em>';
+            }
+            info += '<br/>';
+          }
+          if (data.end_port && data.end_port.value.trim()) {
+            info += '<strong>End Port:</strong> ';
+            if (data.end_port_name && data.end_port_name.value.trim()) {
+              info += data.end_port_name.value + ' ';
+            }
+            else {
+              //info += '<em style="font-size: small">unspecified port</em> ';
+            }
+            if (data.end_port_date && data.end_port_date.value.trim()) {
+              info += '(' + data.end_port_date.value + ')';
+            }
+            else {
+              //info += '<em style="font-size: smaller">(unspecified date)</em>';
+            }
+            info += '<br/>';
+          }
+
+          this.cruise_info = info;
+        },
+
+        getCruiseInformationQuery: function() {
+          var targetURI = this.getTargetURIFromParams();
+          var query = "PREFIX gl: <http://schema.geolink.org/1.0/base/main#> " +
+          "SELECT DISTINCT ?cruise ?cruise_title ?cruise_label ?id_value ?id_scheme ?id_uri ?start_port ?start_port_date ?start_port_name ?end_port ?end_port_date ?end_port_name " +
+          "WHERE { " +
+            "?cruise a gl:Cruise . " +
+            "VALUES ?cruise {<" + targetURI + ">} " +
+            "OPTIONAL { " +
+              "?cruise gl:hasIdentifier ?identifier . ?identifier gl:hasIdentifierValue ?id_value . " +
+              "OPTIONAL { ?identifier gl:hasIdentifierScheme ?id_scheme . } " +
+              "OPTIONAL { ?identifier gl:hasIdentifierResolveURI ?id_uri . } " +
+            "} " +
+            "OPTIONAL { ?cruise rdfs:label ?cruise_label . } " +
+            "OPTIONAL { ?cruise gl:hasTitle ?cruise_title . } " +
+            "OPTIONAL { ?cruise gl:hasStartPortCall ?start_port . " +
+              "OPTIONAL { ?start_port gl:hasTimeStamp ?start_port_date . } " +
+              "OPTIONAL { ?start_port gl:atPort [ rdfs:label ?start_port_name ] . } " +
+            "} " +
+            "OPTIONAL { ?cruise gl:hasEndPortCall ?end_port . " +
+              "OPTIONAL { ?end_port gl:hasTimeStamp ?end_port_date . } " +
+              "OPTIONAL { ?end_port gl:atPort [ rdfs:label ?end_port_name ] . } " +
+            "} " +
+          "}";
+          return this.getSPARQLRequestParams(query);
+        },
+
+        /**
+         * Get the Physical Sample Query
+         */
+        getPhysicalSampleQuery: function() {
+          var targetURI = this.getTargetURIFromParams();
+          var query = "PREFIX gl: <http://schema.geolink.org/1.0/base/main#> " +
+
+            "SELECT DISTINCT ?cruise ?sample ?id_value ?id_scheme ?id_uri ?registration_date ?publication_date ?last_updated_date ?elevation_desc ?feature_of_interest ?feature_of_interest_name ?feature_type ?feature_type_name ?geologic_age ?geologic_age_name ?stratigraphic_unit ?stratigraphic_unit_name ?originates_from ?collection_start_date ?collection_end_date ?person ?role ?person_name ?dataset ?dataset_name ?sample_type ?sample_type_name ?wkt " +
+            "WHERE { " +
+              "{ " +
+                "?sample a gl:PhysicalSample . " +
+                "?sample gl:hasCruise ?cruise . " +
+                "?cruise a gl:Cruise . { " +
+                 "SELECT DISTINCT ?cruise " +
+                 "WHERE { " +
+                   "VALUES ?target {<" +targetURI+">} " +
+                   "{ ?cruise owl:sameAs ?target . } " +
+                   "UNION { ?target owl:sameAs ?cruise . } " +
+                   "UNION { ?target owl:sameAs ?match . ?match owl:sameAs ?cruise . } " +
+                   "UNION { ?target owl:sameAs ?match . ?cruise owl:sameAs ?match . } " +
+                   "UNION { ?target a gl:Cruise . FILTER (?cruise = ?target) } " +
+                 "} } " +
+              "} " +
+              "OPTIONAL { ?sample gl:hasIdentifier ?identifier . ?identifier gl:hasIdentifierValue ?id_value . " +
+                "OPTIONAL { ?identifier gl:hasIdentifierScheme ?id_scheme . } " +
+                "OPTIONAL { ?identifier gl:hasIdentifierResolveURI ?id_uri . } " +
+              "} " +
+              "OPTIONAL { ?sample ?role ?person . ?person a gl:Person . ?person rdfs:label ?person_name }  " +
+              "OPTIONAL { ?sample gl:hasDataset ?dataset . ?dataset rdfs:label ?dataset_name . } " +
+              "OPTIONAL { ?sample gl:hasSampleType ?sample_type . ?sample rdfs:label ?sample_type_name . } " +
+              "OPTIONAL { ?sample gl:hasCollectionStartDate ?collection_start_date . } " +
+              "OPTIONAL { ?sample gl:hasCollectionEndDate ?collection_end_date . } " +
+              "OPTIONAL { ?sample gl:hasRegistrationDate ?registration_date . } " +
+              "OPTIONAL { ?sample gl:hasLastUpdateDate ?last_updated_date . } " +
+              "OPTIONAL { ?sample gl:hasPublicationDate ?publication_date . } " +
+              "OPTIONAL { ?sample gl:originatesFrom ?originates_from } " +
+              "OPTIONAL { ?sample gl:hasGeologicAge ?geologic_age . ?sample rdfs:label ?geologic_age_name . } " +
+              "OPTIONAL { ?sample gl:hasStratigraphicUnit ?stratigraphic_unit . ?stratigraphic_unit rdfs:label ?stratigraphic_unit_name } " +
+              "OPTIONAL { ?sample gl:hasFeatureOfInterest ?feature_of_interest . ?feature_of_interest rdfs:label ?feature_of_interest_name . " +
+                "OPTIONAL { ?feature_of_interest gl:hasFeatureType ?feature_type . ?feature_type rdfs:label ?feature_type_name . } " +
+              "} " +
+              "OPTIONAL { ?sample gl:hasElevationDescription ?elevation_desc . } " +
+              "OPTIONAL { ?sample gl:hasGeometryAsWktLiteral ?wkt . } " +
+            "}";
+            return this.getSPARQLRequestParams(query);
+        },
+        getSampleDesc: function (sample) {
+          var desc = '';
+          if (sample.elevation_desc && sample.elevation_desc.value) {
+            desc = desc + "<strong>Elevation</strong>: " + sample.elevation_desc.value + "<br/>";
+          }
+          if (sample.feature_of_interest && sample.feature_of_interest.value) {
+            desc = desc + "<strong>Feature of Interest</strong>: <a href='" + sample.feature_of_interest.value + "' target='_blank'>";
+            if (sample.feature_of_interest_name && sample.feature_of_interest_name.value) {
+              desc = desc + sample.feature_of_interest_name.value;
+            }
+            else {
+              desc = desc + sample.feature_of_interest.value;
+            }
+            desc = desc + "</a><br/>";
+          }
+          if (sample.feature_type && sample.feature_type.value) {
+            desc = desc + "<strong>Feature Type</strong>: <a href='" + sample.feature_type.value + "' target='_blank'>";
+            if (sample.feature_type_name && sample.feature_type_name.value) {
+              desc = desc + sample.feature_type_name.value;
+            }
+            else {
+              desc = desc + sample.feature_type.value;
+            }
+            desc = desc + "</a><br/>";
+          }
+          if (sample.geologic_age&& sample.geologic_age.value) {
+            desc = desc + "<strong>Geologic Age</strong>: <a href='" + sample.geologic_age.value + "' target='_blank'>";
+            if (sample.geologic_age_name && sample.geologic_age_name.value) {
+              desc = desc + sample.geologic_age_name.value;
+            }
+            else {
+              desc = desc + sample.geologic_age.value;
+            }
+            desc = desc + "</a><br/>";
+          }
+          if (sample.stratigraphic_unit && sample.stratigraphic_unit.value) {
+            desc = desc + "<strong>Stratigraphic Unit</strong>: <a href='" + sample.stratigraphic_unit.value + "' target='_blank'>";
+            if (sample.stratigraphic_unit_name && sample.stratigraphic_unit_name.value) {
+              desc = desc + sample.stratigraphic_unit_name.value;
+            }
+            else {
+              desc = desc + sample.stratigraphic_unit.value;
+            }
+            desc = desc + "</a><br/>";
+          }
+          /*
+          if (sample.sample_type && sample.sample_type.value) {
+            desc = desc + "<strong>Sample Type</strong>: <a href='" + sample.sample_type.value + "' target='_blank'>";
+            if (sample.sample_type_name && sample.sample_type_name.value) {
+              desc = desc + sample.sample_type_name.value;
+            }
+            else {
+              desc = desc + sample.sample_type.value;
+            }
+            desc = desc + "</a><br/>";
+          }
+          */
+          if (sample.wkt && sample.wkt.value) {
+            desc = desc + "<strong>Geometry</strong>: " + sample.wkt.value + "<br/>";
+          }
+          return desc;
+        },
+        getSampleDates: function (sample) {
+          var dates = '';
+          if (sample.collection_start_date && sample.collection_start_date.value) {
+            dates = dates + "<strong>Collected</strong>: " + this.formatSampleDate(sample.collection_start_date.value);
+            if (sample.collection_end_date && sample.collection_end_date.value) {
+              dates = dates + " to " + this.formatSampleDate(sample.collection_end_date.value);
+            }
+            dates = dates + "<br/>";
+          }
+          if (sample.registration_date && sample.registration_date.value) {
+            dates = dates + "<strong>Registered</strong>: " + this.formatSampleDate(sample.registration_date.value) + "<br/>";
+          }
+          if (sample.publication_date && sample.publication_date.value) {
+            dates = dates + "<strong>Published</strong>: " + this.formatSampleDate(sample.publication_date.value) + "<br/>";
+          }
+          /*
+          if (sample.last_updated_date && sample.last_updated_date.value) {
+            dates = dates + "<strong>Last Updated</strong>: " + this.formatSampleDate(sample.last_updated_date.value) + "<br/>";
+          }
+          */
+          return dates;
+        },
+        getSampleName: function (sample, index) {
+
+          var url = sample.sample.value;
+          var name = '';
+
+          if (sample.id_value && sample.id_value.value && sample.id_value.value.trim()) {
+            name = sample.id_value.value;
+          }
+          else if (sample.sample_name && sample.sample_name.value) {
+            name = sample.sample_name.value;
+          }
+
+          // Check for IGSN
+          /*
+          if (name.toLowerCase().startsWith("igsn:")) {
+            var igsn = name.split(":")[1];
+            url = 'http://www.geosamples.org/profile?igsn=' + igsn;
+          }
+          */
+
+          return (index+1) + '. <strong><a target="_blank" href="' + url + '">' + name + '</a></strong>';
+        },
+
+        formatSampleDate: function(date_string) {
+          var a = new Date(date_string);
+          //return a.toDateString();
+          return a.getUTCFullYear() + '-' + ("0" + (a.getUTCMonth() + 1)).slice(-2) + '-' + ("0" + a.getUTCDate()).slice(-2);
+        },
+
+        /**
+         * Process the people data.
+         */
+        handlePersonResponse: function(response) {
+          var data = response.detail.response.results.bindings;
+          var matches = [];
+          $.each(data, function (index, person) {
+            var match_uri = person.match.value;
+            if (match_uri in matches) {
+              data.splice(index, 1);
+            }
+            else {
+              matches[match_uri] = person;
+            }
+          });
+
+          this.cruise_people = data;
+        },
+
+        /**
+         * Take out the GeoLink Schema part.
+         */
+        formatPersonRole: function(role_name) {
+          var role = role_name.split('http://schema.geolink.org/1.0/base/main#')[1];
+          if (role.startsWith('has')) {
+            role = role_name.split('has')[1];
+          }
+          return role;
+        },
+
+        /**
+         * Get the Person SPARQL query
+         */
+        getPersonQuery: function() {
+          var targetURI = this.getTargetURIFromParams();
+          var query = "PREFIX gl: <http://schema.geolink.org/1.0/base/main#> " +
+          "SELECT DISTINCT ?cruise ?role ?person ?match ?id_value ?id_scheme ?id_uri ?person_full_name ?email_address " +
+          "WHERE { " +
+            "{ ?cruise a gl:Cruise . ?person ?role ?cruise . ?person a gl:Person . " +
+              "{ SELECT DISTINCT ?cruise " +
+                "WHERE { " +
+                  "VALUES ?target {<"+targetURI+">} " +
+                  "{ ?cruise owl:sameAs ?target . } " +
+                  "UNION { ?target owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?match owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?cruise owl:sameAs ?match . } " +
+                  "UNION { ?cruise a gl:Cruise . FILTER (?cruise = ?target) } " +
+                "} } " +
+            "} UNION { " +
+              "?cruise a gl:Cruise . ?cruise ?role ?person . ?person a gl:Person . " +
+              "{ SELECT DISTINCT ?cruise " +
+                "WHERE { " +
+                  "VALUES ?target {<"+targetURI+">} " +
+                  "{ ?cruise owl:sameAs ?target . } " +
+                  "UNION { ?target owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?match owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?cruise owl:sameAs ?match . } " +
+                  "UNION { ?cruise a gl:Cruise . FILTER (?cruise = ?target) } " +
+                "} } " +
+            "} UNION { " +
+              "?cruise a gl:Cruise . ?cruise gl:hasParticipant ?participant . " +
+              "?participant gl:isPerformedBy ?person . ?person a gl:Person . " +
+              "?participant gl:hasRoleType ?role . " +
+              "{ SELECT DISTINCT ?cruise " +
+                "WHERE { " +
+                  "VALUES ?target {<"+targetURI+">} " +
+                  "{ ?cruise owl:sameAs ?target . } " +
+                  "UNION { ?target owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?match owl:sameAs ?cruise . } " +
+                  "UNION { ?target owl:sameAs ?match . ?cruise owl:sameAs ?match . } " +
+                  "UNION { ?cruise a gl:Cruise . FILTER (?cruise = ?target) } " +
+                "} } " +
+            "} " +
+            "FILTER (regex(str(?role), 'http://schema.geolink.org/1.0/base/main#','i')) " +
+            "OPTIONAL { ?person gl:hasIdentifier ?identifier . ?identifier gl:hasIdentifierValue ?id_value . " +
+              "OPTIONAL { ?identifier gl:hasIdentifierScheme ?id_scheme . } " +
+              "OPTIONAL { ?identifier gl:hasIdentifierResolveURI ?id_uri . } " +
+            "} " +
+            "OPTIONAL { ?person owl:sameAs ?match . ?match a gl:Person . } " +
+            "OPTIONAL { ?person gl:hasFullName ?person_full_name . } " +
+            "OPTIONAL { ?person gl:hasEmailAddress ?email_address . }" +
+          "}";
+          return this.getSPARQLRequestParams(query);
+        }
+    });
+  </script>
+</dom-module>
