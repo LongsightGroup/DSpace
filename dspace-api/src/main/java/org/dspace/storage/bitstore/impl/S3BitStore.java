@@ -52,7 +52,6 @@ public class S3BitStore implements BitStore
     private static Logger log = Logger.getLogger(S3BitStore.class);
     
     /** Checksum algorithm */
-    private static final String CSA_MD5 = "MD5";
     private static final String CSA_ETAG = "etag";
     
     /** container for all the assets */
