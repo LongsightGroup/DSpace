@@ -72,9 +72,16 @@ public class Bundle extends DSpaceObject
         String bitstreamOrderingField  = ConfigurationManager.getProperty("webui.bitstream.order.field");
         String bitstreamOrderingDirection   = ConfigurationManager.getProperty("webui.bitstream.order.direction");
 
-        if (bitstreamOrderingField == null)
-        {
-            bitstreamOrderingField = "sequence_id";
+        switch (bitstreamOrderingField) {
+            case "name":
+                bitstreamOrderingField = "text_value";
+                break;
+            case "bitstream_order":
+                bitstreamOrderingField = "bitstream_order";
+                break;
+            default:
+                bitstreamOrderingField = "sequence_id";
+
         }
 
         if (bitstreamOrderingDirection == null)
@@ -83,8 +90,12 @@ public class Bundle extends DSpaceObject
         }
 
         StringBuilder query = new StringBuilder();
-        query.append("SELECT bitstream.*,bundle2bitstream.bitstream_order FROM bitstream, bundle2bitstream WHERE");
+        query.append("SELECT bitstream.*,bundle2bitstream.bitstream_order FROM bitstream, bundle2bitstream, metadatavalue, metadatafieldregistry WHERE");
         query.append(" bundle2bitstream.bitstream_id=bitstream.bitstream_id AND");
+        query.append(" metadatavalue.resource_id = bitstream.bitstream_id AND");
+        query.append(" metadatafieldregistry.metadata_field_id = metadatavalue.metadata_field_id AND");
+        query.append(" metadatavalue.resource_type_id = 0 AND");
+        query.append(" metadatafieldregistry.element = 'title' AND");
         query.append(" bundle2bitstream.bundle_id= ?");
         query.append(" ORDER BY ");
         query.append(bitstreamOrderingField);
