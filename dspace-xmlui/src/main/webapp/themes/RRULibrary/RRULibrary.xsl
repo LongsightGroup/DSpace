@@ -342,7 +342,7 @@
 		
 		<div id="askLibrarianSection">
 			<div id="askLibrarianLink">
-				Need Help? <a href="http://library.royalroads.ca/ask-a-librarian">Ask a Librarian</a>
+				Need Help? <a href="http://libanswers.royalroads.ca/">Ask a Librarian</a>
 			</div>
 		</div>
 		
