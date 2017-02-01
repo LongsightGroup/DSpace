@@ -43,7 +43,7 @@
         <map:component-configurations>
             <global-variables>
                 <theme-path>rru-mirage2</theme-path>
-                <theme-name>Royal Roads University - Mirage 2</theme-name>
+                <theme-name>Royal Roads - Mirage 2</theme-name>
             </global-variables>
         </map:component-configurations>
 
