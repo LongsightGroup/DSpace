@@ -364,9 +364,7 @@
                         </div>
                         <div class="grid-31 prefix-5 region region-global-menu" id="region-global-menu">
                             <div class="region-inner region-global-menu-inner">
-                                <div class="responsive-icon">Main Menu
-                                    <i class="fa fa-bars" aria-hidden="true"></i>
-                                </div>
+                               
                                 <div class="responsive-collapse">
                                     <div class="block block-block global-menu contextual-links-region block-5 block-block-5 odd block-without-title"
                                          id="block-block-5">
@@ -1337,7 +1335,7 @@
                             <div class="block block-block backtotop contextual-links-region block-13 block-block-13 odd block-without-title" id="block-block-13">
                                 <div class="block-inner clearfix">
                                     <div class="content clearfix">
-                                        <a class="top">Back to top</a>
+                                        <a class="top" href="#page">Back to top</a>
                                         <!--Invisible link to HTML sitemap (for search engines) -->
                                         <a class="hidden">
                                             <xsl:attribute name="href">
