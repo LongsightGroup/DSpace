@@ -216,11 +216,7 @@
             <!--[if gte IE 9]><!-->
             <link type="text/css" rel="stylesheet" href="http://www.royalroads.ca/sites/default/files/css/css_LMrKI3f1AV6XMlpd3D31EB8h-62Eodwzpv8n_aNKRX0.css" media="all" />
             <!--<![endif]-->
-            <script type="text/javascript" src="http://www.royalroads.ca/sites/default/files/js/js_LcFRnnSHVah-Aw_WQ8aVLXhp3HPJvrOe4h6YEXA5BT8.js"></script>
-            <script type="text/javascript" src="http://www.royalroads.ca/sites/default/files/js/js_MJqDNeJKFjOcmm5wfJ1DED_LjudN1zy7oCo_GFKuw00.js"></script>
-            <script type="text/javascript" src="http://www.royalroads.ca/sites/default/files/js/js_4uUEHOkAiRuRC_w71hyZ-xHSplah1qppkd34eFzjPYY.js"></script>
-            <script type="text/javascript" src="http://www.royalroads.ca/sites/default/files/js/js_jn9eScCA0lSlsCapbkNLsxnjJTJHQFgBv8uMfMR9QGI.js"></script>
-            <script type="text/javascript" src="http://www.royalroads.ca/sites/default/files/js/js_kG7EH5BjzFaWg9dAIL0HOM3i6-Ogn4Aw608AkmQQABs.js"></script>
+
 
             <!-- Add syndication feeds -->
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']">
@@ -897,87 +893,10 @@
                                                         </li>
                                                     </ul>
                                                 </nav>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div><!--END Responsive div-->
-                            </div>
-                        </div>
-                        <div class="grid-2 region region-user-menu" id="region-user-menu">
-                            <div class="region-inner region-user-menu-inner">
-
-                                <!-- User Menu -->
-                                <div class="block block-block user-menu contextual-links-region block-6 block-block-6 odd block-without-title"
-                                     id="block-block-6">
-                                    <div class="block-inner clearfix">
-
-                                        <div class="content clearfix">
-                                            <div id="user-icon" class=""></div>
-                                            <div id="user-menu" style="display: none;">
-                                                <ul class="menu">
-                                                    <li id="moodle-list-item" class="first">
-                                                        <a href="http://moodle.royalroads.ca/" class=""
-                                                           title="Moodle Courses">Moodle
-                                                        </a>
-                                                    </li>
-                                                    <li id="myadmin-list-item" class="">
-                                                        <a href="https://myadmin.royalroads.ca/Pages/welcome.aspx"
-                                                           class="" title="MyAdmin">MyAdmin
-                                                        </a>
-                                                    </li>
-                                                    <li id="webmail-list-item" class="">
-                                                        <a href="http://webmail.royalroads.ca/" class="main-menu-link"
-                                                           title="Royal Roads Email">Webmail
-                                                        </a>
-                                                    </li>
-                                                    <li id="groups-list-item" class="">
-                                                        <a href="https://student.myrru.royalroads.ca/groups" class=""
-                                                           title="Commuity Groups">Groups
-                                                        </a>
-                                                    </li>
-                                                    <li id="groups-list-item" class="">
-                                                        <a href="http://www.royalroads.ca/bookaroom" class=""
-                                                           title="Book a room on campus">Book a room
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div><!--USER MENU-->
-                                        </div><!--CONTENT-->
-
-                                    </div><!--BLOCK INNER-->
-                                </div><!--BLOCK-->
-
-                            </div>
-                        </div>
-                        <div class="grid-2 region region-search" id="region-search">
-                            <div class="region-inner region-search-inner">
-
-                                <div class="block block-block header-search contextual-links-region block-7 block-block-7 odd block-without-title"
-                                     id="block-block-7">
-                                    <div class="block-inner clearfix">
-
-                                        <div class="content clearfix">
-                                            <div id="search" class="" title="Search Royal Roads University">
-                                                <a href="http://royalroads.ca/search" title="Search">Search</a>
-                                            </div>
-                                            <div id="searchbox" style="display: none;">
-                                                <form class="search-form-header search-google-appliance-search-form"
-                                                      action="http://royalroads.ca/#" method="post"
-                                                      id="google-appliance-search-form" accept-charset="UTF-8">
-                                                    <input type="hidden" name="form_id"
-                                                           value="google_appliance_search_form"/>
-                                                    <input title="Enter the terms you wish to search for." type="text"
-                                                           id="edit-search-keys" name="search_keys" value=""
-                                                           maxlength="128" class="search-form-text"/>
-                                                    <span class="search-btn">Search</span>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -992,158 +911,158 @@
                     </div>
                 </div>
             </header>
-        </div>
-
-        <header>
-            <div class="navbar navbar-default navbar-static-top" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
-
-                        <button type="button" class="navbar-toggle" data-toggle="offcanvas">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-
-                        <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/logo.png" />
-                        </a>
 
 
-                        <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
-                        <ul class="nav nav-pills pull-left ">
 
-                            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
-                                <li id="ds-language-selection-xs" class="dropdown">
-                                    <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
-                                    <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
-                                        <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
-                                        <xsl:for-each
-                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
-                                            <xsl:variable name="locale" select="."/>
-                                            <li role="presentation">
-                                                <xsl:if test="$locale = $active-locale">
-                                                    <xsl:attribute name="class">
-                                                        <xsl:text>disabled</xsl:text>
-                                                    </xsl:attribute>
-                                                </xsl:if>
-                                                <a>
-                                                    <xsl:attribute name="href">
-                                                        <xsl:value-of select="$current-uri"/>
-                                                        <xsl:text>?locale-attribute=</xsl:text>
-                                                        <xsl:value-of select="$locale"/>
-                                                    </xsl:attribute>
-                                                    <xsl:value-of
-                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
-                                                </a>
-                                            </li>
-                                        </xsl:for-each>
-                                    </ul>
-                                </li>
-                            </xsl:if>
+            <!-- DSpace User/Login/Locale -->
+            <header>
+                <div class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
 
-                            <xsl:choose>
-                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
-                                    <li class="dropdown">
-                                        <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
-                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right" role="menu"
-                                            aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='url']}">
-                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
-                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <li>
-                                        <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
-                                            <button class="navbar-toggle navbar-link">
-                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                            <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
+                                <ul class="nav nav-pills pull-left ">
+
+                                    <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
+                                        <li id="ds-language-selection-xs" class="dropdown">
+                                            <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
+                                            <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
+                                                <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
                                             </button>
-                                        </form>
-                                    </li>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </ul>
-                              </div>
-                    </div>
+                                            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
+                                                <xsl:for-each
+                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
+                                                    <xsl:variable name="locale" select="."/>
+                                                    <li role="presentation">
+                                                        <xsl:if test="$locale = $active-locale">
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>disabled</xsl:text>
+                                                            </xsl:attribute>
+                                                        </xsl:if>
+                                                        <a>
+                                                            <xsl:attribute name="href">
+                                                                <xsl:value-of select="$current-uri"/>
+                                                                <xsl:text>?locale-attribute=</xsl:text>
+                                                                <xsl:value-of select="$locale"/>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of
+                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
+                                                        </a>
+                                                    </li>
+                                                </xsl:for-each>
+                                            </ul>
+                                        </li>
+                                    </xsl:if>
 
-                    <div class="navbar-header pull-right hidden-xs">
-                        <ul class="nav navbar-nav pull-left">
-                              <xsl:call-template name="languageSelection"/>
-                        </ul>
-                        <ul class="nav navbar-nav pull-left">
-                            <xsl:choose>
-                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
-                                    <li class="dropdown">
-                                        <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
-                                           data-toggle="dropdown">
-                                            <span class="hidden-xs">
-                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
-                                                <xsl:text> </xsl:text>
-                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
-                                                &#160;
-                                                <b class="caret"/>
-                                            </span>
-                                        </a>
-                                        <ul class="dropdown-menu pull-right" role="menu"
-                                            aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                                    <xsl:choose>
+                                        <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                            <li class="dropdown">
+                                                <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
+                                                    <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right" role="menu"
+                                                    aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
+                                                    <li>
+                                                        <a href="{/dri:document/dri:meta/dri:userMeta/
                             dri:metadata[@element='identifier' and @qualifier='url']}">
-                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                                                            <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{/dri:document/dri:meta/dri:userMeta/
                             dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
-                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
-                                                </a>
+                                                            <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </li>
-                                        </ul>
-                                    </li>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <li>
-                                        <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
-                                            <span class="hidden-xs">
-                                                <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </ul>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <li>
+                                                <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
+                                                    <button class="navbar-toggle navbar-link">
+                                                        <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </ul>
+                            </div>
+                        </div>
 
-                        <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+                        <div class="navbar-header pull-right hidden-xs">
+                            <ul class="nav navbar-nav pull-left">
+                                <xsl:call-template name="languageSelection"/>
+                            </ul>
+                            <ul class="nav navbar-nav pull-left">
+                                <xsl:choose>
+                                    <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                        <li class="dropdown">
+                                            <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
+                                               data-toggle="dropdown">
+                                                <span class="hidden-xs">
+                                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
+                                                    <xsl:text> </xsl:text>
+                                                    <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
+                                                    &#160;
+                                                    <b class="caret"/>
+                                                </span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right" role="menu"
+                                                aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
+                                                <li>
+                                                    <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                        <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                        <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <li>
+                                            <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
+                                                <span class="hidden-xs">
+                                                    <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </ul>
+
+                            <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </header>
+            </header>
+        </div>
+
+
 
     </xsl:template>
 
@@ -1315,41 +1234,127 @@
 
     <!-- Like the header, the footer contains various miscellaneous text, links, and image placeholders -->
     <xsl:template name="buildFooter">
-        <footer>
-            <div class="container-fluid">
-                <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2015&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
-                </div>
-                <div class="row">
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/contact</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                    </a>
-                    <xsl:text> | </xsl:text>
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/feedback</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                    </a>
+        <footer id="section-footer" class="section section-footer">
+            <div id="zone-footer-wrapper-dropshadow" class="zone-wrapper zone-footer-wrapper-dropshadow clearfix">
+                <div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">
+                    <div id="zone-footer" class="zone zone-footer clearfix container-40">
+                        <div class="grid-8 region region-footer-first" id="region-footer-first">
+                            <div class="region-inner region-footer-first-inner">
+
+                                <div class="block block-block footer-logo contextual-links-region block-8 block-block-8 odd block-without-title" id="block-block-8">
+                                    <div class="block-inner clearfix">
+                                        <div class="content clearfix">
+                                            <a class="logo" href="http://www.royalroads.ca/">
+                                                <img src="{$theme-path}/images/footer-logo.png" width="90" height="65" alt="Royal Roads University" title="Royal Roads University"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div><div class="grid-7 suffix-2 region region-footer-second" id="region-footer-second">
+                        <div class="region-inner region-footer-second-inner">
+                            <section class="block block-block footer-address contextual-links-region block-9 block-block-9 odd" id="block-block-9">
+                                <div class="block-inner clearfix">
+                                    <h2 class="block-title">Our Location</h2>
+                                    <div class="content clearfix">
+                                        <address>2005 Sooke Road <br/>Victoria, BC V9B 5Y2<br/>Canada</address>
+                                        <ul class="menu">
+                                            <li><a href="http://www.royalroads.ca/about/campus-map"><i class="fa fa-map-marker"></i>&#160;&#160;Campus Map</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div><div class="grid-7 suffix-2 region region-footer-third" id="region-footer-third">
+                        <div class="region-inner region-footer-third-inner">
+                            <section class="block block-block footer-address contextual-links-region block-10 block-block-10 odd" id="block-block-10">
+                                <div class="block-inner clearfix">
+                                    <h2 class="block-title">Get in Touch</h2>
+
+                                    <div class="content clearfix">
+                                        <ul class="menu">
+                                            <li><i class="fa fa-phone"></i>&#160;&#160;Phone: <a href="tel:2503912511">250.391.2511</a></li>
+                                            <li><i class="fa fa-phone"></i>&#160;&#160;Toll-free: <a href="tel:18007888028">1.800.788.8028</a></li>
+                                            <li><a title="Contact Us by email" href="http://www.royalroads.ca/contact"><i class="fa fa-envelope"></i>&#160;&#160;Email Us</a></li>
+                                            <li><a href="http://www.royalroads.ca/about/community-directory" title="See our full faculty and staff directories"><i class="fa fa-book"></i>&#160;&#160;Directories</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div><div class="grid-7 region region-footer-fourth" id="region-footer-fourth">
+                        <div class="region-inner region-footer-fourth-inner">
+                            <div class="block block-block footer-social contextual-links-region block-11 block-block-11 odd block-without-title" id="block-block-11">
+                                <div class="block-inner clearfix">
+
+                                    <div class="content clearfix">
+                                        <a title="Royal Roads on Twitter" href="http://twitter.com/#!/royalroads" class="twitter" target="_blank"><span>@RoyalRoads</span></a>
+                                        <a title="Royal Roads on Facebook" href="http://www.facebook.com/royalroadsu" class="facebook" target="_blank"><span>RRU Facebook</span></a>
+                                        <a title="Royal Roads on LinkedIn" href="http://www.linkedin.com/edu/royal-roads-university-10800" class="linkedin" target="_blank"><span>RRU LinkedIn</span></a>
+                                        <a title="Royal Roads on YouTube" href="http://www.youtube.com/user/RoyalRoadsUni" class="youtube" target="_blank"><span>RRU YouTube</span></a>
+                                        <a title="Royal Roads on Pinterest" href="http://pinterest.com/RoyalRoads/" class="pinterest" target="_blank"><span>RRU Pinterest</span></a>    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="block block-block footer-copyright contextual-links-region block-12 block-block-12 even block-without-title" id="block-block-12">
+                                <div class="block-inner clearfix">
+                                    <div class="content clearfix">
+                                        <ul class="menu">
+                                            <li><a>
+                                                    <xsl:attribute name="href">
+                                                        <xsl:value-of
+                                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                        <xsl:text>/contact</xsl:text>
+                                                    </xsl:attribute>
+                                                    <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                                                </a></li>
+                                            <li><a>
+                                                    <xsl:attribute name="href">
+                                                        <xsl:value-of
+                                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                        <xsl:text>/feedback</xsl:text>
+                                                    </xsl:attribute>
+                                                    <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                                            </a></li>
+                                            <li><a href="http://www.royalroads.ca/contact/website-feedback">Website Feedback</a></li>
+                                            <li><a href="http://policies.royalroads.ca/policies/privacy-policy">Privacy Policy</a></li>
+                                            <li><a href="http://policies.royalroads.ca/academic-regulations">Academic Regulations</a></li>
+                                            <li><a href="http://www.royalroads.ca/about/copyright">Copyright</a></li>
+                                            <li><a href="http://royalroads.ca/sitemap">Sitemap</a></li>
+                                            <li>©2017 Royal Roads University</li></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="grid-7 region region-footer-fifth" id="region-footer-fifth">
+                        <div class="region-inner region-footer-fifth-inner">
+                            <div class="block block-block backtotop contextual-links-region block-13 block-block-13 odd block-without-title" id="block-block-13">
+                                <div class="block-inner clearfix">
+                                    <div class="content clearfix">
+                                        <a class="top">Back to top</a>
+                                        <!--Invisible link to HTML sitemap (for search engines) -->
+                                        <a class="hidden">
+                                            <xsl:attribute name="href">
+                                                <xsl:value-of
+                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                <xsl:text>/htmlmap</xsl:text>
+                                            </xsl:attribute>
+                                            <xsl:text>&#160;</xsl:text>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <!--Invisible link to HTML sitemap (for search engines) -->
-            <a class="hidden">
-                <xsl:attribute name="href">
-                    <xsl:value-of
-                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                    <xsl:text>/htmlmap</xsl:text>
-                </xsl:attribute>
-                <xsl:text>&#160;</xsl:text>
-            </a>
-            <p>&#160;</p>
         </footer>
     </xsl:template>
 

@@ -13,17 +13,14 @@ header .navbar-brand img {
     margin-top: -6px;
 }
 
-.navbar {
-    min-height: 77px;
-}
-
 /* Override classic-mirage-style */
 header .navbar-default {
-    background-color: #1f3f5e;
+    background: none;
 }
 
 .trail-wrapper {
-    background-color: #aab8c6;
+    background-color: #444757;
+    border-bottom: 1px solid #444757;
 }
 .trail-wrapper .breadcrumb > li + li:before {
     color: #eaf1f7;
@@ -32,10 +29,14 @@ header .navbar-default {
     color: #eee;
 }
 .trail-wrapper .sidebar-toggle .icon-bar {
-    background-color: #607890;
+    background-color: #444757;
 }
 .trail-wrapper .sidebar-toggle:hover, .trail-wrapper .sidebar-toggle:focus {
-    background-color: #607890;
+    background-color: #444757;
+}
+
+.trail-wrapper a:link, .trail-wrapper a:visited {
+    color: #eaf1f7;
 }
 
 @media (max-width: 767px) {
@@ -165,4 +166,18 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 footer {
     background-color: #083158;
     color: #3a658e;
+}
+
+@media (min-width: 700px) {
+    #main-menu ul.menu li.main-menu a.main-menu-link {
+        display: block;
+        float: left;
+        width: 112px;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-family: 'Auto1 SmCp';
+        font-weight: bold;
+        font-size: 13px;
+        color: #FFF;
+    }
 }
