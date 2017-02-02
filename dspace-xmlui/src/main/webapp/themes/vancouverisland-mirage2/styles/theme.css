@@ -205,3 +205,7 @@ footer {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+#container {
+    min-height: initial;
+}
