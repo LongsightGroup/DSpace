@@ -19,14 +19,14 @@ header .navbar-brand img {
 
 /* Override classic-mirage-style */
 header .navbar-default {
-    background-color: #1f3f5e;
+    background: none;
 }
 
 .trail-wrapper {
     background-color: #aab8c6;
 }
 .trail-wrapper .breadcrumb > li + li:before {
-    color: #eaf1f7;
+    color: #00415d;
 }
 .trail-wrapper .breadcrumb > .active {
     color: #eee;
@@ -43,6 +43,30 @@ header .navbar-default {
         background-color: #607890;
         border: 1px solid #607890;
     }
+}
+
+@media screen and (max-width: 767px) {
+    .row-offcanvas-right.active .col-xs-6.col-sm-3.sidebar-offcanvas {
+        margin-right: 0px;
+    }
+}
+
+header .navbar-default .navbar-toggle > li > a,
+header .navbar-default .navbar-nav > li > a,
+header .navbar-default .navbar-toggle, header .navbar-default .navbar-nav,
+header .navbar-default .navbar-toggle .icon-bar,
+header .navbar-default .navbar-nav .icon-bar
+{
+    color: #00415d;
+}
+
+header .navbar-default .navbar-toggle .icon-bar, header .navbar-default .navbar-nav .icon-bar {
+    background-color: #00415d;
+}
+
+header .navbar-default .navbar-toggle:hover, header .navbar-default .navbar-toggle:focus, header .navbar-default .navbar-nav:hover, header .navbar-default .navbar-nav:focus {
+    color: white;
+    background-color: #ddd;
 }
 
 /* Submission form progress buttons */
@@ -163,6 +187,21 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 
 footer {
-    background-color: #083158;
-    color: #3a658e;
+    background-color: #2d3032;
+    padding: 25px 0 50px 0;
+    height: auto;
+    color: #e8e2d8;
+    font-size: 10px;
+    line-height: 13px;
+}
+
+#footer-toggle .arrow {
+    position: static;
+}
+
+#main-menu .container, .container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }

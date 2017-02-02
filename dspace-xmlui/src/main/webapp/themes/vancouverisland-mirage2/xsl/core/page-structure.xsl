@@ -194,9 +194,6 @@
             <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/vendor/BookReader/BookReader.css')}"/>
             <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/snazy.css')}"/>
 
-            <!-- Local css -->
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
-
             <!-- VIU CSS -->
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_VQMdKuzMH0e2OM_kBeHZiwFTlpBbiD0sOJ_3q9TgeOg.css" media="all"/>
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_JFORYGrrCKN63qbcAkrQNwGWZ64d1VMkxdm47C9SJlY.css" media="all"/>
@@ -210,6 +207,11 @@
             <link type="text/css" rel="stylesheet" href="https://www.viu.ca/sites/default/files/css/css_GSpEzCB3Ld0DrZ2ZZEeoeS90LFMHgy5EsOdl-IfLFnw.css" media="all" />
             <![endif]-->
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_txQ27OAjDuZQlb1RsKW2zYfnT9dZqaWs-h3WS5UJbzU.css" media="all"/>
+
+            <!-- Local css -->
+            <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
+
+
 
 
             <!-- Add syndication feeds -->
@@ -386,13 +388,6 @@
                                                             </ul>
                                                         </li>
                                                         <li><a href="https://www.viu.ca/contact">Contact Us</a></li>
-                                                        <li class="has-dropdown not-click">
-                                                            <a href="https://www.viu.ca/#" style="color: #ffffff;">Login</a>
-                                                            <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li><li><a class="parent-link js-generated" href="https://www.viu.ca/#">Login</a></li><li class="title back js-generated"><h5><a href="https://www.viu.ca/#">« Back</a></h5></li>
-                                                                <li><a href="http://learn.viu.ca/">VIULearn</a></li>
-                                                                <li><a href="https://students.viu.ca/SRS/mystudentrecord.htm">Student Record</a></li>
-                                                            </ul>
-                                                        </li>
                                                     </ul>
                                                 </section></nav>
 
@@ -401,26 +396,152 @@
                                 </div>
 
                                 <nav class="top-nav" role="navigation">
-                                    <div class="nav">
+                                    <header>
+                                        <div class="navbar navbar-default navbar-static-top" role="navigation">
+                                            <div class="">
+                                                <div class="navbar-header">
 
-                                        <a href="https://www.viu.ca/" class="logo hide-for-medium-down" title="VIU Home">Vancouver Island University</a>
+                                                    <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                                                        <span class="sr-only">Toggle navigation</span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                    </button>
 
-                                        <div class="search">
 
-                                            <!-- -->
+                                                    <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
+                                                        <ul class="nav nav-pills pull-left ">
 
-                                            <form action="https://www.viu.ca/search/" method="get">
+                                                            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
+                                                                <li id="ds-language-selection-xs" class="dropdown">
+                                                                    <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
+                                                                    <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
+                                                                        <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
+                                                                        <xsl:for-each
+                                                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
+                                                                            <xsl:variable name="locale" select="."/>
+                                                                            <li role="presentation">
+                                                                                <xsl:if test="$locale = $active-locale">
+                                                                                    <xsl:attribute name="class">
+                                                                                        <xsl:text>disabled</xsl:text>
+                                                                                    </xsl:attribute>
+                                                                                </xsl:if>
+                                                                                <a>
+                                                                                    <xsl:attribute name="href">
+                                                                                        <xsl:value-of select="$current-uri"/>
+                                                                                        <xsl:text>?locale-attribute=</xsl:text>
+                                                                                        <xsl:value-of select="$locale"/>
+                                                                                    </xsl:attribute>
+                                                                                    <xsl:value-of
+                                                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
+                                                                                </a>
+                                                                            </li>
+                                                                        </xsl:for-each>
+                                                                    </ul>
+                                                                </li>
+                                                            </xsl:if>
 
-                                                <a href="https://www.viu.ca/search/"><label for="site_search" title="Search">Search</label></a>
-                                                <input id="site_search" name="_q" type="search" maxlength="255" tabindex="1" value=""/>
+                                                            <xsl:choose>
+                                                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                                                    <li class="dropdown">
+                                                                        <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
+                                                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu pull-right" role="menu"
+                                                                            aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
+                                                                            <li>
+                                                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </xsl:when>
+                                                                <xsl:otherwise>
+                                                                    <li>
+                                                                        <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
+                                                                            <button class="navbar-toggle navbar-link">
+                                                                                <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
+                                                                            </button>
+                                                                        </form>
+                                                                    </li>
+                                                                </xsl:otherwise>
+                                                            </xsl:choose>
+                                                        </ul>
+                                                    </div>
+                                                </div>
 
-                                            </form>
+                                                <div class="navbar-header pull-right hidden-xs">
+                                                    <ul class="nav navbar-nav pull-left">
+                                                        <xsl:call-template name="languageSelection"/>
+                                                    </ul>
+                                                    <ul class="nav navbar-nav pull-left">
+                                                        <xsl:choose>
+                                                            <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
+                                                                <li class="dropdown">
+                                                                    <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
+                                                                       data-toggle="dropdown">
+                                                                        <span class="hidden-xs">
+                                                                            <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
+                                                                            <xsl:text> </xsl:text>
+                                                                            <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
+                                                                            &#160;
+                                                                            <b class="caret"/>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu pull-right" role="menu"
+                                                                        aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
+                                                                        <li>
+                                                                            <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='url']}">
+                                                                                <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
+                                                                                <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                <li>
+                                                                    <a href="{/dri:document/dri:meta/dri:userMeta/
+                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
+                                                                        <span class="hidden-xs">
+                                                                            <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </ul>
 
+                                                    <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
+                                                        <span class="sr-only">Toggle navigation</span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <!-- NOTE: optional breadcrumbs -->
-
-                                    </div><!-- .nav -->
+                                    </header>
                                 </nav>
 
                             </header>
@@ -431,156 +552,7 @@
         </div>
 
 
-        <header>
-            <div class="navbar navbar-default navbar-static-top" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
 
-                        <button type="button" class="navbar-toggle" data-toggle="offcanvas">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-
-                        <a href="{$context-path}/" class="navbar-brand">
-                            <img src="{$theme-path}/images/logo.png" />
-                        </a>
-
-
-                        <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
-                        <ul class="nav nav-pills pull-left ">
-
-                            <xsl:if test="count(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']) &gt; 1">
-                                <li id="ds-language-selection-xs" class="dropdown">
-                                    <xsl:variable name="active-locale" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='currentLocale']"/>
-                                    <button id="language-dropdown-toggle-xs" href="#" role="button" class="dropdown-toggle navbar-toggle navbar-link" data-toggle="dropdown">
-                                        <b class="visible-xs glyphicon glyphicon-globe" aria-hidden="true"/>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="language-dropdown-toggle-xs" data-no-collapse="true">
-                                        <xsl:for-each
-                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page'][@qualifier='supportedLocale']">
-                                            <xsl:variable name="locale" select="."/>
-                                            <li role="presentation">
-                                                <xsl:if test="$locale = $active-locale">
-                                                    <xsl:attribute name="class">
-                                                        <xsl:text>disabled</xsl:text>
-                                                    </xsl:attribute>
-                                                </xsl:if>
-                                                <a>
-                                                    <xsl:attribute name="href">
-                                                        <xsl:value-of select="$current-uri"/>
-                                                        <xsl:text>?locale-attribute=</xsl:text>
-                                                        <xsl:value-of select="$locale"/>
-                                                    </xsl:attribute>
-                                                    <xsl:value-of
-                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='supportedLocale'][@qualifier=$locale]"/>
-                                                </a>
-                                            </li>
-                                        </xsl:for-each>
-                                    </ul>
-                                </li>
-                            </xsl:if>
-
-                            <xsl:choose>
-                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
-                                    <li class="dropdown">
-                                        <button class="dropdown-toggle navbar-toggle navbar-link" id="user-dropdown-toggle-xs" href="#" role="button"  data-toggle="dropdown">
-                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right" role="menu"
-                                            aria-labelledby="user-dropdown-toggle-xs" data-no-collapse="true">
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='url']}">
-                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
-                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <li>
-                                        <form style="display: inline" action="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='loginURL']}" method="get">
-                                            <button class="navbar-toggle navbar-link">
-                                            <b class="visible-xs glyphicon glyphicon-user" aria-hidden="true"/>
-                                            </button>
-                                        </form>
-                                    </li>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </ul>
-                              </div>
-                    </div>
-
-                    <div class="navbar-header pull-right hidden-xs">
-                        <ul class="nav navbar-nav pull-left">
-                              <xsl:call-template name="languageSelection"/>
-                        </ul>
-                        <ul class="nav navbar-nav pull-left">
-                            <xsl:choose>
-                                <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
-                                    <li class="dropdown">
-                                        <a id="user-dropdown-toggle" href="#" role="button" class="dropdown-toggle"
-                                           data-toggle="dropdown">
-                                            <span class="hidden-xs">
-                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='firstName']"/>
-                                                <xsl:text> </xsl:text>
-                                                <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='lastName']"/>
-                                                &#160;
-                                                <b class="caret"/>
-                                            </span>
-                                        </a>
-                                        <ul class="dropdown-menu pull-right" role="menu"
-                                            aria-labelledby="user-dropdown-toggle" data-no-collapse="true">
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='url']}">
-                                                    <i18n:text>xmlui.EPerson.Navigation.profile</i18n:text>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='logoutURL']}">
-                                                    <i18n:text>xmlui.dri2xhtml.structural.logout</i18n:text>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <li>
-                                        <a href="{/dri:document/dri:meta/dri:userMeta/
-                            dri:metadata[@element='identifier' and @qualifier='loginURL']}">
-                                            <span class="hidden-xs">
-                                                <i18n:text>xmlui.dri2xhtml.structural.login</i18n:text>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </ul>
-
-                        <button data-toggle="offcanvas" class="navbar-toggle visible-sm" type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </header>
 
     </xsl:template>
 
@@ -752,42 +724,316 @@
 
     <!-- Like the header, the footer contains various miscellaneous text, links, and image placeholders -->
     <xsl:template name="buildFooter">
-        <footer>
-            <div class="container-fluid">
-                <div class="row">
-                    <a href="http://www.dspace.org/" target="_blank">DSpace software</a> Copyright&#160;&#169;&#160;2015&#160; <a href="http://www.duraspace.org/" target="_blank">Duraspace</a>
-                </div>
-                <div class="row">
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/contact</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                    </a>
-                    <xsl:text> | </xsl:text>
-                    <a>
-                        <xsl:attribute name="href">
-                            <xsl:value-of
-                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                            <xsl:text>/feedback</xsl:text>
-                        </xsl:attribute>
-                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                    </a>
-                </div>
+        <div id="footer" class="footer">
+            <div id="footer-toggle">
+                <span class="arrow arrow-up"></span>
             </div>
-            <!--Invisible link to HTML sitemap (for search engines) -->
-            <a class="hidden">
-                <xsl:attribute name="href">
-                    <xsl:value-of
-                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                    <xsl:text>/htmlmap</xsl:text>
-                </xsl:attribute>
-                <xsl:text>&#160;</xsl:text>
-            </a>
-            <p>&#160;</p>
-        </footer>
+            <footer>
+                <div id="footer-menu-ext" style="display: none;">
+                    <div class="l-region l-region--g-footer-ext">
+                        <div class="panel-pane pane-panels-mini pane-global-footer-links-extra">
+                            <div class="pane-content">
+
+                                <div class="panel-display sixpack clearfix viu-sixpack" id="mini-panel-global_footer_links_extra">
+
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-162 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Social Media</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.facebook.com/LoveWhereYouLearn">Facebook</a></li>
+                                                                <li><a href="http://instagram.com/viuniversity">Instagram</a></li>
+                                                                <li><a href="http://www.linkedin.com/companies/vancouver-island-university">LinkedIn</a></li>
+                                                                <li><a href="http://www.viu.ca/rss/">RSS</a></li>
+                                                                <li><a href="http://twitter.com/VIUniversity">Twitter</a></li>
+                                                                <li class="last"><a href="http://www.youtube.com/user/viuchannel">YouTube</a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-164 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Campus Services</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viubookstore.ca/">Bookstore</a></li>
+                                                                <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
+                                                                <li><a href="http://www.viu.ca/discoveryroom/">Discovery Room Restaurant</a></li>
+                                                                <li><a href="http://www.viu.ca/directory">Employee Directory</a></li>
+                                                                <li><a href="http://www.viu.ca/directory?select=expertise">Find VIU Experts</a></li>
+                                                                <li><a href="http://www.viu.ca/eventservices/">Event Services</a></li>
+                                                                <li><a href="http://www.viu.ca/catering/">Campus Caterers</a></li>
+                                                                <li><a href="http://www.viu.ca/parking/">Parking and Security</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/about/services.asp">Service Departments</a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-163 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Public Engagement</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/giving/">Advancement and Alumni</a></li>
+                                                                <li><a href="http://www.viu.ca/universityrelations/contact_comm.aspx">Communications and Public Engagement</a></li>
+                                                                <li><a href="http://www.viu.ca/governmentrelations/">Government Relations</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-132 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Faculties</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/cap/">Academic &amp; Career Preparation</a></li>
+                                                                <li><a href="http://www.viu.ca/artsandhumanities/">Arts &amp; Humanities</a></li>
+                                                                <li><a href="http://www.viu.ca/education/">Education</a></li>
+                                                                <li><a href="http://www.viu.ca/hhs/">Health &amp; Human Services</a></li>
+                                                                <li><a href="http://www.viu.ca/international/">International Programs</a></li>
+                                                                <li><a href="http://www.viu.ca/scienceandtechnology/">Science &amp; Technology</a></li>
+                                                                <li><a href="http://www.viu.ca/socialsciences/">Social Sciences</a></li>
+                                                                <li><a href="http://www.viu.ca/management/">Management</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/tat/">Trades &amp; Applied Technology</a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-128 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Organizational Structure</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/gap/">Governance, Administration, &amp; Planning</a></li>
+                                                                <li><a href="http://www.viu.ca/calendar/instructional.asp">Instructional Departments</a></li>
+                                                                <li><a href="http://www.viu.ca/pvpa/">Provost, and VP Academic</a></li>
+                                                                <li><a href="http://www.viu.ca/policies/">Policies &amp; Procedures</a></li>
+                                                                <li><a href="http://www.viu.ca/president/">President's Office</a></li>
+                                                                <li><a href="http://www.viu.ca/universityrelations/">University Relations</a></li>
+                                                                <li><a href="http://www.viu.ca/vpadmin/">VP Admin and Finance</a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/president/docs/InstitutionalGovernanceJanuary2013.pdf">VIU Organization Chart </a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-panel large-2 small-4 columns">
+                                                <div class="panel-panel-inner">
+                                                    <div class="panel-pane pane-fieldable-panels-pane pane-fpid-165 pane-bundle-quick-links">
+                                                        <div class="pane-content">
+                                                            <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                                <h5>Publications</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/integratedplanning/RegionalStrategy.asp">Regional Strategy Plan</a></li>
+                                                                <li><a href="http://www.viu.ca/impact/">VIU Impact Report</a></li>
+                                                                <li><a href="http://www.viu.ca/docs/VIU-Report-to-the-Community.pdf">VIU Report to the Community </a></li>
+                                                                <li class="last"><a href="http://www.viu.ca/docs/VIU-AddingValue.pdf">Adding Value to Your Community</a></li>
+                                                            </ul></div></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div><!-- /.sixpack -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer-menu">
+                    <div class="l-region l-region--g-footer">
+
+                        <nav class="footer-links">
+                            <div class="panel-display sixpack clearfix viu-sixpack" id="mini-panel-global_footer_links">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+
+                                                <h5>Contact Info</h5>
+
+                                                <div class="field field-name-field-basic-text-text"><div class="specific-contact">
+                                                    <p>Vancouver Island University<br/>
+                                                        Nanaimo Campus<br/>900 Fifth Street<br/>
+                                                        Nanaimo, BC<br/>Canada V9R 5S5<br/>
+                                                        Toll-free 1.888.920.2221<br/>
+                                                        Switchboard&#160;250.753.3245<br/>
+                                                        Email&#160;<a href="mailto:info@viu.ca">info@viu.ca</a>
+                                                    </p>
+
+                                                    <a>
+                                                        <xsl:attribute name="href">
+                                                            <xsl:value-of
+                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                            <xsl:text>/contact</xsl:text>
+                                                        </xsl:attribute>
+                                                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                                                    </a><br/>
+                                                    <a>
+                                                        <xsl:attribute name="href">
+                                                            <xsl:value-of
+                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                            <xsl:text>/feedback</xsl:text>
+                                                        </xsl:attribute>
+                                                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                                                    </a>
+
+                                                    <!--Invisible link to HTML sitemap (for search engines) -->
+                                                    <a class="hidden">
+                                                        <xsl:attribute name="href">
+                                                            <xsl:value-of
+                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                            <xsl:text>/htmlmap</xsl:text>
+                                                        </xsl:attribute>
+                                                        <xsl:text>&#160;</xsl:text>
+                                                    </a>
+                                                </div>
+                                                    <div class="general-contact">
+                                                        Copyright ©<br/>Vancouver Island University
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-159 pane-bundle-quick-links">
+                                                    <div class="pane-content">
+                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                            <h5>About VIU</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/administration/">Administration</a></li>
+                                                            <li><a href="http://www.viu.ca/giving/">Advancement</a></li>
+                                                            <li><a href="http://www.viu.ca/alumni/">Alumni Association</a></li>
+                                                            <li><a href="http://cc.viu.ca/">Cowichan Campus</a></li>
+                                                            <li><a href="http://www.viu.ca/parksville/">Parksville-Qualicum Centre</a></li>
+                                                            <li><a href="http://pr.viu.ca/">Powell River Campus</a></li>
+                                                            <li><a href="http://www.viu.ca/gap/">Governance</a></li>
+                                                            <li><a href="http://www.viu.ca/integratedplanning/">Integrated Planning</a></li>
+                                                            <li><a href="http://www.viu.ca/HumanResources/postings/">Employment</a></li>
+                                                            <li><a href="http://www.viu.ca/mission/">Mission</a></li>
+                                                            <li class="last"><a href="http://www.viu.ca/retrospective/">History</a></li>
+                                                        </ul></div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-129 pane-bundle-quick-links">
+                                                    <div class="pane-content">
+                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                            <h5>ACADEMICS</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/calendar/GeneralInformation/admissions.asp">Admissions</a></li>
+                                                            <li><a href="http://www.viu.ca/calendar/GeneralInformation/registration.asp">Registration</a></li>
+                                                            <li><a href="http://www.viu.ca/calendar/">Programs and Courses</a></li>
+                                                            <li><a href="http://www.viu.ca/dualcredit/">Dual Credit</a></li>
+                                                            <li><a href="http://www.viu.ca/financialaid/">Financial Aid and Awards</a></li>
+                                                            <li><a href="http://www.viu.ca/calendar/credential/mastersdegrees.asp">Graduate Programs</a></li>
+                                                            <li><a href="http://www.viu.ca/international/">International Education</a></li>
+                                                            <li><a href="http://www.viu.ca/library/">Library</a></li>
+                                                            <li class="last"><a href="http://www.viu.ca/ciel/">Online Education</a></li>
+                                                        </ul></div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-131 pane-bundle-quick-links">
+                                                    <div class="pane-content">
+                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                            <h5>ATHLETICS</h5><div class="item-list-links"><ul><li class="first"><a href="http://mariners.viu.ca/">VIU Mariners</a></li>
+                                                            <li><a href="http://mariners.viu.ca/teams/">Mariners Teams</a></li>
+                                                            <li><a href="http://www.viu.ca/campusrec/">Campus Recreation</a></li>
+                                                            <li class="last"><a href="http://mariners.viu.ca/community/summer-camps/">Summer Camps</a></li>
+                                                        </ul></div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-133 pane-bundle-quick-links">
+                                                    <div class="pane-content">
+                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                            <h5>CAMPUS LIFE</h5><div class="item-list-links"><ul><li class="first"><a href="https://campus-store.viu.ca/">Campus Store</a></li>
+                                                            <li><a href="http://www.viu.ca/counselling/">Counseling</a></li>
+                                                            <li><a href="http://www.viu.ca/disabilityservices/">Disability Services</a></li>
+                                                            <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
+                                                            <li><a href="http://www.viu.ca/health/">Health and Wellness</a></li>
+                                                            <li><a href="http://viuresidences.ca/">Housing</a></li>
+                                                            <li><a href="http://u.viu.ca/">Join One</a></li>
+                                                            <li><a href="http://www.viu.ca/sas/">Services for Aboriginal Students</a></li>
+                                                            <li><a href="http://www.viu.ca/sustainability/">Sustainability</a></li>
+                                                            <li><a href="http://www.viu.ca/parking/">Parking</a></li>
+                                                            <li class="last"><a href="http://www.viu.ca/events/">Events</a></li>
+                                                        </ul></div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-panel large-2 small-4 columns">
+                                            <div class="panel-panel-inner">
+                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-160 pane-bundle-quick-links">
+                                                    <div class="pane-content">
+                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
+
+
+                                                            <h5>Extension and Outreach</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/pdt/customizedtraining.asp">Contract Training</a></li>
+                                                            <li><a href="http://www.viu.ca/pdt/courses-and-programs/index.asp">Professional Development and Training Courses</a></li>
+                                                            <li><a href="http://www.viu.ca/summersession/">Summer Session</a></li>
+                                                            <li><a href="http://www.viu.ca/eldercollege/">ElderCollege</a></li>
+                                                            <li><a href="http://www.viu.ca/grandkids/">GrandKids University</a></li>
+                                                            <li class="last"><a href="http://www.viu.ca/summercamps/">Youth Summer Camps</a></li>
+                                                        </ul></div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!-- /.sixpack -->
+                        </nav>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </xsl:template>
 
 
