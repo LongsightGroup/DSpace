@@ -524,7 +524,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="pull-left">
-                        <a id="ctl00_TranslationHyperLink2" href="http://www.unibz.it/en/organisation/organisation/privacy/default.html">Privacy</a>
+                        <a id="ctl00_TranslationHyperLink2" href="https://www.unibz.it/en/legal/privacy/">Privacy</a>
                         <xsl:text> | </xsl:text>
                         <a>
                             <xsl:attribute name="href">
