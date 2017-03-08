@@ -69,6 +69,11 @@
 
                 <!-- Then proceed to the body -->
                 <body>
+                    <!-- Google Tag Manager (noscript) -->
+                    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3RLFZT"
+                                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+                    <!-- End Google Tag Manager (noscript) -->
+
                     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
                    chromium.org/developers/how-tos/chrome-frame-getting-started -->
                     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -157,6 +162,14 @@
                     </xsl:if>
                 </xsl:attribute>
             </meta>
+
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-W3RLFZT');</script>
+            <!-- End Google Tag Manager -->
 
             <meta name="google-site-verification" content="_8lGgszblVib534mdb42OsfLdfdyDfjt1AWsyw_NTX8" />
 
