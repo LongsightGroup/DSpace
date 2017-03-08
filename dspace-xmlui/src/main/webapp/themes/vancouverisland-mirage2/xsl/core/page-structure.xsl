@@ -166,6 +166,11 @@
 
             <!-- Add stylsheets -->
 
+            <!-- VIU CSS -->
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_VQMdKuzMH0e2OM_kBeHZiwFTlpBbiD0sOJ_3q9TgeOg.css" media="all"/>
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_JFORYGrrCKN63qbcAkrQNwGWZ64d1VMkxdm47C9SJlY.css" media="all"/>
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_Z6wtNAupfmSGOq3AcNtWGPbqBAwuNuE1Io48n0_2Ojc.css" media="all"/>
+
             <!--TODO figure out a way to include these in the concat & minify-->
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='stylesheet']">
                 <link rel="stylesheet" type="text/css">
@@ -194,10 +199,7 @@
             <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/vendor/BookReader/BookReader.css')}"/>
             <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/snazy.css')}"/>
 
-            <!-- VIU CSS -->
-            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_VQMdKuzMH0e2OM_kBeHZiwFTlpBbiD0sOJ_3q9TgeOg.css" media="all"/>
-            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_JFORYGrrCKN63qbcAkrQNwGWZ64d1VMkxdm47C9SJlY.css" media="all"/>
-            <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_Z6wtNAupfmSGOq3AcNtWGPbqBAwuNuE1Io48n0_2Ojc.css" media="all"/>
+
 
             <!--[if lte IE 8]>
             <link type="text/css" rel="stylesheet" href="https://www.viu.ca/profiles/viu/modules/panopoly/panopoly_core/css/panopoly-fonts-ie-open-sans.css?oknxd8" media="all" />
@@ -207,6 +209,19 @@
             <link type="text/css" rel="stylesheet" href="https://www.viu.ca/sites/default/files/css/css_GSpEzCB3Ld0DrZ2ZZEeoeS90LFMHgy5EsOdl-IfLFnw.css" media="all" />
             <![endif]-->
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_txQ27OAjDuZQlb1RsKW2zYfnT9dZqaWs-h3WS5UJbzU.css" media="all"/>
+
+
+            <!-- bring in RRU fonts -->
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_WqV69UA1faoRQbJdtSwGwUJ8MK7FrjmmaCOY4qeUK-c.css" media="all" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_yqslcOxgUgr1HVfBvP6vQLPffleaaF28MnBJ5TW3u6U.css" media="all" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_5KE8MugL6r_gSgi3lAM_ZvwH-8XlPN3TKXvgJadnOwY.css" media="all" />
+            <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" media="all" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_IAYnIwzRnT3HFhdzm_N-GLTa8eZyMkdiD510VQwo5GY.css" media="all" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_bBNcNbMjlQ8H16-QuSljlNekXp_Pgr0BLZn6Uo0k7a0.css" media="print" />
+            <link type="text/css" rel="stylesheet" href="{$theme-path}/../rru-mirage2/styles/css_S085sfdJmQr5rTeatD26T7XworCMX9s3lCqt1lTzcKM.css" media="all" />
+
+
 
             <!-- Local css -->
             <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
