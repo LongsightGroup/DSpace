@@ -181,3 +181,8 @@ footer {
         color: #FFF;
     }
 }
+
+.word-break {
+    word-break: normal;
+    hyphens: auto;
+}

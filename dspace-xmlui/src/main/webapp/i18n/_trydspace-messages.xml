@@ -2304,6 +2304,15 @@
     <message key="xmlui.metadata.dc.type">Type</message>
     <message key="xmlui.metadata.dc.uri">URI</message>
 
+	<message key="xmlui.metadata.dc.coverage.spatial">Coverage (Spatial)</message>
+	<message key="xmlui.metadata.dc.identifier.issn">ISSN</message>
+	<message key="xmlui.metadata.dc.format.extent">Extent</message>
+	<message key="xmlui.metadata.dc.format.medium">Medium</message>
+	<message key="xmlui.metadata.dc.subject.lcsh">Subject (LCSH)</message>
+	<message key="xmlui.metadata.dc.subject.other">Subject (Other)</message>
+	<message key="xmlui.metadata.dc.description.fulltext">Description (FT)</message>
+	<message key="xmlui.metadata.dc.description.note">Description (Note)</message>
+
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-name">Name</message>

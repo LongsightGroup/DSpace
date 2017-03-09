@@ -229,3 +229,8 @@ footer {
 #container {
     min-height: initial;
 }
+
+.word-break {
+    word-break: normal;
+    hyphens: auto;
+}
