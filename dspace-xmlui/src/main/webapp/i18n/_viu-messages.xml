@@ -2319,6 +2319,24 @@
 	<message key="xmlui.metadata.dc.description.fulltext">Description (FT)</message>
 	<message key="xmlui.metadata.dc.description.note">Description (Note)</message>
 
+
+	<message key="xmlui.metadata.dc.description.version">Description (Version)</message>
+	<message key="xmlui.metadata.dc.ThesisDegree.name">Thesis Degree (Name)</message>
+	<message key="xmlui.metadata.dc.ThesisDegree.level">Thesis Degree (Level)</message>
+	<message key="xmlui.metadata.dc.ThesisDegree.discipline">Thesis Degree (Discipline)</message>
+	<message key="xmlui.metadata.dc.ThesisDegree.grantor">Thesis Degree (Grantor)</message>
+	<message key="xmlui.metadata.dc.identifier.isbn">Identifier (ISBN)</message>
+	<message key="xmlui.metadata.dc.coverage.temporal">Coverage (Temporal)</message>
+	<message key="xmlui.metadata.dc.relation.isbasedon">Relation (Is based on)</message>
+	<message key="xmlui.metadata.dc.relation.hasversion">Relation (Has version)</message>
+	<message key="xmlui.metadata.dc.relation">Relation</message>
+	<message key="xmlui.metadata.dc.relation.uri">Relation (URI)</message>
+	<message key="xmlui.metadata.dc.contributor.advisor">Contributor (Advsisor)</message>
+	<message key="xmlui.metadata.dc.description.statementofresponsibility">Description (Responsibility)</message>
+	<message key="xmlui.metadata.dc.digitization.details">Digitization Details</message>
+	<message key="xmlui.metadata.dc.identifier.thumbnail">Identifier (Thumbnail)</message>
+	<message key="xmlui.metadata.dc.despcription.tableofcontents">Description (TOC)</message>
+
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-name">Name</message>
