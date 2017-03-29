@@ -362,7 +362,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="grid-31 prefix-5 region region-global-menu" id="region-global-menu">
+                        <div class="grid-37 prefix-5 region region-global-menu" id="region-global-menu">
                             <div class="region-inner region-global-menu-inner">
                                
                                 <div class="responsive-collapse">

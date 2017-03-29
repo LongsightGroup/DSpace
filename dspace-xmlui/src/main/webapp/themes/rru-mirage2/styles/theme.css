@@ -182,6 +182,11 @@ footer {
     }
 }
 
+@media (min-width: 700px) {}
+    #main-menu ul.menu li.main-menu {
+        box-sizing: content-box;
+    }
+
 .word-break {
     word-break: normal;
     hyphens: auto;
