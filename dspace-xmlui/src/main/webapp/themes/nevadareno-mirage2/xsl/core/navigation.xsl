@@ -118,6 +118,7 @@
             <h2 class="ds-option-set-head h6">Information</h2>
             <div class="list-group">
                 <a href="http://www.unr.edu/sponsored-projects/project-lifecycle/proposal-preparation-and-submission/data-management" class="list-group-item ds-option">Policy</a>
+                <a href="http://www.unr.edu/sponsored-projects/project-lifecycle/proposal-preparation-and-submission/data-management/faq" class="list-group-item ds-option">FAQ</a>
                 <a href="https://scholarworks.unr.edu/contact" class="list-group-item ds-option">Contact Us</a>
             </div>
 

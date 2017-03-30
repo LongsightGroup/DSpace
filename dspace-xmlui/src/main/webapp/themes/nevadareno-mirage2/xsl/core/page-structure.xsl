@@ -743,7 +743,7 @@
                 </div>
                 <div class="row">
                     <p class="text-center">
-                        <a class="text-primary" href="http://www.unr.edu/vpri">Office of the Vice President for Research and Innovation</a>
+                        <a class="text-primary" href="http://www.unr.edu/vpri">Research and Innovation</a>
                     </p>
                 </div>
 
