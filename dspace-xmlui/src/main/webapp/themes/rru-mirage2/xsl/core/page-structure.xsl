@@ -196,10 +196,6 @@
             <link rel="stylesheet" href="{concat($theme-path, '../_precompiled-mirage2/styles/snazy.css')}"/>
             -->
 
-            <!-- Local css -->
-            <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
-
-
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_WqV69UA1faoRQbJdtSwGwUJ8MK7FrjmmaCOY4qeUK-c.css" media="all" />
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_yqslcOxgUgr1HVfBvP6vQLPffleaaF28MnBJ5TW3u6U.css" media="all" />
@@ -208,6 +204,9 @@
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_IAYnIwzRnT3HFhdzm_N-GLTa8eZyMkdiD510VQwo5GY.css" media="all" />
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_bBNcNbMjlQ8H16-QuSljlNekXp_Pgr0BLZn6Uo0k7a0.css" media="print" />
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_S085sfdJmQr5rTeatD26T7XworCMX9s3lCqt1lTzcKM.css" media="all" />
+
+            <!-- Local css -->
+            <link rel="stylesheet" href="{concat($theme-path, 'styles/theme.css')}"/>
 
             <!--[if (lt IE 9)&(!IEMobile)]>
             <link type="text/css" rel="stylesheet" href="{$theme-path}/styles/css_dcfzfrglmYzM5Daa7iVdbmCE-wn0P-jzZBir7Q8dIxk.css" media="all" />
@@ -364,47 +363,17 @@
                         </div>
                         <div class="grid-37 prefix-5 region region-global-menu" id="region-global-menu">
                             <div class="region-inner region-global-menu-inner">
-                               
+                                <div class="responsive-icon">Main Menu
+                                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                                </div>
                                 <div class="responsive-collapse">
                                     <div class="block block-block global-menu contextual-links-region block-5 block-block-5 odd block-without-title"
                                          id="block-block-5">
                                         <div class="block-inner clearfix">
                                             <div class="content clearfix">
 
+
                                                 <!-- About RRU quick links in the drop down menu -->
-                                                <script id="about-quicklinks" data-menu-number="5" type="text/html">
-                                                    <div class="drop-menu-col">
-                                                        <div class="info-box">
-                                                            <h2>Gateway for Visitors:</h2>
-                                                            <ul>
-                                                                <li>
-                                                                    <a title="Event Services &amp; Weddings"
-                                                                       href="http://www.royalroads.ca/about/event-services">
-                                                                        Event Services &amp; Weddings
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a title="Getting Here"
-                                                                       href="http://www.royalroads.ca/about/getting-here">
-                                                                        Getting Here
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a title="Hatley Park Gift Shop"
-                                                                       href="http://www.royalroads.ca/about/hatley-park-gift-shop">
-                                                                        Gift Shop
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a title="Hatley Castle &amp; Gardens"
-                                                                       href="http://www.royalroads.ca/about/explore-hatley-park-castle">
-                                                                        Hatley Castle &amp; Gardens
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </script>
 
                                                 <nav id="main-menu" class="jquery-once-3-processed">
                                                     <ul class="menu">
@@ -416,117 +385,6 @@
                                                                 <br/>
                                                                 Students
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/prospective-students/programs">
-                                                                                Programs
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/prospective-students/student-experience">
-                                                                                Student Experience
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/admission">
-                                                                                Admission
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/prospective-students/tuition-and-fees">
-                                                                                Tuition &amp; Fees
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/financial-aid-awards">
-                                                                                Financial Aid &amp; Awards
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/prospective-students/indigenous-students">
-                                                                                Indigenous Students
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/prospective-students/canadian-armed-forces-and-dnd-students">
-                                                                                Canadian Forces Students
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://international.royalroads.ca/">
-                                                                                International Students
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <ul>
-                                                                            <li class="apply-now cta-button">
-                                                                                <a title="Apply to one of our programs"
-                                                                                   href="http://www.royalroads.ca/apply-now"
-                                                                                   class="graphical-link"
-                                                                                   onclick="_gaq.push(['_trackEvent', 'CallToAction_TopNav', 'Click', 'ApplyNow']);">
-                                                                                    Apply Now
-                                                                                </a>
-                                                                            </li>
-                                                                            <li class="request-info cta-button">
-                                                                                <a title="Request more information"
-                                                                                   href="https://services.royalroads.ca/requestinfo"
-                                                                                   class="graphical-link"
-                                                                                   onclick="_gaq.push(['_trackEvent', 'CallToAction_TopNav', 'Click', 'RMI']);">
-                                                                                    Request Info
-                                                                                </a>
-                                                                            </li>
-                                                                            <li class="info-session cta-button">
-                                                                                <a title="Attend an Information Session"
-                                                                                   href="http://www.royalroads.ca/prospective-students/information-sessions"
-                                                                                   class="graphical-link"
-                                                                                   onclick="_gaq.push(['_trackEvent', 'CallToAction_TopNav', 'Click', 'InfoSession']);">
-                                                                                    Info Sessions
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="drop-menu-col">
-                                                                        <div class="info-box">
-                                                                            <h2>Quick Links:</h2>
-                                                                            <ul>
-                                                                                <div class="info-box-col">
-                                                                                    <li>
-                                                                                        <a title="Information for Indigenous Students"
-                                                                                           href="http://www.royalroads.ca/prospective-students/aboriginal-students">
-                                                                                            Indigenous Students
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a title="Information for Canadian Forces Students"
-                                                                                           href="http://www.royalroads.ca/prospective-students/canadian-forces-dnd-students">
-                                                                                            Canadian Forces Students
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a title="Information for International Students"
-                                                                                           href="http://international.royalroads.ca/">
-                                                                                            International Students
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </div>
-
-
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </ul>
-                                                            </div>
                                                         </li>
 
                                                         <li class="main-menu">
@@ -536,162 +394,12 @@
                                                                 <br/>
                                                                 Students
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/academic-support">
-                                                                                Academic Support
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/careers-internships">
-                                                                                Careers &amp; Internships
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/finances">
-                                                                                Finances
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/new-student-orientation">
-                                                                                New Student Orientation
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/current-students/policies-procedures">
-                                                                                Policies &amp; Procedures
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/student-health-wellness">
-                                                                                Health &amp; Wellness
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/student-life">
-                                                                                Student Life
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/indigenous-current-students">
-                                                                                Indigenous Students
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/international-students">
-                                                                                International Students
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <div class="info-box">
-                                                                            <h2>Quick Links:</h2>
-                                                                            <ul>
-                                                                                <div class="info-box-col">
-                                                                                    <li>
-                                                                                        <a href="http://moodle.royalroads.ca/">
-                                                                                            Moodle
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="http://library.royalroads.ca/">
-                                                                                            Library
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="http://webmail.royalroads.ca/">
-                                                                                            Webmail
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="https://myadmin.royalroads.ca/Pages/welcome.aspx">
-                                                                                            MyAdmin
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </div>
-
-
-                                                                                <div class="info-box-col">
-                                                                                    <li>
-                                                                                        <a href="https://student.myrru.royalroads.ca/">
-                                                                                            MyRRU for Students
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="http://computerservices.royalroads.ca/">
-                                                                                            Computer Services
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a href="http://www.royalroads.ca/bookaroom"
-                                                                                           title="Book a room on campus">
-                                                                                            Book a room
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </div>
-
-
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </ul>
-                                                            </div>
                                                         </li>
 
                                                         <li class="main-menu">
                                                             <a class="main-menu-link single" data-parent="Alumni | 528"
                                                                href="http://www.royalroads.ca/alumni">Alumni
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/homecoming">
-                                                                                Homecoming
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/featured-alumni">
-                                                                                Featured Alumni
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/alumni-awards">
-                                                                                Alumni Awards
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/continue-your-education">
-                                                                                Continue Your Education
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/career-services">
-                                                                                Career Services
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/alumni/support-rru">
-                                                                                Support RRU
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-                                                                </ul>
-                                                            </div>
                                                         </li>
 
                                                         <li class="main-menu">
@@ -699,40 +407,6 @@
                                                                data-parent="Research | 7320"
                                                                href="http://research.royalroads.ca/">Research
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://research.royalroads.ca/research-grant">
-                                                                                Funding
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://research.royalroads.ca/research-projects/all">
-                                                                                Research Projects
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://research.royalroads.ca/ethics-students">
-                                                                                Ethics
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://research.royalroads.ca/innovation-commercialization-0">
-                                                                                Innovation &amp; Commercialization
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://research.royalroads.ca/affiliations">
-                                                                                Affiliations
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                </ul>
-                                                            </div>
                                                         </li>
 
                                                         <li class="main-menu">
@@ -742,47 +416,6 @@
                                                                 <br/>
                                                                 Events
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/feature-stories">
-                                                                                Feature Stories
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/news">
-                                                                                News
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/news-media">
-                                                                                RRU in the Media
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/events">
-                                                                                Events
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/news-events/convocation">
-                                                                                Convocation
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/experts-list">
-                                                                                Experts List
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-                                                                </ul>
-                                                            </div>
                                                         </li>
 
                                                         <li class="main-menu">
@@ -793,101 +426,6 @@
                                                                 <br/>
                                                                 Roads
                                                             </a>
-                                                            <a href="http://royalroads.ca/#" class="menu-expand"></a>
-                                                            <div class="drop-menu-wrapper">
-                                                                <ul class="drop-menu" style="display: none;">
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/about/about-campus">
-                                                                                About the Campus
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/governance">
-                                                                                Governance
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/mission-vision-goals">
-                                                                                Mission, Vision, Goals
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/human-resources">
-                                                                                Human Resources
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/about/indigenous-relations">
-                                                                                Indigenous Relations
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-                                                                    <div class="drop-menu-col">
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/diversity">
-                                                                                Diversity
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/administration">
-                                                                                Administration
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/about/sustainability">
-                                                                                Sustainability
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://www.royalroads.ca/about/affiliations">
-                                                                                Affiliations
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="http://advancement.royalroads.ca/">
-                                                                                Support Royal Roads
-                                                                            </a>
-                                                                        </li>
-                                                                    </div>
-
-                                                                    <div class="drop-menu-col">
-                                                                        <div class="info-box">
-                                                                            <h2>Gateway for Visitors:</h2>
-                                                                            <ul>
-                                                                                <div class="info-box-col">
-                                                                                    <li>
-                                                                                        <a title="Event Services &amp; Weddings"
-                                                                                           href="http://www.royalroads.ca/about/event-services">
-                                                                                            Event Services &amp;
-                                                                                            Weddings
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a title="Getting Here"
-                                                                                           href="http://www.royalroads.ca/about/getting-here">
-                                                                                            Getting Here
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a title="Hatley Park Gift Shop"
-                                                                                           href="http://www.royalroads.ca/about/hatley-park-gift-shop">
-                                                                                            Gift Shop
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a title="Hatley Castle &amp; Gardens"
-                                                                                           href="http://www.royalroads.ca/about/explore-hatley-park-castle">
-                                                                                            Hatley Castle &amp; Gardens
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </div>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </ul>
-                                                            </div>
                                                         </li>
                                                     </ul>
                                                 </nav>
@@ -901,8 +439,7 @@
                 </div>
                 <div id="zone-dropmenu-wrapper" class="zone-wrapper zone-dropmenu-wrapper clearfix">
                     <div id="zone-dropmenu" class="zone zone-dropmenu clearfix container-40">
-                        <div class="grid-34 prefix-6 region region-dropmenu" id="region-dropmenu"
-                             style="display: none;">
+                        <div class="grid-34 prefix-6 region region-dropmenu" id="region-dropmenu">
                             <div class="region-inner region-dropmenu-inner">
                             </div>
                         </div>
@@ -1438,6 +975,9 @@
         <!-- Snazy -->
         <script src="{$theme-path}../_precompiled-mirage2/scripts/jquery.lazyload.min.js"></script>
         <script src="{$theme-path}../_precompiled-mirage2/scripts/snazy.js"></script>
+        <script type="text/javascript" src="{$theme-path}/scripts/theme.js"></script>
+
+
 
         <!-- add "shared" javascript from static, path is relative to webapp root -->
         <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='url']">
