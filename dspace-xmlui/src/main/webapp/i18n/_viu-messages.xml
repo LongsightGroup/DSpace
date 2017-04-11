@@ -2331,7 +2331,7 @@
 	<message key="xmlui.metadata.dc.relation.hasversion">Relation (Has version)</message>
 	<message key="xmlui.metadata.dc.relation">Relation</message>
 	<message key="xmlui.metadata.dc.relation.uri">Relation (URI)</message>
-	<message key="xmlui.metadata.dc.contributor.advisor">Contributor (Advsisor)</message>
+	<message key="xmlui.metadata.dc.contributor.advisor">Contributor (Advisor)</message>
 	<message key="xmlui.metadata.dc.description.statementofresponsibility">Description (Responsibility)</message>
 	<message key="xmlui.metadata.dc.digitization.details">Digitization Details</message>
 	<message key="xmlui.metadata.dc.identifier.thumbnail">Identifier (Thumbnail)</message>
