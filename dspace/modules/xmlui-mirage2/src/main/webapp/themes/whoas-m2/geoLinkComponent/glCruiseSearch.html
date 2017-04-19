@@ -18,9 +18,9 @@ Example:
 -->
 <dom-module id="gldeployment-element">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
-    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/polymer/polymer.html">
-    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-ajax/iron-ajax.html">
-    <link rel="import" href="http://glcomponents.tech/components/glperson-element/bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+    <link rel="import" href="/geocomponents/components/glperson-element/bower_components/polymer/polymer.html">
+    <link rel="import" href="/geocomponents/components/glperson-element/bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="/geocomponents/components/glperson-element/bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
     <!-- Material Design Light -->
     <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
     <!-- Latest compiled and minified CSS -->
@@ -73,7 +73,7 @@ Example:
          <div class="cols-md-6">
            <template is="dom-if" if="{{showTemplate(cruiseInfo.results.bindings)}}">
 <link rel="stylesheet" type="text/css" href="css/geoLink.css" />
-<img style="margin:0 5px 5px 0;width:36px;float:left;" src="http://glcomponents.tech/components/glperson-element/images/eclogo.png">
+<img style="margin:0 5px 5px 0;width:36px;float:left;" src="/geocomponents/components/glperson-element/images/eclogo.png">
            <h4 style="margin:5px;padding:7px;"><a target="_blank" href="{{params.hosturl}}">{{params.host}}</a> Resource Information for {{params.label}}:
              <!--<a target="_blank" href="{{params.url}}">{{params.label}}</a> -->
            </h4>
