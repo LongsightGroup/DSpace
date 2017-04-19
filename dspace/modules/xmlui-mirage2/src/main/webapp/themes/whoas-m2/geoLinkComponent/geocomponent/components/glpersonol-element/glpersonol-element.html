@@ -1,0 +1,316 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <glperson-element></glperson-element>
+
+@demo
+-->
+<dom-module id="glpersonOL-element">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="import" href="./bower_components/polymer/polymer.html">
+    <link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="./bower_components/paper-dialog/paper-dialog.html">
+    <link rel="import" href="./bower_components/paper-button/paper-button.html">
+    <link rel="import" href="./bower_components/csv-preview/csv-preview.html">
+    <link rel="import" href="./bower_components/iron-icons/iron-icons.html">
+
+
+    <!-- Material Design Light -->
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Person",
+            "name": "[[item.given.value]]  [[item.family.value]]"
+        }
+    </script>
+
+    <script>
+        function clickHandler(e) {
+            var button = e.target;
+            while (!button.hasAttribute('data-dialog') && button !== document.body) {
+                button = button.parentElement;
+            }
+            if (!button.hasAttribute('data-dialog')) {
+                return;
+            }
+            var id = button.getAttribute('data-dialog');
+            var dialog = document.getElementById(id);
+            if (dialog) {
+                dialog.open();
+            }
+        }
+    </script>
+
+
+    <style>
+        .controls {
+            margin: 10px 0 50px 0;
+            display: block;
+        }
+        
+        .controls textarea,
+        .controls button {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .controls textarea {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 767px) {
+            .hidden-xs {
+                display: none !important;
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 991px) {
+            .hidden-sm {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .hidden-md {
+                display: none !important;
+            }
+        }
+    </style>
+
+
+    <template>
+        <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=prefix+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0Aprefix+owl%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23%3E%0D%0Aprefix+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0Aprefix+glview%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E+%0D%0A%0D%0ASELECT+DISTINCT++%3FnewURI+%3Fsameas++%3Ffamily+%3Fgiven+%0D%0AWHERE+%7B%0D%0A+++%3C{{params.url}}%3E+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3FnewURI+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3Fsameas++glview%3AhasFamilyName+%3Ffamily+.%0D%0A+++%3Fsameas++glview%3AhasGivenName+%3Fgiven+.%0D%0A+++FILTER+%28%3FnewURI+%21%3D++%3C{{params.url}}%3E%29%0D%0A%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on" handle-as="json" headers='{"Accept": "application/sparql-results+json"}' debounce-duration="300" last-response="{{ajaxResponse}}">
+        </iron-ajax>
+
+        <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=prefix+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0Aprefix+owl%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23%3E%0D%0Aprefix+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0Aprefix+glview%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E+%0D%0A%0D%0ASELECT+DISTINCT++%3FnewURI+%3Fsameas++%3Ffamily+%3Fgiven+%0D%0AWHERE+%7B%0D%0A+++%3C{{params.url}}%3E+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3FnewURI+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3Fsameas++glview%3AhasFamilyName+%3Ffamily+.%0D%0A+++%3Fsameas++glview%3AhasGivenName+%3Fgiven+.%0D%0A+++FILTER+%28%3FnewURI+%21%3D++%3C{{params.url}}%3E%29%0D%0A%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on" handle-as="json" headers='{"Accept": "application/sparql-results+json"}' debounce-duration="300" last-response="{{ajax2}}">   </iron-ajax>
+
+
+   <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=PREFIX+gl%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E%0D%0A%0D%0ASELECT+DISTINCT+%3Fperson+%3Faward+%3Faward_title+%3Fabstract+%3Fstart+%3Fend+%3Fsponsor_name+%28group_concat%28distinct+%3Forg_name%3Bseparator%3D%22%3A%3A%3A%22%29+as+%3Fsub_sponsor_names%29+%3Fmatch+%3Fid_value+%3Fid_scheme+%3Fid_uri%0D%0AWHERE+%7B%0D%0A%0D%0A++%7B%0D%0A++++%3Faward+a+gl%3AAward+.%0D%0A++++%3Fcruise+gl%3AhasAward+%3Faward+.%0D%0A++++%3Fcruise+a+gl%3ACruise+.%0D%0A++++%3Fperson+%3Fpred+%3Fcruise+.%0D%0A++%0D%0A++++%7B%0D%0A+++++SELECT+DISTINCT+%3Fperson%0D%0A+++++WHERE+%7B%0D%0A++++++++VALUES+%3Ftarget+%7B%3C{{params.url}}%3E%7D%0D%0A+++++++%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Fperson+owl%3AsameAs+%3Ftarget+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fperson+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fmatch+owl%3AsameAs+%3Fperson+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fperson+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++FILTER+%28%3Fperson+%3D+%3Ftarget%29%0D%0A+++++++%7D%0D%0A+++++%7D%0D%0A+++%7D%0D%0A++%7D+UNION+%7B%0D%0A++++%3Faward+a+gl%3AAward+.%0D%0A++++%3Faward+%3Frole+%3Fperson+.%0D%0A++%0D%0A++++%7B%0D%0A+++++SELECT+DISTINCT+%3Fperson%0D%0A+++++WHERE+%7B%0D%0A++++++++VALUES+%3Ftarget+%7B%3C{{params.url}}%3E%7D%0D%0A+++++++%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Fperson+owl%3AsameAs+%3Ftarget+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fperson+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fmatch+owl%3AsameAs+%3Fperson+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++%3Ftarget+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fperson+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fperson+a+gl%3APerson+.%0D%0A+++++++++FILTER+%28%3Fperson+%3D+%3Ftarget%29%0D%0A+++++++%7D%0D%0A+++++%7D%0D%0A+++%7D%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasTitle+%3Faward_title+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasIdentifier+%3Fidentifier+.%0D%0A++++%3Fidentifier+gl%3AhasIdentifierValue+%3Fid_value+.%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fidentifier+gl%3AhasIdentifierScheme+%3Fid_scheme+.%0D%0A++++%7D%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fidentifier+gl%3AhasIdentifierResolveURI+%3Fid_uri+.%0D%0A++++%7D%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasAbstract+%3Fabstract+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasStartDate+%3Fstart+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasEndDate+%3Fend+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+gl%3AhasSponsor+%3Fsponsor+.%0D%0A++++%3Fsponsor+gl%3AhasTitle+%3Fsponsor_name+.%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Forg+gl%3AhasSubOrganization%2B+%3Fsponsor+.%0D%0A++++++%3Forg+gl%3AhasTitle+%3Forg_name+.%0D%0A++++%7D%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Faward+owl%3AsameAs+%3Fmatch+.%0D%0A++++%3Fmatch+a+gl%3AAward+.%0D%0A++%7D%0D%0A%7D%0D%0AORDER+BY+%3Fstart+%3Fsponsor_name+%3Faward_title+%3Fend%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on" handle-as="json" headers='{"Accept": "application/sparql-results+json"}' debounce-duration="300" 
+   last-response="{{ajax4}}">   </iron-ajax>
+
+
+<!-- used for CSV component testing -->
+<!--
+   <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=PREFIX+gl%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E%0D%0A%0D%0ASELECT+DISTINCT+%3Fcruise+%3Frole+%3Fperson+%3Fmatch+%3Fid_value+%3Fid_scheme+%3Fid_uri+%3Fperson_full_name+%3Femail_address%0D%0A%23%3Fabstract+%3Fcruise_track%0D%0A%0D%0AWHERE+%7B%0D%0A++%7B%0D%0A++++%3Fcruise+a+gl%3ACruise+.%0D%0A++++%3Fperson+%3Frole+%3Fcruise+.%0D%0A++++%3Fperson+a+gl%3APerson+.%0D%0A++%0D%0A++++%7B%0D%0A+++++SELECT+DISTINCT+%3Fcruise%0D%0A+++++WHERE+%7B%0D%0A+++++++%7B%0D%0A+++++++++%3Fcruise+owl%3AsameAs+%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fcruise+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fmatch+owl%3AsameAs+%3Fcruise+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fcruise+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fcruise+a+gl%3ACruise+.%0D%0A+++++++++FILTER+%28%3Fcruise+%3D+%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E%29%0D%0A+++++++%7D%0D%0A+++++%7D%0D%0A+++%7D%0D%0A++%7D+UNION+%7B%0D%0A++++%3Fcruise+a+gl%3ACruise+.%0D%0A++++%3Fcruise+%3Frole+%3Fperson+.%0D%0A++++%3Fperson+a+gl%3APerson+.%0D%0A%0D%0A++++%7B%0D%0A+++++SELECT+DISTINCT+%3Fcruise%0D%0A+++++WHERE+%7B%0D%0A+++++++%7B%0D%0A+++++++++%3Fcruise+owl%3AsameAs+%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fcruise+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fmatch+owl%3AsameAs+%3Fcruise+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++++%3Fcruise+owl%3AsameAs+%3Fmatch+.%0D%0A+++++++%7D%0D%0A+++++++UNION+%7B%0D%0A+++++++++%3Fcruise+a+gl%3ACruise%0D%0A+++++++++FILTER+%28%3Fcruise+%3D+%3Chttp%3A%2F%2Fdata.rvdata.us%2Fid%2Fcruise%2FOC473%3E%29%0D%0A+++++++%7D%0D%0A+++++%7D%0D%0A+++%7D%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fperson+gl%3AhasIdentifier+%3Fidentifier+.%0D%0A++++%3Fidentifier+gl%3AhasIdentifierValue+%3Fid_value+.%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fidentifier+gl%3AhasIdentifierScheme+%3Fid_scheme+.%0D%0A++++%7D%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fidentifier+gl%3AhasIdentifierResolveURI+%3Fid_uri+.%0D%0A++++%7D%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fperson+owl%3AsameAs+%3Fmatch+.%0D%0A++++%3Fmatch+a+gl%3APerson+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fperson+gl%3AhasFullName+%3Fperson_full_name+.%0D%0A++%7D%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fperson+gl%3AhasEmailAddress+%3Femail_address+.%0D%0A++%7D%0D%0A%7D&format=text%2Fcsv&timeout=0&debug=on" handle-as="json" headers='{"Accept": "text/csv"}' debounce-duration="300" 
+   last-response="{{ajax3}}">   </iron-ajax>-->
+
+
+
+
+<!-- for new component we will need  text/csv or  text%2Fcsv for CSV format -->
+
+
+   <!-- set display false for a surrounding div is the ajax response is empty -->
+
+     <div class="container-fluid"  style="margin:10px;border:2px solid black">
+        <div class="row" >
+           
+            
+                
+                <img class="img-thumbnail" style="margin:5px;width:75px" align="left" width="100" height="100" src="./images/eclogo.png">
+               
+
+
+                <h5 style="margin:5px"><a target="_blank" href="{{params.hosturl}}" >{{params.host}}</a> Resource: <br/>
+                 <a target="_blank" href="{{ajax2.results.bindings.0.sameas.value}}" > {{ajax2.results.bindings.0.sameas.value}}</a>
+                 </h5>
+              
+               
+            
+                <h6 style="margin:5px">Local Resource: <br/> {{params.url}} </h6>
+             
+                <!--<template is="dom-bind" list="[[ajaxResponse.results.bindings.item.sameas.value]]">  
+                      <p style="margin:5px"> {{callUnique([[list]])}} </p>
+                </template>-->
+
+<div class="row"  style="margin:10px;">
+    <template is="dom-repeat" items="[[ajaxResponse.results.bindings]]">                       
+                    <!--<table style="margin:10px;width:80%" class="table table-condensed table-hover">-->
+                       <p style="margin:15px"> <span style="margin-right:15px">[[item.given.value]]  [[item.family.value]]  </span>            
+                             
+                       <iron-icon icon="icons:open-in-new"></iron-icon> <a target="_blank" href="[[item.newURI.value]]"> [[item.newURI.value]] </a> </p>
+                        <!--<tr><td> [[item.sameas.value]]</td></tr>-->
+                    <!--</table>   -->
+                </template>
+
+</div>
+    <section onclick="clickHandler(event)">
+
+        <paper-button data-dialog="scrolling">View Award Matches</paper-button>
+    </section>
+
+    <paper-dialog style="left:20%" id="scrolling" alwaysOnTop="true">
+        <h2>Award Matches from GeoLink Knowledge Graph</h2>
+        <paper-dialog-scrollable style="margin-left:15px">
+
+            <div id="" style="overflow-y: scroll; height:300px;">
+
+
+                <!--person	award	award_title	abstract	start	end	sponsor_name	sub_sponsor_names	match	id_value	id_scheme	id_uri-->
+
+                <template is="dom-repeat" items="[[ajax4.results.bindings]]">                       
+                    <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                        <tr><td> <a target="_blank" href="[[item.award.value]]">[[item.award_title.value]]</a>  by    [[item.sponsor_name.value]]            
+                              </td></tr>
+                        <!--<tr><td> See also: <a target="_blank" href="[[item.newURI.value]]"> [[item.newURI.value]] </a> </td></tr>-->
+                        <!--<tr><td> [[item.sameas.value]]</td></tr>-->
+                    </table>   
+                </template>
+
+            </div>
+
+            <!--<csv-preview data={{ajax3}}></csv-preview>   -->
+
+
+
+
+        </paper-dialog-scrollable>
+
+
+
+        <div class="buttons">
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button dialog-confirm autofocus>OK</paper-button>
+        </div>
+
+
+    </paper-dialog>
+
+
+    </div>
+    </div>
+
+    </template>
+</dom-module>
+<script>
+    Polymer({
+
+        is: 'glpersonOL-element',
+
+        properties: {
+
+            /**
+             * `fancy` indicates that the element should don a monocle and tophat,
+             * while checking its pocket watch.
+             */
+            fancy: Boolean,
+
+            /**
+             * Describes the author of the element, but is really just an excuse to
+             * show off JSDoc annotations.
+             *
+             * @type {{name: string, image: string}}
+             */
+            params: {
+                type: Object,
+                // Use `value` to provides a default value for a property, by setting it
+                // on your element's prototype.
+                //
+                // If you provide a function, as we do here, Polymer will call that
+                // _per element instance_.
+                //
+                // We do that to ensure that each element gets its own copy of the
+                // value, rather than having it shared across all instances (via the
+                // prototype).
+                value: function() {
+                    return {
+                        host: 'Example Hosting',
+                        hosturl: 'http://opencoredata.org',
+                        url: 'http://opencoredata.org/id/dataset/650f47bb-9715-4f58-be51-0fab02af1b68',
+                    };
+                }
+            },
+
+        },
+
+        // Element Lifecycle
+
+        ready: function() {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+        },
+
+        attached: function() {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+        },
+
+        detached: function() {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        // Element Behavior
+
+        /**
+         * The `glperson-element-lasers` event is fired whenever `fireLasers` is called.
+         *
+         * @event glperson-element-lasers
+         * @detail {{sound: String}}
+         */
+
+        /**
+         * Sometimes it's just nice to say hi.
+         *
+         * @param {string} greeting A positive greeting.
+         * @return {string} The full greeting.
+         */
+        sayHello: function(greeting) {
+            var response = greeting || 'Hello World!';
+            return 'glpersonOL-element says, ' + response;
+        },
+
+
+        callUnique: function(value) {
+            var response = value + "test" || 'No Value Provided';
+            return 'GL Resource: ' + response;
+        },
+
+
+        /**
+         * DF was here
+         * First SPARQL plumbing, not used at this time for simpler development, will be soon
+         *     select distinct ?uri where {?uri rdfs:label "Fils, Douglas"}
+         *     Simple JSON example call URI
+         *  http://data.geolink.org:8890/sparql?default-graph-uri=&query=select+distinct+%3Furi+where+%7B%3Furi+rdfs%3Alabel+%22Fils%2C+Douglas%22%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
+         * @param {string} a label value
+         * @return {string} The full response.
+         */
+        callGeoLinkPerson: function(value) {
+            var response = value || 'No Value Provided';
+            return 'GLPerson identity: ' + response;
+        },
+
+
+    });
+</script>

@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <!-- Material Design Lite -->
+    <title>GeoComponents</title>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.deep_orange-orange.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <!-- The drawer is always open in large screens. The header is always shown,
+      even in small screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+                mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <div class="mdl-layout-spacer"></div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                      mdl-textfield--floating-label mdl-textfield--align-right">
+                    <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+              <!--<i class="material-icons">search</i>-->
+            </label>
+                    <div class="mdl-textfield__expandable-holder">
+                        <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">GeoComponents</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="/">Home</a>
+                <a class="mdl-navigation__link" href="./glperson.html">GeoLink: Person</a>
+                <a class="mdl-navigation__link" href="./glpersonol.html">GeoLink: Person Overlay</a>
+                <a class="mdl-navigation__link" href="./dataset.html">GeoLink: Datasets</a>
+                <a class="mdl-navigation__link" href="./leaflet.html">GeoLink: Leaflet Polygon</a>
+                <a class="mdl-navigation__link" href="./leafletgeojson.html">GeoLink: Leaflet IODP call</a>
+                <a class="mdl-navigation__link" href="./ocdsearch.html">GeoLink: OCD Search</a>
+                <a class="mdl-navigation__link" href="./deepdive.html">Open Core: Deep Dive</a> <a class="mdl-navigation__link" href="./leafletgplates.html">Open Core: Gplates</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <h3>Introduction</h3>
+
+                        <p>
+                            This catalog contains components that either directly use or could use GeoLink graph resources and relations. The intent is to provide a simply method by which pages can include components which leverage GeoLink.
+                        </p>
+
+                        <p>
+                            The github repo for this work can be found at:
+                            <a href="https://github.com/geocomponents/geocomponents.github.io">https://github.com/geocomponents/geocomponents.github.io</a>.
+                        </p>
+                        <p>
+                            Through web components the amount of code necessary to implement these is reduced. Site developers can use simple HTML import directives to pull complex components in. These components expose a set of input parameters that can be used to generate relevant
+                            and useful conent for the hosting site from GeoLink.
+                        </p>
+                        <p>
+                            For example, to include a simple component into a web page as few as 2 additional header entries needs to be made. Placing the component itself into the page then can be as short of 1 or 2 more HTML lines. The approach works in both server and client
+                            side generated page structures.
+                        </p>
+
+
+                        <p>
+                            First a couple line are needed to include the element itself as well as a polyfill library to enable support in older browsers. Many modern browsers do not require a polyfill and this .js is ignored by the browser.
+                        </p>
+
+
+                        <p>
+                            Next the element itself is referenced and used in the HTML of the page following the patterns of the component itself. Parameters and values can be passed to the component for use in obtaining remote data. Note remote services will need to allow cross
+                            origin scripting (CORS).
+                        </p>
+
+                        <!-- HTML generated using hilite.me -->
+                        <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                            <table>
+                                <tr>
+                                    <td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6</pre></td>
+                                    <td><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">&lt;!--</span> GeoLink Web component include and polyfill <span style="color: #666666">--&gt;</span>
+<span style="color: #666666">&lt;</span>script src<span style="color: #666666">=</span><span style="color: #BA2121">&quot;http://geocomponents.org/components/glperson-element/bower_components/webcomponentsjs/webcomponents-lite.js&quot;</span><span style="color: #666666">&gt;</span>
+<span style="color: #666666">&lt;</span>link rel<span style="color: #666666">=</span><span style="color: #BA2121">&quot;import&quot;</span> href<span style="color: #666666">=</span><span style="color: #BA2121">&quot;http://geocomponents.org/components/glperson-element/glperson-element.html&quot;</span><span style="color: #666666">&gt;</span>
+
+<span style="color: #408080; font-style: italic">&lt;!--</span> GeoLink component call <span style="color: #666666">--&gt;</span>
+<span style="color: #666666">&lt;</span>glperson<span style="color: #666666">-</span>element params<span style="color: #666666">=</span><span style="color: #BA2121">&#39;{&quot;host&quot;: &quot;GeoLink&quot;, &quot;hosturl&quot;:&quot;http://geolink.org&quot;, &quot;url&quot;: &quot;http://opencoredata.org/id/resource/people/v1/078d82ba-21df-11e6-8725-c8bcc89d1645&quot;}&#39;</span><span style="color: #666666">/&gt;</span>
+</pre></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+
+
+                    </div>
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <h3>Your web site is the interface</h3>
+                        <p>
+                            The following PDF provides a visual flow of how the GeoLink graph is created by a community and then implemented by web architecture approaches. These approaches enable multiple provides to place GeoLink into their web pages and applications with nothing
+                            more than simple HTML5 appraoches.
+                        </p>
+
+                        <a href="./GeoLinkWebComponents.pdf"> <img src="./images/glwc_icon.png"></a>
+
+
+                        <p style="margin-top:40px">Examples of remote pages implementing GeoLink web components</p>
+
+                        <p>
+
+                            <ul>
+                                <li> <a target="_blank" href="http://opencoredata.org/id/resource/people/v1/078d82ba-21df-11e6-8725-c8bcc89d1645">Example page at Open Core</a>
+                                </li>
+                                <li><a target="_blank" href="http://www.bco-dmo.org/deployment/616332?geolink=ecah2016">Example page at BCO-DMO</a>
+                            </ul>
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

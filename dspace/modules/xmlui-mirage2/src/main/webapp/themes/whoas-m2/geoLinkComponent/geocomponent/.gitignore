@@ -1,0 +1,4 @@
+#remove my vscode settings dir
+.vscode/**/*
+.floo
+.flooignore

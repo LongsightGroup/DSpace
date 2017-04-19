@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>seed-element Demo</title>
+    <script src="/components/leaflet-element/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="/components/leaflet-element/bower_components/leaflet-map/demo-header.html">
+    <link rel="import" href="/components/leaflet-element/bower_components/leaflet-map/leaflet-map.html">
+    <link rel="import" href="/components/leaflet-element/bower_components/leaflet-map/demo-advanced.html">
+    <link rel="import" href="/components/leaflet-element/bower_components/iron-ajax/iron-ajax.html">
+    <!-- Material Design Lite -->
+    <title>Catalog of Components</title>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.deep_orange-orange.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+        }
+        
+        leaflet-map {
+            height: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- The drawer is always open in large screens. The header is always shown,
+      even in small screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+                mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <div class="mdl-layout-spacer"></div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                      mdl-textfield--floating-label mdl-textfield--align-right">
+                    <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+              <!--<i class="material-icons">search</i>-->
+            </label>
+                    <div class="mdl-textfield__expandable-holder">
+                        <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">GeoComponents</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="/">Home</a>
+                <a class="mdl-navigation__link" href="./glperson.html">GeoLink: Person</a>
+                <a class="mdl-navigation__link" href="./glpersonol.html">GeoLink: Person Overlay</a>
+                <a class="mdl-navigation__link" href="./dataset.html">GeoLink: Datasets</a>
+                <a class="mdl-navigation__link" href="./leaflet.html">GeoLink: Leaflet Polygon</a>
+                <a class="mdl-navigation__link" href="./leafletgeojson.html">GeoLink: Leaflet IODP call</a>
+                <a class="mdl-navigation__link" href="./ocdsearch.html">GeoLink: OCD Search</a>
+                <a class="mdl-navigation__link" href="./deepdive.html">Open Core: Deep Dive</a>
+                <a class="mdl-navigation__link" href="./leafletgplates.html">Open Core: Gplates</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <leaflet-map latitude="38.588966968232426" longitude="-72.2021484375" zoom="5">
+                    <leaflet-tilelayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}" max-zoom="13">
+                        Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri
+                    </leaflet-tilelayer>
+                    <template is="dom-bind">
+            <iron-ajax url="http://opencoredata.org/api/v1/spatial/search/jrso?geowithin=POLYGON((-72.2021484375%2038.58896696823242%2C-59.1943359375%2038.58896696823242%2C-59.1943359375%2028.11801628757283%2C-72.2021484375%2028.11801628757283%2C-72.2021484375%2038.58896696823242))" auto last-response="{{data}}"></iron-ajax>
+            <leaflet-geojson color="#FF0000" data="[[data]]"></leaflet-geojson>
+        </template>
+                </leaflet-map>
+
+
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

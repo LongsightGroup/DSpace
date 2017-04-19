@@ -1,0 +1,285 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <glperson-element></glperson-element>
+
+@demo
+-->
+<dom-module id="deepdive-element">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="import" href="./bower_components/polymer/polymer.html">
+    <link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="./bower_components/paper-dialog/paper-dialog.html">
+    <link rel="import" href="./bower_components/paper-button/paper-button.html">
+    <link rel="import" href="./bower_components/csv-preview/csv-preview.html">
+    <link rel="import" href="./bower_components/iron-icons/iron-icons.html">
+
+
+    <!-- Material Design Light -->
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Person",
+            "name": "[[item.given.value]]  [[item.family.value]]"
+        }
+    </script>
+
+    <script>
+        function clickHandler(e) {
+            var button = e.target;
+            while (!button.hasAttribute('data-dialog') && button !== document.body) {
+                button = button.parentElement;
+            }
+            if (!button.hasAttribute('data-dialog')) {
+                return;
+            }
+            var id = button.getAttribute('data-dialog');
+            var dialog = document.getElementById(id);
+            if (dialog) {
+                dialog.open();
+            }
+        }
+    </script>
+
+
+    <style>
+        .controls {
+            margin: 10px 0 50px 0;
+            display: block;
+        }
+        
+        .controls textarea,
+        .controls button {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .controls textarea {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 767px) {
+            .hidden-xs {
+                display: none !important;
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 991px) {
+            .hidden-sm {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .hidden-md {
+                display: none !important;
+            }
+        }
+    </style>
+
+
+    <template>
+
+   <iron-ajax auto url="https://geodeepdive.org/api/articles?q=Lake Mbalang" handle-as="json" debounce-duration="300" 
+   last-response="{{ajax4}}">   </iron-ajax>
+
+
+   <!-- set display false for a surrounding div is the ajax response is empty -->
+
+     <div class="container-fluid"  style="margin:10px;border:2px solid black">
+        <div class="row" >
+           
+            
+                
+                <img class="img-thumbnail" style="margin:5px;width:75px" align="left" width="100" height="100" src="./images/eclogo.png">
+               
+
+
+                <h5 style="margin:5px"><a target="_blank" href="{{params.hosturl}}" >{{params.host}}</a> Resource <br/>
+                 <!--<a target="_blank" href="[[ajax4.results.bindings.0.sameas.value]]"> </a>-->
+                 </h5>
+              
+               
+            
+                <h6 style="margin:5px">Keywords: <br/> {{params.url}} </h6>
+             
+    <section onclick="clickHandler(event)">
+
+        <paper-button data-dialog="scrolling">View publications</paper-button>
+    </section>
+
+    <paper-dialog style="left:20%" id="scrolling" alwaysOnTop="true">
+        <h2>Publication links from GeoDeepDive</h2>
+        <paper-dialog-scrollable style="margin-left:15px">
+
+            <div id="" style="overflow-y: scroll; height:300px;">
+
+
+                <!--person	award	award_title	abstract	start	end	sponsor_name	sub_sponsor_names	match	id_value	id_scheme	id_uri-->
+
+                <template is="dom-repeat" items="[[ajax4.success.data]]">                       
+                    <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                        <tr><td> <a target="_blank" href="[[item.id]]">[[item.title]]</a>  by    [[item.journal]]            
+                              </td></tr>
+                        <!--<tr><td> See also: <a target="_blank" href="[[item.newURI.value]]"> [[item.newURI.value]] </a> </td></tr>-->
+                        <!--<tr><td> [[item.sameas.value]]</td></tr>-->
+                    </table>   
+                </template>
+
+    </div>
+
+    <!--<csv-preview data={{ajax3}}></csv-preview>   -->
+
+
+
+
+    </paper-dialog-scrollable>
+
+
+
+    <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus>OK</paper-button>
+    </div>
+
+
+    </paper-dialog>
+
+
+    </div>
+    </div>
+
+    </template>
+</dom-module>
+<script>
+    Polymer({
+
+        is: 'deepdive-element',
+
+        properties: {
+
+            /**
+             * `fancy` indicates that the element should don a monocle and tophat,
+             * while checking its pocket watch.
+             */
+            fancy: Boolean,
+
+            /**
+             * Describes the author of the element, but is really just an excuse to
+             * show off JSDoc annotations.
+             *
+             * @type {{name: string, image: string}}
+             */
+            params: {
+                type: Object,
+                // Use `value` to provides a default value for a property, by setting it
+                // on your element's prototype.
+                //
+                // If you provide a function, as we do here, Polymer will call that
+                // _per element instance_.
+                //
+                // We do that to ensure that each element gets its own copy of the
+                // value, rather than having it shared across all instances (via the
+                // prototype).
+                value: function() {
+                    return {
+                        host: 'Example Hosting',
+                        hosturl: 'http://opencoredata.org',
+                        url: 'http://opencoredata.org/id/dataset/650f47bb-9715-4f58-be51-0fab02af1b68',
+                    };
+                }
+            },
+
+        },
+
+        // Element Lifecycle
+
+        ready: function() {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+        },
+
+        attached: function() {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+        },
+
+        detached: function() {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        // Element Behavior
+
+        /**
+         * The `glperson-element-lasers` event is fired whenever `fireLasers` is called.
+         *
+         * @event glperson-element-lasers
+         * @detail {{sound: String}}
+         */
+
+        /**
+         * Sometimes it's just nice to say hi.
+         *
+         * @param {string} greeting A positive greeting.
+         * @return {string} The full greeting.
+         */
+        sayHello: function(greeting) {
+            var response = greeting || 'Hello World!';
+            return 'deepdive-element says, ' + response;
+        },
+
+
+        callUnique: function(value) {
+            var response = value + "test" || 'No Value Provided';
+            return 'GL Resource: ' + response;
+        },
+
+
+        /**
+         * DF was here
+         * First SPARQL plumbing, not used at this time for simpler development, will be soon
+         *     select distinct ?uri where {?uri rdfs:label "Fils, Douglas"}
+         *     Simple JSON example call URI
+         *  http://data.geolink.org:8890/sparql?default-graph-uri=&query=select+distinct+%3Furi+where+%7B%3Furi+rdfs%3Alabel+%22Fils%2C+Douglas%22%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
+         * @param {string} a label value
+         * @return {string} The full response.
+         */
+        callGeoLinkPerson: function(value) {
+            var response = value || 'No Value Provided';
+            return 'GLPerson identity: ' + response;
+        },
+
+
+    });
+</script>

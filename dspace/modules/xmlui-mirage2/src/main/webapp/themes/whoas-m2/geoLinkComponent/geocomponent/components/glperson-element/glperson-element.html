@@ -1,0 +1,206 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <glperson-element></glperson-element>
+
+@demo
+-->
+<dom-module id="glperson-element">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="import" href="./bower_components/polymer/polymer.html">
+    <link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="./bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+    <!-- Material Design Light -->
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  <style is="custom-style">
+    iron-overlay-backdrop {
+      --iron-overlay-backdrop-opacity: 0.9;
+      --iron-overlay-backdrop-background-color: #222;
+    }
+  </style>
+                            
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "name": "[[item.given.value]]  [[item.family.value]]"
+}
+</script>
+
+    <template>
+        <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=prefix+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0Aprefix+owl%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23%3E%0D%0Aprefix+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0Aprefix+glview%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E+%0D%0A%0D%0ASELECT+DISTINCT++%3FnewURI+%3Fsameas++%3Ffamily+%3Fgiven+%0D%0AWHERE+%7B%0D%0A+++%3C{{params.url}}%3E+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3FnewURI+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3Fsameas++glview%3AhasFamilyName+%3Ffamily+.%0D%0A+++%3Fsameas++glview%3AhasGivenName+%3Fgiven+.%0D%0A%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on" handle-as="json" headers='{"Accept": "application/sparql-results+json"}' debounce-duration="300" last-response="{{ajaxResponse}}">
+        </iron-ajax>
+
+        <iron-ajax auto url="http://data.oceandrilling.org/glsparql?default-graph-uri=&query=prefix+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0Aprefix+owl%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23%3E%0D%0Aprefix+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0Aprefix+glview%3A+%3Chttp%3A%2F%2Fschema.geolink.org%2F1.0%2Fbase%2Fmain%23%3E+%0D%0A%0D%0ASELECT+DISTINCT++%3Fsameas+%0D%0AWHERE+%7B%0D%0A+++%3C{{params.url}}%3E+owl%3AsameAs+%3Fsameas+.%0D%0A+++%3FnewURI+owl%3AsameAs+%3Fsameas+.%0D%0A%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on" handle-as="json" headers='{"Accept": "application/sparql-results+json"}' debounce-duration="300" last-response="{{ajax2}}">   </iron-ajax>
+
+
+   <!-- set display false for a surrounding div is the ajax response is empty -->
+
+     <div class="container-fluid"  style="margin:10px;border:2px solid black">
+        <div class="row" >
+           
+            <div class="cols-md-6">
+                <img style="margin:5px;width:75px" src="./images/eclogo.png">
+
+                <h4 style="margin:5px"><a target="_blank" href="{{params.hosturl}}" >{{params.host}}</a> Resource Information for: <br/>
+
+
+               <a target="_blank" href=" {{ajax2.results.bindings.0.sameas.value}}" > {{ajax2.results.bindings.0.sameas.value}}</a>
+              </h4>
+
+                <h5 style="margin:5px">Local Resource: <br/> {{params.url}} </h5>
+
+
+
+          
+              
+                <!--<template is="dom-bind" list="[[ajaxResponse.results.bindings.item.sameas.value]]">  
+                      <p style="margin:5px"> {{callUnique([[list]])}} </p>
+                </template>-->
+
+               <template is="dom-repeat" items="[[ajaxResponse.results.bindings]]">                       
+                    <table style="margin:10px;width:80%" class="table table-condensed table-hover">
+                        <tr><td>  [[item.given.value]]  [[item.family.value]]                
+                              </td></tr>
+                        <tr><td> See also: <a target="_blank" href="[[item.newURI.value]]"> [[item.newURI.value]] </a> </td></tr>
+                        <!--<tr><td> [[item.sameas.value]]</td></tr>-->
+                    </table>   
+                </template>
+
+  
+    </div>
+    </div>
+    </div>
+
+    </template>
+</dom-module>
+<script>
+    Polymer({
+
+        is: 'glperson-element',
+
+        properties: {
+
+            /**
+             * `fancy` indicates that the element should don a monocle and tophat,
+             * while checking its pocket watch.
+             */
+            fancy: Boolean,
+
+            /**
+             * Describes the author of the element, but is really just an excuse to
+             * show off JSDoc annotations.
+             *
+             * @type {{name: string, image: string}}
+             */
+            params: {
+                type: Object,
+                // Use `value` to provides a default value for a property, by setting it
+                // on your element's prototype.
+                //
+                // If you provide a function, as we do here, Polymer will call that
+                // _per element instance_.
+                //
+                // We do that to ensure that each element gets its own copy of the
+                // value, rather than having it shared across all instances (via the
+                // prototype).
+                value: function() {
+                    return {
+                        host: 'Example Hosting',
+                        hosturl: 'http://opencoredata.org',
+                        url: 'http://opencoredata.org/id/dataset/650f47bb-9715-4f58-be51-0fab02af1b68',
+                    };
+                }
+            },
+
+        },
+
+        // Element Lifecycle
+
+        ready: function() {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+        },
+
+        attached: function() {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+        },
+
+        detached: function() {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        // Element Behavior
+
+        /**
+         * The `glperson-element-lasers` event is fired whenever `fireLasers` is called.
+         *
+         * @event glperson-element-lasers
+         * @detail {{sound: String}}
+         */
+
+        /**
+         * Sometimes it's just nice to say hi.
+         *
+         * @param {string} greeting A positive greeting.
+         * @return {string} The full greeting.
+         */
+        sayHello: function(greeting) {
+            var response = greeting || 'Hello World!';
+            return 'glperson-element says, ' + response;
+        },
+
+
+        callUnique: function(value) {
+            var response = value + "test" || 'No Value Provided';
+            return 'GL Resource: ' + response;
+        },
+
+
+        /**
+         * DF was here
+         * First SPARQL plumbing, not used at this time for simpler development, will be soon
+         *     select distinct ?uri where {?uri rdfs:label "Fils, Douglas"}
+         *     Simple JSON example call URI
+         *  http://data.geolink.org:8890/sparql?default-graph-uri=&query=select+distinct+%3Furi+where+%7B%3Furi+rdfs%3Alabel+%22Fils%2C+Douglas%22%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
+         * @param {string} a label value
+         * @return {string} The full response.
+         */
+        callGeoLinkPerson: function(value) {
+            var response = value || 'No Value Provided';
+            return 'GLPerson identity: ' + response;
+        },
+
+
+    });
+</script>

@@ -1,0 +1,273 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="csv-preview">
+  <template>
+    <style>
+      table {
+        max-width: 100%;
+        background-color: transparent;
+        border: 1px solid #ddd;
+        width: 50%;
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+
+      table > thead > tr > th,
+      table > thead > tr > td {
+        background: #f8f0f0;
+        cursor: pointer;
+      }
+
+      table > thead > tr > th,
+      table > thead > tr > td,
+      table > tbody > tr > td,
+      table > tfoot > tr > td {
+        padding: 8px;
+        vertical-align: top;
+        border: 1px solid #ddd;
+      }
+
+      table > thead > tr > th,
+      table > thead > tr > td {
+        vertical-align: bottom;
+        border-bottom: 2px solid #ddd;
+        text-align: left;
+
+        /* prevent select text when doubleclick */
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: -moz-none;
+        -o-user-select: none;
+        user-select: none;
+      }
+
+      table > thead > tr > th::after,
+      table > thead > tr > td::after {
+        content: '▼▲';
+        font-size: 10px;
+        margin-left: 5px;
+      }
+
+      table > thead > tr > th.asc::after,
+      table > thead > tr > td.asc::after {
+        content: '▲';
+        font-size: 10px;
+        margin-left: 5px;
+      }
+
+      table > thead > tr > th.desc::after,
+      table > thead > tr > td.desc::after {
+        content: '▼';
+        font-size: 10px;
+        margin-left: 5px;
+      }
+    </style>
+
+    <table>
+      <thead>
+      <tr>
+        <template is="dom-repeat" items="{{tableHead}}" as="label">
+          <th>{{label}}</th>
+        </template>
+      </tr>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="{{tableBody}}" as="row">
+          <tr>
+            <template is="dom-repeat" items="{{row}}" as="cell">
+              <td>{{cell}}</td>
+            </template>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'csv-preview',
+    properties: {
+      theadCell: {
+        type: String,
+        value: 'th'
+      },
+      sortAscClass: {
+        type: 'string',
+        value: 'asc'
+      },
+      sortDescClass: {
+        type: String,
+        value: 'desc'
+      },
+      data: {
+        type: String,
+        value: null,
+        observer: 'dataChanged'
+      },
+      separator: {
+        type: String,
+        value: ','
+      },
+      tick: {
+        type: Number,
+        value: 0
+      },
+      clickedColNumber: {
+        type: Number,
+        value: undefined
+      },
+      tableHead: {
+        type: Array,
+        value: []
+      },
+      tableBody: {
+        type: Array,
+        value: []
+      }
+    },
+
+    ready: function() {
+      this.init();
+      this.initSort();
+    },
+
+    dataChanged: function() {
+      if (this.data) {
+        this.clearSortClasses();
+        this.parseData(this.data);
+      }
+    },
+
+    /* Sort data */
+    sortData: function(colNumber, reverse) {
+      reverse = -((+reverse) || -1); // bool to int
+      var tableBody = this.tableBody.slice(0);
+      tableBody.sort(function(a, b) {
+        return reverse * ((a[colNumber]).localeCompare(b[colNumber]));
+      });
+      this.tableBody = tableBody;
+    },
+
+    /* Clear asc/desc classes */
+    clearSortClasses: function() {
+      var tHeadTh = Polymer.dom(this.root).querySelectorAll('thead th');
+      var tHeadThLength = tHeadTh.length;
+
+      if (tHeadThLength) {
+        for (var i = 0; i < tHeadThLength; i++) {
+          tHeadTh[i].className = '';
+        }
+      }
+    },
+
+    /* Init sorting. Add events and find sort order */
+    initSort: function() {
+      var tHead = Polymer.dom(this.root).querySelector('thead');
+      var eventCallback = function(node) {
+        /* find which cell was clicked */
+        var colNumber;
+        var childs = node.parentNode.querySelectorAll(this.theadCell);
+        var childsLength = childs.length;
+
+        for (var i = 0; i < childsLength; i++) {
+          if (node == childs[i]) {
+            colNumber = i;
+          }
+          childs[i].className = '';
+        }
+
+        if (this.clickedColNumber === colNumber) {
+          this.tick = 0;
+          this.clickedColNumber = null;
+
+        } else {
+          this.tick = 1;
+          this.clickedColNumber = colNumber;
+        }
+        node.className = (this.tick % 2) ? this.sortDescClass : this.sortAscClass;
+        this.sortData(colNumber, this.tick % 2);
+      }.bind(this);
+
+      tHead.addEventListener('click', function(e) {
+        eventCallback(e.target);
+        e.preventDefault();
+      });
+    },
+
+    init: function() {
+      this.separator = this.separator || ',';
+    },
+
+    /* Transforms input data to valid table structure */
+    parseData: function(input) {
+      if (input) {
+        var tableHead = [];
+        var tableBody = [];
+
+        if (!Array.isArray(input)) {
+          var csvRaw = input.split('\n');
+          // remove empty elements
+          var csv = csvRaw.filter(function(el) {
+            return !!el;
+          });
+
+          var csvLength = csv.length;
+          if (csvLength > 1) {
+            tableHead = csv[0].split(this.separator);
+            var rowsCnt = csvLength - 1;
+            var colsCnt = tableHead.length;
+
+            for (var i = 1; i <= rowsCnt; i++) {
+              tableBody[i] = csv[i].split(this.separator);
+
+              if (tableBody[i].length < colsCnt) {
+                // fill cells with empty strings if thead has more cols than tbody
+                for (var j = tableBody[i].length; j < colsCnt; j++) {
+                  tableBody[i][j] = '';
+                }
+              }
+              else {
+                // cut extra cells if tbody has more cols than thead
+                tableBody[i].length = colsCnt;
+              }
+            }
+            tableBody.splice(0, 1);
+            this.tableBody = tableBody;
+            this.tableHead = tableHead;
+          }
+        }
+        else {
+          /*
+           for array in the format of d3.js parsed csv (array of maps):
+           0: Object
+           IRGEX: "1"
+           IRGIM: "18"
+           Summer: "0.82"
+           Winter: "0.82"
+           1: Object
+           IRGEX: "1"
+           IRGIM: "33"
+           Summer: "0.28"
+           Winter: "0.28"
+           etc.
+           */
+          for (var i = 0, size = input.length; i < size; i++) {
+            var row = input[i];
+            var rowArray = [];
+            for (var key in row) {
+              if (row.hasOwnProperty(key)) {
+                if (i === 0) {
+                  tableHead.push(key);
+                }
+                rowArray.push(row[key]);
+              }
+            }
+            tableBody.push(rowArray);
+          }
+          this.tableBody = tableBody;
+          this.tableHead = tableHead;
+        }
+      }
+    }
+  });
+</script>
