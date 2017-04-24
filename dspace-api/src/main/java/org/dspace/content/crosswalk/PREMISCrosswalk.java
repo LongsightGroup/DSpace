@@ -129,7 +129,9 @@ public class PREMISCrosswalk
                         String md = fixity.getChildTextTrim("messageDigest", PREMIS_NS);
                         String b_alg = bitstream.getChecksumAlgorithm();
                         String b_md = bitstream.getChecksum();
-                        if (StringUtils.equals(alg, b_alg))
+                        //For RRU/VIU merge, ignore checksum
+                        Boolean checkCheckSum = false;
+                        if (StringUtils.equals(alg, b_alg) && checkCheckSum)
                         {
                             if (StringUtils.equals(md, b_md))
                             {
