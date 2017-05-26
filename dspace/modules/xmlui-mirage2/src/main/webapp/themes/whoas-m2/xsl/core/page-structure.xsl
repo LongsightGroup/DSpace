@@ -340,7 +340,7 @@
                         </button>
 
                         <a href="{$context-path}/" class="navbar-brand">
-                            <img class="img-responsive" src="{$theme-path}/images/whoas_logo_transparent.png" />
+                            <img class="img-responsive" src="{$theme-path}/images/WHOAS.png" />
                         </a>
 
 
