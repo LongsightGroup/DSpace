@@ -88,6 +88,14 @@ public class DSpaceMETSIngester
 
         // Check to see what dmdSec the user specified in the 'dmd' parameter
         String userDmd = null;
+
+        //Add proquest as an ingest option
+        if(params == null || params.size() == 0) {
+            params = new PackageParameters();
+            params.addProperty("dmd", "PROQUEST");
+        }
+
+
         if (params != null)
         {
             userDmd = params.getProperty("dmd");
