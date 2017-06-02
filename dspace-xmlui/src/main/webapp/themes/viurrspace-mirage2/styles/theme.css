@@ -262,3 +262,160 @@ footer {
     word-break: normal;
     hyphens: auto;
 }
+
+/* Royal Roads Footer */
+
+
+
+
+#zone-footer a.logo {
+    display: block;
+    margin-top: 45px;
+    float: left;
+}
+
+.block.footer-address {
+    color: #eaebe8;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 25px 0 10px;
+}
+
+.block.footer-copyright {
+    color: #b8babd;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.block.footer-address h2 {
+    border-bottom: 1px solid #606270;
+    color: #fff;
+    font-family: 'Auto1 SmCp';
+    font-size: 13px;
+    font-weight: bold;
+    margin: -2px 0 7px;
+    padding: 0 0 5px;
+    text-transform: uppercase;
+}
+
+.block.footer-address address {
+    font-family: roboto, 'trebuchet MS', tahoma, verdana, sans-serif;
+    font-size: 12px;
+    margin-bottom: 0px !important;
+}
+
+.block.footer-address a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.block.footer-address ul.menu, .block.footer-copyright ul.menu {
+    font-family: roboto, 'trebuchet MS', tahoma, verdana, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.block.footer-address ul.menu li, .block.footer-copyright ul.menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.block.footer-address ul.menu li a, .block.footer-copyright ul.menu li a {
+    border-bottom: 1px solid #363948;
+    line-height: 20px;
+    font-size: 12px;
+    color: #fff;
+    margin-bottom: 5px;
+    padding-bottom: 1px;
+    text-decoration: none;
+}
+
+.block.footer-address ul.menu li a:hover, .block.footer-copyright ul.menu li a:hover {
+    border-bottom: 1px solid #5D616D;
+}
+
+.block.footer-copyright, .block.footer-copyright a, .block.footer-copyright ul.menu li a {
+    color: #b8babd;
+}
+
+.block.footer-social {
+    margin: 25px 0 0px;
+}
+
+.block.footer-social .content a {
+    display: block;
+    float: left;
+    height: 30px;
+    width: 30px;
+    background-image: url('../../rru-mirage2/images/social-media.png');
+    background-repeat: no-repeat;
+    text-indent: -3000px;
+}
+
+.block.footer-social .content a.facebook {
+    background-position: -18px -112px;
+}
+
+.block.footer-social .content a.facebook:hover {
+    background-position: -18px -62px;
+}
+
+.block.footer-social .content a.twitter {
+    background-position: -18px -310px;
+}
+
+.block.footer-social .content a.twitter:hover {
+    background-position: -18px -260px;
+}
+
+.block.footer-social .content a.linkedin {
+    background-position: -18px -912px;
+}
+
+.block.footer-social .content a.linkedin:hover {
+    background-position: -18px -862px;
+}
+
+.block.footer-social .content a.youtube {
+    background-position: -14px -512px;
+}
+
+.block.footer-social .content a.youtube:hover {
+    background-position: -14px -462px;
+}
+
+.block.footer-social .content a.pinterest {
+    background-position: -12px -1512px;
+}
+
+.block.footer-social .content a.pinterest:hover {
+    background-position: -12px -1462px;
+}
+
+#zone-footer a.top {
+    display: block;
+    float: right;
+    padding: 16px 40px 16px 14px;
+    background-color: #444757;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1;
+    text-decoration: none;
+    background-image: url('../../rru-mirage2/images/header-footer.png');
+    background-position: 88px -254px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    font-family: roboto;
+}
+
+#zone-footer a.top:hover {
+    background-color: #4E5163;
+}
+
+.viu-footer-logo {
+    max-height: 90px;
+    padding-bottom: 11px;
+}

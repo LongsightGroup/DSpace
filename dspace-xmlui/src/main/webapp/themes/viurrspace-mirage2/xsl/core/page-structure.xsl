@@ -397,12 +397,8 @@
                                     <header>
                                         <div class="navbar navbar-default navbar-static-top" role="navigation">
                                             <div class="viurrspace-header">
-                                                
-
-
                                             </div>
                                         </div>
-
                                     </header>
                                 </nav>
 
@@ -734,61 +730,64 @@
 
                                 <div class="container">
                                     <div class="row">
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <a href="http://www.royalroads.ca/">
+                                                    <img class="center-block viu-footer-logo" src="{$theme-path}/images/viu-logo-sm.png"
+                                                         alt="Royal Roads University" title="Royal Roads University"/>
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <h5>Contact Info</h5>
 
-                                                <h5>Contact Info</h5>
+                                                    <div class="field field-name-field-basic-text-text"><div class="specific-contact">
+                                                        <p>Vancouver Island University<br/>
+                                                            Nanaimo Campus<br/>900 Fifth Street<br/>
+                                                            Nanaimo, BC<br/>Canada V9R 5S5<br/>
+                                                            Toll-free 1.888.920.2221<br/>
+                                                            Switchboard&#160;250.753.3245<br/>
+                                                            Email&#160;<a href="mailto:info@viu.ca">info@viu.ca</a>
+                                                        </p>
 
-                                                <div class="field field-name-field-basic-text-text"><div class="specific-contact">
-                                                    <p>Vancouver Island University<br/>
-                                                        Nanaimo Campus<br/>900 Fifth Street<br/>
-                                                        Nanaimo, BC<br/>Canada V9R 5S5<br/>
-                                                        Toll-free 1.888.920.2221<br/>
-                                                        Switchboard&#160;250.753.3245<br/>
-                                                        Email&#160;<a href="mailto:info@viu.ca">info@viu.ca</a>
-                                                    </p>
+                                                        <a>
+                                                            <xsl:attribute name="href">
+                                                                <xsl:value-of
+                                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                                <xsl:text>/contact</xsl:text>
+                                                            </xsl:attribute>
+                                                            <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                                                        </a><br/>
+                                                        <a>
+                                                            <xsl:attribute name="href">
+                                                                <xsl:value-of
+                                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                                <xsl:text>/feedback</xsl:text>
+                                                            </xsl:attribute>
+                                                            <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                                                        </a>
 
-                                                    <a>
-                                                        <xsl:attribute name="href">
-                                                            <xsl:value-of
-                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                                                            <xsl:text>/contact</xsl:text>
-                                                        </xsl:attribute>
-                                                        <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
-                                                    </a><br/>
-                                                    <a>
-                                                        <xsl:attribute name="href">
-                                                            <xsl:value-of
-                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                                                            <xsl:text>/feedback</xsl:text>
-                                                        </xsl:attribute>
-                                                        <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
-                                                    </a>
-
-                                                    <!--Invisible link to HTML sitemap (for search engines) -->
-                                                    <a class="hidden">
-                                                        <xsl:attribute name="href">
-                                                            <xsl:value-of
-                                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
-                                                            <xsl:text>/htmlmap</xsl:text>
-                                                        </xsl:attribute>
-                                                        <xsl:text>&#160;</xsl:text>
-                                                    </a>
-                                                </div>
-                                                    <div class="general-contact">
-                                                        Copyright ©<br/>Vancouver Island University
+                                                        <!--Invisible link to HTML sitemap (for search engines) -->
+                                                        <a class="hidden">
+                                                            <xsl:attribute name="href">
+                                                                <xsl:value-of
+                                                                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                                <xsl:text>/htmlmap</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:text>&#160;</xsl:text>
+                                                        </a>
+                                                    </div>
+                                                        <div class="general-contact">
+                                                            Copyright ©<br/>Vancouver Island University
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
-                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-159 pane-bundle-quick-links">
-                                                    <div class="pane-content">
-                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
 
-
-                                                            <h5>About VIU</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/administration/">Administration</a></li>
+                                                <div class="col-xs-4">
+                                                    <h5>About VIU</h5>
+                                                    <div class="item-list-links">
+                                                        <ul>
+                                                            <li class="first"><a href="http://www.viu.ca/administration/">Administration</a></li>
                                                             <li><a href="http://www.viu.ca/giving/">Advancement</a></li>
                                                             <li><a href="http://www.viu.ca/alumni/">Alumni Association</a></li>
                                                             <li><a href="http://cc.viu.ca/">Cowichan Campus</a></li>
@@ -799,20 +798,15 @@
                                                             <li><a href="http://www.viu.ca/HumanResources/postings/">Employment</a></li>
                                                             <li><a href="http://www.viu.ca/mission/">Mission</a></li>
                                                             <li class="last"><a href="http://www.viu.ca/retrospective/">History</a></li>
-                                                        </ul></div></div>
-
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
-                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-129 pane-bundle-quick-links">
-                                                    <div class="pane-content">
-                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
 
-
-                                                            <h5>ACADEMICS</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/calendar/GeneralInformation/admissions.asp">Admissions</a></li>
+                                                <div class="col-xs-4">
+                                                    <h5>ACADEMICS</h5>
+                                                    <div class="item-list-links">
+                                                        <ul>
+                                                            <li class="first"><a href="http://www.viu.ca/calendar/GeneralInformation/admissions.asp">Admissions</a></li>
                                                             <li><a href="http://www.viu.ca/calendar/GeneralInformation/registration.asp">Registration</a></li>
                                                             <li><a href="http://www.viu.ca/calendar/">Programs and Courses</a></li>
                                                             <li><a href="http://www.viu.ca/dualcredit/">Dual Credit</a></li>
@@ -821,71 +815,188 @@
                                                             <li><a href="http://www.viu.ca/international/">International Education</a></li>
                                                             <li><a href="http://www.viu.ca/library/">Library</a></li>
                                                             <li class="last"><a href="http://www.viu.ca/ciel/">Online Education</a></li>
-                                                        </ul></div></div>
-
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
-                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-131 pane-bundle-quick-links">
-                                                    <div class="pane-content">
-                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
 
 
-                                                            <h5>ATHLETICS</h5><div class="item-list-links"><ul><li class="first"><a href="http://mariners.viu.ca/">VIU Mariners</a></li>
-                                                            <li><a href="http://mariners.viu.ca/teams/">Mariners Teams</a></li>
-                                                            <li><a href="http://www.viu.ca/campusrec/">Campus Recreation</a></li>
-                                                            <li class="last"><a href="http://mariners.viu.ca/community/summer-camps/">Summer Camps</a></li>
-                                                        </ul></div></div>
+                                            </div>
+                                        <div class="col-xs-6">
+                                            <!-- Royal Roads Footer -->
+                                            <div class="row">
+                                                <a href="http://www.royalroads.ca/">
+                                                    <img class="center-block" src="{$theme-path}/images/rru-footer-logo.png"
+                                                         alt="Royal Roads University" title="Royal Roads University"/>
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div id="zone-footer-wrapper-dropshadow" class="zone-wrapper zone-footer-wrapper-dropshadow clearfix">
+                                                    <div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">
+                                                        <div id="zone-footer" class="zone zone-footer clearfix container-40">
+                                                            <div class="col-xs-4">
+                                                                <div class="grid-7 suffix-2 region region-footer-second" id="region-footer-second">
+                                                                    <div class="region-inner region-footer-second-inner">
+                                                                        <section
+                                                                                class="block block-block footer-address contextual-links-region block-9 block-block-9 odd"
+                                                                                id="block-block-9">
+                                                                            <div class="block-inner clearfix">
+                                                                                <h2 class="block-title">Our Location</h2>
+                                                                                <div class="content clearfix">
+                                                                                    <address>2005 Sooke Road<br/>Victoria, BC V9B 5Y2<br/>Canada
+                                                                                    </address>
+                                                                                    <ul class="menu">
+                                                                                        <li>
+                                                                                            <a href="http://www.royalroads.ca/about/campus-map"><i
+                                                                                                    class="fa fa-map-marker"></i>&#160;&#160;Campus Map
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </section>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
+                                                            <div class="col-xs-4">
+                                                                <div class="grid-7 suffix-2 region region-footer-third" id="region-footer-third">
+                                                                    <div class="region-inner region-footer-third-inner">
+                                                                        <section
+                                                                                class="block block-block footer-address contextual-links-region block-10 block-block-10 odd"
+                                                                                id="block-block-10">
+                                                                            <div class="block-inner clearfix">
+                                                                                <h2 class="block-title">Get in Touch</h2>
+
+                                                                                <div class="content clearfix">
+                                                                                    <ul class="menu">
+                                                                                        <li><i class="fa fa-phone"></i>&#160;&#160;Phone:
+                                                                                            <a href="tel:2503912511">250.391.2511</a>
+                                                                                        </li>
+                                                                                        <li><i class="fa fa-phone"></i>&#160;&#160;Toll-free:
+                                                                                            <a href="tel:18007888028">1.800.788.8028</a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a title="Contact Us by email"
+                                                                                               href="http://www.royalroads.ca/contact"><i
+                                                                                                    class="fa fa-envelope"></i>&#160;&#160;Email Us
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://www.royalroads.ca/about/community-directory"
+                                                                                               title="See our full faculty and staff directories"><i
+                                                                                                    class="fa fa-book"></i>&#160;&#160;Directories
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </section>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-4">
+                                                                <div class="grid-7 region region-footer-fourth" id="region-footer-fourth">
+                                                                    <div class="region-inner region-footer-fourth-inner">
+                                                                        <div class="block block-block footer-social contextual-links-region block-11 block-block-11 odd block-without-title"
+                                                                             id="block-block-11">
+                                                                            <div class="block-inner clearfix">
+
+                                                                                <div class="content clearfix">
+                                                                                    <a title="Royal Roads on Twitter" href="http://twitter.com/#!/royalroads"
+                                                                                       class="twitter" target="_blank">
+                                                                                        <span>@RoyalRoads</span>
+                                                                                    </a>
+                                                                                    <a title="Royal Roads on Facebook"
+                                                                                       href="http://www.facebook.com/royalroadsu" class="facebook"
+                                                                                       target="_blank">
+                                                                                        <span>RRU Facebook</span>
+                                                                                    </a>
+                                                                                    <a title="Royal Roads on LinkedIn"
+                                                                                       href="http://www.linkedin.com/edu/royal-roads-university-10800"
+                                                                                       class="linkedin" target="_blank">
+                                                                                        <span>RRU LinkedIn</span>
+                                                                                    </a>
+                                                                                    <a title="Royal Roads on YouTube"
+                                                                                       href="http://www.youtube.com/user/RoyalRoadsUni" class="youtube"
+                                                                                       target="_blank">
+                                                                                        <span>RRU YouTube</span>
+                                                                                    </a>
+                                                                                    <a title="Royal Roads on Pinterest" href="http://pinterest.com/RoyalRoads/"
+                                                                                       class="pinterest" target="_blank">
+                                                                                        <span>RRU Pinterest</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="block block-block footer-copyright contextual-links-region block-12 block-block-12 even block-without-title"
+                                                                             id="block-block-12">
+                                                                            <div class="block-inner clearfix">
+                                                                                <div class="content clearfix">
+                                                                                    <ul class="menu">
+                                                                                        <li>
+                                                                                            <a>
+                                                                                                <xsl:attribute name="href">
+                                                                                                    <xsl:value-of
+                                                                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                                                                    <xsl:text>/contact</xsl:text>
+                                                                                                </xsl:attribute>
+                                                                                                <i18n:text>xmlui.dri2xhtml.structural.contact-link</i18n:text>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a>
+                                                                                                <xsl:attribute name="href">
+                                                                                                    <xsl:value-of
+                                                                                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]"/>
+                                                                                                    <xsl:text>/feedback</xsl:text>
+                                                                                                </xsl:attribute>
+                                                                                                <i18n:text>xmlui.dri2xhtml.structural.feedback-link</i18n:text>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://www.royalroads.ca/contact/website-feedback">Website
+                                                                                                Feedback
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://policies.royalroads.ca/policies/privacy-policy">
+                                                                                                Privacy Policy
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://policies.royalroads.ca/academic-regulations">
+                                                                                                Academic Regulations
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://www.royalroads.ca/about/copyright">Copyright</a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="http://royalroads.ca/sitemap">Sitemap</a>
+                                                                                        </li>
+                                                                                        <li>©2017 Royal Roads University</li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
-                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-133 pane-bundle-quick-links">
-                                                    <div class="pane-content">
-                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
 
 
-                                                            <h5>CAMPUS LIFE</h5><div class="item-list-links"><ul><li class="first"><a href="https://campus-store.viu.ca/">Campus Store</a></li>
-                                                            <li><a href="http://www.viu.ca/counselling/">Counseling</a></li>
-                                                            <li><a href="http://www.viu.ca/disabilityservices/">Disability Services</a></li>
-                                                            <li><a href="http://www.viu.ca/foodservices/">Food Services</a></li>
-                                                            <li><a href="http://www.viu.ca/health/">Health and Wellness</a></li>
-                                                            <li><a href="http://viuresidences.ca/">Housing</a></li>
-                                                            <li><a href="http://u.viu.ca/">Join One</a></li>
-                                                            <li><a href="http://www.viu.ca/sas/">Services for Aboriginal Students</a></li>
-                                                            <li><a href="http://www.viu.ca/sustainability/">Sustainability</a></li>
-                                                            <li><a href="http://www.viu.ca/parking/">Parking</a></li>
-                                                            <li class="last"><a href="http://www.viu.ca/events/">Events</a></li>
-                                                        </ul></div></div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel-panel large-2 small-4 columns">
-                                            <div class="panel-panel-inner">
-                                                <div class="panel-pane pane-fieldable-panels-pane pane-fpid-160 pane-bundle-quick-links">
-                                                    <div class="pane-content">
-                                                        <div class="ds-1col fieldable-panels-pane view-mode-Full clearfix">
-
-
-                                                            <h5>Extension and Outreach</h5><div class="item-list-links"><ul><li class="first"><a href="http://www.viu.ca/pdt/customizedtraining.asp">Contract Training</a></li>
-                                                            <li><a href="http://www.viu.ca/pdt/courses-and-programs/index.asp">Professional Development and Training Courses</a></li>
-                                                            <li><a href="http://www.viu.ca/summersession/">Summer Session</a></li>
-                                                            <li><a href="http://www.viu.ca/eldercollege/">ElderCollege</a></li>
-                                                            <li><a href="http://www.viu.ca/grandkids/">GrandKids University</a></li>
-                                                            <li class="last"><a href="http://www.viu.ca/summercamps/">Youth Summer Camps</a></li>
-                                                        </ul></div></div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
