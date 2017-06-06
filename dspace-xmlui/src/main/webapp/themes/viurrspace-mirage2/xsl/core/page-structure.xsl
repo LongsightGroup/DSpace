@@ -730,7 +730,7 @@
 
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-xs-6">
+                                        <div class="col-md-6">
                                             <div class="row">
                                                 <a href="http://www.royalroads.ca/">
                                                     <img class="center-block viu-footer-logo" src="{$theme-path}/images/viu-logo-sm.png"
@@ -738,7 +738,7 @@
                                                 </a>
                                             </div>
                                             <div class="row">
-                                                <div class="col-xs-4">
+                                                <div class="col-md-4">
                                                     <h5>Contact Info</h5>
 
                                                     <div class="field field-name-field-basic-text-text"><div class="specific-contact">
@@ -783,7 +783,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xs-4">
+                                                <div class="col-md-4">
                                                     <h5>About VIU</h5>
                                                     <div class="item-list-links">
                                                         <ul>
@@ -802,7 +802,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xs-4">
+                                                <div class="col-md-4">
                                                     <h5>ACADEMICS</h5>
                                                     <div class="item-list-links">
                                                         <ul>
@@ -822,7 +822,7 @@
 
 
                                             </div>
-                                        <div class="col-xs-6">
+                                        <div class="col-md-6">
                                             <!-- Royal Roads Footer -->
                                             <div class="row">
                                                 <a href="http://www.royalroads.ca/">
@@ -834,7 +834,7 @@
                                                 <div id="zone-footer-wrapper-dropshadow" class="zone-wrapper zone-footer-wrapper-dropshadow clearfix">
                                                     <div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">
                                                         <div id="zone-footer" class="zone zone-footer clearfix container-40">
-                                                            <div class="col-xs-4">
+                                                            <div class="col-md-4">
                                                                 <div class="grid-7 suffix-2 region region-footer-second" id="region-footer-second">
                                                                     <div class="region-inner region-footer-second-inner">
                                                                         <section
@@ -859,7 +859,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-xs-4">
+                                                            <div class="col-md-4">
                                                                 <div class="grid-7 suffix-2 region region-footer-third" id="region-footer-third">
                                                                     <div class="region-inner region-footer-third-inner">
                                                                         <section
@@ -896,7 +896,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-xs-4">
+                                                            <div class="col-md-4">
                                                                 <div class="grid-7 region region-footer-fourth" id="region-footer-fourth">
                                                                     <div class="region-inner region-footer-fourth-inner">
                                                                         <div class="block block-block footer-social contextual-links-region block-11 block-block-11 odd block-without-title"

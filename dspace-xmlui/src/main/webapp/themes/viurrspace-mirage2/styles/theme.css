@@ -23,6 +23,8 @@ header .navbar-brand img {
     max-width: 988px;
 }
 
+
+
 .rru-image {
     height: 51px;
     padding-top: 22px;
@@ -30,6 +32,27 @@ header .navbar-brand img {
 
 .top-nav {
     height: 221px;
+}
+
+
+/* Mobile shrink the background image */
+@media (max-width: 535px) {
+    .viurrspace-header {
+        background: url(../images/Library-Banner.jpg) no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        width: 100%;
+        z-index: -10;
+        height: 115px;
+    }
+}
+
+@media (max-width: 535px) {
+    .top-nav {
+        height: 115px;
+    }
 }
 
 .utility-bar {
