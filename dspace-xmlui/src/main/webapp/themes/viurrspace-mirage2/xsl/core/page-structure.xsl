@@ -374,7 +374,7 @@
                                                     <img>
                                                         <xsl:attribute name="src">
                                                             <xsl:value-of select="$theme-path"/>
-                                                            <xsl:text>images/viu-logo.png</xsl:text>
+                                                            <xsl:text>images/viu-logo-dark.png</xsl:text>
                                                         </xsl:attribute>
                                                     </img>
                                                 </a>
