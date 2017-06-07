@@ -911,7 +911,8 @@
                         <xsl:attribute name="title">
                             <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
                         </xsl:attribute>
-                        <xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:title, 30, 5)"/>
+                        <!--<xsl:value-of select="util:shortenString(mets:FLocat[@LOCTYPE='URL']/@xlink:title, 30, 5)"/>-->
+                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
                     </dd>
                 <!-- File size always comes in bytes and thus needs conversion -->
                     <dt>
