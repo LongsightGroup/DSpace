@@ -582,7 +582,7 @@
 	<message key="xmlui.EPerson.LDAPLogin.trail">Sign in</message>
 	<message key="xmlui.EPerson.LDAPLogin.head1">Sign in to ScholarWorks</message>
 	<message key="xmlui.EPerson.LDAPLogin.title">Sign in</message>
-	<message key="xmlui.EPerson.LDAPLogin.username">User Name</message>
+	<message key="xmlui.EPerson.LDAPLogin.username">NetID</message>
 	<message key="xmlui.EPerson.LDAPLogin.error_bad_login">The user name and/or password supplied were not valid.</message>
 	<message key="xmlui.EPerson.LDAPLogin.password">Password</message>
 	<message key="xmlui.EPerson.LDAPLogin.submit">Sign in</message>
@@ -594,7 +594,7 @@
 	<message key="xmlui.EPerson.LoginChooser.head1">Choose a Login Method</message>
 	<message key="xmlui.EPerson.LoginChooser.para1">Log in via:</message>
 	<message key="org.dspace.authenticate.ShibAuthentication.title">Shibboleth Authentication</message>
-	<message key="org.dspace.eperson.LDAPAuthentication.title">LDAP Authentication</message>
+	<message key="org.dspace.eperson.LDAPAuthentication.title">UNR NetID Authentication</message>
 	<message key="org.dspace.eperson.PasswordAuthentication.title">Password Authentication</message>
 	<message key="org.dspace.eperson.X509Authentication.title">Web Certificate Authentication</message>
 
@@ -969,7 +969,7 @@
         <message key="xmlui.Submission.submit.CCLicenseStep.submit_to_creative_commons">Proceed to Creative Commons website to select a license</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.license">License Type</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.select_change">Select or modify your license ...</message>
-        <message key="xmlui.Submission.submit.CCLicenseStep.no_license">No Creative Commons License</message>
+        <message key="xmlui.Submission.submit.CCLicenseStep.no_license">In Copyright (All Rights Reserved)</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.save_changes">You must click Next to save your changes.</message>
 
 	<!-- org.dspace.app.xmlui.Submission.submit.LicenseStep -->
