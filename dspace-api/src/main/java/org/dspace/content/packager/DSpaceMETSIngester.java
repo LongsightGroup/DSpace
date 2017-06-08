@@ -92,8 +92,8 @@ public class DSpaceMETSIngester
         //Add proquest as an ingest option
         if(params == null || params.size() == 0) {
             params = new PackageParameters();
-            params.addProperty("dmd", "PROQUEST");
         }
+        params.addProperty("dmd", "PROQUEST");
 
 
         if (params != null)
