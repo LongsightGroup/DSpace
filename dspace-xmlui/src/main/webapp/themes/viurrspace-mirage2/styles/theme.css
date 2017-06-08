@@ -23,7 +23,11 @@ header .navbar-brand img {
     max-width: 988px;
 }
 
-
+@media (max-width: 700px) {
+    .viu-image {
+        padding-top: 10px;
+    }
+}
 
 .rru-image {
     height: 51px;

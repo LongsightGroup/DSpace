@@ -371,7 +371,7 @@
                                         <div class="large-12 columns">
                                             <div class="col-xs-6">
                                                 <a href="https://library.viu.ca/">
-                                                    <img>
+                                                    <img class="viu-image">
                                                         <xsl:attribute name="src">
                                                             <xsl:value-of select="$theme-path"/>
                                                             <xsl:text>images/viu-logo-dark.png</xsl:text>
