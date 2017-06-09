@@ -915,8 +915,8 @@ public class ItemImport
                 try {
                     InstallItem.installItem(c, wi, myhandle);
                 } catch (Exception e) {
-                    wi.deleteAll();
                     log.error("Exception after install item, try to revert...", e);
+                    wi.deleteAll();
                     throw e;
                 }
 
