@@ -1350,10 +1350,10 @@
             <xsl:variable name="plumx-script-url">
                 <xsl:choose>
                     <xsl:when test="boolean($plumx_type)">
-                        <xsl:value-of select="concat($scheme, 'd39af2mgp1pqhg.cloudfront.net/widget-', $plumx_type, '.js')"/>
+                        <xsl:value-of select="concat('//d39af2mgp1pqhg.cloudfront.net/widget-', $plumx_type, '.js')"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="concat($scheme, 'd39af2mgp1pqhg.cloudfront.net/widget-popup.js')"/>
+                        <xsl:value-of select="//d39af2mgp1pqhg.cloudfront.net/widget-popup.js"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
