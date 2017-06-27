@@ -65,16 +65,12 @@
     </xsl:template>
 
     <xsl:variable name='identifier_doi'
-                  select='//dri:meta/dri:pageMeta/dri:metadata[@element="identifier" and @qualifier="doi"]'/>
+                  select='//dri:meta/dri:pageMeta/dri:metadata[@element="citation_doi"]'/>
     <xsl:variable name='identifier_handle'
                   select='//dri:meta/dri:pageMeta/dri:metadata[@element="identifier" and @qualifier="handle"]'/>
 
     <!-- An item rendered in the detailView pattern, the "full item record" view of a DSpace item in Manakin. -->
     <xsl:template name="itemDetailView-DIM">
-        <xsl:if test='confman:getProperty("altmetrics", "plumx.enabled") and $identifier_doi'>
-            <xsl:call-template name='impact-plumx'/>
-        </xsl:if>
-
         <!-- Output all of the metadata about the item from the metadata section -->
         <xsl:apply-templates select="mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
                              mode="itemDetailView-DIM"/>
@@ -145,6 +141,10 @@
                 </div>
             </div>
         </div>
+
+        <xsl:if test='confman:getProperty("altmetrics", "plumx.enabled") and $identifier_doi'>
+            <xsl:call-template name='impact-plumx'/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="itemSummaryView-DIM-title">
@@ -1345,65 +1345,17 @@
 
     <xsl:template name="impact-plumx">
         <div id="impact-plumx" style="clear:right">
-            <!-- PlumX <http://plu.mx> -->
-            <xsl:variable name="plumx_type" select="confman:getProperty('altmetrics', 'plumx.widget-type')"/>
-            <xsl:variable name="plumx-script-url">
-                <xsl:choose>
-                    <xsl:when test="boolean($plumx_type)">
-                        <xsl:value-of select="concat('//d39af2mgp1pqhg.cloudfront.net/widget-', $plumx_type, '.js')"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="//d39af2mgp1pqhg.cloudfront.net/widget-popup.js"/>
-                    </xsl:otherwise>
-                </xsl:choose>
+            <xsl:variable name="title">
+                <xsl:if test="count(dim:field[@element='title'][not(@qualifier)]) > 1">
+                    <xsl:value-of select="dim:field[@element='title'][not(@qualifier)][1]/node()"/>
+                </xsl:if>
             </xsl:variable>
 
-            <script type="text/javascript" src="{$plumx-script-url}">&#xFEFF;
-            </script>
-
-            <xsl:variable name="plumx-class">
-                <xsl:choose>
-                    <xsl:when test="boolean($plumx_type) and ($plumx_type != 'popup')">
-                        <xsl:value-of select="concat('plumx-', $plumx_type)"/>
-                    </xsl:when>
-                    <xsl:otherwise>plumx-plum-print-popup</xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-
-            <a>
-                <xsl:attribute name="id">plumx</xsl:attribute>
-                <xsl:attribute name="class"><xsl:value-of select="$plumx-class"/></xsl:attribute>
-                <xsl:attribute name="href">https://plu.mx/pitt/a/?doi=<xsl:value-of select="$identifier_doi"/></xsl:attribute>
-
-                <xsl:variable name="plumx_data-popup" select="confman:getProperty('altmetrics', 'plumx.data-popup')"/>
-                <xsl:if test="$plumx_data-popup">
-                    <xsl:attribute name="data-popup"><xsl:value-of select="$plumx_data-popup"/></xsl:attribute>
-                </xsl:if>
-
-                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-hide-when-empty')">
-                    <xsl:attribute name="data-hide-when-empty">true</xsl:attribute>
-                </xsl:if>
-
-                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-hide-print')">
-                    <xsl:attribute name="data-hide-print">true</xsl:attribute>
-                </xsl:if>
-
-                <xsl:variable name="plumx_data-orientation" select="confman:getProperty('altmetrics', 'plumx.data-orientation')"/>
-                <xsl:if test="$plumx_data-orientation">
-                    <xsl:attribute name="data-orientation"><xsl:value-of select="$plumx_data-orientation"/></xsl:attribute>
-                </xsl:if>
-
-                <xsl:variable name="plumx_data-width" select="confman:getProperty('altmetrics', 'plumx.data-width')"/>
-                <xsl:if test="$plumx_data-width">
-                    <xsl:attribute name="data-width"><xsl:value-of select="$plumx_data-width"/></xsl:attribute>
-                </xsl:if>
-
-                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-border')">
-                    <xsl:attribute name="data-border">true</xsl:attribute>
-                </xsl:if>
-                &#xFEFF;
+            <a class="plumx-summary" data-orientation="horizontal" data-hide-when-empty="true" data-site="viu-ca">
+                <xsl:attribute name="href">https://plu.mx/viu-ca/a/?doi=<xsl:value-of select="$identifier_doi"/></xsl:attribute>
+                <xsl:value-of select="$title"></xsl:value-of>
+                <xsl:text> Profile on PlumX</xsl:text>
             </a>
-
         </div>
     </xsl:template>
 

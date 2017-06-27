@@ -329,7 +329,8 @@
             <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[substring(@element, 1, 9) = 'citation_']">
                 <meta name="{@element}" content="{.}"></meta>
             </xsl:for-each>
-            
+
+            <script type="text/javascript" src="//d39af2mgp1pqhg.cloudfront.net/widget-summary.js"></script>
             <script src="https://content.jwplatform.com/libraries/Mwc9cvOE.js"></script>
 	    <link rel="sitemap">
                 <xsl:attribute name="href">
