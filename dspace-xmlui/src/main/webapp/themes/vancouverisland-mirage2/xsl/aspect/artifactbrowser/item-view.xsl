@@ -64,8 +64,17 @@
 
     </xsl:template>
 
+    <xsl:variable name='identifier_doi'
+                  select='//dri:meta/dri:pageMeta/dri:metadata[@element="identifier" and @qualifier="doi"]'/>
+    <xsl:variable name='identifier_handle'
+                  select='//dri:meta/dri:pageMeta/dri:metadata[@element="identifier" and @qualifier="handle"]'/>
+
     <!-- An item rendered in the detailView pattern, the "full item record" view of a DSpace item in Manakin. -->
     <xsl:template name="itemDetailView-DIM">
+        <xsl:if test='confman:getProperty("altmetrics", "plumx.enabled") and $identifier_doi'>
+            <xsl:call-template name='impact-plumx'/>
+        </xsl:if>
+
         <!-- Output all of the metadata about the item from the metadata section -->
         <xsl:apply-templates select="mets:dmdSec/mets:mdWrap[@OTHERMDTYPE='DIM']/mets:xmlData/dim:dim"
                              mode="itemDetailView-DIM"/>
@@ -109,73 +118,32 @@
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
         <div class="item-summary-view-metadata">
         <xsl:call-template name="itemSummaryView-DIM-title"/>
-            <xsl:choose>
-                <xsl:when test="confman:getProperty('mirage2','snazy') = 'true'">
-                    <div class="col-sm-12">
-                        <!-- Add a snazy presentation section -->
-                        <xsl:call-template name="itemSummaryView-DIM-file-section-snazy"/>
-
-                        <div class="row">
-                            <!-- Left Column -->
-                            <div class="col-sm-4">
-                                <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                                <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                                <xsl:call-template name="itemSummaryView-DIM-description"/>
-                                <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                                <xsl:call-template name="itemSummaryView-DIM-tombstone"/>
-                                <xsl:call-template name="itemSummaryView-collections"/>
-
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-12">
-                                        <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-12">
-                                        <xsl:call-template name="itemSummaryView-DIM-file-section"/>
-                                    </div>
-                                </div>
-                                <xsl:call-template name="itemSummaryView-DIM-date"/>
-                                <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                                <xsl:if test="$ds_item_view_toggle_url != ''">
-                                    <xsl:call-template name="itemSummaryView-show-full"/>
-                                </xsl:if>
-                            </div>
-
-                            <!-- Right Column -->
-                            <div class="col-sm-8">
-                                <xsl:apply-templates select="." mode="itemDetailView-DIM"/>
-                            </div>
-                        </div>
-                    </div>
-                </xsl:when>
-                <xsl:otherwise>
+            <div class="row">
+                <div class="col-sm-4">
                     <div class="row">
-                        <div class="col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-12">
-                                    <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
-                                </div>
-                                <div class="col-xs-6 col-sm-12">
-                                    <xsl:call-template name="itemSummaryView-DIM-file-section"/>
-                                </div>
-                            </div>
-                            <xsl:call-template name="itemSummaryView-DIM-date"/>
-                            <xsl:call-template name="itemSummaryView-DIM-authors"/>
-                            <xsl:if test="$ds_item_view_toggle_url != ''">
-                                <xsl:call-template name="itemSummaryView-show-full"/>
-                            </xsl:if>
+                        <div class="col-xs-6 col-sm-12">
+                            <xsl:call-template name="itemSummaryView-DIM-thumbnail"/>
                         </div>
-                        <div class="col-sm-8">
-                            <xsl:call-template name="itemSummaryView-DIM-subject"/>
-                            <xsl:call-template name="itemSummaryView-DIM-abstract"/>
-                            <xsl:call-template name="itemSummaryView-DIM-description"/>
-                            <xsl:call-template name="itemSummaryView-DIM-URI"/>
-                            <xsl:call-template name="itemSummaryView-DIM-dc.identifier.other"/>
-                            <xsl:call-template name="itemSummaryView-DIM-tombstone"/>
-                            <xsl:call-template name="itemSummaryView-collections"/>
+                        <div class="col-xs-6 col-sm-12">
+                            <xsl:call-template name="itemSummaryView-DIM-file-section"/>
                         </div>
                     </div>
-                </xsl:otherwise>
-            </xsl:choose>
+                    <xsl:call-template name="itemSummaryView-DIM-date"/>
+                    <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                    <xsl:if test="$ds_item_view_toggle_url != ''">
+                        <xsl:call-template name="itemSummaryView-show-full"/>
+                    </xsl:if>
+                </div>
+                <div class="col-sm-8">
+                    <xsl:call-template name="itemSummaryView-DIM-subject"/>
+                    <xsl:call-template name="itemSummaryView-DIM-abstract"/>
+                    <xsl:call-template name="itemSummaryView-DIM-description"/>
+                    <xsl:call-template name="itemSummaryView-DIM-URI"/>
+                    <xsl:call-template name="itemSummaryView-DIM-dc.identifier.other"/>
+                    <xsl:call-template name="itemSummaryView-DIM-tombstone"/>
+                    <xsl:call-template name="itemSummaryView-collections"/>
+                </div>
+            </div>
         </div>
     </xsl:template>
 
@@ -616,97 +584,119 @@
 
                 <xsl:for-each select="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
                     <div>
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
-                            </xsl:attribute>
-                            <xsl:attribute name="title">
-                                <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                            </xsl:attribute>
-                            <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                                <xsl:attribute name="title">
-                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                </xsl:attribute>
-                            </xsl:if>
-                            <xsl:choose>
-                                <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
-                                    <xsl:attribute name="class">
-                                        <xsl:text>imagebitstream</xsl:text>
+                        <xsl:choose>
+                            <!-- SNAZY VIDEO PLAYER -->
+                            <xsl:when test="confman:getProperty('mirage2','snazy') = 'true' and contains('video/webm video/mp4 video/mpeg', @MIMETYPE)">
+                                <div>
+                                    <xsl:attribute name="id">
+                                        <xsl:text>videoplayer_</xsl:text>
+                                        <xsl:value-of select="@ID"/>
                                     </xsl:attribute>
-                                </xsl:when>
-                            </xsl:choose>
-                            <xsl:call-template name="getFileIcon">
-                                <xsl:with-param name="mimetype">
-                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                                    <xsl:text>/</xsl:text>
-                                    <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                            <xsl:choose>
-                                <xsl:when test="contains($label-1, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                                    <xsl:choose>
-                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
-                                            <!-- print out the truncated value followed by "..." -->
-                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <!-- otherwise print out the whole, un-truncated string -->
+                                    Loading the player...
+                                </div>
+                                <script type="text/javascript">
+                                    jwplayer("<xsl:text>videoplayer_</xsl:text><xsl:value-of select="@ID"/>").setup({
+                                    file: "<xsl:value-of select="$baseurl"/><xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>",
+                                    image: "",
+                                    width: "100%",
+                                    aspectratio: "16:9"
+                                    });
+                                </script>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a>
+                                    <xsl:attribute name="href">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="title">
+                                        <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                    </xsl:attribute>
+                                    <xsl:if test="mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                                        <xsl:attribute name="title">
                                             <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <xsl:when test="contains($label-1, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
+                                        </xsl:attribute>
+                                    </xsl:if>
                                     <xsl:choose>
-                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
-                                            <!-- print out the truncated value followed by "..." -->
-                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
+                                        <xsl:when test="contains('image/jpeg', @MIMETYPE) and not(contains(mets:FLocat[@LOCTYPE='URL']/@xlink:href,'isAllowed=n'))">
+                                            <xsl:attribute name="class">
+                                                <xsl:text>imagebitstream</xsl:text>
+                                            </xsl:attribute>
                                         </xsl:when>
-                                        <xsl:otherwise>
-                                            <!-- otherwise print out the whole, un-truncated string -->
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                        </xsl:otherwise>
                                     </xsl:choose>
-                                </xsl:when>
-                                <xsl:when test="contains($label-2, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
-                                    <xsl:choose>
-                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
-                                            <!-- print out the truncated value followed by "..." -->
-                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <!-- otherwise print out the whole, un-truncated string -->
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <xsl:when test="contains($label-2, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
-                                    <xsl:choose>
-                                        <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
-                                            <!-- print out the truncated value followed by "..." -->
-                                            <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <!-- otherwise print out the whole, un-truncated string -->
-                                            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:call-template name="getFileTypeDesc">
+                                    <xsl:call-template name="getFileIcon">
                                         <xsl:with-param name="mimetype">
                                             <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
                                             <xsl:text>/</xsl:text>
-                                            <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                                            <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
                                         </xsl:with-param>
                                     </xsl:call-template>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:text> (</xsl:text>
-                            <xsl:call-template name="FileSizeFormatted">
-                                <xsl:with-param name="FileSize" select="@SIZE"/>
-                            </xsl:call-template>
-                            <xsl:text>)</xsl:text>
-                        </a>
+                                    <xsl:choose>
+                                        <xsl:when test="contains($label-1, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                                            <xsl:choose>
+                                                <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
+                                                    <!-- print out the truncated value followed by "..." -->
+                                                    <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <!-- otherwise print out the whole, un-truncated string -->
+                                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:when>
+                                        <xsl:when test="contains($label-1, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
+                                            <xsl:choose>
+                                                <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
+                                                    <!-- print out the truncated value followed by "..." -->
+                                                    <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <!-- otherwise print out the whole, un-truncated string -->
+                                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:when>
+                                        <xsl:when test="contains($label-2, 'label') and mets:FLocat[@LOCTYPE='URL']/@xlink:label and not(mets:FLocat[@LOCTYPE='URL']/@xlink:label = '')">
+                                            <xsl:choose>
+                                                <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:label) &gt; 30 ">
+                                                    <!-- print out the truncated value followed by "..." -->
+                                                    <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:label ,0, 30)"/>...
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <!-- otherwise print out the whole, un-truncated string -->
+                                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:when>
+                                        <xsl:when test="contains($label-2, 'title') and mets:FLocat[@LOCTYPE='URL']/@xlink:title and not(mets:FLocat[@LOCTYPE='URL']/@xlink:title = '')">
+                                            <xsl:choose>
+                                                <xsl:when test="string-length(mets:FLocat[@LOCTYPE='URL']/@xlink:title) &gt; 30 ">
+                                                    <!-- print out the truncated value followed by "..." -->
+                                                    <xsl:value-of select="substring(mets:FLocat[@LOCTYPE='URL']/@xlink:title ,0, 30)"/>...
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <!-- otherwise print out the whole, un-truncated string -->
+                                                    <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:title"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:call-template name="getFileTypeDesc">
+                                                <xsl:with-param name="mimetype">
+                                                    <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                                                    <xsl:text>/</xsl:text>
+                                                    <xsl:value-of select="substring-before(substring-after(@MIMETYPE,'/'),';')"/>
+                                                </xsl:with-param>
+                                            </xsl:call-template>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                    <xsl:text> (</xsl:text>
+                                    <xsl:call-template name="FileSizeFormatted">
+                                        <xsl:with-param name="FileSize" select="@SIZE"/>
+                                    </xsl:call-template>
+                                    <xsl:text>)</xsl:text>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </div>
                 </xsl:for-each>
             </div>
@@ -1351,6 +1341,70 @@
                 </xsl:choose>
             </xsl:if>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="impact-plumx">
+        <div id="impact-plumx" style="clear:right">
+            <!-- PlumX <http://plu.mx> -->
+            <xsl:variable name="plumx_type" select="confman:getProperty('altmetrics', 'plumx.widget-type')"/>
+            <xsl:variable name="plumx-script-url">
+                <xsl:choose>
+                    <xsl:when test="boolean($plumx_type)">
+                        <xsl:value-of select="concat($scheme, 'd39af2mgp1pqhg.cloudfront.net/widget-', $plumx_type, '.js')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="concat($scheme, 'd39af2mgp1pqhg.cloudfront.net/widget-popup.js')"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
+            <script type="text/javascript" src="{$plumx-script-url}">&#xFEFF;
+            </script>
+
+            <xsl:variable name="plumx-class">
+                <xsl:choose>
+                    <xsl:when test="boolean($plumx_type) and ($plumx_type != 'popup')">
+                        <xsl:value-of select="concat('plumx-', $plumx_type)"/>
+                    </xsl:when>
+                    <xsl:otherwise>plumx-plum-print-popup</xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
+            <a>
+                <xsl:attribute name="id">plumx</xsl:attribute>
+                <xsl:attribute name="class"><xsl:value-of select="$plumx-class"/></xsl:attribute>
+                <xsl:attribute name="href">https://plu.mx/pitt/a/?doi=<xsl:value-of select="$identifier_doi"/></xsl:attribute>
+
+                <xsl:variable name="plumx_data-popup" select="confman:getProperty('altmetrics', 'plumx.data-popup')"/>
+                <xsl:if test="$plumx_data-popup">
+                    <xsl:attribute name="data-popup"><xsl:value-of select="$plumx_data-popup"/></xsl:attribute>
+                </xsl:if>
+
+                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-hide-when-empty')">
+                    <xsl:attribute name="data-hide-when-empty">true</xsl:attribute>
+                </xsl:if>
+
+                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-hide-print')">
+                    <xsl:attribute name="data-hide-print">true</xsl:attribute>
+                </xsl:if>
+
+                <xsl:variable name="plumx_data-orientation" select="confman:getProperty('altmetrics', 'plumx.data-orientation')"/>
+                <xsl:if test="$plumx_data-orientation">
+                    <xsl:attribute name="data-orientation"><xsl:value-of select="$plumx_data-orientation"/></xsl:attribute>
+                </xsl:if>
+
+                <xsl:variable name="plumx_data-width" select="confman:getProperty('altmetrics', 'plumx.data-width')"/>
+                <xsl:if test="$plumx_data-width">
+                    <xsl:attribute name="data-width"><xsl:value-of select="$plumx_data-width"/></xsl:attribute>
+                </xsl:if>
+
+                <xsl:if test="confman:getProperty('altmetrics', 'plumx.data-border')">
+                    <xsl:attribute name="data-border">true</xsl:attribute>
+                </xsl:if>
+                &#xFEFF;
+            </a>
+
+        </div>
     </xsl:template>
 
 </xsl:stylesheet>
