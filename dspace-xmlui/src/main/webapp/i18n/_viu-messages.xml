@@ -964,7 +964,7 @@
         <message key="xmlui.Submission.submit.CCLicenseStep.license">License Type</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.select_change">Select or modify your license ...</message>
         <message key="xmlui.Submission.submit.CCLicenseStep.no_license">No Creative Commons License</message>
-        <message key="xmlui.Submission.submit.CCLicenseStep.save_changes">You must click Next to save your changes.</message>
+        <message key="xmlui.Submission.submit.CCLicenseStep.save_changes">By indicating that you agree with the terms outlined in this licence, you (the copyright owner) maintain the copyright for your work, but allow others to reproduce and distribute your work non-commercially, provided they give due credit, and license the new work under the same Creative Commons licence. You must click Next to save your changes.</message>
 
 	<!-- org.dspace.app.xmlui.Submission.submit.LicenseStep -->
 	<message key="xmlui.Submission.submit.LicenseStep.head">Distribution License</message>
